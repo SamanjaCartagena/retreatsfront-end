@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import logo from '../assets/logoretreat.png'
 import {
   Sheet,
   SheetContent,
@@ -24,31 +25,16 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"
+      className={`fixed top-0 w-full z-50 transition-all duration-300 bg-white ${
+        isScrolled ? "bg-white/90  shadow-sm py-3" : "bg-transparent py-5"
       }`}
     >
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-retreat-sage flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
-          </div>
+          <img src={logo} style={{width:'60px', height:'60px'}}/>
           <div className="hidden md:block">
-            <h1 className="text-lg font-serif font-bold tracking-tight">
-              Retreats <span className="text-retreat-sage">Around The World</span>
+            <h1 className="text-lg font-serif font-bold text-lime-700">
+              Retreats <span className="text-lime-700">Around The World</span>
             </h1>
           </div>
         </div>
@@ -59,7 +45,7 @@ export function Header() {
             placeholder="Search destinations, retreats..."
             className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 px-0"
           />
-          <Button variant="default" size="sm" className="rounded-full bg-retreat-sage hover:bg-retreat-forest">
+          <Button variant="default" size="sm" className="rounded-full bg-lime-700 hover:bg-lime-600">
             Search
           </Button>
         </div>
@@ -72,7 +58,7 @@ export function Header() {
             <Button variant="ghost" size="sm" className="text-sm">
               Sign up
             </Button>
-            <Button variant="outline" size="sm" className="text-sm border-retreat-sage text-retreat-forest">
+            <Button variant="outline" size="sm" className="text-sm border-lime-700 text-lime-700">
               Log in
             </Button>
           </div>
