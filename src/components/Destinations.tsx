@@ -7,8 +7,8 @@ export function FeaturedDestinations() {
     <div className="container py-12">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl md:text-3xl font-serif font-semibold">
-          Featured Destinations
-        </h2>
+          Flight Deals
+                  </h2>
         <a href="#" className="text-retreat-ocean hover:text-retreat-forest transition-colors font-medium">
           View all
         </a>

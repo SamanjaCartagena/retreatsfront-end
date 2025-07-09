@@ -7,6 +7,7 @@ export interface Retreat {
   price: number;
   image: string;
   rating: number;
+  url:string
   reviewCount: number;
   categories: string[];
   description: string;
@@ -23,15 +24,16 @@ export interface Retreat {
 export const retreats: Retreat[] = [
   {
     id: '1',
-    title: 'Peaceful Mountain Yoga Retreat',
-    location: 'Bali',
-    country: 'Indonesia',
-    price: 199,
-    image: 'https://images.unsplash.com/photo-1517022812141-23620dba5c23',
+    title: 'Spring Equinox Retreat',
+    location: 'Paralia Katerinis, Olympus Mountain.',
+    country: 'Greece',
+    price: 696.40,
+    image: 'https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/510360966_10233106609201508_5386818328494829899_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=102&ccb=1-7&_nc_sid=75d36f&_nc_ohc=sPSaOjStahEQ7kNvwE8wYNH&_nc_oc=AdkQr0UN_nJKOk8YPvK7s_8FQ2Nj-tLWStZpZzV9-TAByvtPCavclKl6e_pUh2bHJy8&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&_nc_gid=K8ykXo_jPDckLFo3VA3mZA&oh=00_AfTCF8j7zXz--gWXORUSt4RcfhUuOcWiXymRfyNJGxzr4A&oe=6873BFD2',
     rating: 4.9,
+    url:'https://www.facebook.com/events/1249986676495136?active_tab=about',
     reviewCount: 124,
     categories: ['Yoga', 'Meditation', 'Wellness'],
-    description: 'Immerse yourself in nature with this rejuvenating yoga retreat nestled in the lush mountains of Bali. Daily yoga, meditation, and organic meals included.',
+    description: 'Transportation to Olympus mountain and back to the hotel, included. Tour at Mythical Olympus Mountain, (Small hike at Enipeas Gorge), included. Waterfront of Paralia Katerinis, four klms walk included.',
     amenities: ['Daily yoga', 'Pool', 'Organic meals', 'Spa', 'Mountain views'],
     dates: 'Available all year',
     host: {
@@ -48,6 +50,7 @@ export const retreats: Retreat[] = [
     price: 249,
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
     rating: 4.8,
+    url:'https://www.facebook.com/events/1249986676495136?active_tab=about',
     reviewCount: 89,
     categories: ['Meditation', 'Wellness', 'Beach'],
     description: 'Connect with yourself at our beachfront sanctuary. This mindfulness retreat offers daily meditation, sound healing, and rejuvenating ocean swims.',
@@ -66,6 +69,7 @@ export const retreats: Retreat[] = [
     price: 329,
     image: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843',
     rating: 4.7,
+    url:'https://www.facebook.com/events/1249986676495136?active_tab=about',
     reviewCount: 63,
     categories: ['Creative', 'Writing', 'Mountain'],
     description: 'Find your creative voice in the stunning French Alps. This writing retreat includes workshops, private writing time, and inspiring nature walks.',
@@ -84,6 +88,7 @@ export const retreats: Retreat[] = [
     price: 279,
     image: 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb',
     rating: 4.9,
+    url:'https://www.facebook.com/events/1249986676495136?active_tab=about',
     reviewCount: 107,
     categories: ['Wellness', 'Art', 'Desert'],
     description: 'Rejuvenate your spirit in the mystical red rocks of Sedona. This unique retreat combines wellness practices with artistic expression.',
@@ -102,6 +107,7 @@ export const retreats: Retreat[] = [
     price: 389,
     image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7',
     rating: 4.8,
+    url:'https://www.facebook.com/events/1249986676495136?active_tab=about',
     reviewCount: 75,
     categories: ['Digital Detox', 'Wellness', 'Lake'],
     description: 'Disconnect to reconnect at our serene lakeside haven. This digital detox retreat offers a perfect balance of structured activities and peaceful relaxation.',
@@ -120,6 +126,7 @@ export const retreats: Retreat[] = [
     price: 299,
     image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027',
     rating: 4.8,
+    url:'https://www.facebook.com/events/1249986676495136?active_tab=about',
     reviewCount: 92,
     categories: ['Fitness', 'Adventure', 'Mountain'],
     description: 'Challenge yourself in the breathtaking mountains of New Zealand. This fitness retreat combines outdoor adventure with expert-led training sessions.',
@@ -147,8 +154,8 @@ export const categories = [
 ];
 
 export const featuredDestinations = [
-  { name: 'Bali, Indonesia', image: 'https://images.unsplash.com/photo-1517022812141-23620dba5c23', count: 94 },
-  { name: 'Tulum, Mexico', image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb', count: 67 },
-  { name: 'Sedona, United States', image: 'https://images.unsplash.com/photo-1482938289607-e9573fc25ebb', count: 45 },
-  { name: 'Lake Como, Italy', image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7', count: 38 },
+  { name: 'Qatar', image: 'https://assets.bizclikmedia.net/1800/f1f1313ebb40b288bab012fc2eaf77c0:121155a1b0befc19cb3edb2e6dde53ae/490377-wrap-up-a3afe8-large-1687769659.jpg', count: 94 },
+  { name: 'Emirates', image: 'https://media.cntraveler.com/photos/66ec51d7a66d02c5e80a4fe6/4:3/w_4864,h_3648,c_limit/GettyImages-1334589964.jpg', count: 67 },
+  { name: 'JetBlue', image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/cd/51/e3/jetblue-airways.jpg?w=1200&h=-1&s=1', count: 45 },
+  { name: 'Hawaiian Airlines', image: 'https://content.r9cdn.net/rimg/dimg/ce/a6/cbbdc66b-al-HA-162b0641d5c.jpg?width=1366&height=768&xhint=1160&yhint=633&crop=true', count: 38 },
 ];
