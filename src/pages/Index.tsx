@@ -6,7 +6,6 @@ import { CategoryFilter } from "@/components/CategoryFilter";
 import { RetreatCard } from "@/components/RetreatCard";
 import { FeaturedDestinations } from "@/components/Destinations";
 import { Newsletter } from "@/components/Newsletter";
-import { Footer } from "@/components/Footer";
 import { retreats } from "@/data/retreats";
 import { Separator } from "@/components/ui/separator";
 
@@ -36,7 +35,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
       <main className="flex-1">
         <Hero />
         <div className="sticky top-16 bg-white/90 backdrop-blur-md z-40 shadow-sm">
@@ -72,7 +70,6 @@ const Index = () => {
         <FeaturedDestinations />
         <Newsletter />
       </main>
-      <Footer />
     </div>
   );
 };

@@ -2,24 +2,30 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
 import logo from '../assets/logoretreat.png'
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import ModalSignUp from "./ModalSignUp";
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isModalOpen, setIsModalOpen]=useState(false);
-    const [isOpenLogin, setIsOpenLogin]=useState(false);
-    const [isHost,setIsHost]=useState(false);
-    const host =()=> setIsHost(true);
-const closeHost=()=> setIsHost(false);
-  const openLogin =() => setIsOpenLogin(true);
-  const closeLogin =() => setIsOpenLogin(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+ 
+  const navigate = useNavigate();
+  const retreatcenter=()=>{
+     navigate('/retreatcenters');
+
+  }
+  const host=() =>{
+    navigate('/host');
+  }
+  const guest=() =>{
+    navigate('/guest')
+  }
+  const home=() =>{
+    navigate('/')
+  }
   // Add scroll event listener
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
@@ -38,7 +44,7 @@ const closeHost=()=> setIsHost(false);
       }`}
     >
       <div className="container flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 cursor-pointer" onClick={home}>
           <img src={logo} style={{width:'60px', height:'60px'}}/>
           <div className="hidden md:block">
             <h1 className="text-lg font-serif font-bold text-lime-700">
@@ -61,13 +67,13 @@ const closeHost=()=> setIsHost(false);
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
             <Button variant="ghost" size="sm" className="text-sm" onClick={host}>
-              Become a host
+              Host
             </Button>
-            <Button variant="ghost" size="sm" className="text-sm" onClick={openModal}>
-              Sign up
+            <Button variant="ghost" size="sm" className="text-sm" onClick={guest}>
+              Guest
             </Button>
-            <Button variant="outline" size="sm" className="text-sm border-lime-700 text-lime-700" onClick={openLogin}>
-              Log in
+            <Button variant="outline" size="sm" className="text-sm border-lime-700 text-lime-700" onClick={retreatcenter}>
+              Retreat Centers
             </Button>
           </div>
 
@@ -127,98 +133,19 @@ const closeHost=()=> setIsHost(false);
                   <Button variant="ghost" className="w-full justify-start">
                     Favorites
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start" onClick={host}>
-                    Become a host
-                  </Button>
-                  <Button variant="ghost" className="w-full justify-start" onClick={openModal}>
-                    Sign up
-                  </Button>
-                  <Button variant="ghost" className="w-full justify-start" onClick={openLogin}>
-                    Log in
-                  </Button>
+                 
+                
                 </div>
               </div>
             </SheetContent>
           </Sheet>
           
         </div>
-        {isHost &&
-          <ModalSignUp isOpen={isHost} onClose={closeHost}>
-            <div>
-              <h1>Welcome to Hosting</h1>
-            </div>
-          </ModalSignUp>
-        }
+        
       </div>
-      {isModalOpen &&
-          <ModalSignUp isOpen={isModalOpen} onClose={closeModal}>
-            <div>
-              <br/>
-              <h2>Sign up as a Guest</h2>
-              <table>
-                <tr>
-                  <td>
-                    <input type="text" placeholder="Full Name" className="border p-2 rounded w-full mb-4"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="email" placeholder="Email" className="border p-2 rounded w-full mb-4"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="password" placeholder="Password" className="border p-2 rounded w-full mb-4"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="password" placeholder="Re-type Password" className="border p-2 rounded w-full mb-4"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <textarea  placeholder="What are you looking for in a retreat?" className="border p-2 rounded w-full mb-4"></textarea>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                     <label>Where do you want to go?</label>
-                     <br/>
-                         <select name="countries" id="countries" form="countryForm">
-                         <option value="australia">Australia</option>
-                        <option value="bali">Bali</option>
-                         <option value="alabama">Alabama</option>
-                         <option value="california">California</option>
-                       </select>
-                  </td>
-                </tr>
-                <br/>
-                <tr>
-                  <td>
-                    <input type="text" placeholder="What is your budget" className="border p-2 rounded w-full mb-4"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="text" placeholder="How many days do you want to stay?" className="border p-2 rounded w-full mb-4"/>
-                  </td>
-                </tr>
-                <Button variant="outline" size="sm" className="text-sm border-lime-700 text-lime-700" >
-              Submit
-            </Button>
-              </table>
-            </div>
-          </ModalSignUp>
-        }
+   
         <div>
-          {isOpenLogin &&
-          <ModalSignUp isOpen={isOpenLogin} onClose={closeLogin}>
-            <div>
-              <h1>Welcome to Modal Login 1234567</h1>
-            </div>
-          </ModalSignUp>
-        }
+ 
         </div>
     </header>
   );
