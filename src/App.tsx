@@ -10,6 +10,7 @@ import Host from "@/components/Host"
 import {Footer} from "@/components/Footer"
 import RetreatCenters from "./components/RetreatCenters";
 import NotFound from "./pages/NotFound";
+import SignUpAsHost from "@/components/SignUpAsHost";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,8 @@ const App = () => (
           <Route path="/retreatcenters" element={<RetreatCenters/>}/>
           <Route path="/guest" element={<Guest/>}/>
           <Route path="/host" element={<Host/>}/>
+          <Route path="/signupasHost" element={<SignUpAsHost/>}/>
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
