@@ -34,7 +34,7 @@ function Host() {
       </div>
       <br/>
        <h2 className="inline-block align-baseline font-bold text-decoration-line text-md cursor-pointer text-blue-500 hover:text-blue-800" onClick={signUpHost}>
-        Sign up as a Host
+        Create a Profile
       </h2>
   </form>
   <p className="text-center text-gray-500 text-xs">

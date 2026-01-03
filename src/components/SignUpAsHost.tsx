@@ -2,10 +2,48 @@ import React from 'react'
 import pic1 from '../assets/retreat1.jpg'
 import pic2 from '../assets/retreat2.jpg'
 import pic3 from '../assets/retreat3.jpg'
+import { Checkbox } from '@radix-ui/react-checkbox'
+import Modal from './Modal.js';
+import {auth, googleProvider} from '../firebase.js';
+import { createUserWithEmailAndPassword,signInWithPopup, signOut } from 'firebase/auth'
+import {useState} from 'react';
+
+
 function SignUpAsHost() {
+  const [email, setEmail] = useState('');
+  const [password1, setPassword1] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [passwordModal, setPasswordModal] = useState(false);
+  const closeModal = () => setIsModalOpen(false);
+  const closePasswordModal =()=>setPasswordModal(false);
+  const create= async()=>{
+      try{
+        if(password1===confirmPassword){
+                  await createUserWithEmailAndPassword(auth,email,confirmPassword);
+                  setIsModalOpen(true);
+        }
+        else{
+           setPasswordModal(true);
+        }
+        }catch(err){
+            console.error(err)
+        }
+  }
   return (
     <div className="justify-center items-center grid h-auto">
-     <img src={pic1} className='w-200' />
+     <img src={pic1} className='w-200' />      
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <div style={{width:'100%',}}>
+                Congratulations on Creating a profile
+            </div>
+            </Modal>
+        <Modal isOpen={passwordModal} onClose={closePasswordModal}>
+          <div style={{width:'100%',}}>
+                Passwords do not match, Please try again!
+            </div>
+            </Modal>
+
     <p className="indent-8 px-5 py-5">1. What is the purpose of your retreat?
       <br/>
     <span>Whatever you are trying to accomplish through your retreat should remain your focus
@@ -45,17 +83,100 @@ function SignUpAsHost() {
       and will come up with the retreat center that fits your requirements and your guests needs and also your budget. 
     </span>
     </p>
-    <img src={pic3} className="w-200 items-center"/>
-      <p className="indent-8 px-5 py-5">3. Secure a location
+        <div className="justify-center items-center grid h-auto">
+           Create a host Profile
+        <div className="max-w-xl">
+  <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <br/>
+    <div className="mb-4">
+       <label className="block text-gray-700 text-sm font-bold mb-2" >
+        First Name
+      </label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstName" type="text" placeholder="First Name"/>
+            <br/>
+            <br/>
+          
+        <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Last Name
+      </label>
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastName" type="text" placeholder="Last Name"/>
+      <br/><br/>
+     <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Tell us something about yourself
+      </label>
+                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="introduction" placeholder="Tell us something about yourself"></textarea>
+         <br/><br/>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Username
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
+      <br/><br/>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Email
+      </label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" onChange={(e)=> setEmail(e.target.value)} />
+     <br/><br/>
+    <div className="mb-6">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Create Password
+      </label>
+      <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=>setPassword1(e.target.value)}/>
+      <p className="text-red-500 text-xs italic">Please choose a password.</p>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Confirm Password
+      </label>
+            <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=>setConfirmPassword(e.target.value)}/>
+       <label className="block text-gray-700 text-sm font-bold mb-2" >
+       What kind of retreats will you be hosting?
+      </label>
       <br/>
-    <span>
-      With Retreats Around the World, you can secure a safe location for your retreat. Our AI technology can find you the right retreat center for you.
-      Our AI scrapes through millions of reviews and comes up with the perfect place for your retreat. We have partnered with thousands of retreat centers, Airbnb hosts, home owners,
-      hotels and short term rentals all around the world after going through countless reviews and safety features.
-      Suppose you want to host an Ayurveda Health retreat in Asia with in house doctors and health practicioners. Our AI will go through all the Ayurveda Retreats available in Asia 
-      and will come up with the retreat center that fits your requirements and your guests needs and also your budget. 
-    </span>
-    </p>
+      <input type="checkbox" id="veganretreat"/>
+      <label for="veganretreat">&nbsp;Vegan Retreat</label>
+      <br/>
+      <input type="checkbox" id="hypnoretreat"/>
+      <label for="hypnotherapy">&nbsp;Hypnotherapy</label>
+      <br/>
+      <input type="checkbox" id="meditationretreat"/>
+      <label for="meditationretreat">&nbsp;Meditation Retreat</label><br/>
+      <input type="checkbox" id="corporateretreat"/>
+      <label for="corporateretreat">&nbsp;Corporate Retreat</label><br/>
+      <input type="checkbox" id="healthretreat"/>
+      
+      <label for="healthretreat">&nbsp;Health Retreat</label>
+      <br/>
+         <input type="checkbox" id="yogaretreat"/>
+      
+      <label for="yogaretreat">&nbsp;Yoga Retreat</label>
+      <br/>
+        <input type="checkbox" id="recreationretreat"/>
+      
+      <label for="recreationretreat">&nbsp;Recreation Retreat</label>
+      <br/>
+      <input type="checkbox" id="others"/>
+            <label for="others">&nbsp;Others</label>
+            <br/>
+            <br/>
+                   <label className="block text-gray-700 text-sm font-bold mb-2" >
+            What kind of Retreats will you be hosting in details?...</label>
+                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="introduction" placeholder="Tell us in details what kind of retreats you would love to host....."></textarea>
+
+
+    </div>
+    <div className="flex items-center justify-between">
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={create}>
+        Create a Profile
+      </button>
+     
+     </div>
+      </div>
+      <br/>
+      
+  </form>
+  <p className="text-center text-gray-500 text-xs">
+    &copy;2025 World of Bots LLC. All rights reserved.
+  </p>
+  </div>
+</div>  
     </div>
   )
 }
