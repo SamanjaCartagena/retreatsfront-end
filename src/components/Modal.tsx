@@ -1,8 +1,8 @@
 // Modal.js
 import React from 'react';
-import './ModalSignUp.css'; // Import your CSS file for styling
+import './Modal.css'; // Import your CSS file for styling
 
-const ModalSignUp = ({ isOpen, onClose, children }) => {
+const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null; // Don't render if not open
 
   return (
@@ -17,4 +17,4 @@ const ModalSignUp = ({ isOpen, onClose, children }) => {
   );
 };
 
-export default ModalSignUp;
+export default Modal;
