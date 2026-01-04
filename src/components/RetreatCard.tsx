@@ -8,8 +8,11 @@ interface RetreatCardProps {
 }
 
 export function RetreatCard({ retreat }: RetreatCardProps) {
+  const retreaturl =()=>{
+    window.open(retreat.url,'_blank');
+  }
   return (
-    <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card">
+    <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer" onClick={retreaturl}>
       <div className="aspect-[4/3] overflow-hidden">
         <img
           src={retreat.image}
@@ -45,7 +48,7 @@ export function RetreatCard({ retreat }: RetreatCardProps) {
         </div>
         <div className="mt-3 font-medium">
           <span className="text-lg">${retreat.price}</span>
-          <span className="text-sm text-muted-foreground"> / night</span>
+          <span className="text-sm text-muted-foreground"> / person</span>
         </div>
       </CardContent>
     </Card>

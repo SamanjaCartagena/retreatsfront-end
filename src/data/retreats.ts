@@ -7,7 +7,7 @@ export interface Retreat {
   price: number;
   image: string;
   rating: number;
-  url:string
+  url:string;
   reviewCount: number;
   categories: string[];
   description: string;

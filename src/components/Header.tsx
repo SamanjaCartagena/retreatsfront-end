@@ -40,11 +40,11 @@ const closeHost=()=> setIsHost(false);
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img src={logo} style={{width:'60px', height:'60px'}}/>
-          <div className="hidden md:block">
+         <a href="https://retreatsaroundtheworld.net/" target="_blank"> <div className="hidden md:block">
             <h1 className="text-lg font-serif font-bold text-lime-700">
               Retreats <span className="text-lime-700">Around The World</span>
             </h1>
-          </div>
+          </div></a>
         </div>
 
         <div className="hidden md:flex bg-white rounded-full border px-4 py-1.5 items-center shadow-sm max-w-sm hover:shadow-md transition-all">
@@ -190,6 +190,8 @@ const closeHost=()=> setIsHost(false);
                         <option value="bali">Bali</option>
                          <option value="alabama">Alabama</option>
                          <option value="california">California</option>
+                        <option value="greece">Greece</option>
+
                        </select>
                   </td>
                 </tr>
