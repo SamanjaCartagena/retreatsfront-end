@@ -1,8 +1,7 @@
-// Modal.js
 import React from 'react';
-import './Modal.css'; // Import your CSS file for styling
-import logo from '../assets/logoretreat.png'
-const Modal = ({ isOpen, onClose, children }) => {
+import './SearchModal.css'; // Import your CSS file for styling
+import logo from '../../assets/logoretreat.png'
+const SearchModal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null; // Don't render if not open
 
   return (
@@ -21,4 +20,4 @@ const Modal = ({ isOpen, onClose, children }) => {
   );
 };
 
-export default Modal;
+export default SearchModal;

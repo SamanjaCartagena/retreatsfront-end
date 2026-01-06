@@ -1,17 +1,54 @@
 
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../firebase.js";
+
+import {auth} from '../firebase.js';
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+import Modal from "./Modal";
+
 import logo from '../assets/logoretreat.png'
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+
 export function Header() {
+  useEffect(() => {
+     onAuthStateChanged(auth, async (user) => {
+  if (user)  {
+    // User is signed in
+    const uid = user.uid;
+   const q =query(collection(db, "hosts"), where("id", "==", uid));
+    const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+  console.log(doc.id, " => ", doc.data().firstName);
+  setDisplayName(doc.data().firstName);
+});
+    setLogout(true);
+    console.log('User is signed in with UID:', uid);
+  } else {
+    // User is signed out
+    setLogout(false);
+    console.log('No user is signed in.'); 
+    
+    } 
+  }
+  )
+
+},[])
   const [isScrolled, setIsScrolled] = useState(false);
- 
+  const[logout,setLogout]=useState(true);
+  const [isModalOpen, setIsModalOpen]= useState(false);
+  const [displayName, setDisplayName]= useState('');
+  const closeModal =() => {
+    setIsModalOpen(false);
+ }
   const navigate = useNavigate();
   const retreatcenter=()=>{
      navigate('/retreatcenters');
@@ -25,6 +62,21 @@ export function Header() {
   }
   const home=() =>{
     navigate('/')
+  }
+  const profile=()=>{
+    navigate(`/profile`);
+   
+  }
+  const loggedout=()=>{
+    signOut(auth).then(() => {
+      // Sign-out successful. 
+      setIsModalOpen(true);
+      setLogout(false);
+      navigate('/');
+    }).catch((error) => {
+      // An error happened.
+      setLogout(true);
+    });
   }
   // Add scroll event listener
   if (typeof window !== "undefined") {
@@ -43,14 +95,19 @@ export function Header() {
         isScrolled ? "bg-white/90  shadow-sm py-3" : "bg-transparent py-5"
       }`}
     >
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+                Sign out Successful!
+            </div>
+            </Modal>
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-2 cursor-pointer" onClick={home}>
           <img src={logo} style={{width:'60px', height:'60px'}}/>
-         <a href="https://retreatsaroundtheworld.net/" target="_blank"> <div className="hidden md:block">
+          <div className="hidden md:block" onClick={home}>
             <h1 className="text-lg font-serif font-bold text-lime-700">
               Retreats <span className="text-lime-700">Around The World</span>
             </h1>
-          </div></a>
+          </div>
         </div>
 
         <div className="hidden md:flex bg-white rounded-full border px-4 py-1.5 items-center shadow-sm max-w-sm hover:shadow-md transition-all">
@@ -63,9 +120,18 @@ export function Header() {
             Search
           </Button>
         </div>
-
+           <div className="flex items-right">
+          <div className="hidden md:flex items-center gap-2"></div>
+           {logout &&  <Button variant="ghost" size="sm" className="text-sm" onClick={profile}>
+              Welcome {`${displayName}`}
+            </Button>}
+           {logout &&  <Button variant="ghost" size="sm" className="text-sm" onClick={loggedout}>
+              Log Out
+            </Button>}
+          </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
+         
             <Button variant="ghost" size="sm" className="text-sm" onClick={host}>
               Host
             </Button>
@@ -83,6 +149,7 @@ export function Header() {
                 variant="outline"
                 size="icon"
                 className="md:hidden rounded-full"
+                
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -106,34 +173,21 @@ export function Header() {
               <div className="grid gap-4 py-4">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 mb-6">
-                    <div className="h-8 w-8 rounded-full bg-retreat-sage flex items-center justify-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="white"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                        <polyline points="9 22 9 12 15 12 15 22" />
-                      </svg>
+                    <div className="  flex items-center justify-center">
+                      <img src={logo} style={{width:'60px', height:'60px'}}/>
                     </div>
                     <h2 className="font-serif text-lg font-semibold">Retreats Around The World</h2>
                   </div>
-                  <Button variant="ghost" className="w-full justify-start">
-                    Home
+                  <Button variant="ghost" className="w-full justify-start" onClick={host}>
+                    Host
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start">
-                    Search
+                  <Button variant="ghost" className="w-full justify-start" onClick={guest}>
+                    Guest
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start">
-                    Favorites
+                  <Button variant="ghost" className="w-full justify-start" onClick={retreatcenter}>
+                    Retreat Centers
                   </Button>
-                 
+                   
                 
                 </div>
               </div>

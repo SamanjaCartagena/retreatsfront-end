@@ -5,6 +5,8 @@ import pic3 from '../assets/retreat3.jpg'
 import { Checkbox } from '@radix-ui/react-checkbox'
 import Modal from './Modal.js';
 import {auth, googleProvider} from '../firebase.js';
+import { collection, addDoc } from "firebase/firestore"; 
+import { db } from '../firebase.js';
 import { createUserWithEmailAndPassword,signInWithPopup, signOut } from 'firebase/auth'
 import {useState} from 'react';
 
@@ -13,15 +15,56 @@ function SignUpAsHost() {
   const [email, setEmail] = useState('');
   const [password1, setPassword1] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [introduction, setIntroduction] = useState('');
+  const [username, setUsername] = useState('');
+  const [retreatTypes, setRetreatTypes] = useState([]);
+  const [details, setDetails] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
+  const [isCheckedVeganRetreat, setIsCheckedVeganRetreat] = useState(false)
+  const [isCheckedHypnoRetreat, setIsCheckedHypnoRetreat] = useState(false)
+  const [isCheckedMeditationRetreat, setIsCheckedMeditationRetreat] = useState(false)
+  const [isCheckedCorporateRetreat, setIsCheckedCorporateRetreat] = useState(false)
+  const [isCheckedHealthRetreat, setIsCheckedHealthRetreat] = useState(false)
+  const [isCheckedYogaRetreat, setIsCheckedYogaRetreat] = useState(false)
+  const [isCheckedRecreationRetreat, setIsCheckedRecreationRetreat] = useState(false)
+  const [isCheckedOthers, setIsCheckedOthers] = useState(false)
   const closeModal = () => setIsModalOpen(false);
   const closePasswordModal =()=>setPasswordModal(false);
   const create= async()=>{
       try{
         if(password1===confirmPassword){
-                  await createUserWithEmailAndPassword(auth,email,confirmPassword);
+                  await createUserWithEmailAndPassword(auth,email,confirmPassword)
+                  .then((userCredential)=>{
+                    const user = userCredential.user;
+                    console.log('User created:', user.uid);
+                                  addDoc(collection(db, "hosts"), {
+                                  id: user.uid,
+                                  firstName: firstName,
+                                  lastName: lastName,
+                                  introduction: introduction,
+                                  username: username,
+                                  email: email,
+                                  details: details,
+                                  veganRetreat:isCheckedVeganRetreat,
+                                  hypnoRetreat:isCheckedHypnoRetreat,
+                                  meditationRetreat:isCheckedMeditationRetreat,
+                                  corporateRetreat:isCheckedCorporateRetreat, 
+                                  healthRetreat:isCheckedHealthRetreat,
+                                  yogaRetreat:isCheckedYogaRetreat,
+                                  recreationRetreat:isCheckedRecreationRetreat,
+                                  others:isCheckedOthers,
+                                  createdAt: new Date()
+                                });
+                  })
+                  .catch((error)=>{
+                    console.error('Error creating user:', error);
+                  });
+                  
                   setIsModalOpen(true);
+
         }
         else{
            setPasswordModal(true);
@@ -29,8 +72,9 @@ function SignUpAsHost() {
         }catch(err){
             console.error(err)
         }
-  }
+      }
   return (
+    <>
     <div className="justify-center items-center grid h-auto">
      <img src={pic1} className='w-200' />      
       <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -92,24 +136,24 @@ function SignUpAsHost() {
        <label className="block text-gray-700 text-sm font-bold mb-2" >
         First Name
       </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstName" type="text" placeholder="First Name"/>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstName" type="text" placeholder="First Name" onChange={(e)=> setFirstName(e.target.value)}/>
             <br/>
             <br/>
           
         <label className="block text-gray-700 text-sm font-bold mb-2" >
         Last Name
       </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastName" type="text" placeholder="Last Name"/>
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastName" type="text" placeholder="Last Name" onChange={(e)=> setLastName(e.target.value)}/>
       <br/><br/>
      <label className="block text-gray-700 text-sm font-bold mb-2" >
         Tell us something about yourself
       </label>
-                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="introduction" placeholder="Tell us something about yourself"></textarea>
+                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="introduction" placeholder="Tell us something about yourself" onChange={(e)=>setIntroduction(e.target.value)}></textarea>
          <br/><br/>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Username
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" onChange={(e)=> setUsername(e.target.value)}/>
       <br/><br/>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Email
@@ -127,39 +171,38 @@ function SignUpAsHost() {
       </label>
             <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=>setConfirmPassword(e.target.value)}/>
        <label className="block text-gray-700 text-sm font-bold mb-2" >
-       What kind of retreats will you be hosting?
-      </label>
+       What kind of retreats will you be hosting? Check all that apply.</label>
       <br/>
-      <input type="checkbox" id="veganretreat"/>
-      <label for="veganretreat">&nbsp;Vegan Retreat</label>
+      <input type="checkbox" id="veganretreat" checked={isCheckedVeganRetreat} onChange={(e)=>setIsCheckedVeganRetreat(true)}/>
+      <label >&nbsp;Vegan Retreat</label>
       <br/>
-      <input type="checkbox" id="hypnoretreat"/>
-      <label for="hypnotherapy">&nbsp;Hypnotherapy</label>
+      <input type="checkbox" id="hypnoretreat" checked={isCheckedHypnoRetreat} onChange={(e)=>setIsCheckedHypnoRetreat(true)}/>
+      <label  >&nbsp;Hypnotherapy</label>
       <br/>
-      <input type="checkbox" id="meditationretreat"/>
-      <label for="meditationretreat">&nbsp;Meditation Retreat</label><br/>
-      <input type="checkbox" id="corporateretreat"/>
-      <label for="corporateretreat">&nbsp;Corporate Retreat</label><br/>
-      <input type="checkbox" id="healthretreat"/>
+      <input type="checkbox" id="meditationretreat" checked={isCheckedMeditationRetreat} onChange={(e)=>setIsCheckedMeditationRetreat(true)}/>
+      <label >&nbsp;Meditation Retreat</label><br/>
+      <input type="checkbox" id="corporateretreat" checked={isCheckedCorporateRetreat} onChange={(e)=> setIsCheckedCorporateRetreat(true)}/>
+      <label >&nbsp;Corporate Retreat</label><br/>
+      <input type="checkbox" id="healthretreat" checked={isCheckedHealthRetreat} onChange={(e)=> setIsCheckedHealthRetreat(true)}/>
       
-      <label for="healthretreat">&nbsp;Health Retreat</label>
+      <label >&nbsp;Health Retreat</label>
       <br/>
-         <input type="checkbox" id="yogaretreat"/>
+         <input type="checkbox" id="yogaretreat" checked={isCheckedYogaRetreat} onChange={(e)=>setIsCheckedYogaRetreat(true)}/>
       
-      <label for="yogaretreat">&nbsp;Yoga Retreat</label>
+      <label >&nbsp;Yoga Retreat</label>
       <br/>
-        <input type="checkbox" id="recreationretreat"/>
+        <input type="checkbox" id="recreationretreat" checked={isCheckedRecreationRetreat} onChange={(e)=>setIsCheckedRecreationRetreat(true)}/>
       
-      <label for="recreationretreat">&nbsp;Recreation Retreat</label>
+      <label>&nbsp;Recreation Retreat</label>
       <br/>
-      <input type="checkbox" id="others"/>
-            <label for="others">&nbsp;Others</label>
+      <input type="checkbox" id="others" checked={isCheckedOthers} onChange={(e)=> setIsCheckedOthers(true)}/>
+            <label >&nbsp;Others</label>
             <br/>
             <br/>
                    <label className="block text-gray-700 text-sm font-bold mb-2" >
             What kind of Retreats will you be hosting in details?...</label>
-                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="introduction" placeholder="Tell us in details what kind of retreats you would love to host....."></textarea>
-
+                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="details" placeholder="Tell us in details what kind of retreats you would love to host....." onChange={(e)=> setDetails(e.target.value)}></textarea>
+       </div>
 
     </div>
     <div className="flex items-center justify-between">
@@ -168,7 +211,7 @@ function SignUpAsHost() {
       </button>
      
      </div>
-      </div>
+      
       <br/>
       
   </form>
@@ -178,6 +221,8 @@ function SignUpAsHost() {
   </div>
 </div>  
     </div>
+    
+    </>
   )
 }
 
