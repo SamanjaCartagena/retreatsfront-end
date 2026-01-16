@@ -2,17 +2,50 @@
 import { Button } from "@/components/ui/button";
 import {useState} from 'react';
 import pic from '../assets/retreats.png';
+import ModalAI from "./ModalAI";
+import loading from '../assets/loading.gif';
+import { set } from "date-fns";
 export function Hero() {
   const [isAIOpen, setIsAIOpen]= useState(false);
+  const [loadingAI, setLoadingAI]= useState(false);
   const askai =()=>{
     setIsAIOpen(true);
   }
  const closeAI =() => {
     setIsAIOpen(false);
+    setLoadingAI (false);
  }
-
+const submitAI =() => {
+  // Handle AI submission logic here
+  setLoadingAI(true);
+  // Simulate loading time
+  
+}
   return (
     <div className="relative h-[80vh] min-h-[700px] w-full overflow-hidden">
+      <ModalAI isOpen={isAIOpen} onClose={closeAI} >
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-4">AI Retreat Match</h2>
+          <p className="mb-4">Answer a few questions to find your perfect retreat match!</p>
+          <textarea
+            className="w-full h-64 p-2 border border-gray-300 rounded-md mb-4"
+            placeholder="Explain what you are looking for in the perfect retreat..."
+          ></textarea>
+          {/* Add your AI matching form or content here */}
+          {loadingAI && <div className="grid justify-center items-center mb-4">
+            <h2>Loading...</h2><br/>
+            <img src={loading} alt="Loading..." style={{width:'50px', height:'50px'}}/>
+          </div>}
+          <Button onClick={submitAI} className="bg-retreat-forest text-white hover:bg-retreat-cream hover:text-retreat-forest mb-4 mr-4">
+            Submit
+          </Button>
+          <Button onClick={closeAI} className="bg-retreat-forest text-white hover:bg-retreat-cream hover:text-retreat-forest">
+            Close
+          </Button>
+        </div>
+        </ModalAI> 
+
+      
       <div 
         className="absolute inset-0 bg-cover bg-center" 
         style={{ backgroundImage: `url(${pic})` }}
@@ -25,18 +58,18 @@ export function Hero() {
                 Withdraw. Retreat. Reset. Recharge. Restart.
               </h1>
               <p className="text-xl text-white/90 mb-8 max-w-2xl">
-                Immerse yourself in curated retreats that nourish mind, body, and spirit in the world's most inspiring locations.
+                 Transform your Mind with a Trip!
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
-                  Explore Retreats
+                  Meet Our Hosts
                 </Button>
                 <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
-                  Host a Retreat
+                  Meet our Guides
                 </Button>
                 <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={askai}>
-                  Ask AI
+                 AI Retreat Match
                 </Button>
               </div>
             </div>

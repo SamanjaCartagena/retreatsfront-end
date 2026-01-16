@@ -13,8 +13,14 @@ import NotFound from "./pages/NotFound";
 import SignUpAsHost from "@/components/SignUpAsHost";
 import Admin from "@/components/Admin";
 import Profile from "./components/Profile";
+
+
+
+
 const queryClient = new QueryClient();
 const App = () => (
+  // ... inside your component
+
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />

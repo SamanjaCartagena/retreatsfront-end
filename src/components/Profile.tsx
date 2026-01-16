@@ -2,7 +2,8 @@ import React,{useEffect, useState} from 'react'
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db, auth} from "../firebase.js";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-import { set } from 'date-fns';
+
+
 export default function Profile() {
   const [firstName,setFirstName]=useState('');
   const [lastName,setLastName]=useState('');
@@ -35,18 +36,27 @@ export default function Profile() {
   
   },[])
   return (
-    
-    <div className='flex justify-center items-center h-screen flex-col gap-4 text-lg'>
-      Your Profile Details:
-      <div>
-        First Name: {firstName} 
+    <div className="max-w-4xl pt-40 mx-auto p-4">
+          <h1 className="text-2xl flex font-bold mb-4">Profile</h1>
+
+    <div className="w-full p-8 h-auto flex justify-center items-center ">
+      <div className="bg-white  px-8 pt-20 pb-8 mb-4">      
+        <p className="mb-4"><span className="font-bold">First Name:</span> {firstName}</p>
+        <p className="mb-4"><span className="font-bold">Last Name:</span> {lastName}</p>
+        <p className="mb-4"><span className="font-bold">Email:</span> {email}</p>
+        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => signOut(auth)}>
+          Follow {firstName}
+        </button>
+        <button className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => signOut(auth)}>
+          Notify abt new retreats
+        </button>
+        
       </div>
-      <div>
-        Last Name: {lastName}   
-      </div>
-      <div>
-        Email: {email}   
-      </div>
+              <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" className="w-60 h-60 rounded-full mb-4"/>
+    </div>
+    <div className="mt-10">
+        <p className="max-w-full">Hi! I'm Samia, the founder of Wanderlust Retreat Globe. With a passion for travel and wellness, I created this platform to help you discover transformative retreat experiences around the world. My mission is to connect you with retreats that nourish your mind, body, and spirit in the most inspiring locations. Let's embark on a journey of self-discovery and rejuvenation together!</p>
+    </div>
     </div>
   )
 }

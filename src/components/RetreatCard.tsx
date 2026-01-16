@@ -12,8 +12,8 @@ export function RetreatCard({ retreat }: RetreatCardProps) {
     window.open(retreat.url,'_blank');
   }
   return (
-    <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer" onClick={retreaturl}>
-      <div className="aspect-[4/3] overflow-hidden">
+    <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={retreaturl}>
+      <div className="aspect-[5/3] overflow-hidden">
         <img
           src={retreat.image}
           alt={retreat.title}

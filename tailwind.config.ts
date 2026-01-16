@@ -1,5 +1,8 @@
 
 import type { Config } from "tailwindcss";
+// tailwind.config.ts
+
+
 
 export default {
   darkMode: ["class"],
@@ -8,6 +11,8 @@ export default {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+       "./src/**/*.{js,jsx,ts,tsx}",
+        "./node_modules/react-tailwindcss-datepicker/dist/index.esm.{js,ts}",
   ],
   prefix: "",
   theme: {
@@ -103,5 +108,7 @@ export default {
       },
     }
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate",
+
+  )],
 } satisfies Config;
