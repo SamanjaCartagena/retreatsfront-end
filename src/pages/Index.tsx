@@ -44,8 +44,9 @@ const Index = () => {
           />
           <Separator />
         </div>
-        
-        <div className="container py-8">
+          
+        <RetreatCard />
+{/**         <div className="container py-8">
           <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-6">
             {selectedCategory === "All" 
               ? "Featured Retreats" 
@@ -66,6 +67,7 @@ const Index = () => {
             </div>
           )}
         </div>
+        **/}
         
         <FeaturedDestinations />
         <Newsletter />

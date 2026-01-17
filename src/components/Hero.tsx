@@ -58,7 +58,7 @@ const submitAI =() => {
                 Withdraw. Retreat. Reset. Recharge. Restart.
               </h1>
               <p className="text-xl text-white/90 mb-8 max-w-2xl">
-                 Transform your Mind with a Trip!
+                 Transform your Mind with a much needed Trip!
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
