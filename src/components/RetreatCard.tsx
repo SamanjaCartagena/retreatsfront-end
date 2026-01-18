@@ -2,12 +2,16 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { List, Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { collection, query, getDocs, orderBy, limit, startAfter } from 'firebase/firestore';
+import { collection, query, getDocs, orderBy, limit, startAfter, where, and, or} from 'firebase/firestore';
 import {db} from '../firebase.js';
-
+import { Separator } from "@radix-ui/react-separator";
+import { Button } from "@/components/ui/button";
 
 export function RetreatCard() {
     const [listOfRetreats, setListOfRetreats] = useState([]);
+      const [searchType, setSearchType] = useState("");
+      const [searchLocation, setSearchLocation] = useState("");
+
   useEffect(() => {
     const q1 =query(collection(db, "retreats"));
     const q= query(q1, orderBy("id","asc"), limit(5));
@@ -42,7 +46,68 @@ export function RetreatCard() {
       
     }); 
   }
+ 
+    const searchTypesOfRetreats=()=>{
+      
+      const q =query(collection(db, "retreats"),or (where("type", "==",searchType), where("location","==",searchLocation)));
+      const querySnapshot = getDocs(q);
+      const retreats = [];
+      querySnapshot.then((snapshot)=>{
+        snapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats.push({ ...doc.data() });
+          
+        console.log(retreats);  
+          setListOfRetreats(retreats);
+        });
+
+   
+  });
+      
+   
+    }
   return (
+    <div>
+      <div className=" py-16">
+      <div className="container">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4">
+            Search for the perfect retreat!
+          </h2>
+         
+          <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
+             <select className="bg-white p-2 rounded-md" onChange={(e)=>setSearchType(e.target.value)}>
+    <option value="">Select Type</option>
+    <option value="meditation">Meditation</option>
+    <option value="muay thai">Muay Thai</option>
+    <option value="vegan">Vegan</option>
+    <option value="salt cave">Salt Cave</option>
+    <option value="India">India</option>
+    <option value="Greece">Greece</option>
+    <option value="Peru">Peru</option>
+    <option value="Australia">Australia</option>
+    </select>
+           
+  <select className="bg-white p-2 rounded-md" onChange={(e)=>setSearchLocation(e.target.value)}>
+    <option value="">Select Location</option>
+    <option value="Bali">Bali</option>
+    <option value="Thailand">Thailand</option>
+    <option value="Costa Rica">Costa Rica</option>
+    <option value="Mallaga">Mallaga</option>
+    <option value="India">India</option>
+    <option value="Greece">Greece</option>
+    <option value="Peru">Peru</option>
+    <option value="Australia">Australia</option>
+    </select>
+            <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={searchTypesOfRetreats}>
+              Submit
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+         
+   <Separator />
      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8">
            {listOfRetreats.map((retreat)=>{
              return <div key={retreat.id} >
@@ -64,7 +129,7 @@ export function RetreatCard() {
             <span>{retreat.name}</span>
           </div>
         </div>
-        <p className="text-muted-foreground text-sm mb-2">
+        <p className="text-muted-foreground text-sm mb-2">{retreat.type}
         </p>
         <div className="flex justify-between items-center mt-1">
       
@@ -78,10 +143,11 @@ export function RetreatCard() {
     
              </div>
            })}
-                       <button onClick={fetchMore}>Load More...</button>
 
     </div>
-            
+                           <button onClick={fetchMore}>Load More...</button>
+
+         </div>   
          
     
   

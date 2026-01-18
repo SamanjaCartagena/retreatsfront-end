@@ -37,13 +37,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">
         <Hero />
-        <div className="sticky top-16 bg-white/90 backdrop-blur-md z-40 shadow-sm">
-          <CategoryFilter 
-            onSelectCategory={setSelectedCategory} 
-            selectedCategory={selectedCategory} 
-          />
-          <Separator />
-        </div>
+       
           
         <RetreatCard />
 {/**         <div className="container py-8">
