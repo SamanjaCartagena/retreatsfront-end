@@ -2,7 +2,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { List, Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { collection, query, getDocs, orderBy, limit, startAfter, where, and, or} from 'firebase/firestore';
+import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
 import {db} from '../firebase.js';
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ export function RetreatCard() {
 
   useEffect(() => {
     const q1 =query(collection(db, "retreats"));
-    const q= query(q1, orderBy("id","asc"), limit(5));
+    const q= query(q1, orderBy("id","asc"), limit(3));
     getDocs(q).then((querySnapshot) => {
       const treats = [];
       querySnapshot.forEach((doc) => {
@@ -26,7 +26,28 @@ export function RetreatCard() {
     }); 
 
   }, []);
-    const fetchMore=()=>{
+  const fetchPrevious=()=>{
+  const firstRetreatId=listOfRetreats[0].id;
+  console.log(firstRetreatId-3)
+     
+    const q1 =query(collection(db, "retreats"))
+    const q= query(q1, orderBy("id","asc"),startAfter(firstRetreatId-4), limit(3));
+    getDocs(q).then((querySnapshot) => {
+      const colors = [];
+      
+      querySnapshot.forEach((doc) => {
+        console.log("Doc ID:", doc.data().id);
+        if(doc.data().id>firstRetreatId-4){
+          colors.push({ ...doc.data() });
+        }
+        
+      });
+      console.log(colors);
+      setListOfRetreats(colors);
+      
+    }); 
+  }
+    const fetchNext=()=>{
     const lastColorId=listOfRetreats[listOfRetreats.length-1].id;
     console.log("Last Color ID:", lastColorId);
     const q1 =query(collection(db, "retreats"))
@@ -46,10 +67,26 @@ export function RetreatCard() {
       
     }); 
   }
+  const search=(e) => {
+    console.log(e.target.value)
+    if(e.target.value==""){
+      window.location.reload()
+    }
+    setSearchType(e.target.value)
+    
+  }
+    const searchPlace=(e) => {
+    console.log(e.target.value)
+    if(e.target.value==""){
+      window.location.reload()
+    }
+    setSearchLocation(e.target.value)
+    
+  }
  
     const searchTypesOfRetreats=()=>{
       
-      const q =query(collection(db, "retreats"),or (where("type", "==",searchType), where("location","==",searchLocation)));
+      const q =query(collection(db, "retreats"),or (where("type1", "==",searchType), where("location","==",searchLocation), where("type2","==", searchType), where("type3","==",searchType)));
       const querySnapshot = getDocs(q);
       const retreats = [];
       querySnapshot.then((snapshot)=>{
@@ -76,19 +113,19 @@ export function RetreatCard() {
           </h2>
          
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
-             <select className="bg-white p-2 rounded-md" onChange={(e)=>setSearchType(e.target.value)}>
+             <select className="bg-white p-2 rounded-md" onChange={search}>
     <option value="">Select Type</option>
     <option value="meditation">Meditation</option>
     <option value="muay thai">Muay Thai</option>
     <option value="vegan">Vegan</option>
-    <option value="salt cave">Salt Cave</option>
+    <option value="yoga">Yoga</option>
     <option value="India">India</option>
     <option value="Greece">Greece</option>
     <option value="Peru">Peru</option>
     <option value="Australia">Australia</option>
     </select>
            
-  <select className="bg-white p-2 rounded-md" onChange={(e)=>setSearchLocation(e.target.value)}>
+  <select className="bg-white p-2 rounded-md" onChange={searchPlace}>
     <option value="">Select Location</option>
     <option value="Bali">Bali</option>
     <option value="Thailand">Thailand</option>
@@ -99,6 +136,8 @@ export function RetreatCard() {
     <option value="Peru">Peru</option>
     <option value="Australia">Australia</option>
     </select>
+    
+           
             <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={searchTypesOfRetreats}>
               Submit
             </Button>
@@ -129,7 +168,7 @@ export function RetreatCard() {
             <span>{retreat.name}</span>
           </div>
         </div>
-        <p className="text-muted-foreground text-sm mb-2">{retreat.type}
+        <p className="text-muted-foreground text-sm mb-2">{retreat.type1},{retreat.type2},{retreat.type3}
         </p>
         <div className="flex justify-between items-center mt-1">
       
@@ -145,7 +184,9 @@ export function RetreatCard() {
            })}
 
     </div>
-                           <button onClick={fetchMore}>Load More...</button>
+                                                     <button onClick={fetchPrevious} style={{width:'200px;',height:'60px;', backgroundColor:'black', color:'white', padding:'10px', margin:'10px'}}>Previous</button>
+                                   
+                           <button onClick={fetchNext} style={{width:'200px;',height:'60px;', padding:'10px;'}}>Next</button>
 
          </div>   
          

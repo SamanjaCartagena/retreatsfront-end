@@ -28,11 +28,9 @@ function Host() {
   }
 
   return (
-    <div 
-        className="absolute inset-0 bg-cover bg-center" 
-        style={{ backgroundImage: `url(${pic})` }}
-      >
-    <div className="justify-center items-center grid h-screen" >
+        <div className="relative h-[80vh] min-h-[700px] w-full overflow-hidden">
+   
+    <div className="justify-center items-center grid h-screen absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pic})` }}>
       
       <div className="w-full max-w-xs items-center justify-center">
         
