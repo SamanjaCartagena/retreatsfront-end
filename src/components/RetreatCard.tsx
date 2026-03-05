@@ -14,7 +14,7 @@ export function RetreatCard() {
 
   useEffect(() => {
     const q1 =query(collection(db, "retreats"));
-    const q= query(q1, orderBy("id","asc"), limit(3));
+    const q= query(q1, orderBy("id","asc"), limit(5));
     getDocs(q).then((querySnapshot) => {
       const treats = [];
       querySnapshot.forEach((doc) => {
@@ -31,13 +31,13 @@ export function RetreatCard() {
   console.log(firstRetreatId-3)
      
     const q1 =query(collection(db, "retreats"))
-    const q= query(q1, orderBy("id","asc"),startAfter(firstRetreatId-4), limit(3));
+    const q= query(q1, orderBy("id","asc"),startAfter(firstRetreatId-6), limit(5));
     getDocs(q).then((querySnapshot) => {
       const colors = [];
       
       querySnapshot.forEach((doc) => {
         console.log("Doc ID:", doc.data().id);
-        if(doc.data().id>firstRetreatId-4){
+        if(doc.data().id>firstRetreatId-6){
           colors.push({ ...doc.data() });
         }
         
@@ -51,7 +51,7 @@ export function RetreatCard() {
     const lastColorId=listOfRetreats[listOfRetreats.length-1].id;
     console.log("Last Color ID:", lastColorId);
     const q1 =query(collection(db, "retreats"))
-    const q= query(q1, orderBy("id","asc"),startAfter(lastColorId), limit(3));
+    const q= query(q1, orderBy("id","asc"),startAfter(lastColorId), limit(5));
     getDocs(q).then((querySnapshot) => {
       const colors = [];
       
@@ -66,6 +66,9 @@ export function RetreatCard() {
       setListOfRetreats(colors);
       
     }); 
+  }
+  const fetchMain=()=>{
+    window.location.reload();
   }
   const search=(e) => {
     console.log(e.target.value)
@@ -183,11 +186,17 @@ export function RetreatCard() {
              </div>
            })}
 
-    </div>
-                                                     <button onClick={fetchPrevious} style={{width:'200px;',height:'60px;', backgroundColor:'black', color:'white', padding:'10px', margin:'10px'}}>Previous</button>
-                                   
-                           <button onClick={fetchNext} style={{width:'200px;',height:'60px;', padding:'10px;'}}>Next</button>
-
+    </div>                                             <div className="flex justify-center items-center gap-4 mb-8">
+                                                     <button onClick={fetchPrevious} style={{width:'200px;',height:'60px;', padding:'10px;'}} 
+                                                     className="hover:bg-lime-700 hover:text-white p-3 hover:m-2 rounded-md">Previous</button>
+                                   <button onClick={fetchMain} style={{width:'200px;',height:'60px;', padding:'10px;'}}
+                           
+                           className="hover:bg-lime-700 hover:text-white p-3 hover:m-2 rounded-md">Main Page</button>
+                           <button onClick={fetchNext} style={{width:'200px;',height:'60px;', padding:'10px;'}}
+                           
+                           className="hover:bg-lime-700 hover:text-white p-3 hover:m-2 rounded-md">Next</button>
+            </div>
+            
          </div>   
          
     

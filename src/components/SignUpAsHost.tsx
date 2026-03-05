@@ -31,6 +31,8 @@ function SignUpAsHost() {
   const [isCheckedYogaRetreat, setIsCheckedYogaRetreat] = useState(false)
   const [isCheckedRecreationRetreat, setIsCheckedRecreationRetreat] = useState(false)
   const [isCheckedOthers, setIsCheckedOthers] = useState(false)
+  
+
   const closeModal = () => setIsModalOpen(false);
   const closePasswordModal =()=>setPasswordModal(false);
   const create= async()=>{
@@ -56,6 +58,7 @@ function SignUpAsHost() {
                                   yogaRetreat:isCheckedYogaRetreat,
                                   recreationRetreat:isCheckedRecreationRetreat,
                                   others:isCheckedOthers,
+                                  profilePicUrl:"https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40",
                                   createdAt: new Date()
                                 });
                   })
@@ -201,7 +204,7 @@ function SignUpAsHost() {
             <br/>
                    <label className="block text-gray-700 text-sm font-bold mb-2" >
             What kind of Retreats will you be hosting in details?...</label>
-                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="details" placeholder="Tell us in details what kind of retreats you would love to host....." onChange={(e)=> setDetails(e.target.value)}></textarea>
+                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="details" placeholder="Tell us in details what kind of retreats you would love to host....." onChange={(e)=> setDetails(e.target.value)}></textarea>\
        </div>
 
     </div>

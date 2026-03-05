@@ -55,10 +55,10 @@ const submitAI =() => {
           <div className="container mx-auto max-w-3xl px-4 md:px-6">
             <div className="animate-fade-in">
               <h1 className="text-4xl md:text-5xl sm:text-2xl md:pt-6 lg:text-6xl font-serif font-bold tracking-tight text-white mb-6">
-                Withdraw. Retreat. Reset. Recharge. Restart.
+                Transform Your Mind with a Retreat.
               </h1>
               <p className="text-xl text-white/90 mb-8 max-w-2xl">
-                 Transform your Mind with a much needed Trip!
+               Set out on a journey to shift your identity. 
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -71,6 +71,7 @@ const submitAI =() => {
                 <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={askai}>
                  AI Retreat Match
                 </Button>
+               
               </div>
             </div>
           </div>

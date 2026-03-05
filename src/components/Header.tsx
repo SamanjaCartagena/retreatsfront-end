@@ -4,20 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../firebase.js";
-
-import {auth} from '../firebase.js';
+import { db,auth } from "../firebase.js";
+import {Link} from 'react-router-dom';
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import Modal from "./Modal";
-
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
 import logo from '../assets/logoretreat.png'
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {  Twitter } from "lucide-react";
 
 export function Header() {
+const [id,setId]=useState('');
   useEffect(() => {
      onAuthStateChanged(auth, async (user) => {
   if (user)  {
@@ -27,8 +30,9 @@ export function Header() {
     const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data().firstName);
+  console.log(doc.id, " => ", doc.data().id);
   setDisplayName(doc.data().firstName);
+  setId(doc.data().id);
 });
     setLogout(true);
     console.log('User is signed in with UID:', uid);
@@ -122,9 +126,9 @@ export function Header() {
         </div>
            <div className="flex items-right">
           <div className="hidden md:flex items-center gap-2"></div>
-           {logout &&  <Button variant="ghost" size="sm" className="text-sm" onClick={profile}>
+           {logout &&  <Link to={`/profile/${id}`} className="text-sm" >
               Welcome {`${displayName}`}
-            </Button>}
+            </Link>}
            {logout &&  <Button variant="ghost" size="sm" className="text-sm" onClick={loggedout}>
               Log Out
             </Button>}
@@ -132,17 +136,20 @@ export function Header() {
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
          
-            <Button variant="ghost" size="sm" className="text-sm" onClick={host}>
+            <Link to="/host" className="text-sm" >
               Host
-            </Button>
+            </Link>
             <Button variant="ghost" size="sm" className="text-sm" onClick={guest}>
               Guest
             </Button>
             <Button variant="outline" size="sm" className="text-sm border-lime-700 text-lime-700" onClick={retreatcenter}>
               Retreat Centers
             </Button>
+            <FacebookIcon/>
+            <InstagramIcon/>
+            <TwitterIcon/>
           </div>
-
+          
           <Sheet>
             <SheetTrigger asChild>
               <Button

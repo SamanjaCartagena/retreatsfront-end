@@ -1,9 +1,11 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import {auth} from '../firebase.js';
 import pic from '../assets/form.png';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import Hosts from './Hosts.js'
 function Host() {
+
   const navigate=useNavigate();
   const [email, setEmail]=useState('');
   const [password, setPassword]=useState('');
@@ -16,7 +18,7 @@ function Host() {
     // Signed in 
     const user = userCredential.user;
     alert('Sign In Successful'+user.email);
-    navigate('/')
+    navigate(`/`);
     window.location.reload()
 
     // ...
@@ -26,8 +28,10 @@ function Host() {
     const errorMessage = error.message;
   });
   }
+   
 
   return (
+    <div>
         <div className="relative h-[80vh] min-h-[700px] w-full overflow-hidden">
    
     <div className="justify-center items-center grid h-screen absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pic})` }}>
@@ -70,8 +74,12 @@ function Host() {
   <p className="text-center text-gray-500 text-xs">
     &copy;2025 World of Bots LLC. All rights reserved.
   </p>
-</div>    
 </div>
+
+
+</div>
+    </div>
+     <Hosts/>
     </div>
   )
   }
