@@ -13,7 +13,8 @@ import NotFound from "./pages/NotFound";
 import SignUpAsHost from "@/components/SignUpAsHost";
 import Admin from "@/components/Admin";
 import ProfileDetails from "./components/ProfileDetails";
-
+import ProfileSelected from "./components/ProfileSelected";
+import CreateGuest from "./components/CreateGuest";
 
 
 
@@ -33,9 +34,12 @@ const App = () => (
           <Route path="/host" element={<Host/>}/>
           <Route path="/signupasHost" element={<SignUpAsHost/>}/>
           <Route path="/admin" element={<Admin/>}/>
-          <Route path="/profile/:userId" element={<ProfileDetails/>}>
+          <Route path="/hosts/:userId" element={<ProfileSelected/>}/>
+
+          <Route path="/profile/:userId" element={<ProfileDetails/>}/>
+          <Route path="/createguest" element={<CreateGuest/>}/>
             
-          </Route>
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

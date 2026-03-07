@@ -5,15 +5,20 @@ import pic from '../assets/retreats.png';
 import ModalAI from "./ModalAI";
 import loading from '../assets/loading.gif';
 import { set } from "date-fns";
+import { useNavigate } from "react-router-dom";
 export function Hero() {
   const [isAIOpen, setIsAIOpen]= useState(false);
   const [loadingAI, setLoadingAI]= useState(false);
+  const navigate=useNavigate()
   const askai =()=>{
     setIsAIOpen(true);
   }
  const closeAI =() => {
     setIsAIOpen(false);
     setLoadingAI (false);
+ }
+ const host=()=>{
+  navigate('/host')
  }
 const submitAI =() => {
   // Handle AI submission logic here
@@ -62,7 +67,7 @@ const submitAI =() => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
+                <Button className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={host}>
                   Meet Our Hosts
                 </Button>
                 <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">

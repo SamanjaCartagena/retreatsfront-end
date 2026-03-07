@@ -1,10 +1,12 @@
 import React from 'react'
 import pic from '../assets/guest.png';
+import {Link} from 'react-router-dom';
+
 export default function Guest() {
   return (
      <div 
         className="absolute inset-0 bg-cover bg-center" 
-        style={{ backgroundImage: `url(${pic})` }}
+        style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/best-corporate-retreats-in-california-hero.jpg?alt=media&token=fc521cb5-91ec-483b-9d89-a40f68e137f0)` }}
       >
     <div className="justify-center items-center grid h-screen" >
       
@@ -36,9 +38,11 @@ export default function Guest() {
      
       </div>
       <br/>
+      <Link to="/createguest">
        <h2 className="inline-block align-baseline font-bold text-decoration-line text-md cursor-pointer text-blue-500 hover:text-blue-800" >
         Create a Profile
       </h2>
+      </Link>
   </form>
     
 

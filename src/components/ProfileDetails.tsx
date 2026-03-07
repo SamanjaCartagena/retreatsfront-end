@@ -3,7 +3,8 @@ import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc } fro
 import { db, auth,storage} from "../firebase.js";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
-
+import { Button } from "@/components/ui/button";
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import {v4} from 'uuid';
 
@@ -20,6 +21,7 @@ export default function Profile() {
   const [imageList, setImageList] = useState([]);
   const [avatarUrl, setAvatarUrl] = useState("");
   const [documentId, setDocumentId] = useState("")
+  const [details, setDetails] = useState("")
     const imageListRef = ref(storage, `/images/${userId}/`);
     const profileRef = ref(storage, `/profilePic/${userId}/`);
     const deleteImageRef = ref(storage, `/images/${userId}/`);
@@ -81,6 +83,7 @@ export default function Profile() {
     setLastName(doc.data().lastName);
     setEmail(doc.data().email);
     setId(doc.data().id);
+    setDetails(doc.data().details);
   });
 
     const profilePic = ref(storage, `/profilePic/${userId}/profile.jpg`);
@@ -110,7 +113,7 @@ export default function Profile() {
   },[])
   return (
     <div className="max-w-4xl pt-40 mx-auto p-4">
-          <h1 className="text-2xl flex font-bold mb-4">Profile</h1>
+          <h1 className="text-2xl flex font-bold mb-4">Hi {firstName}, Would you like to list your retreat?</h1>
 
     <div className="w-full p-8 h-auto flex justify-center items-center ">
       <div className="bg-white  px-8 pt-20 pb-8 mb-4">      
@@ -120,12 +123,16 @@ export default function Profile() {
         <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => signOut(auth)}>
           Follow {firstName}
         </button>
-        <button className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => signOut(auth)}>
-          List Your Retreats
-        </button>
+        <Button className="ml-4 bg-lime-700 m-5 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => signOut(auth)}>
+          List Your Retreat
+        </Button>
+        <Button>Edit your info</Button>
         <br/>
-          <input type="file"  onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
-          <button onClick={profile} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Profile Picture</button>
+        <br/>
+          <label for="profile-pic">Upload profile photo</label><br/>
+          <input type="file" id="profile-pic"  onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+          <br/><br/>
+          <button onClick={profile} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
           
         
         
@@ -133,14 +140,16 @@ export default function Profile() {
               <img src={avatarUrl} alt="Avatar" className="w-60 h-60 rounded-full mb-4"/>
     </div>
     <div className="mt-10">
-        <p className="max-w-full">Hi! I'm Samia, the founder of Wanderlust Retreat Globe. With a passion for travel and wellness, I created this platform to help you discover transformative retreat experiences around the world. My mission is to connect you with retreats that nourish your mind, body, and spirit in the most inspiring locations. Let's embark on a journey of self-discovery and rejuvenation together!</p>
+        <p className="max-w-full">{details}</p>
     </div>
-    <input type="file" className="mt-4" onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+    <br/>
+    <label for="pic">Upload pics for display</label><br/>
+    <input type="file" className="mt-4" onChange={(event)=>{setImageUpload(event.target.files[0])}} name="pic" id="pic"/>
          <button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
          <div className="flex gap-4 mt-4">
       {imageList.map((url)=>{
-      return <div ><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/>
-                     <button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 ounded focus:outline-none focus:shadow-outline'>Delete Image</button>
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                     <button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</button>
 
 
 

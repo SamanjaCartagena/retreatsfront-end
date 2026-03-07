@@ -1,9 +1,11 @@
 import React from 'react'
-import pic1 from '../assets/retreat1.jpg'
 import pic2 from '../assets/retreat2.jpg'
 import pic3 from '../assets/retreat3.jpg'
 import { Checkbox } from '@radix-ui/react-checkbox'
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Modal from './Modal.js';
+import ModalHost from './ModalHost.js'
 import {auth, googleProvider} from '../firebase.js';
 import { collection, addDoc } from "firebase/firestore"; 
 import { db } from '../firebase.js';
@@ -29,12 +31,14 @@ function SignUpAsHost() {
   const [isCheckedCorporateRetreat, setIsCheckedCorporateRetreat] = useState(false)
   const [isCheckedHealthRetreat, setIsCheckedHealthRetreat] = useState(false)
   const [isCheckedYogaRetreat, setIsCheckedYogaRetreat] = useState(false)
+  const [isPurpose, setIsPurpose] = useState(false)
   const [isCheckedRecreationRetreat, setIsCheckedRecreationRetreat] = useState(false)
   const [isCheckedOthers, setIsCheckedOthers] = useState(false)
-  
+  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/retreat1.jpg?alt=media&token=0c739aa7-357f-4422-b0ff-49d055754ecb"
 
   const closeModal = () => setIsModalOpen(false);
   const closePasswordModal =()=>setPasswordModal(false);
+  const closePurposeModal =()=> setIsPurpose(false)
   const create= async()=>{
       try{
         if(password1===confirmPassword){
@@ -78,58 +82,77 @@ function SignUpAsHost() {
       }
   return (
     <>
-    <div className="justify-center items-center grid h-auto">
-     <img src={pic1} className='w-200' />      
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+     <div className="relative h-[80vh] min-h-[700px] w-full overflow-hidden">
+      
+      
+      <div 
+        className="absolute inset-0 bg-cover bg-center" 
+        style={{ backgroundImage: `url(${pic})` }}
+      >
+      
+        <div className="absolute inset-0 hero-gradient flex flex-col justify-center">
+          <div className="container mx-auto max-w-3xl px-4 md:px-6">
+            <div className="animate-fade-in">
+              <h1 className="text-4xl md:text-5xl sm:text-2xl md:pt-6 lg:text-6xl font-serif font-bold tracking-tight text-white mb-6">
+                Transform A Mind with a Retreat.
+              </h1>
+                   <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div style={{width:'100%',}}>
                 Congratulations on Creating a profile
             </div>
             </Modal>
+           <Modal isOpen={passwordModal} onClose={closePasswordModal}>
+          <div style={{width:'100%',}}>
+                Passwords do not match, Please try again!
+            </div>
+            </Modal>
+                 <ModalHost isOpen={isPurpose} onClose={closePurposeModal}>
+          <div style ={{width:'100%', overflowY:'scroll',height:'700px', padding:'20px', textAlign:'left'}}>
+                <h2>What is the purpose of your Retreat?</h2><br />
+                <p>
+                  The true purpose of a retreat is to create a profound "pattern interrupt" in the relentless momentum of everyday life.
+                </p><br/>
+                <p>
+                  It is not simply a vacation to escape reality, but rather a sacred, intentional pause designed to help people reconnect with their deepest self.
+                </p>
+                <br/>
+                <p>
+                  When you step away from the noise, obligations, and familiar triggers of your daily routine, you finally create the necessary space for deep healing, startling clarity, and a realignment of your purpose
+                </p>
+                <br/>
+            </div>
+            </ModalHost>
         <Modal isOpen={passwordModal} onClose={closePasswordModal}>
           <div style={{width:'100%',}}>
                 Passwords do not match, Please try again!
             </div>
             </Modal>
 
-    <p className="indent-8 px-5 py-5">1. What is the purpose of your retreat?
-      <br/>
-    <span>Whatever you are trying to accomplish through your retreat should remain your focus
-      throughout the process. Whether you are trying to bring people together (community engagement) or keep people apart by hosting
-      silent getaway retreat. You need to be aligned with the purpose of your retreat while planning,
-      brainstorming, and implementing your retreat. Hosting a silent meditation mountain retreat in Montana can be very different
-      than a wine retreat in Napa Valley. In order to host a successful retreat, every detail needs to be aligned with the purpose of the retreat. 
-    </span>
-    </p>
-     <p className="indent-8 px-5 py-5">2. Select photos, themes and a name that clearly defines the purpose of the retreat.
-      <br/>
-    <span>You do not want to mislead people. If its a vegan retreat guests cannot be misled into thinking meat will be available.
-      You want to be very clear and definite about the purpose of the retreat. If its a camping retreat with no plans of fishing with your guests
-      You do not want people to think there will be fishing activity involved in the retreat. You cannot put a picture of fishing or hiking or kayaking if 
-      you do not plan to involve such activities. The theme , the name and the marketing needs to be very clear about the purpose of your retreat.
-    </span>
-    </p>
-     <p className="indent-8 px-5 py-5">3. Set dates, duration and a very clear budget
-      <br/>
-    <span>
-      Dates and duration are the most important factor of a retreat. Also it is always better if you mention
-      the money you will be charging your guests very clearly on the first page of your guide, or the flyer. You must
-      mention whether flight expenses, cab fares or car rentals are included. If they are not, please mention this. You must mention
-      if meals are included, what kind of meals are included. You do not want your retreat guests to be surprised with hidden charges
-      or surprise charges. Anything that can mislead your guests or make your guests believe that they have been scammed will
-      limit future business acticity with them. You do not want to breach the trust of people who will be putting their safety, their security and their
-      health into your hands. 
-    </span>
-    </p>
-    <p className="indent-8 px-5 py-5">3. Secure a location
-      <br/>
-    <span>
-      With Retreats Around the World, you can secure a safe location for your retreat. Our AI technology can find you the right retreat center for you.
-      Our AI scrapes through millions of reviews and comes up with the perfect place for your retreat. We have partnered with thousands of retreat centers, Airbnb hosts, home owners,
-      hotels and short term rentals all around the world after going through countless reviews and safety features.
-      Suppose you want to host an Ayurveda Health retreat in Asia with in house doctors and health practicioners. Our AI will go through all the Ayurveda Retreats available in Asia 
-      and will come up with the retreat center that fits your requirements and your guests needs and also your budget. 
-    </span>
-    </p>
+
+              <p className="text-xl text-white/90 mb-8 max-w-2xl">
+               Set out on a journey to Heal, Renew and Transform someone
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={()=> setIsPurpose(true)}>
+                 Purpose
+                </Button>
+                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
+                 Influence
+                </Button>
+                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
+                 Secure a Location
+                </Button>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+   
         <div className="justify-center items-center grid h-auto">
            Create a host Profile
         <div className="max-w-xl">
@@ -223,7 +246,6 @@ function SignUpAsHost() {
   </p>
   </div>
 </div>  
-    </div>
     
     </>
   )

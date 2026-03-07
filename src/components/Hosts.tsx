@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from 'react-router-dom';
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
 import { Card, CardContent } from "@/components/ui/card";
 import { List, Star } from "lucide-react";
@@ -12,7 +13,8 @@ export default function Hosts() {
     const [listOfHosts, setListOfHosts] = useState([]);
       const [searchType, setSearchType] = useState("");
       const [searchLocation, setSearchLocation] = useState("");
-
+       const navigate=useNavigate()
+    
   useEffect(() => {
     const q1 =query(collection(db, "hosts"));
     const q= query(q1, orderBy("id","asc"), limit(5));
@@ -67,6 +69,9 @@ export default function Hosts() {
       setListOfHosts(colors);
       
     }); 
+  }
+  const hostSelected=(id)=>{
+    navigate(`/hosts/${id}`)
   }
   const fetchMain=()=>{
     window.location.reload();
@@ -123,8 +128,8 @@ export default function Hosts() {
     <option value="muay thai">Muay Thai</option>
     <option value="vegan">Vegan</option>
     <option value="yoga">Yoga</option>
-    <option value="India">India</option>
-    <option value="Greece">Greece</option>
+    <option value="India">Alchemy</option>
+    <option value="Greece"></option>
     <option value="Peru">Peru</option>
     <option value="Australia">Australia</option>
     </select>
@@ -156,7 +161,7 @@ export default function Hosts() {
              return <div key={host.id} >
           
             <h2>{host.name}</h2>
-             <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
+             <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={()=>hostSelected(host.id)}>
       <div className="aspect-[5/3] overflow-hidden">
         <img
           src={host.profilePicUrl}
