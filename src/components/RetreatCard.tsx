@@ -6,15 +6,19 @@ import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or
 import {db} from '../firebase.js';
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "@/components/ui/button";
+import ReactPaginate from 'react-paginate';
+import './RetreatCard.css'
+
 
 export function RetreatCard() {
     const [listOfRetreats, setListOfRetreats] = useState([]);
       const [searchType, setSearchType] = useState("");
       const [searchLocation, setSearchLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("Select Location");
 
   useEffect(() => {
     const q1 =query(collection(db, "retreats"));
-    const q= query(q1, orderBy("id","asc"), limit(5));
+    const q= query(q1, orderBy("id","asc"));
     getDocs(q).then((querySnapshot) => {
       const treats = [];
       querySnapshot.forEach((doc) => {
@@ -67,92 +71,15 @@ export function RetreatCard() {
       
     }); 
   }
-  const fetchMain=()=>{
-    window.location.reload();
-  }
-  const search=(e) => {
-    console.log(e.target.value)
-    if(e.target.value==""){
-      window.location.reload()
-    }
-    setSearchType(e.target.value)
-    
-  }
-    const searchPlace=(e) => {
-    console.log(e.target.value)
-    if(e.target.value==""){
-      window.location.reload()
-    }
-    setSearchLocation(e.target.value)
-    
-  }
- 
-    const searchTypesOfRetreats=()=>{
-      
-      const q =query(collection(db, "retreats"),or (where("type1", "==",searchType), where("location","==",searchLocation), where("type2","==", searchType), where("type3","==",searchType)));
-      const querySnapshot = getDocs(q);
-      const retreats = [];
-      querySnapshot.then((snapshot)=>{
-        snapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retreats.push({ ...doc.data() });
-          
-        console.log(retreats);  
-          setListOfRetreats(retreats);
-        });
+  const [pageNumber, setPageNumber] = useState(0)
 
-   
-  });
-      
-   
-    }
-  return (
-    <div>
-      <div className=" py-16">
-      <div className="container">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4">
-            Search for the perfect retreat!
-          </h2>
-         
-          <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
-             <select className="bg-white p-2 rounded-md" onChange={search}>
-    <option value="">Select Type</option>
-    <option value="meditation">Meditation</option>
-    <option value="muay thai">Muay Thai</option>
-    <option value="vegan">Vegan</option>
-    <option value="yoga">Yoga</option>
-    <option value="India">India</option>
-    <option value="Greece">Greece</option>
-    <option value="Peru">Peru</option>
-    <option value="Australia">Australia</option>
-    </select>
+  const usersPerPage = 10
+  const pagesVisited = pageNumber * usersPerPage
+  const displayRetreats = listOfRetreats.slice(pagesVisited, pagesVisited + usersPerPage)
+  .map(retreat => {
+    return(
            
-  <select className="bg-white p-2 rounded-md" onChange={searchPlace}>
-    <option value="">Select Location</option>
-    <option value="Bali">Bali</option>
-    <option value="Thailand">Thailand</option>
-    <option value="Costa Rica">Costa Rica</option>
-    <option value="Mallaga">Mallaga</option>
-    <option value="India">India</option>
-    <option value="Greece">Greece</option>
-    <option value="Peru">Peru</option>
-    <option value="Australia">Australia</option>
-    </select>
-    
-           
-            <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={searchTypesOfRetreats}>
-              Submit
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-         
-   <Separator />
-     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8">
-           {listOfRetreats.map((retreat)=>{
-             return <div key={retreat.id} >
+          <div key={retreat.id} >
           
             <h2>{retreat.name}</h2>
              <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
@@ -182,20 +109,130 @@ export function RetreatCard() {
         </div>
       </CardContent>
     </Card>
-    
-             </div>
-           })}
+    </div>
+      
+)})
 
+  const fetchMain=()=>{
+    window.location.reload();
+  }
+  const search=(e) => {
+    console.log(e.target.value)
+    setSearchType(e.target.value)
+
+    if(e.target.value==""){
+      window.location.reload()
+    }
+
+    
+  }
+    const searchPlace=(event) => {
+    setSelectedLocation(event.target.value)
+    setSearchLocation(event.target.value)
+    alert(selectedLocation)
+      const retreats = [];
+
+    const q =query(collection(db, "retreats"), where("location","==",selectedLocation));
+      const querySnapshot = getDocs(q);
+      querySnapshot.then((snapshot)=>{
+        snapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats.push({ ...doc.data() });
+          
+        console.log(retreats);  
+        console.log("Retreat in Bali "+retreats)
+                 setListOfRetreats(retreats);
+        });
+
+
+  });
+                 
+
+  }
+ 
+    const searchTypesOfRetreats=()=>{
+
+      const q =query(collection(db, "retreats"),or (where("type1", "==",searchType), where("location","==",searchLocation), where("type2","==", searchType), where("type3","==",searchType)));
+      const querySnapshot = getDocs(q);
+      const retreats = [];
+      querySnapshot.then((snapshot)=>{
+        snapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats.push({ ...doc.data() });
+          
+        console.log(retreats);  
+          setListOfRetreats(retreats);
+        });
+
+             setListOfRetreats(retreats);
+
+  });
+      
+   
+    }
+  const pageCount = Math.ceil(listOfRetreats.length/usersPerPage)
+const changePage= ({selected}) => {
+  setPageNumber(selected)
+
+}
+  return (
+    <div>
+      <div className=" py-16">
+      <div className="container">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4">
+            Search for the perfect retreat!
+          </h2>
+         
+          <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
+             <select className="bg-white p-2 rounded-md" onChange={search}>
+    <option value="">Select Type</option>
+    <option value="meditation">Meditation</option>
+    <option value="muay thai">Muay Thai</option>
+    <option value="vegan">Vegan</option>
+    <option value="yoga">Yoga</option>
+    <option value="India">India</option>
+    <option value="Greece">Greece</option>
+    <option value="Peru">Peru</option>
+    <option value="Australia">Australia</option>
+    </select>
+           
+  <select className="bg-white p-2 rounded-md" onChange={searchPlace} value={selectedLocation}>
+        <option value="">Select Type</option>
+    <option value="Bali">Bali</option>
+    <option value="Thailand">Thailand</option>
+    <option value="Costa Rica">Costa Rica</option>
+    <option value="Mallaga">Mallaga</option>
+    <option value="India">India</option>
+    <option value="Greece">Greece</option>
+    <option value="Peru">Peru</option>
+    <option value="Australia">Australia</option>
+    </select>
+    
+           
+            <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={searchTypesOfRetreats}>
+              Submit
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+         
+   <Separator />
+     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8">
+       {displayRetreats}
+       
     </div>                                             <div className="flex justify-center items-center gap-4 mb-8">
-                                                     <button onClick={fetchPrevious} style={{width:'200px;',height:'60px;', padding:'10px;'}} 
-                                                     className="hover:bg-lime-700 hover:text-white p-3 hover:m-2 rounded-md">Previous</button>
-                                   <button onClick={fetchMain} style={{width:'200px;',height:'60px;', padding:'10px;'}}
-                           
-                           className="hover:bg-lime-700 hover:text-white p-3 hover:m-2 rounded-md">Main Page</button>
-                           <button onClick={fetchNext} style={{width:'200px;',height:'60px;', padding:'10px;'}}
-                           
-                           className="hover:bg-lime-700 hover:text-white p-3 hover:m-2 rounded-md">Next</button>
-            </div>
+                                                    <ReactPaginate
+                                                          previousLabel={"Previous"}
+                                                           nextLabel={"Next"}
+                                                          pageCount={pageCount}
+                                                          onPageChange={changePage}
+                                                          containerClassName={"paginationBttns"}
+                                                       previousLinkClassName={"previousBttn"}
+
+                                                          />
+                                                         </div>
             
          </div>   
          

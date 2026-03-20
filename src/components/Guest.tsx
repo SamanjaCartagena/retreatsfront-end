@@ -1,5 +1,4 @@
 import React from 'react'
-import pic from '../assets/guest.png';
 import {Link} from 'react-router-dom';
 
 export default function Guest() {

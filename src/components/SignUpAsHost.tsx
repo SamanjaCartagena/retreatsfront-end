@@ -1,6 +1,4 @@
 import React from 'react'
-import pic2 from '../assets/retreat2.jpg'
-import pic3 from '../assets/retreat3.jpg'
 import { Checkbox } from '@radix-ui/react-checkbox'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
