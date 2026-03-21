@@ -12,10 +12,11 @@ import './RetreatCard.css'
 
 export function RetreatCard() {
     const [listOfRetreats, setListOfRetreats] = useState([]);
-      const [searchType, setSearchType] = useState("");
-      const [searchLocation, setSearchLocation] = useState("");
+      const [selectedType, setSelectedType] = useState("")
+      const [searchType, setSearchType] = useState("Select Type");
+      const [searchLocation, setSearchLocation] = useState(0.00);
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
-
+  const [selectedPrice, setSelectedPrice] = useState("Select Price")
   useEffect(() => {
     const q1 =query(collection(db, "retreats"));
     const q= query(q1, orderBy("id","asc"));
@@ -28,8 +29,50 @@ export function RetreatCard() {
       setListOfRetreats(treats);
       console.log(listOfRetreats);
     }); 
+         const retreats = [];
 
-  }, []);
+    const q12 =query(collection(db, "retreats"), where("location","==",selectedLocation));
+      const querySnapshot = getDocs(q12);
+      querySnapshot.then((snapshot)=>{
+        snapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats.push({ ...doc.data() });
+          setListOfRetreats(retreats);
+        });
+
+
+  });
+   const ret = [];
+
+    const q13 =query(collection(db, "retreats"), (where("type1", "==",selectedType)));
+           getDocs(q13).then((snapshot) => {
+
+        snapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          ret.push({ ...doc.data() });
+          
+        console.log(ret);  
+                 setListOfRetreats(ret);
+        });
+
+
+  });
+  const retr = [];
+
+    const q14 =query(collection(db, "retreats"), (where("price", "<=",selectedPrice)));
+           getDocs(q14).then((snapshot) => {
+
+        snapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retr.push({ ...doc.data() });
+          
+        console.log(retr);  
+                 setListOfRetreats(retr);
+        });
+
+
+  });
+  }, [selectedLocation, selectedType, selectedPrice]);
   const fetchPrevious=()=>{
   const firstRetreatId=listOfRetreats[0].id;
   console.log(firstRetreatId-3)
@@ -70,6 +113,11 @@ export function RetreatCard() {
       setListOfRetreats(colors);
       
     }); 
+  }
+  const searchPrice =(event)=>{
+      const valueDoubleFloat = parseFloat(event.target.value);
+
+    setSelectedPrice(valueDoubleFloat)
   }
   const [pageNumber, setPageNumber] = useState(0)
 
@@ -113,39 +161,17 @@ export function RetreatCard() {
       
 )})
 
-  const fetchMain=()=>{
-    window.location.reload();
-  }
-  const search=(e) => {
-    console.log(e.target.value)
-    setSearchType(e.target.value)
-
-    if(e.target.value==""){
-      window.location.reload()
-    }
+ 
+  const search=(event) => {
+    setSearchType(event.target.value)
+    setSelectedType(event.target.value)
 
     
   }
     const searchPlace=(event) => {
     setSelectedLocation(event.target.value)
     setSearchLocation(event.target.value)
-    alert(selectedLocation)
-      const retreats = [];
-
-    const q =query(collection(db, "retreats"), where("location","==",selectedLocation));
-      const querySnapshot = getDocs(q);
-      querySnapshot.then((snapshot)=>{
-        snapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retreats.push({ ...doc.data() });
-          
-        console.log(retreats);  
-        console.log("Retreat in Bali "+retreats)
-                 setListOfRetreats(retreats);
-        });
-
-
-  });
+ 
                  
 
   }
@@ -185,7 +211,7 @@ const changePage= ({selected}) => {
           </h2>
          
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
-             <select className="bg-white p-2 rounded-md" onChange={search}>
+             <select className="bg-white p-2 rounded-md" onChange={search} value={selectedType}>
     <option value="">Select Type</option>
     <option value="meditation">Meditation</option>
     <option value="muay thai">Muay Thai</option>
@@ -198,7 +224,7 @@ const changePage= ({selected}) => {
     </select>
            
   <select className="bg-white p-2 rounded-md" onChange={searchPlace} value={selectedLocation}>
-        <option value="">Select Type</option>
+        <option value="">Select Location</option>
     <option value="Bali">Bali</option>
     <option value="Thailand">Thailand</option>
     <option value="Costa Rica">Costa Rica</option>
@@ -208,7 +234,16 @@ const changePage= ({selected}) => {
     <option value="Peru">Peru</option>
     <option value="Australia">Australia</option>
     </select>
-    
+    <select className="bg-white p-2 rounded-md" onChange={searchPrice} value={selectedPrice}>
+        <option value="">Select Price Range</option>
+    <option value="0">Free</option>
+    <option value="1000">Less than $1000</option>
+    <option value="2000">Less than $2000</option>
+    <option value="5000">Less than $5000</option>
+    <option value="10000">Less than $1000</option>
+    <option value="Unlimited">Unlimited</option>
+   
+    </select>
            
             <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={searchTypesOfRetreats}>
               Submit
