@@ -126,7 +126,7 @@ const [id,setId]=useState('');
         </div>
            <div className="flex items-right">
           <div className="hidden md:flex items-center gap-2"></div>
-           {logout &&  <Link to={`/profile/${id}`} className="text-sm" >
+           {logout &&  <Link to={`/profile/${id}`} className="text-sm underline mt-2" >
               Welcome {`${displayName}`}
             </Link>}
            {logout &&  <Button variant="ghost" size="sm" className="text-sm" onClick={loggedout}>

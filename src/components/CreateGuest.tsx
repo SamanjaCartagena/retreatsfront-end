@@ -17,7 +17,7 @@ export default function CreateGuest() {
   const [username, setUsername] =useState('')
   const [kind, setKind] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/oak.jpg?alt=media&token=164a6058-2456-475e-9056-8ab99689599b"
+  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/sahara-erg-chebbi.jpg?alt=media&token=f7fccad4-349b-46a8-a906-e12e156f9c06"
 
   const closeModal=()=>{
     setIsModalOpen(false)
@@ -58,7 +58,7 @@ export default function CreateGuest() {
     <div className="justify-center  grid h-screen absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pic})` }} >
       
       <div className="w-full max-w-xs items-center justify-center"></div>
-     <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+     <form className="bg-white shadow-md rounded px-8 pt-6 pb-8  mt-4">
             <h2 className='justify-center items-center text-center p-4 bold text-lg'>Sign up as a Guest</h2>
                 <ModalHost isOpen={isModalOpen} onClose={closeModal}>
           <div style={{width:'100%',}}>

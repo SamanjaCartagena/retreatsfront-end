@@ -6,6 +6,10 @@ import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} fr
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import SocialMedia from './SocialMedia.js';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
 import {v4} from 'uuid';
 
 export default function Profile() {
@@ -22,6 +26,15 @@ export default function Profile() {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [documentId, setDocumentId] = useState("")
   const [details, setDetails] = useState("")
+  const [hostUserName, setHostUserName] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [facebookLink, setFacebookLink] = useState("")
+  const [faceLink, setFaceLink]= useState("")
+  const [instagramLink, setInstagramLink] = useState("")
+  const [instaLink, setInstaLink] = useState("")
+  const [twitterLink, setTwitterLink] = useState("")
+  const [twitLink, setTwitLink] = useState("")
+  const [pinterestLink, setPinterestLink] = useState("")
     const imageListRef = ref(storage, `/images/${userId}/`);
     const profileRef = ref(storage, `/profilePic/${userId}/`);
     const deleteImageRef = ref(storage, `/images/${userId}/`);
@@ -41,6 +54,7 @@ export default function Profile() {
       );
     });
    }
+   
  const deleteImage=(url)=>{
    alert("Are you sure you want to delete this image?"+url);
     const imageRef = ref(storage, url);
@@ -50,7 +64,22 @@ export default function Profile() {
       console.error("Error deleting image: ", error);
     });
  }
-  
+  const opensocials=()=>{
+   setIsModalOpen(true)
+  }
+  const closeModal =()=>{
+    setIsModalOpen(false)
+  }
+  const submitSocials =() => {
+    const docRef = doc(db, "hosts", documentId);
+    updateDoc(docRef, {
+      facebook: facebookLink,
+      instagram: instagramLink,
+      twitter: twitterLink,
+      pinterest: pinterestLink
+    });
+    setIsModalOpen(false);
+  }
   const uploadImage=()=>{
     // Create a root reference
     console.log("Upload Image");
@@ -73,6 +102,7 @@ export default function Profile() {
     if (user)  {
       // User is signed in
       const uid = user.uid;
+
      const q =query(collection(db, "hosts"), where("id", "==", userId));
       const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
@@ -84,6 +114,9 @@ export default function Profile() {
     setEmail(doc.data().email);
     setId(doc.data().id);
     setDetails(doc.data().details);
+    setFaceLink(doc.data().facebook);
+    setInstaLink(doc.data().instagram);
+    setTwitLink(doc.data().twitter);
   });
 
     const profilePic = ref(storage, `/profilePic/${userId}/profile.jpg`);
@@ -120,8 +153,20 @@ export default function Profile() {
         <p className="mb-4"><span className="font-bold">First Name:</span> {firstName}</p>
         <p className="mb-4"><span className="font-bold">Last Name:</span> {lastName}</p>
         <p className="mb-4"><span className="font-bold">Email:</span> {email}</p>
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => signOut(auth)}>
-          Follow {firstName}
+        <SocialMedia isOpen={isModalOpen} onClose={closeModal}>
+          <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-sm">
+                <input type="text" className='underline m-4 p-4' placeholder='Add Facebook Link' onChange={(e)=>setFacebookLink(e.target.value)}/>
+                <input type="text" className='underline m-4 p-4' placeholder='Add Instagram Link' onChange={(e)=> setInstagramLink(e.target.value)}/>
+                <input type="text" className='underline m-4 p-4' placeholder='Add Twitter Link' onChange={(e)=>setTwitterLink(e.target.value)}/>
+                <input type="text" className='underline m-4 p-4' placeholder='Add Pinterest Link' onChange={(e)=> setPinterestLink(e.target.value)}/>
+                <Button type='submit' onClick={submitSocials}>Submit</Button>
+
+
+
+            </div>
+            </SocialMedia>
+        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={opensocials}>
+          Social Media 
         </button>
         <Button className="ml-4 bg-lime-700 m-5 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => signOut(auth)}>
           List Your Retreat
@@ -136,8 +181,14 @@ export default function Profile() {
           
         
         
-      </div>
+      </div> <div className='grid'>
               <img src={avatarUrl} alt="Avatar" className="w-60 h-60 rounded-full mb-4"/>
+              <div className='flex ml-10'>
+              <a href={`${faceLink}`} target="_blank" ><FacebookIcon className='m-2 cursor-pointer' fontSize="large"/></a>
+           <a href={`${instaLink}`} target="_blank" ><InstagramIcon className='m-2 cursor-pointer' fontSize="large"/></a>
+            <a href={`${twitLink}`} target="_blank" ><TwitterIcon className='m-2 cursor-pointer' fontSize="large"/></a>
+            </div>
+            </div>
     </div>
     <div className="mt-10">
         <p className="max-w-full">{details}</p>

@@ -3,9 +3,11 @@ import {Link} from 'react-router-dom';
 
 export default function Guest() {
   return (
+        <div className="relative h-[80vh] min-h-[1000px] w-full overflow-hidden">
+
      <div 
         className="absolute inset-0 bg-cover bg-center" 
-        style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/best-corporate-retreats-in-california-hero.jpg?alt=media&token=fc521cb5-91ec-483b-9d89-a40f68e137f0)` }}
+        style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/yoga.jpg?alt=media&token=a7bcfff1-b58c-4c43-bd76-1de74dab9366)` }}
       >
     <div className="justify-center items-center grid h-screen" >
       
@@ -50,6 +52,7 @@ export default function Guest() {
   </p>
 </div>    
 </div>
+    </div>
     </div>
   )
 }
