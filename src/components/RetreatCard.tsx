@@ -7,6 +7,7 @@ import {db} from '../firebase.js';
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "@/components/ui/button";
 import ReactPaginate from 'react-paginate';
+import {Link} from 'react-router-dom'
 import './RetreatCard.css'
 
 
@@ -19,7 +20,7 @@ export function RetreatCard() {
   const [selectedPrice, setSelectedPrice] = useState("Select Price")
   useEffect(() => {
     const q1 =query(collection(db, "retreats"));
-    const q= query(q1, orderBy("id","asc"));
+    const q= query(q1, orderBy("price","asc"));
     getDocs(q).then((querySnapshot) => {
       const treats = [];
       querySnapshot.forEach((doc) => {
@@ -152,8 +153,10 @@ export function RetreatCard() {
       
         </div>
         <div className="mt-3 font-medium">
-          <span className="text-lg">${retreat.name}</span>
+          <span className="text-lg">${retreat.price}</span>
           <span className="text-sm text-muted-foreground"> / person</span>
+              <Link to={`/retreatdetails/${retreat.id}`} ><button  className='bg-lime-700 ml-50px  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</button></Link>
+
         </div>
       </CardContent>
     </Card>

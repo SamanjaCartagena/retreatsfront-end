@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {auth, googleProvider} from '../firebase.js';
+import {auth} from '../firebase.js';
 import { collection, addDoc } from "firebase/firestore"; 
 import { db } from '../firebase.js';
 import { createUserWithEmailAndPassword,signInWithPopup, signOut } from 'firebase/auth'

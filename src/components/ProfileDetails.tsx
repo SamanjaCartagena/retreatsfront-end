@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import SocialMedia from './SocialMedia.js';
+import {Link} from 'react-router-dom';
+
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import {v4} from 'uuid';
-
 export default function Profile() {
   const params = useParams();
   const userId = params.userId;
@@ -35,6 +36,7 @@ export default function Profile() {
   const [twitterLink, setTwitterLink] = useState("")
   const [twitLink, setTwitLink] = useState("")
   const [pinterestLink, setPinterestLink] = useState("")
+  const navigate = useNavigate()
     const imageListRef = ref(storage, `/images/${userId}/`);
     const profileRef = ref(storage, `/profilePic/${userId}/`);
     const deleteImageRef = ref(storage, `/images/${userId}/`);
@@ -70,6 +72,7 @@ export default function Profile() {
   const closeModal =()=>{
     setIsModalOpen(false)
   }
+
   const submitSocials =() => {
     const docRef = doc(db, "hosts", documentId);
     updateDoc(docRef, {
@@ -168,9 +171,10 @@ export default function Profile() {
         <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={opensocials}>
           Social Media 
         </button>
-        <Button className="ml-4 bg-lime-700 m-5 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => signOut(auth)}>
-          List Your Retreat
-        </Button>
+       <Link to={`/list/${userId}`}className="text-sm underline mt-2 m-5" >
+                  <Button>List Your Retreat</Button>
+
+        </Link>
         <Button>Edit your info</Button>
         <br/>
         <br/>
