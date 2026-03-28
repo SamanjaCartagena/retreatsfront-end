@@ -21,13 +21,13 @@ export function RetreatCard() {
       const [searchType, setSearchType] = useState("Select Type");
       const date = new Date();
 
-      const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMM'));
+      const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
       const [searchLocation, setSearchLocation] = useState(0.00);
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
   const [value, setValue] = React.useState<Dayjs | null>();
   const [selectedPrice, setSelectedPrice] = useState("Select Price")
   const valueSelected=(e)=>{
-  const m=e.format('MMM')
+  const m=e.format('MMMM')
   setSelectedMonth(m)
  
     
