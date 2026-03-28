@@ -4,37 +4,21 @@ import { List, Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
 import {db} from '../firebase.js';
-import dayjs, { Dayjs } from 'dayjs';
-
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "@/components/ui/button";
 import ReactPaginate from 'react-paginate';
 import {Link} from 'react-router-dom'
 import './RetreatCard.css'
 
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-export function RetreatCard() {
+
+export default function Centers() {
     const [listOfRetreats, setListOfRetreats] = useState([]);
       const [selectedType, setSelectedType] = useState("")
       const [searchType, setSearchType] = useState("Select Type");
-      const date = new Date();
-
-      const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMM'));
       const [searchLocation, setSearchLocation] = useState(0.00);
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
-  const [value, setValue] = React.useState<Dayjs | null>();
   const [selectedPrice, setSelectedPrice] = useState("Select Price")
-  const valueSelected=(e)=>{
-  const m=e.format('MMM')
-  setSelectedMonth(m)
- 
-    
-
-}
   useEffect(() => {
-    alert(selectedMonth)
     const q1 =query(collection(db, "retreats"));
     const q= query(q1, orderBy("price","asc"));
     getDocs(q).then((querySnapshot) => {
@@ -74,10 +58,6 @@ export function RetreatCard() {
 
 
   });
- 
-
-
-  
   const retr = [];
 
     const q14 =query(collection(db, "retreats"), (where("price", "<=",selectedPrice)));
@@ -93,7 +73,7 @@ export function RetreatCard() {
 
 
   });
-  }, [selectedLocation, selectedType, selectedPrice, selectedMonth]);
+  }, [selectedLocation, selectedType, selectedPrice]);
 
   const searchPrice =(event)=>{
       const valueDoubleFloat = parseFloat(event.target.value);
@@ -184,22 +164,16 @@ const changePage= ({selected}) => {
   setPageNumber(selected)
 
 }
-
-
-
-
   return (
     <div>
       <div className=" py-16">
-        
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4 text-center">
-            Search for the perfect retreat!
+          <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4">
+            Search for the perfect Retreat Center!
           </h2>
          
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
-            <div>
              <select className="bg-white p-2 rounded-md" onChange={search} value={selectedType}>
     <option value="">Select Type</option>
     <option value="meditation">Meditation</option>
@@ -211,8 +185,7 @@ const changePage= ({selected}) => {
     <option value="Peru">Peru</option>
     <option value="Australia">Australia</option>
     </select>
-           </div>
-           <div>
+           
   <select className="bg-white p-2 rounded-md" onChange={searchPlace} value={selectedLocation}>
         <option value="">Select Location</option>
     <option value="Bali">Bali</option>
@@ -224,24 +197,17 @@ const changePage= ({selected}) => {
     <option value="Peru">Peru</option>
     <option value="Australia">Australia</option>
     </select>
-    </div>
-    <div>
     <select className="bg-white p-2 rounded-md" onChange={searchPrice} value={selectedPrice}>
         <option value="">Select Price Range</option>
     <option value="0">Free</option>
     <option value="1000">Less than $1000</option>
     <option value="2000">Less than $2000</option>
     <option value="5000">Less than $5000</option>
-    <option value="10000">Less than $10000</option>
+    <option value="10000">Less than $1000</option>
     <option value="Unlimited">Unlimited</option>
    
     </select>
-    </div>
-      <div>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker value={value} onChange={(e)=>valueSelected(e)}/>
-    </LocalizationProvider>
-    </div>
+           
             <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={searchTypesOfRetreats}>
               Submit
             </Button>

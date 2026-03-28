@@ -114,16 +114,7 @@ const [id,setId]=useState('');
           </div>
         </div>
 
-        <div className="hidden md:flex bg-white rounded-full border px-4 py-1.5 items-center shadow-sm max-w-sm hover:shadow-md transition-all">
-          <Input
-            type="text"
-            placeholder="Search destinations, retreats..."
-            className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 px-0"
-          />
-          <Button variant="default" size="sm" className="rounded-full bg-lime-700 hover:bg-lime-600">
-            Search
-          </Button>
-        </div>
+       
            <div className="flex items-right">
           <div className="hidden md:flex items-center gap-2"></div>
            {logout &&  <Link to={`/profile/${id}`} className="text-sm underline mt-2" >
