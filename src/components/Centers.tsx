@@ -19,9 +19,8 @@ export default function Centers() {
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
   const [selectedPrice, setSelectedPrice] = useState("Select Price")
   useEffect(() => {
-    const q1 =query(collection(db, "retreats"));
-    const q= query(q1, orderBy("price","asc"));
-    getDocs(q).then((querySnapshot) => {
+    const q1 =query(collection(db, "centers"));
+    getDocs(q1).then((querySnapshot) => {
       const treats = [];
       querySnapshot.forEach((doc) => {
         treats.push({ ...doc.data() });
@@ -32,7 +31,7 @@ export default function Centers() {
     }); 
          const retreats = [];
 
-    const q12 =query(collection(db, "retreats"), where("location","==",selectedLocation));
+    const q12 =query(collection(db, "centers"), where("location","==",selectedLocation));
       const querySnapshot = getDocs(q12);
       querySnapshot.then((snapshot)=>{
         snapshot.forEach((doc) => {
@@ -45,7 +44,7 @@ export default function Centers() {
   });
    const ret = [];
 
-    const q13 =query(collection(db, "retreats"), (where("type1", "==",selectedType)));
+    const q13 =query(collection(db, "centers"), (where("type1", "==",selectedType)));
            getDocs(q13).then((snapshot) => {
 
         snapshot.forEach((doc) => {
@@ -60,7 +59,7 @@ export default function Centers() {
   });
   const retr = [];
 
-    const q14 =query(collection(db, "retreats"), (where("price", "<=",selectedPrice)));
+    const q14 =query(collection(db, "centers"), (where("price", "<=",selectedPrice)));
            getDocs(q14).then((snapshot) => {
 
         snapshot.forEach((doc) => {
@@ -94,7 +93,7 @@ export default function Centers() {
              <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
-          src={retreat.imageurl}
+          src={retreat.mainpic}
           alt={retreat.name}
           className="w-full h-full object-cover transition-transform duration-500"
         />
@@ -110,7 +109,8 @@ export default function Centers() {
         <p className="text-muted-foreground text-sm mb-2">{retreat.type1},{retreat.type2},{retreat.type3}
         </p>
         <div className="flex justify-between items-center mt-1">
-      
+      <p className="text-muted-foreground text-sm mb-2">{retreat.location}
+        </p>
         </div>
         <div className="mt-3 font-medium">
           <span className="text-lg">${retreat.price}</span>
@@ -141,7 +141,7 @@ export default function Centers() {
  
     const searchTypesOfRetreats=()=>{
 
-      const q =query(collection(db, "retreats"),or (where("type1", "==",searchType), where("location","==",searchLocation), where("type2","==", searchType), where("type3","==",searchType)));
+      const q =query(collection(db, "centers"),or (where("type1", "==",searchType), where("location","==",searchLocation), where("price", "<=",selectedPrice)));
       const querySnapshot = getDocs(q);
       const retreats = [];
       querySnapshot.then((snapshot)=>{

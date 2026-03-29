@@ -34,7 +34,6 @@ export function RetreatCard() {
 
 }
   useEffect(() => {
-    alert(selectedMonth)
     const q1 =query(collection(db, "retreats"));
     const q= query(q1, orderBy("price","asc"));
     getDocs(q).then((querySnapshot) => {
@@ -49,6 +48,7 @@ export function RetreatCard() {
          const retreats = [];
 
     const q12 =query(collection(db, "retreats"), where("location","==",selectedLocation));
+
       const querySnapshot = getDocs(q12);
       querySnapshot.then((snapshot)=>{
         snapshot.forEach((doc) => {
@@ -62,6 +62,7 @@ export function RetreatCard() {
    const ret = [];
 
     const q13 =query(collection(db, "retreats"), (where("type1", "==",selectedType)));
+
            getDocs(q13).then((snapshot) => {
 
         snapshot.forEach((doc) => {
@@ -81,6 +82,7 @@ export function RetreatCard() {
   const retr = [];
 
     const q14 =query(collection(db, "retreats"), (where("price", "<=",selectedPrice)));
+
            getDocs(q14).then((snapshot) => {
 
         snapshot.forEach((doc) => {
@@ -89,6 +91,21 @@ export function RetreatCard() {
           
         console.log(retr);  
                  setListOfRetreats(retr);
+        });
+
+
+  });
+  const retrMonth = [];
+     const q15 =query(collection(db, "retreats"), (where("month", "==",selectedMonth)));
+
+           getDocs(q15).then((snapshot) => {
+
+        snapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retrMonth.push({ ...doc.data() });
+          
+        console.log(retrMonth);  
+                 setListOfRetreats(retrMonth);
         });
 
 
@@ -134,6 +151,8 @@ export function RetreatCard() {
         </div>
         <div className="mt-3 font-medium">
           <span className="text-lg">${retreat.price}</span>
+                    <span className="text-lg">${retreat.month}</span>
+
           <span className="text-sm text-muted-foreground"> / person</span>
               <Link to={`/retreatdetails/${retreat.id}`} ><button  className='bg-lime-700 ml-50px  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</button></Link>
 
