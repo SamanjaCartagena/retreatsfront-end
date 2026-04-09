@@ -150,12 +150,22 @@ export default function Profile() {
   return (
     <div className="max-w-4xl pt-40 mx-auto p-4">
           <h1 className="text-2xl flex font-bold mb-4">Hi {firstName}, Would you like to list your retreat?</h1>
+              <img src={avatarUrl} alt="Avatar" className="w-60 h-60 rounded-full mb-4 justify-center items-center mx-auto object-cover
+              "/>
+              <div className='flex ml-10'>
+              <a href={`${faceLink}`} target="_blank" ><FacebookIcon className='m-2 cursor-pointer' fontSize="large"/></a>
+           <a href={`${instaLink}`} target="_blank" ><InstagramIcon className='m-2 cursor-pointer' fontSize="large"/></a>
+            <a href={`${twitLink}`} target="_blank" ><TwitterIcon className='m-2 cursor-pointer' fontSize="large"/></a>
+            </div>
 
     <div className="w-full p-8 h-auto flex justify-center items-center ">
+      
       <div className="bg-white  px-8 pt-20 pb-8 mb-4">      
         <p className="mb-4"><span className="font-bold">First Name:</span> {firstName}</p>
         <p className="mb-4"><span className="font-bold">Last Name:</span> {lastName}</p>
         <p className="mb-4"><span className="font-bold">Email:</span> {email}</p>
+        
+        <div className="grid justify-between items-center mt-1">
         <SocialMedia isOpen={isModalOpen} onClose={closeModal}>
           <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-sm">
                 <input type="text" className='underline m-4 p-4' placeholder='Add Facebook Link' onChange={(e)=>setFacebookLink(e.target.value)}/>
@@ -168,11 +178,16 @@ export default function Profile() {
 
             </div>
             </SocialMedia>
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={opensocials}>
+        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 m-5 px-4 rounded focus:outline-none focus:shadow-outline" onClick={opensocials}>
           Social Media 
         </button>
-       <Link to={`/list/${userId}`}className="text-sm underline mt-2 m-5" >
+       <Link to={`/list/${userId}`}className="text-sm underline m-5" >
                   <Button>List Your Retreat</Button>
+
+        </Link>
+        <br/>
+        <Link to={`/list/${userId}`}className="text-sm underline m-5" >
+                  <Button>List Your Retreat Center</Button>
 
         </Link>
         <Button>Edit your info</Button>
@@ -183,16 +198,9 @@ export default function Profile() {
           <br/><br/>
           <button onClick={profile} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
           
+        </div>
         
-        
-      </div> <div className='grid'>
-              <img src={avatarUrl} alt="Avatar" className="w-60 h-60 rounded-full mb-4"/>
-              <div className='flex ml-10'>
-              <a href={`${faceLink}`} target="_blank" ><FacebookIcon className='m-2 cursor-pointer' fontSize="large"/></a>
-           <a href={`${instaLink}`} target="_blank" ><InstagramIcon className='m-2 cursor-pointer' fontSize="large"/></a>
-            <a href={`${twitLink}`} target="_blank" ><TwitterIcon className='m-2 cursor-pointer' fontSize="large"/></a>
-            </div>
-            </div>
+      </div> 
     </div>
     <div className="mt-10">
         <p className="max-w-full">{details}</p>

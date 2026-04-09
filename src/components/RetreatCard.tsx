@@ -24,7 +24,7 @@ export function RetreatCard() {
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
       const [searchLocation, setSearchLocation] = useState(0.00);
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
-  const [value, setValue] = React.useState<Dayjs | null>();
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs());
   const [selectedPrice, setSelectedPrice] = useState("Select Price")
   const valueSelected=(e)=>{
   const m=e.format('MMMM')
