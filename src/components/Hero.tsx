@@ -71,7 +71,7 @@ const submitAI =() => {
                   Meet Our Hosts
                 </Button>
                 <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
-                  Meet our Guides
+                  Retreat Planners
                 </Button>
                 <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={askai}>
                  AI Retreat Match

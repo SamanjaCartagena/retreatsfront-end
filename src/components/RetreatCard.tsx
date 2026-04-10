@@ -15,17 +15,19 @@ import './RetreatCard.css'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { list } from "firebase/storage";
+import { setMonth } from "date-fns";
 export function RetreatCard() {
     const [listOfRetreats, setListOfRetreats] = useState([]);
       const [selectedType, setSelectedType] = useState("")
-      const [searchType, setSearchType] = useState("Select Type");
-      const date = new Date();
+      const [searchType, setSearchType] = useState("");
 
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
       const [searchLocation, setSearchLocation] = useState(0.00);
-  const [selectedLocation, setSelectedLocation] = useState("Select Location");
+  const [selectedLocation, setSelectedLocation] = useState("");
   const [value, setValue] = React.useState<Dayjs | null>(dayjs());
-  const [selectedPrice, setSelectedPrice] = useState("Select Price")
+  const [selectedPrice, setSelectedPrice] = useState("")
+  
   const valueSelected=(e)=>{
   const m=e.format('MMMM')
   setSelectedMonth(m)
@@ -33,19 +35,25 @@ export function RetreatCard() {
     
 
 }
+  
   useEffect(() => {
-    const q1 =query(collection(db, "retreats"));
-    const q= query(q1, orderBy("price","asc"));
-    getDocs(q).then((querySnapshot) => {
-      const treats = [];
-      querySnapshot.forEach((doc) => {
-        treats.push({ ...doc.data() });
-      });
-      console.log(treats.length);
-      setListOfRetreats(treats);
-      console.log(listOfRetreats);
-    }); 
-         const retreats = [];
+     const retreat = [];
+
+    const q11 =query(collection(db, "retreats"));
+
+           getDocs(q11).then((snapshot) => {
+
+        snapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreat.push({ ...doc.data() });
+          
+        console.log(retreat);  
+                 setListOfRetreats(retreat);
+        });
+
+
+  });
+      const retreats = [];
 
     const q12 =query(collection(db, "retreats"), where("location","==",selectedLocation));
 
@@ -59,6 +67,9 @@ export function RetreatCard() {
 
 
   });
+  
+ 
+     
    const ret = [];
 
     const q13 =query(collection(db, "retreats"), (where("type1", "==",selectedType)));
@@ -80,7 +91,6 @@ export function RetreatCard() {
 
   
   const retr = [];
-
     const q14 =query(collection(db, "retreats"), (where("price", "<=",selectedPrice)));
 
            getDocs(q14).then((snapshot) => {
@@ -95,6 +105,7 @@ export function RetreatCard() {
 
 
   });
+  /** 
   const retrMonth = [];
      const q15 =query(collection(db, "retreats"), (where("month", "==",selectedMonth)));
 
@@ -110,7 +121,9 @@ export function RetreatCard() {
 
 
   });
-  }, [selectedLocation, selectedType, selectedPrice, selectedMonth]);
+  **/
+  
+  }, [selectedType, selectedLocation, selectedPrice]);
 
   const searchPrice =(event)=>{
       const valueDoubleFloat = parseFloat(event.target.value);
@@ -163,24 +176,27 @@ export function RetreatCard() {
       
 )})
 
- 
   const search=(event) => {
     setSearchType(event.target.value)
     setSelectedType(event.target.value)
+    
 
     
   }
-    const searchPlace=(event) => {
+      const searchPlace=(event) => {
     setSelectedLocation(event.target.value)
-    setSearchLocation(event.target.value)
- 
-                 
+
+   
+        
+                     setSelectedLocation(event.target.value)
+
 
   }
- 
-    const searchTypesOfRetreats=()=>{
 
-      const q =query(collection(db, "retreats"),or (where("type1", "==",searchType), where("location","==",searchLocation), where("type2","==", searchType), where("type3","==",searchType)));
+ 
+    const submitRetreats=()=>{
+    try{
+      const q =query(collection(db, "retreats"), and(where("type1", "==",selectedType), where("location","==",selectedLocation), where("price", "<=",selectedPrice)));
       const querySnapshot = getDocs(q);
       const retreats = [];
       querySnapshot.then((snapshot)=>{
@@ -195,7 +211,11 @@ export function RetreatCard() {
              setListOfRetreats(retreats);
 
   });
-      
+}
+catch(error){
+  console.error("Error fetching retreats: ", error);
+  alert("No such retreat found. Please adjust your search criteria and try again.")
+}
    
     }
   const pageCount = Math.ceil(listOfRetreats.length/usersPerPage)
@@ -220,7 +240,7 @@ const changePage= ({selected}) => {
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
             <div>
              <select className="bg-white p-2 rounded-md" onChange={search} value={selectedType}>
-    <option value="">Select Type</option>
+    <option value="Select Type">Select Type</option>
     <option value="meditation">Meditation</option>
     <option value="muay thai">Muay Thai</option>
     <option value="vegan">Vegan</option>
@@ -233,7 +253,7 @@ const changePage= ({selected}) => {
            </div>
            <div>
   <select className="bg-white p-2 rounded-md" onChange={searchPlace} value={selectedLocation}>
-        <option value="">Select Location</option>
+        <option value="Select Location">Select Location</option>
     <option value="Bali">Bali</option>
     <option value="Thailand">Thailand</option>
     <option value="Costa Rica">Costa Rica</option>
@@ -246,7 +266,7 @@ const changePage= ({selected}) => {
     </div>
     <div>
     <select className="bg-white p-2 rounded-md" onChange={searchPrice} value={selectedPrice}>
-        <option value="">Select Price Range</option>
+        <option value="Select Price Range">Select Price Range</option>
     <option value="0">Free</option>
     <option value="1000">Less than $1000</option>
     <option value="2000">Less than $2000</option>
@@ -256,12 +276,15 @@ const changePage= ({selected}) => {
    
     </select>
     </div>
-      <div>
+     
+          <div>
+   {/** 
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker value={value} onChange={(e)=>valueSelected(e)}/>
     </LocalizationProvider>
+  **/}
     </div>
-            <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={searchTypesOfRetreats}>
+            <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={submitRetreats}>
               Submit
             </Button>
           </div>
