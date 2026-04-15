@@ -136,9 +136,9 @@ const [id,setId]=useState('');
             <Button variant="outline" size="sm" className="text-sm border-lime-700 text-lime-700" onClick={retreatcenter}>
               Retreat Centers
             </Button>
-            <FacebookIcon/>
-            <InstagramIcon/>
-            <TwitterIcon/>
+            <FacebookIcon style={{margin:'5px', cursor:'pointer'}}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
+            <InstagramIcon style={{margin:'5px', cursor:'pointer'}} onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')} />
+            <TwitterIcon style={{margin:'5px', cursor:'pointer'}} onClick={() => window.open('https://x.com/Retreats_World', '_blank')} />
           </div>
           
           <Sheet>

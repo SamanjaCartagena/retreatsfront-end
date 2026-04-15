@@ -1,5 +1,6 @@
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent,  } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { List, Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
@@ -17,11 +18,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { list } from "firebase/storage";
 import { setMonth } from "date-fns";
+import { get } from "react-hook-form";
 export function RetreatCard() {
     const [listOfRetreats, setListOfRetreats] = useState([]);
       const [selectedType, setSelectedType] = useState("")
       const [searchType, setSearchType] = useState("");
-
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
       const [searchLocation, setSearchLocation] = useState(0.00);
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -37,74 +38,104 @@ export function RetreatCard() {
 }
   
   useEffect(() => {
-     const retreat = [];
-
-    const q11 =query(collection(db, "retreats"));
-
-           getDocs(q11).then((snapshot) => {
-
-        snapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retreat.push({ ...doc.data() });
-          
-        console.log(retreat);  
-                 setListOfRetreats(retreat);
-        });
-
-
-  });
-      const retreats = [];
-
-    const q12 =query(collection(db, "retreats"), where("location","==",selectedLocation));
-
-      const querySnapshot = getDocs(q12);
-      querySnapshot.then((snapshot)=>{
-        snapshot.forEach((doc) => {
+      const fetchData = async () => {
+      try {
+        const retreats = [];
+        // Reference the collection
+        if (selectedLocation === ""  && selectedPrice === "" && selectedType === "") {
+          const q = query(collection(db, "retreats"), orderBy("name"), limit(10));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
           retreats.push({ ...doc.data() });
-          setListOfRetreats(retreats);
         });
+        setListOfRetreats(retreats);
+        return;
 
+        
+        }
+        else if ( selectedPrice === "" && selectedType === "" && selectedLocation !== "") {
+      
+        const q2 = await query(collection(db, "retreats"), (where("location", "==", selectedLocation)));
+        getDocs(q2).then((querySnapshot) => {
+       
 
-  });
-  
- 
-     
-   const ret = [];
-
-    const q13 =query(collection(db, "retreats"), (where("type1", "==",selectedType)));
-
-           getDocs(q13).then((snapshot) => {
-
-        snapshot.forEach((doc) => {
+        querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
-          ret.push({ ...doc.data() });
+          retreats.push({ ...doc.data() });
           
-        console.log(ret);  
-                 setListOfRetreats(ret);
+        console.log(retreats);  
+                 setListOfRetreats(retreats);
+        })
+      });
+    }
+        else if (selectedLocation === ""  && selectedType === "" && selectedPrice !== "") {  
+          const q3 = await query(collection(db, "retreats"), where("price", "<=", selectedPrice));
+        getDocs(q3).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats.push({ ...doc.data() }); 
         });
+        setListOfRetreats(retreats);
+      });
+    }
+     else if (selectedLocation === "" && selectedPrice === "" && selectedType !== "" ) {  
+          const q3 = await query(collection(db, "retreats"), where("type", "==", selectedType));
+        getDocs(q3).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats.push({ ...doc.data() }); 
+        });
+        setListOfRetreats(retreats);
+      });
+    }
+       else if (selectedType === "" && selectedLocation !== "" && selectedPrice !== "" ) {  
+          const q3 = await query(collection(db, "retreats"),and (where("price", "<=", selectedPrice ), and (where("location", "==", selectedLocation))));
+        getDocs(q3).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats.push({ ...doc.data() }); 
+        });
+        setListOfRetreats(retreats);
+      });
+    }
+     else if (selectedLocation === "" && selectedPrice !== "" && selectedType !== "" ) {  
+          const q3 = await query(collection(db, "retreats"),and (where("price", "<=", selectedPrice ), where("type", "==", selectedType)));
+        getDocs(q3).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats.push({ ...doc.data() }); 
+        });
+        setListOfRetreats(retreats);
+      });
+    }
+     else if (selectedLocation !== "" && selectedPrice !== "" && selectedType !== "" ) {  
+          const q3 = await query(collection(db, "retreats"),and (where("price", "<=", selectedPrice ), where("location", "==", selectedLocation), where("type", "==", selectedType)));
+        getDocs(q3).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats.push({ ...doc.data() }); 
+        });
+        setListOfRetreats(retreats);
+      });
+    }
+   
+      }
+      catch (err) {
+        console.error("Error fetching data: ", err);
+      } 
+    };
 
+    fetchData();
+    
+    
+ 
 
-  });
  
 
 
   
-  const retr = [];
-    const q14 =query(collection(db, "retreats"), (where("price", "<=",selectedPrice)));
-
-           getDocs(q14).then((snapshot) => {
-
-        snapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retr.push({ ...doc.data() });
-          
-        console.log(retr);  
-                 setListOfRetreats(retr);
-        });
-
-
-  });
+  
   /** 
   const retrMonth = [];
      const q15 =query(collection(db, "retreats"), (where("month", "==",selectedMonth)));
@@ -123,10 +154,14 @@ export function RetreatCard() {
   });
   **/
   
-  }, [selectedType, selectedLocation, selectedPrice]);
+  }, [selectedLocation, selectedPrice, selectedType]);
 
-  const searchPrice =(event)=>{
-      const valueDoubleFloat = parseFloat(event.target.value);
+  const searchPrice =(v)=>{
+    if(v === ""){
+      setSelectedPrice("")
+      return;
+    }
+      const valueDoubleFloat = parseFloat(v);
 
     setSelectedPrice(valueDoubleFloat)
   }
@@ -224,7 +259,17 @@ const changePage= ({selected}) => {
 
 }
 
+const searchByName=(event)=>{
+  setSelectedType("")
+  setSelectedLocation("")
+  setSelectedPrice("")
+  setSearchName(event.target.value)
+  if(event.target.value === ""){
+    setSearchName("")
+    return;
+  }
 
+}
 
 
   return (
@@ -236,11 +281,12 @@ const changePage= ({selected}) => {
           <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4 text-center">
             Search for the perfect retreat!
           </h2>
-         
+             
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
+           
             <div>
-             <select className="bg-white p-2 rounded-md" onChange={search} value={selectedType}>
-    <option value="Select Type">Select Type</option>
+             <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
+    <option value="">Select Type</option>
     <option value="meditation">Meditation</option>
     <option value="muay thai">Muay Thai</option>
     <option value="vegan">Vegan</option>
@@ -252,8 +298,8 @@ const changePage= ({selected}) => {
     </select>
            </div>
            <div>
-  <select className="bg-white p-2 rounded-md" onChange={searchPlace} value={selectedLocation}>
-        <option value="Select Location">Select Location</option>
+  <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
+        <option value="">Select Location</option>
     <option value="Bali">Bali</option>
     <option value="Thailand">Thailand</option>
     <option value="Costa Rica">Costa Rica</option>
@@ -265,8 +311,8 @@ const changePage= ({selected}) => {
     </select>
     </div>
     <div>
-    <select className="bg-white p-2 rounded-md" onChange={searchPrice} value={selectedPrice}>
-        <option value="Select Price Range">Select Price Range</option>
+    <select className="bg-white p-2 rounded-md" onChange={(e)=>searchPrice(e.target.value)} value={selectedPrice}>
+        <option value="">Select Price Range</option>
     <option value="0">Free</option>
     <option value="1000">Less than $1000</option>
     <option value="2000">Less than $2000</option>
