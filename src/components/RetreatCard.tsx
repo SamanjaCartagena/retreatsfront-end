@@ -24,7 +24,6 @@ export function RetreatCard() {
       const [selectedType, setSelectedType] = useState("")
       const [searchType, setSearchType] = useState("");
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
-      const [searchLocation, setSearchLocation] = useState(0.00);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [value, setValue] = React.useState<Dayjs | null>(dayjs());
   const [selectedPrice, setSelectedPrice] = useState("")
@@ -43,7 +42,7 @@ export function RetreatCard() {
         const retreats = [];
         // Reference the collection
         if (selectedLocation === ""  && selectedPrice === "" && selectedType === "") {
-          const q = query(collection(db, "retreats"), orderBy("name"), limit(10));
+          const q = query(collection(db, "retreats"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
@@ -167,7 +166,7 @@ export function RetreatCard() {
   }
   const [pageNumber, setPageNumber] = useState(0)
 
-  const usersPerPage = 10
+  const usersPerPage = 8
   const pagesVisited = pageNumber * usersPerPage
   const displayRetreats = listOfRetreats.slice(pagesVisited, pagesVisited + usersPerPage)
   .map(retreat => {
@@ -259,17 +258,6 @@ const changePage= ({selected}) => {
 
 }
 
-const searchByName=(event)=>{
-  setSelectedType("")
-  setSelectedLocation("")
-  setSelectedPrice("")
-  setSearchName(event.target.value)
-  if(event.target.value === ""){
-    setSearchName("")
-    return;
-  }
-
-}
 
 
   return (
