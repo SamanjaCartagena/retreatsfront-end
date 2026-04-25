@@ -6,32 +6,13 @@ import { CategoryFilter } from "@/components/CategoryFilter";
 import { RetreatCard } from "@/components/RetreatCard";
 import { FeaturedDestinations } from "@/components/Destinations";
 import { Newsletter } from "@/components/Newsletter";
-import { retreats } from "@/data/retreats";
 import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredRetreats = retreats.filter((retreat) => {
-    // Filter by category
-    if (selectedCategory !== "All" && !retreat.categories.includes(selectedCategory)) {
-      return false;
-    }
 
-    // Filter by search query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      return (
-        retreat.title.toLowerCase().includes(query) ||
-        retreat.location.toLowerCase().includes(query) ||
-        retreat.country.toLowerCase().includes(query) ||
-        retreat.categories.some(category => category.toLowerCase().includes(query))
-      );
-    }
-
-    return true;
-  });
 
   return (
     <div className="min-h-screen flex flex-col">

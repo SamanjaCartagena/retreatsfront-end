@@ -71,6 +71,9 @@ const [id,setId]=useState('');
     navigate(`/profile`);
    
   }
+  const guides=()=>{
+    navigate('/guides');
+  }
   const loggedout=()=>{
     signOut(auth).then(() => {
       // Sign-out successful. 
@@ -126,10 +129,12 @@ const [id,setId]=useState('');
           </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
-         
-            <Link to="/host" className="text-sm" >
+            <Button variant="ghost" size="sm" className="text-sm" onClick={host}>
               Host
-            </Link>
+            </Button>
+            <Button variant="ghost" size="sm" className="text-sm" onClick={guides}>
+              Guides
+            </Button>
             <Button variant="ghost" size="sm" className="text-sm" onClick={guest}>
               Guest
             </Button>

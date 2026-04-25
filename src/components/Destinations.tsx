@@ -16,7 +16,7 @@ export function FeaturedDestinations() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {featuredDestinations.map((destination, index) => (
-          <Card key={index} className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all" >
+          <Card key={index} className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all cursor-pointer" onClick={()=>window.open(destination.url, "_blank")}>
             <div className="relative h-60">
               <img
                 src={destination.image}

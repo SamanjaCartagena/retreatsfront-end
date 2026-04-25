@@ -68,7 +68,7 @@ const submitAI =() => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={host}>
-                  Meet Our Hosts
+                  Hosts
                 </Button>
                 <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
                   Retreat Planners

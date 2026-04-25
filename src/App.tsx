@@ -17,6 +17,8 @@ import ProfileSelected from "./components/ProfileSelected";
 import CreateGuest from "./components/CreateGuest";
 import ListARetreat from "./components/ListARetreat";
 import RetreatDetails from "./components/RetreatDetails";
+import GuideDetails from "./components/GuideDetails";
+import Guides from "@/components/Guides";
 
 const queryClient = new QueryClient();
 const App = () => (
@@ -39,6 +41,8 @@ const App = () => (
           <Route path="/profile/:userId" element={<ProfileDetails/>}/>
           <Route path="/list/:userId" element={<ListARetreat/>}/>
           <Route path="/retreatdetails/:id" element={<RetreatDetails/>}/>
+          <Route path="/guides" element={<Guides/>}/>
+          <Route path="/guides/:id" element={<GuideDetails/>}/>
           <Route path="/createguest" element={<CreateGuest/>}/>
             
           

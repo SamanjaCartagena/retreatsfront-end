@@ -54,7 +54,7 @@ export function RetreatCard() {
         
         }
         else if ( selectedPrice === "" && selectedType === "" && selectedLocation !== "") {
-      
+        const retreats1 = [];
         const q2 = await query(collection(db, "retreats"), (where("location", "==", selectedLocation)));
         getDocs(q2).then((querySnapshot) => {
        
