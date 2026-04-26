@@ -63,7 +63,7 @@ const submitAI =() => {
                 Transform Your Mind with a Retreat.
               </h1>
               <p className="text-xl text-white/90 mb-8 max-w-2xl">
-              Your next breaktrhough is unlikely to happen at your desk.
+              Your next breakthrough is unlikely to happen at your desk.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">

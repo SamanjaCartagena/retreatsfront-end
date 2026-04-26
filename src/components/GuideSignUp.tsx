@@ -11,9 +11,14 @@ import chef3 from '../assets/ayurveda.jpg';
 import yoga1 from '../assets/yoga.jpg';
 import yoga2 from '../assets/yoga1.jpg';
 import yoga3 from '../assets/yoga2.jpg';
+import tourist1 from '../assets/guide1.jpg';
+import tourist2 from '../assets/guide2.jpg';
+import tourist3 from '../assets/guide3.jpg';
+import tourist4 from '../assets/guide4.jpg';
 function GuideSignUp() {
     const [modalOpen, setModalOpen]= useState(false);
     const [yogaModalOpen, setYogaModalOpen]= useState(false);
+    const [toursistOpen, setToursistOpen]= useState(false);
     const [loadingAI, setLoadingAI]= useState(false);
     const navigate=useNavigate()
     const openModal =()=>{
@@ -24,6 +29,9 @@ function GuideSignUp() {
     }
     const openYoga =()=>{
       setYogaModalOpen(true);
+    }
+    const openTourist =()=>{
+        setToursistOpen(true);
     }
     
   return (
@@ -43,7 +51,7 @@ function GuideSignUp() {
             <h2 className="text-2xl font-bold mb-4">How to be a great retreat chef?</h2>
             
             <p className="mb-4">Being a successful retreat chef goes far beyond simply cooking good food. In a retreat setting, food is often a core component of the guests' healing, relaxation, and overall experience. A retreat chef must act as a culinary artist, a logistician, and a nurturing presence all at once.</p>
-           <img src={chef1} alt="Chef" style={{width:'full', height:'200px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
+           <img src={chef1} alt="Chef" style={{width:'full', height:'200px',borderRadius:'10px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
       <br/>
       <p className="mb-4">
 <strong>1. Aligned and Inclusive Menu Design</strong><br/>
@@ -54,7 +62,7 @@ Hyper-Personalization: You must seamlessly accommodate complex dietary restricti
 Thematic Alignment: The food should mirror the purpose of the retreat. A high-intensity fitness retreat requires protein-dense, macro-balanced meals, while a restorative yoga or meditation retreat might call for lighter, Ayurvedic, or plant-based detox menus.
 
 Nutritional Integrity: Guests expect to leave feeling better than when they arrived. Providing whole, unprocessed, and deeply nourishing ingredients is non-negotiable.
-           <img src={chef2} alt="Retreats Around The World" style={{width:'full', height:'200px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
+           <img src={chef2} alt="Retreats Around The World" style={{width:'full', height:'200px',borderRadius:'10px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
         <br/>
 <strong>2. Seamless Logistics and Adaptability</strong><br/>
 Retreats are dynamic, and the kitchen is the engine that keeps the schedule running on time.
@@ -64,7 +72,7 @@ Impeccable Timing: Meals must be ready exactly when scheduled, coordinating perf
 Resource Management: You are responsible for complex provisioning, often in remote locations where popping out to the grocery store isn't an option. This requires accurate budgeting, precise ordering, and mindful waste management.
 
 Flexibility: Schedules change, activities run late, or the weather shifts. A successful retreat chef pivots easily, keeping food warm or adjusting prep times without letting stress bleed into the guest experience.
-           <img src={chef3} alt="Retreats Around The World" style={{width:'full', height:'200px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
+           <img src={chef3} alt="Retreats Around The World" style={{width:'full', height:'200px',borderRadius:'10px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
         <br/>
 
 <strong>3. The Energetic and Experiential Element</strong><br/>
@@ -93,7 +101,7 @@ The Takeaway: The ultimate deliverable of a retreat chef is trust. When guests a
             <br/>
             <h2 className="text-2xl font-bold mb-4">How to be a great retreat yoga teacher?</h2>
             A yoga teacher is often the heartbeat of a retreat, providing much more than just physical movement classes. Their contributions span across physical instruction, emotional support, and overall event facilitation.
-           <img src={yoga1} alt="Retreats Around The World" style={{width:'full', height:'200px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
+           <img src={yoga1} alt="Retreats Around The World" style={{width:'full', height:'200px', borderRadius:'10px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
 
            <br/>
              <p className="mb-4">
@@ -104,7 +112,7 @@ Facilitating Meditation and Breathwork: Guiding participants through mindfulness
 
 Skill Workshops: Offering specialized, deeper-dive sessions focusing on specific aspects of yoga, such as philosophy, arm balances, inversion clinics, or anatomical alignment.
 </p>
-           <img src={yoga2} alt="Retreats Around The World" style={{width:'full', height:'200px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
+           <img src={yoga2} alt="Retreats Around The World" style={{width:'full', height:'200px', borderRadius:'10px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
       <br/>
       <p className="mb-4">
 <strong>Emotional & Energetic Support</strong><br/>
@@ -117,7 +125,7 @@ Community Building: Fostering a sense of connection among attendees. Teachers of
 Logistics & Retreat Enhancement
 Thematic Weaving: Integrating the retreat’s core intention (e.g., a digital detox, a manifestation workshop, or a stress-relief weekend) into the daily schedules, discussions, and physical practices.
 </p>
-           <img src={yoga3} alt="Retreats Around The World" style={{width:'full', height:'200px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
+           <img src={yoga3} alt="Retreats Around The World" style={{width:'full', height:'200px', borderRadius:'10px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
            <br/>
 <p className="mb-4">
 <strong>Excursion Facilitation</strong>: Assisting with or leading off-site activities like mindful nature walks, hiking, beach clean-ups, or cultural tours.
@@ -128,6 +136,53 @@ Thematic Weaving: Integrating the retreat’s core intention (e.g., a digital de
                 Sign Up as a Guide
             </Button>
             </div>
+        </ModalGuides>
+        <ModalGuides isOpen={toursistOpen} onClose={() => setToursistOpen(false)} >
+        <div className="p-6 justify-center items-center text-center  h-[700px]">
+
+            <br/>
+            <br/>
+            <br/>
+            A tourist guide manages the external experience, ensuring that the retreat’s setting becomes a source of inspiration rather than a source of stress.
+            <br/>
+             <img src={tourist1} alt="Retreats Around The World" style={{width:'full', height:'200px', borderRadius:'10px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
+      <br/>
+      <p className="mb-4">
+            <strong>Expert Navigation & Logistics</strong>
+Seamless Transportation: Managing the "heavy lifting" of travel, such as coordinating airport transfers, navigating local transit, and ensuring the group moves between locations on schedule without getting lost.
+
+Access & VIP Entry: Utilizing local connections to secure reservations at busy restaurants, skip-the-line access at cultural sites, or entry into exclusive areas that an independent group might not find.
+
+Safety & Risk Management: Providing a safety net by knowing which areas are safe, understanding local emergency protocols, and managing the physical well-being of the group during outdoor excursions.
+</p>
+             <img src={tourist2} alt="Retreats Around The World" style={{width:'full', height:'200px', borderRadius:'10px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
+<br/>
+<strong>
+Cultural & Educational Enrichment</strong><br/>
+Contextual Storytelling: Bringing the destination to life by sharing the history, folklore, and cultural significance of the retreat location. This adds a layer of intellectual depth that complements the spiritual or physical work of the retreat.
+
+Language Translation: Acting as the primary bridge between the retreat group and the local community, facilitating meaningful interactions and ensuring participants feel comfortable in a foreign environment.
+
+Local Customs & Etiquette: Educating the group on local norms—such as tipping culture, appropriate dress for temples, and social cues—to ensure the retreat remains respectful and harmonious with the host culture.
+             <img src={tourist3} alt="Retreats Around The World" style={{width:'full', height:'200px', borderRadius:'10px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
+<br/>
+<strong>Experience Curation </strong><br/>
+Hidden Gems: Stepping beyond the standard tourist path to lead the group to quiet vistas, private waterfalls, or local artisans that align with the retreat’s theme of discovery and peace.
+
+Activity Coordination: Overseeing the logistics of day trips, such as boat charters, guided hikes, or visits to sacred sites, allowing the retreat leader to focus entirely on the participants' emotional or physical needs.
+
+Spontaneous Problem Solving: Handling the inevitable "hiccups" of travel—like sudden weather changes or closed venues—by quickly pivoting to high-quality backup plans without disrupting the retreat’s flow.
+           <img src={tourist4} alt="Retreats Around The World" style={{width:'full', height:'200px', borderRadius:'10px', position:'relative', top:'10px', left:'50%', transform:'translateX(-50%)'}}/>
+<br/>
+<strong>Group Facilitation</strong><br/>
+Energy Management: Monitoring the physical fatigue of the group and adjusting the pace of activities to ensure participants don't return to the retreat center feeling drained.
+
+Guest Relations: Acting as a "concierge" for participants, handling individual requests regarding local shopping, dietary preferences at local eateries, or personal errands.
+        <br/>
+        <Button onClick={()=>setToursistOpen(false)} className="bg-retreat-forest text-white hover:bg-retreat-cream hover:text-retreat-forest mb-4 mt-4 mr-4">
+                Sign Up as a Guide
+            </Button>
+        </div>
         </ModalGuides>
         <div className="absolute inset-0 hero-gradient flex flex-col justify-center">
           <div className="container mx-auto max-w-3xl px-4 md:px-6">
@@ -149,7 +204,7 @@ Thematic Weaving: Integrating the retreat’s core intention (e.g., a digital de
                 <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={openYoga}>
                  Yoga Teachers
                 </Button>
-                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
+                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={openTourist}>
                  Tourist Guides
                 </Button>
                
@@ -181,6 +236,16 @@ Thematic Weaving: Integrating the retreat’s core intention (e.g., a digital de
         Last Name
       </label>
                   <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastName" type="text" placeholder="Last Name" />
+      <br/><br/>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Profession
+      </label>
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="profession" type="text" placeholder="Profession" />
+      <br/><br/>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Specialty
+      </label>
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="specialty" type="text" placeholder="What are you specialized in?" />
       <br/><br/>
      <label className="block text-gray-700 text-sm font-bold mb-2" >
         Tell us how you can benefit people attending retreats...
@@ -243,7 +308,7 @@ Thematic Weaving: Integrating the retreat’s core intention (e.g., a digital de
 
     </div>
     <div className="flex items-center justify-between">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" >
+      <button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" >
         Create a Profile
       </button>
      
