@@ -1,4 +1,6 @@
 
+import React from 'react';
+import { Link } from 'react-router-dom';
 export function Footer() {
   return (
     <footer className="bg-white border-t">
@@ -13,7 +15,7 @@ export function Footer() {
           <div>
             <h4 className="font-medium mb-4">Explore</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Retreat Types</a></li>
+              <li><Link to='/' className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Retreat Types</Link></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Destinations</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Featured Retreats</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Last Minute</a></li>
@@ -22,7 +24,7 @@ export function Footer() {
           <div>
             <h4 className="font-medium mb-4">Host</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">List Your Retreat</a></li>
+              <li><Link to='/host' className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">List Your Retreat</Link></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Host Resources</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Community</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Host Insurance</a></li>

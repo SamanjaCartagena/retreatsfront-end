@@ -63,7 +63,7 @@ const submitAI =() => {
                 Transform Your Mind with a Retreat.
               </h1>
               <p className="text-xl text-white/90 mb-8 max-w-2xl">
-              Mind Reset Travel Company 
+              Your next breaktrhough is unlikely to happen at your desk.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -76,7 +76,9 @@ const submitAI =() => {
                 <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={askai}>
                  AI Retreat Match
                 </Button>
-               
+               <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={askai}>
+                 Retreat Centers
+                </Button>
               </div>
             </div>
           </div>

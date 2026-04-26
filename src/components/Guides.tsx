@@ -1,5 +1,5 @@
 import React from 'react'
-import pic from '../assets/spa.jpg'
+import pic from '../assets/yoga2.jpg'
 import { useNavigate } from 'react-router-dom'
 export default function Guides() {
   const navigate = useNavigate();
