@@ -1,6 +1,11 @@
 import React from 'react'
 import pic from '../assets/spa.jpg'
+import { useNavigate } from 'react-router-dom'
 export default function Guides() {
+  const navigate = useNavigate();
+  const create =() => {
+    navigate('/guidesignup');
+  }
   return (
      <div>
         <div className="relative h-[80vh] min-h-[700px] w-full overflow-hidden">
@@ -37,7 +42,7 @@ export default function Guides() {
               Don't have an account?
             </p>
               <br/>
-           <a className="inline-block align-baseline font-bold text-sm text-lime-700 hover:text-lime-800" href="#">
+           <a className="inline-block align-baseline font-bold text-sm text-lime-700 hover:text-lime-800" href="#" onClick={create}>
               Create Account
             </a>
             </div>
