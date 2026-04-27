@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import {auth} from '../firebase.js';
 import pic from '../assets/form.png';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import Hosts from './Hosts.js'
 function Host() {
 
@@ -28,7 +28,15 @@ function Host() {
     const errorMessage = error.message;
   });
   }
-   
+  const forgot = async() => {
+    await sendPasswordResetEmail(auth, email)
+  .then(() => {
+    alert('Password reset email sent!');
+  })
+  .catch((error) => {
+    alert('Error sending password reset email');  
+  });
+  }
 
   return (
     <div>
@@ -59,7 +67,7 @@ function Host() {
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={signIn}>
         Sign In
       </button>
-      <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+      <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#" onClick={forgot}>
         Forgot Password?
       </a>
      

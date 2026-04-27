@@ -57,8 +57,12 @@ export default function CreateGuest() {
    
     <div className="justify-center  grid h-screen absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pic})` }} >
       
-      <div className="w-full max-w-xs items-center justify-center"></div>
-     <form className="bg-white shadow-md rounded px-8 pt-6 pb-8  mt-4">
+      <div className="w-full max-w-lg items-center justify-center"></div>
+    
+    
+
+
+ <form className="bg-white w-full shadow-md rounded px-8 pt-6 pb-8  mt-4">
             <h2 className='justify-center items-center text-center p-4 bold text-lg'>Sign up as a Guest</h2>
                 <ModalHost isOpen={isModalOpen} onClose={closeModal}>
           <div style={{width:'100%',}}>
@@ -123,10 +127,6 @@ export default function CreateGuest() {
         Sign in
       </h2>
   </form>
-    
-
-
-
                                     
 
 
@@ -135,6 +135,7 @@ export default function CreateGuest() {
             
 
     </div>
+  
     </div>
 
   )

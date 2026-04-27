@@ -4,9 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Modal from './Modal.js';
 import ModalHost from './ModalHost.js'
-import {auth, googleProvider} from '../firebase.js';
+import {auth, googleProvider, db} from '../firebase.js';
 import { collection, addDoc } from "firebase/firestore"; 
-import { db } from '../firebase.js';
 import { createUserWithEmailAndPassword,signInWithPopup, signOut } from 'firebase/auth'
 import {useState} from 'react';
 

@@ -21,28 +21,8 @@ const Index = () => {
        
           
         <RetreatCard />
-{/**         <div className="container py-8">
-          <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-6">
-            {selectedCategory === "All" 
-              ? "Featured Retreats" 
-              : `${selectedCategory} Retreats`}
-          </h2>
-          {filteredRetreats.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 animate-fade-in">
-              {filteredRetreats.map((retreat) => (
-                <RetreatCard key={retreat.id} retreat={retreat} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <h3 className="text-xl font-medium mb-2">No retreats found</h3>
-              <p className="text-muted-foreground">
-                Try adjusting your filters or search for different terms.
-              </p>
-            </div>
-          )}
-        </div>
-        **/}
+
+       
         
         <FeaturedDestinations />
         <Newsletter />

@@ -20,6 +20,7 @@ import RetreatDetails from "./components/RetreatDetails";
 import GuideDetails from "./components/GuideDetails";
 import Guides from "@/components/Guides";
 import GuideSignUp from "@/components/GuideSignUp";
+import Airways from "@/components/Airways";
 
 const queryClient = new QueryClient();
 const App = () => (
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/guides/:id" element={<GuideDetails/>}/>
           <Route path="/createguest" element={<CreateGuest/>}/>
           <Route path="/guidesignup" element={<GuideSignUp/>}/>
+          <Route path="/airlines" element={<Airways/>}/>
             
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

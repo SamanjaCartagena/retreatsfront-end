@@ -27,16 +27,26 @@ const [id,setId]=useState('');
     // User is signed in
     const uid = user.uid;
    const q =query(collection(db, "hosts"), where("id", "==", uid));
+   const q2 =query(collection(db, "guides"), where("id", "==", uid));
+   const querySnapshot2 = await getDocs(q2);
     const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
   console.log(doc.id, " => ", doc.data().id);
   setDisplayName(doc.data().firstName);
   setId(doc.data().id);
+ 
 });
-    setLogout(true);
-    console.log('User is signed in with UID:', uid);
-  } else {
+ querySnapshot2.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+  console.log(doc.id, " => ", doc.data().id);
+  setDisplayName(doc.data().firstName);
+  setId(doc.data().id);       
+    setLogout(true);  
+    console.log('User   is signed in with UID:', uid);
+  });
+}
+  else {
     // User is signed out
     setLogout(false);
     console.log('No user is signed in.'); 

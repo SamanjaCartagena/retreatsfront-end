@@ -9,7 +9,7 @@ export function FeaturedDestinations() {
         <h2 className="text-2xl md:text-3xl font-serif font-semibold">
           Flight Deals
                   </h2>
-        <a href="#" className="text-retreat-ocean hover:text-retreat-forest transition-colors font-medium">
+        <a href="#" className="text-retreat-ocean hover:text-retreat-forest transition-colors font-medium" onClick={() => window.open("/airlines", "_blank")}>
           View all
         </a>
       </div>

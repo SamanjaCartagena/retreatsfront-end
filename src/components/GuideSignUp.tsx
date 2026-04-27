@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { Button } from "@/components/ui/button";
 import pic from '../assets/bozeman.jpg';
-import ModalAI from "./ModalAI";
-import loading from '../assets/loading.gif';
 import { useNavigate } from "react-router-dom"; 
 import ModalGuides from './ModalGuides';
 import chef1 from '../assets/nic.jpg';
@@ -15,11 +13,57 @@ import tourist1 from '../assets/guide1.jpg';
 import tourist2 from '../assets/guide2.jpg';
 import tourist3 from '../assets/guide3.jpg';
 import tourist4 from '../assets/guide4.jpg';
+import { collection, addDoc } from "firebase/firestore"; 
+import { db } from '../firebase.js';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,signInWithPopup, signOut  } from "firebase/auth";
 function GuideSignUp() {
     const [modalOpen, setModalOpen]= useState(false);
     const [yogaModalOpen, setYogaModalOpen]= useState(false);
     const [toursistOpen, setToursistOpen]= useState(false);
     const [loadingAI, setLoadingAI]= useState(false);
+    const [firstName, setFirstName]= useState('');
+    const [lastName, setLastName]= useState('');
+    const [profession, setProfession]= useState('');
+    const [specialty, setSpecialty]= useState('');
+    const [email, setEmail]= useState('');
+    const [password, setPassword]= useState('');
+    const [confirmPassword, setConfirmPassword]= useState('');
+    const [userName, setUserName]= useState('');
+    const auth = getAuth();
+    const guideProfile = async() => {
+         try{
+
+             if(password===confirmPassword){
+                       await createUserWithEmailAndPassword(auth,email,confirmPassword)
+                       .then((userCredential)=>{
+                         const user = userCredential.user;
+                         console.log('User created:', user.uid);
+                                       addDoc(collection(db, "guides"), {
+                                       id: user.uid,
+                                       firstName: firstName,
+                                       lastName: lastName,
+                                       userName: userName,
+                                       email: email,
+                                       profession: profession,
+                                       specialty: specialty,
+
+                                       createdAt: new Date()
+                                     });
+                       })
+                       .catch((error)=>{
+                         console.error('Error creating user:', error);
+                       });
+                       
+     
+             }
+            
+             }catch(error){
+                console.error('Error creating guide profile:', error);
+              }
+            }
+
+
+  
     const navigate=useNavigate()
     const openModal =()=>{
       setModalOpen(true);
@@ -222,30 +266,30 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
             Create your profile as a Guide!
           </h2>
         <div className="max-w-xl">
-  <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" >
     <br/>
     <div className="mb-4">
        <label className="block text-gray-700 text-sm font-bold mb-2" >
         First Name
       </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstName" type="text" placeholder="First Name" />
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstName" type="text" placeholder="First Name" onChange={(e) => setFirstName(e.target.value)} />
             <br/>
             <br/>
           
         <label className="block text-gray-700 text-sm font-bold mb-2" >
         Last Name
       </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastName" type="text" placeholder="Last Name" />
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastName" type="text" placeholder="Last Name" onChange={(e) => setLastName(e.target.value)} />
       <br/><br/>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Profession
       </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="profession" type="text" placeholder="Profession" />
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="profession" type="text" placeholder="Profession" onChange={(e) => setProfession(e.target.value)} />
       <br/><br/>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Specialty
       </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="specialty" type="text" placeholder="What are you specialized in?" />
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="specialty" type="text" placeholder="What are you specialized in?" onChange={(e)=>setSpecialty(e.target.value)} />
       <br/><br/>
      <label className="block text-gray-700 text-sm font-bold mb-2" >
         Tell us how you can benefit people attending retreats...
@@ -255,23 +299,23 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Username
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" onChange={(e) => setUserName(e.target.value)} />
       <br/><br/>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Email
       </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" />
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" onChange={(e)=>setEmail(e.target.value) }/>
      <br/><br/>
     <div className="mb-6">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Create Password
       </label>
-      <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" />
+      <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=>setPassword(e.target.value)} />
       <p className="text-red-500 text-xs italic">Please choose a password.</p>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Confirm Password
       </label>
-            <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" />
+            <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirmPassword" type="password" placeholder="******************" onChange={(e)=>setConfirmPassword(e.target.value)} />
        <label className="block text-gray-700 text-sm font-bold mb-2" >
        What kind of retreats can you help? Check all that apply.</label>
       <br/>
@@ -308,7 +352,7 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
 
     </div>
     <div className="flex items-center justify-between">
-      <button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" >
+      <button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={guideProfile} >
         Create a Profile
       </button>
      
