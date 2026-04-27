@@ -67,16 +67,20 @@ const submitAI =() => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={host}>
-                  Hosts
+                <Button className="bg-lime-900 hover:bg-white text-white 
+                  hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={host}>
+                  Hosts 
                 </Button>
-                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
+                <Button  className="bg-lime-900 text-white 
+                  hover:bg-white hover:text-lime-700 font-medium text-base px-8 py-6">
                   Retreat Planners
                 </Button>
-                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={askai}>
+                <Button  className="bg-lime-900 text-white 
+                  hover:bg-white hover:text-lime-700 font-medium text-base px-8 py-6" onClick={askai}>
                  AI Retreat Match
                 </Button>
-               <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={askai}>
+               <Button  className="bg-lime-900 text-white 
+                  hover:bg-white hover:text-lime-700 font-medium text-base px-8 py-6" onClick={askai}>
                  Retreat Centers
                 </Button>
               </div>

@@ -148,7 +148,7 @@ const [id,setId]=useState('');
             <Button variant="ghost" size="sm" className="text-sm" onClick={guest}>
               Guest
             </Button>
-            <Button variant="outline" size="sm" className="text-sm border-lime-700 text-lime-700" onClick={retreatcenter}>
+            <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white" onClick={retreatcenter}>
               Retreat Centers
             </Button>
             <FacebookIcon style={{margin:'5px', cursor:'pointer'}}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
