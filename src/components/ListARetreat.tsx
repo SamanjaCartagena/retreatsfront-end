@@ -12,6 +12,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import pic from '../assets/form.png';
 import { Button } from './ui/button.js';
+import Modal from './Modal.js';
 
 function ListARetreat() {
    const[retreatName, setRetreatName]= useState("")
@@ -22,7 +23,7 @@ function ListARetreat() {
   const [value, setValue] = React.useState<Dayjs | null>();
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
    const [kind,setKind] = useState("")
-   const[isModalOpen, setIsModalOpen] = useState(false)
+   const[isTerms, setIsTerms] = useState(false)
    const [documentId,setDocumentId] = useState("")
    const [hostFirstName, setHostFirstName] = useState("")
    const [hostEmail, setHostEmail] = useState("")
@@ -106,7 +107,28 @@ function ListARetreat() {
   return (
     <div >
      <div className="relative h-[600px] min-h-[600px] w-full overflow-hidden">
-      
+      <Modal isOpen={isTerms} onClose={()=>setIsTerms(false)}>
+         <div className="p-6 justify-center items-center text-center  h-[700px]">
+            <br/>
+            <br/>
+            <br/>
+            <h2 className="text-2xl font-bold mb-4">Please read the terms and conditions</h2>
+            <p className="mb-4">
+              This PDF includes sections dedicated to:<br/>
+
+<strong>Good Faith Agreements:</strong> Establishing a foundation of honesty, transparency, and fair dealing.<br/>
+
+<strong>Host Responsibilities:</strong> Covering listing accuracy, operational delivery, and legal/safety compliance.<br/>
+
+<strong>Professional Standards:</strong> Guidelines for communication and service quality.<br/>
+
+<strong>Financial Obligations:</strong> Clarity on pricing and booking integrity.<br/>
+            </p>
+          <Button onClick={()=>window.open('https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/Retreats_Around_The_World_Host_Terms.pdf?alt=media&token=d21b1566-82b2-49cc-b0b5-0b4f225e3e77', '_blank')} className="bg-retreat-forest text-white hover:bg-retreat-cream hover:text-retreat-forest" >
+            Open PDF
+          </Button>
+        </div>
+      </Modal>
       
       <div 
         className="absolute inset-0 bg-cover bg-center" 
@@ -124,7 +146,7 @@ function ListARetreat() {
                     
        
                      <div className="flex flex-col sm:flex-row gap-4">
-                       <Button className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" >
+                       <Button className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={()=>setIsTerms(true)}>
                         Terms and Conditions
                        </Button>
                        <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" >
