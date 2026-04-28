@@ -79,10 +79,7 @@ const submitAI =() => {
                   hover:bg-white hover:text-lime-700 font-medium text-base px-8 py-6" onClick={askai}>
                  AI Retreat Match
                 </Button>
-               <Button  className="bg-lime-900 text-white 
-                  hover:bg-white hover:text-lime-700 font-medium text-base px-8 py-6" onClick={askai}>
-                 Retreat Centers
-                </Button>
+               
               </div>
             </div>
           </div>
