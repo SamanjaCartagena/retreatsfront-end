@@ -1,12 +1,22 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import pic from '../assets/yoga2.jpg'
-import { useNavigate, Link } from 'react-router-dom'
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
-
+import { useParams, useNavigate, Link } from 'react-router-dom'
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
+import { db, auth,storage} from "../firebase.js";
+import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";  
+import { updateDoc,doc, addDoc, getDocs,where, collection, QueryDocumentSnapshot, query } from '@firebase/firestore';
+import { set } from 'date-fns';
 export default function Guides() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+    const [documentId, setDocumentId] = useState("")
+  const params = useParams();
+     const userId = params.userId;
+     const [avatarUrl, setAvatarUrl] = useState("");
+  
+     const [imageUpload, setImageUpload] = useState(null);
+  
   const auth = getAuth();
   const forgot = async() => {
     await sendPasswordResetEmail(auth, email)
@@ -32,6 +42,45 @@ export default function Guides() {
   const create =() => {
     navigate('/guidesignup');
   }
+          const profilePicRef = ref(storage, `retreatTestPic`);
+
+    const profile=()=>{
+                uploadBytes(profilePicRef, imageUpload).then((snapshot)=>{
+                  getDownloadURL(snapshot.ref).then((url)=>{
+                    setAvatarUrl(url);
+                      const docRef = doc(db, "hosts", documentId);
+            
+                       updateDoc(docRef, {
+                         profileRetreatUrl: avatarUrl,
+                        
+                               });
+                  }
+                  );
+                });
+       }
+       useEffect(()=>{
+          
+               onAuthStateChanged(auth, async (user) => {
+            if (user)  {
+              // User is signed in
+              const uid = user.uid;
+        
+             const q =query(collection(db, "hosts"), where("id", "==", userId));
+              const querySnapshot = await getDocs(q);
+                  querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            setDocumentId(doc.id)
+            console.log(doc.data().userId)
+            console.log(doc.data().profileRetreatPic)
+            console.log(doc.data().lastName)
+            console.log(doc.data().firstName)
+            setAvatarUrl(doc.data().profileRetreatPic)
+                  })
+              
+        
+              }
+            })
+      },[])
   return (
      <div>
         <div className="relative h-[80vh] min-h-[700px] w-full overflow-hidden">
@@ -71,11 +120,14 @@ export default function Guides() {
            <Link className="inline-block align-baseline font-bold text-sm text-lime-700 hover:text-lime-800" to="/guidesignup">
               Create Account
             </Link>
+             
             </div>
             </form>
 
         </div>
     </div>
+     
+
   </div>
      </div>
   )

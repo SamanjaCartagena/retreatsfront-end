@@ -178,7 +178,7 @@ export function RetreatCard() {
              <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
-          src={retreat.imageurl}
+          src={retreat.pic1}
           alt={retreat.name}
           className="w-full h-full object-cover transition-transform duration-500"
         />

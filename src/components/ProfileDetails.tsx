@@ -16,8 +16,7 @@ import {v4} from 'uuid';
 export default function Profile() {
   const params = useParams();
   const userId = params.userId;
-  console.log("User ID from URL Sammy Sammy Sammy:", userId);
-   // Log the userId to verify it's being captured
+
   const [id,setId]=useState('');
   const [firstName,setFirstName]=useState('');
   const [lastName,setLastName]=useState('');

@@ -3,9 +3,9 @@ import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebas
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
 import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc } from "firebase/firestore";
 import { db, auth,storage} from "../firebase.js";
+
 import { useParams, useNavigate } from 'react-router-dom';
 import {v4} from 'uuid';
-
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -19,6 +19,7 @@ function ListARetreat() {
    const[retreatType, setRetreatType] = useState("")
    const[address,setAddress] = useState("")
    const[country,setCountry] = useState("")
+   
    const[price,setPrice] = useState(0.00)
   const [value, setValue] = React.useState<Dayjs | null>();
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
@@ -30,12 +31,39 @@ function ListARetreat() {
    const [hostLastName, setHostLastName] = useState("")
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
+   const [imageList, setImageList] = useState([]);
+   
    const [retreatId, setRetreatId] = useState("")
    const params = useParams();
    const userId = params.userId;
    const navigate= useNavigate()
-  const profilePicRef = ref(storage, `retreats/${userId+v4()}/profilePic`);
+    const imageListRef = ref(storage, `/retreatimages/${userId}/`);
+    const deleteImage=(url)=>{
+       alert("Are you sure you want to delete this image?"+url);
+        const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageList((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+    const uploadImage=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       console.log("Upload Image");
+       if(imageUpload == null) return;
+       
+       
+       const imageRef = ref(storage, `/retreatimages/${userId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageRef, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageList((prev)=>[...prev, url]);
+         }
+         );
+       });
+       console.log("imageList", imageList);
    
+     }
    const pricing =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
     setPrice(doubleValueFloat)
@@ -51,12 +79,7 @@ function ListARetreat() {
 }
 
    const host =() => {
-      //const docRef = doc(db, "retreats", documentId);
-    uploadBytes(profilePicRef, imageUpload).then((snapshot)=>{
-      getDownloadURL(snapshot.ref).then((url)=>{
-        setAvatarUrl(url);
-       
-    
+ 
       
          addDoc(collection(db, "retreats"), {
                                          name: retreatName,
@@ -69,12 +92,14 @@ function ListARetreat() {
                                          hostName:hostFirstName,
                                          hostEmail:hostEmail,
                                          hostLastName:hostLastName,
-                                         imageurl:url
+                                         pic1: imageList[0],
+                                         pic2: imageList[1],
+                                         pic3: imageList[2],
 
          })
-        })
+        
 
-      })
+      
       navigate('/')
       
 
@@ -87,21 +112,28 @@ function ListARetreat() {
        onAuthStateChanged(auth, async (user) => {
          if (user)  {
            // User is signed in
-           const uid = user.uid;
+           console.log("host Id is: ", userId)
      
-          const q =query(collection(db, "hosts"), where("id", "==", userId));
+          const q =query(collection(db, "hosts"), where("hostId", "==", userId));
            const querySnapshot = await getDocs(q);
                querySnapshot.forEach((doc) => {
-         // doc.data() is never undefined for query doc snapshots
          setDocumentId(doc.id)
-         setHostFirstName(doc.data().firstName)
-         setHostLastName(doc.data().lastName)
-         setHostEmail(doc.data().email)
+         setHostFirstName(doc.data().hostName)
+         setHostLastName(doc.data().hostLastName)
+         console.log(doc.data().hostName)
                })
               }
+                  listAll(imageListRef).then((res)=>{
+                    res.items.forEach((item)=>{
+                      getDownloadURL(item).then((url)=>{
+                        setImageList((prev)=>[...prev, url]);
+              
+                      });
+                    });
+                  });
          
             })
-
+  
             
    },[])
   return (
@@ -227,18 +259,25 @@ function ListARetreat() {
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setKind(e.target.value)}></textarea>
    
     </div>
-        <div className="mb-4">
-
-     <label for="profile-pic">Upload retreat profile pic</label><br/>
-          <input type="file" id="profile-pic"  onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
-           </div>
+        
 
     <div className="mb-4">
 
 <label for="profile-pic">Upload retreat pics</label><br/>
-          <input type="file" id="profile-pic"  onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
-          </div>
 
+          <input type="file" id="profile-pic"  onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+                   <button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
+
+          </div>
+     {imageList.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</button>
+
+
+
+      </div>
+      
+     })}
         
     <button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={host}>
         Host a Retreat
