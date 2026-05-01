@@ -77,13 +77,26 @@ function ListARetreat() {
     
 
 }
-const html=`
-<h1>Hosting with Retreats Around The World</h1>
-<p>It is super easy to host retreats with Retreats Around The World!</p>
-`;  
+
 
  
+  const testing = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
 
+      },
+      body:JSON.stringify({ name: hostFirstName, email: hostEmail, content: "Thank you for hosting your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
+    });
+
+    const result = await response.json();
+    console.log('Success:', result);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
 
    const host =() => {
 
@@ -103,11 +116,20 @@ const html=`
                                          pic2: imageList[1],
                                          pic3: imageList[2],
 
-         })
-        
+         }).then(()=>{
+         fetch('http://localhost:3000/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
 
+      },
+      body:JSON.stringify({ name: hostFirstName, email: hostEmail, content: "Thank you for hosting your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
+    });
+          navigate('/')
+
+  })
       
-      navigate('/')
+      
       
 
       
@@ -127,6 +149,7 @@ const html=`
          setDocumentId(doc.id)
          setHostFirstName(doc.data().hostName)
          setHostLastName(doc.data().hostLastName)
+         setHostEmail(doc.data().hostEmail)
          console.log(doc.data().hostName)
                })
               }

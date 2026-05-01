@@ -156,9 +156,7 @@ const [id,setId]=useState('');
           </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
-            <Button variant="ghost" size="sm" className="text-sm" onClick={testing}>
-              Testing
-            </Button>
+            
             <Button variant="ghost" size="sm" className="text-sm" onClick={host}>
               Host
             </Button>
