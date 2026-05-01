@@ -68,6 +68,23 @@ const [id,setId]=useState('');
      navigate('/retreatcenters');
 
   }
+  const testing = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+
+      },
+      body:JSON.stringify({ name: "Kim Wiser", email: "wiserkim315@gmail.com", content: "Thank you for hosting your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
+    });
+
+    const result = await response.json();
+    console.log('Success:', result);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
   const host=() =>{
     navigate('/host');
   }
@@ -139,6 +156,9 @@ const [id,setId]=useState('');
           </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
+            <Button variant="ghost" size="sm" className="text-sm" onClick={testing}>
+              Testing
+            </Button>
             <Button variant="ghost" size="sm" className="text-sm" onClick={host}>
               Host
             </Button>

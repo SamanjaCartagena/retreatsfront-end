@@ -13,7 +13,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import pic from '../assets/form.png';
 import { Button } from './ui/button.js';
 import Modal from './Modal.js';
-
+import nodemailer from 'nodemailer';
 function ListARetreat() {
    const[retreatName, setRetreatName]= useState("")
    const[retreatType, setRetreatType] = useState("")
@@ -32,7 +32,7 @@ function ListARetreat() {
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
    const [imageList, setImageList] = useState([]);
-   
+
    const [retreatId, setRetreatId] = useState("")
    const params = useParams();
    const userId = params.userId;
@@ -77,9 +77,16 @@ function ListARetreat() {
     
 
 }
+const html=`
+<h1>Hosting with Retreats Around The World</h1>
+<p>It is super easy to host retreats with Retreats Around The World!</p>
+`;  
+
+ 
+
 
    const host =() => {
- 
+
       
          addDoc(collection(db, "retreats"), {
                                          name: retreatName,
