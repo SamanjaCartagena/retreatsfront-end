@@ -105,16 +105,16 @@ export default function Profile() {
       // User is signed in
       const uid = user.uid;
 
-     const q =query(collection(db, "hosts"), where("id", "==", userId));
+     const q =query(collection(db, "hosts"), where("hostId", "==", userId));
       const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     setDocumentId(doc.id)
-    setAvatarUrl(doc.data().profilePicUrl)
-    setFirstName(doc.data().firstName);
-    setLastName(doc.data().lastName);
-    setEmail(doc.data().email);
-    setId(doc.data().id);
+    setAvatarUrl(doc.data().hostProfilePicUrl)
+    setFirstName(doc.data().hostFirstName);
+    setLastName(doc.data().hostLastName);
+    setEmail(doc.data().hostEmail);
+    setId(doc.data().hostId);
     setDetails(doc.data().details);
     setFaceLink(doc.data().facebook);
     setInstaLink(doc.data().instagram);

@@ -27,6 +27,7 @@ export function RetreatCard() {
   const [selectedLocation, setSelectedLocation] = useState("");
   const [value, setValue] = React.useState<Dayjs | null>(dayjs());
   const [selectedPrice, setSelectedPrice] = useState("")
+  const[isApproved, setIsApproved] = useState(false)
   
   const valueSelected=(e)=>{
   const m=e.format('MMMM')
@@ -38,11 +39,12 @@ export function RetreatCard() {
   
   useEffect(() => {
       const fetchData = async () => {
+        
       try {
         const retreats = [];
         // Reference the collection
-        if (selectedLocation === ""  && selectedPrice === "" && selectedType === "") {
-          const q = query(collection(db, "retreats"));
+        if (selectedLocation === ""  && selectedPrice === "" && selectedType === "" ) {
+          const q = query(collection(db, "retreats"), where("isDisplayed", "==", true));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
@@ -54,8 +56,7 @@ export function RetreatCard() {
         
         }
         else if ( selectedPrice === "" && selectedType === "" && selectedLocation !== "") {
-        const retreats1 = [];
-        const q2 = await query(collection(db, "retreats"), (where("location", "==", selectedLocation)));
+        const q2 = await query(collection(db, "retreats"), (where("location", "==", selectedLocation)), where("isDisplayed", "==", true));
         getDocs(q2).then((querySnapshot) => {
        
 
@@ -153,7 +154,7 @@ export function RetreatCard() {
   });
   **/
   
-  }, [selectedLocation, selectedPrice, selectedType]);
+  }, [selectedLocation, selectedPrice, selectedType, listOfRetreats.length]);
 
   const searchPrice =(v)=>{
     if(v === ""){
@@ -227,7 +228,9 @@ export function RetreatCard() {
 
   }
 
- 
+  const location=(event)=>{
+    setSelectedLocation(event.target.value)
+  }
     const submitRetreats=()=>{
     try{
       const q =query(collection(db, "retreats"), and(where("type1", "==",selectedType), where("location","==",selectedLocation), where("price", "<=",selectedPrice)));
@@ -286,7 +289,7 @@ const changePage= ({selected}) => {
     </select>
            </div>
            <div>
-  <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
+  <select className="bg-white p-2 rounded-md" onChange={location} value={selectedLocation}>
         <option value="">Select Location</option>
     <option value="Bali">Bali</option>
     <option value="Thailand">Thailand</option>

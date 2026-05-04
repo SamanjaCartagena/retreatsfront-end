@@ -26,15 +26,15 @@ const [id,setId]=useState('');
   if (user)  {
     // User is signed in
     const uid = user.uid;
-   const q =query(collection(db, "hosts"), where("id", "==", uid));
+   const q =query(collection(db, "hosts"), where("hostId", "==", uid));
    const q2 =query(collection(db, "guides"), where("id", "==", uid));
    const querySnapshot2 = await getDocs(q2);
     const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
   console.log(doc.id, " => ", doc.data().id);
-  setDisplayName(doc.data().firstName);
-  setId(doc.data().id);
+  setDisplayName(doc.data().hostFirstName);
+  setId(doc.data().hostId);
  
 });
  querySnapshot2.forEach((doc) => {
@@ -68,23 +68,7 @@ const [id,setId]=useState('');
      navigate('/retreatcenters');
 
   }
-  const testing = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/send-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
 
-      },
-      body:JSON.stringify({ name: "Kim Wiser", email: "wiserkim315@gmail.com", content: "Thank you for hosting your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
-    });
-
-    const result = await response.json();
-    console.log('Success:', result);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
   const host=() =>{
     navigate('/host');
   }

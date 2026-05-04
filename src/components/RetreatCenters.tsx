@@ -4,11 +4,13 @@ import {auth} from '../firebase.js';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Centers from './Centers.js'
 
+
 export function RetreatCenters() {
  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/Untitled%20design%20-%202026-03-26T004709.439.png?alt=media&token=99499b8e-8a93-42ed-a374-c01c5baf1900"
   const navigate=useNavigate();
   const [email, setEmail]=useState('');
   const [password, setPassword]=useState('');
+
   const signUpHost=()=>{
     navigate('/signUpAsHost');
   }
@@ -66,10 +68,11 @@ export function RetreatCenters() {
       </div>
       <br/>
        <h2 className="inline-block align-baseline font-bold text-decoration-line text-md cursor-pointer text-blue-500 hover:text-blue-800" onClick={signUpHost}>
-        Create a Profile
+        Create Profile
       </h2>
+      
   </form>
-    
+      
 
   <p className="text-center text-gray-500 text-xs">
     &copy;2025 World of Bots LLC. All rights reserved.
@@ -79,6 +82,8 @@ export function RetreatCenters() {
 
 </div>
     </div>
+
+   
      <Centers/>
     </div>
   )

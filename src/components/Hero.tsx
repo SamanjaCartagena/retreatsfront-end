@@ -67,14 +67,15 @@ const submitAI =() => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-lime-900 hover:bg-white text-white 
+                <Button className="bg-white hover:bg-white text-retreat-forest
                   hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={host}>
-                  Hosts 
+                  Sancta 
                 </Button>
-                <Button  className="bg-lime-900 text-white 
-                  hover:bg-white hover:text-lime-700 font-medium text-base px-8 py-6">
-                  Retreat Planners
+                <Button className="bg-white hover:bg-white text-retreat-forest
+                  hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={host}>
+                  Lumière
                 </Button>
+                
                 <Button  className="bg-lime-900 text-white 
                   hover:bg-white hover:text-lime-700 font-medium text-base px-8 py-6" onClick={askai}>
                  AI Retreat Match

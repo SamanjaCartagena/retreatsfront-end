@@ -6,15 +6,18 @@ import Modal from './Modal.js';
 import ModalHost from './ModalHost.js'
 import {auth, googleProvider, db} from '../firebase.js';
 import { collection, addDoc } from "firebase/firestore"; 
-import { createUserWithEmailAndPassword,signInWithPopup, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword,signInWithPopup, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import {useState} from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import { set } from 'date-fns';
 
 function SignUpAsHost() {
   const [email, setEmail] = useState('');
   const [password1, setPassword1] = useState('');
+  const navigate = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState('');
   const [firstName, setFirstName] = useState('');
+  const [passwordLengthModal, setPasswordLengthModal] = useState(false);
   const [lastName, setLastName] = useState('');
   const [introduction, setIntroduction] = useState('');
   const [username, setUsername] = useState('');
@@ -36,21 +39,30 @@ function SignUpAsHost() {
   const closeModal = () => setIsModalOpen(false);
   const closePasswordModal =()=>setPasswordModal(false);
   const closePurposeModal =()=> setIsPurpose(false)
+  const closePasswordLengthModal =()=> setPasswordLengthModal(false);
   const create= async()=>{
       try{
+        if(confirmPassword.length<6 || password1.length<6){
+
+            setPasswordLengthModal(true);
+            setPassword1('');
+            setConfirmPassword('');
+            return;
+        }
+        
         if(password1===confirmPassword){
                   await createUserWithEmailAndPassword(auth,email,confirmPassword)
                   .then((userCredential)=>{
                     const user = userCredential.user;
                     console.log('User created:', user.uid);
                                   addDoc(collection(db, "hosts"), {
-                                  id: user.uid,
-                                  firstName: firstName,
-                                  lastName: lastName,
-                                  introduction: introduction,
-                                  username: username,
-                                  email: email,
-                                  details: details,
+                                  hostId: user.uid,
+                                  hostFirstName: firstName,
+                                  hostLastName: lastName,
+                                  hostIntroduction: introduction,
+                                  hostUsername: username,
+                                  hostEmail: email,
+                                  hostRetreatDetails: details,
                                   veganRetreat:isCheckedVeganRetreat,
                                   hypnoRetreat:isCheckedHypnoRetreat,
                                   meditationRetreat:isCheckedMeditationRetreat,
@@ -59,17 +71,44 @@ function SignUpAsHost() {
                                   yogaRetreat:isCheckedYogaRetreat,
                                   recreationRetreat:isCheckedRecreationRetreat,
                                   others:isCheckedOthers,
-                                  profilePicUrl:"https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40",
+                                  isDisplayed: false,
+                                  hostProfilePicUrl:"https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40",
                                   createdAt: new Date()
                                 });
-                  })
+                                 fetch('http://localhost:3000/send-Admin-email', {
+                                   method: 'POST',
+                                  headers: {
+                                  'Content-Type': 'application/json',
+
+                     },
+                              body:JSON.stringify({ name: "Admin", email: "samanja.cartagena@gmail.com", content: `A new host has just signed up with the name ${firstName} ${lastName} and email ${email}. Please review their profile and approve their hosting privileges. ` }), 
+                              
+               });
+                                    fetch('http://localhost:3000/send-email', {
+                                   method: 'POST',
+                                  headers: {
+                                  'Content-Type': 'application/json',
+
+                     },
+                              body:JSON.stringify({ name: firstName, email: email, content: "Welcome to Retreats Around The World, a community for mindful retreats and travelling to recover from the stresses of daily life." }), 
+                              
+               });
+                           signInWithEmailAndPassword(auth, email, confirmPassword)
+                  .then((userCredential)=>{
+                     setIsModalOpen(true);
+
+                    const user = userCredential.user;
+                    console.log('User signed in:', user.uid); 
+                    navigate(`/profile/${user.uid}`);
+
+                  })  
                   .catch((error)=>{
                     console.error('Error creating user:', error);
                   });
                   
-                  setIsModalOpen(true);
 
-        }
+        })
+      }
         else{
            setPasswordModal(true);
         }
@@ -86,7 +125,11 @@ function SignUpAsHost() {
         className="absolute inset-0 bg-cover bg-center" 
         style={{ backgroundImage: `url(${pic})` }}
       >
-      
+      <Modal isOpen={passwordLengthModal} onClose={closePasswordLengthModal}>
+          <div style={{width:'100%', position:'relative', top:'50%', left:'50%', transform:'translate(-50%, -50%)'}} className="justify-center items-center text-center p-4 bold text-lg">
+                Password must be at least 6 characters long, Password must contain letters and numbers!
+            </div>
+            </Modal>
         <div className="absolute inset-0 hero-gradient flex flex-col justify-center">
           <div className="container mx-auto max-w-3xl px-4 md:px-6">
             <div className="animate-fade-in">

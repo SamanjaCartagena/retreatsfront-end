@@ -112,11 +112,13 @@ function ListARetreat() {
                                          hostName:hostFirstName,
                                          hostEmail:hostEmail,
                                          hostLastName:hostLastName,
+                                         isDisplayed: false,
                                          pic1: imageList[0],
                                          pic2: imageList[1],
                                          pic3: imageList[2],
 
          }).then(()=>{
+          
          fetch('http://localhost:3000/send-email', {
       method: 'POST',
       headers: {
@@ -143,14 +145,16 @@ function ListARetreat() {
            // User is signed in
            console.log("host Id is: ", userId)
      
-          const q =query(collection(db, "hosts"), where("hostId", "==", userId));
+          const q =query(collection(db, "hosts"), where("id", "==", userId));
            const querySnapshot = await getDocs(q);
                querySnapshot.forEach((doc) => {
+
          setDocumentId(doc.id)
-         setHostFirstName(doc.data().hostName)
-         setHostLastName(doc.data().hostLastName)
-         setHostEmail(doc.data().hostEmail)
-         console.log(doc.data().hostName)
+         setHostFirstName(doc.data().firstName)
+         setHostLastName(doc.data().lastName)
+         setHostEmail(doc.data().email)
+         console.log(doc.data().firstName)
+         alert("Welcome back, "+doc.data().firstName+"! You can list your retreat here. If you have any questions, please contact us at support@retreats.com")
                })
               }
                   listAll(imageListRef).then((res)=>{
