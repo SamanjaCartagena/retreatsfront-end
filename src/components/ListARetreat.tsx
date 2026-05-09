@@ -109,7 +109,7 @@ function ListARetreat() {
                                          price:price, 
                                          id:v4()+userId,
                                          hostId:userId,
-                                         hostName:hostFirstName,
+                                         hostFirstName:hostFirstName,
                                          hostEmail:hostEmail,
                                          hostLastName:hostLastName,
                                          isDisplayed: false,
@@ -145,16 +145,15 @@ function ListARetreat() {
            // User is signed in
            console.log("host Id is: ", userId)
      
-          const q =query(collection(db, "hosts"), where("id", "==", userId));
+          const q =query(collection(db, "hosts"), where("hostId", "==", userId));
            const querySnapshot = await getDocs(q);
                querySnapshot.forEach((doc) => {
 
          setDocumentId(doc.id)
-         setHostFirstName(doc.data().firstName)
-         setHostLastName(doc.data().lastName)
-         setHostEmail(doc.data().email)
-         console.log(doc.data().firstName)
-         alert("Welcome back, "+doc.data().firstName+"! You can list your retreat here. If you have any questions, please contact us at support@retreats.com")
+         setHostFirstName(doc.data().hostFirstName)
+         setHostLastName(doc.data().hostLastName)
+         setHostEmail(doc.data().hostEmail)
+         console.log(doc.data().hostFirstName)
                })
               }
                   listAll(imageListRef).then((res)=>{
@@ -169,7 +168,7 @@ function ListARetreat() {
             })
   
             
-   },[])
+   },[userId])
   return (
     <div >
      <div className="relative h-[600px] min-h-[600px] w-full overflow-hidden">

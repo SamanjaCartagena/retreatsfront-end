@@ -34,6 +34,8 @@ function SignUpAsHost() {
   const [isPurpose, setIsPurpose] = useState(false)
   const [isCheckedRecreationRetreat, setIsCheckedRecreationRetreat] = useState(false)
   const [isCheckedOthers, setIsCheckedOthers] = useState(false)
+  const [phone, setPhone] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState(''); 
   const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/retreat1.jpg?alt=media&token=0c739aa7-357f-4422-b0ff-49d055754ecb"
 
   const closeModal = () => setIsModalOpen(false);
@@ -42,7 +44,7 @@ function SignUpAsHost() {
   const closePasswordLengthModal =()=> setPasswordLengthModal(false);
   const create= async()=>{
       try{
-        if(confirmPassword.length<6 || password1.length<6){
+        if(confirmPassword.length<8 || password1.length<8){
 
             setPasswordLengthModal(true);
             setPassword1('');
@@ -52,10 +54,10 @@ function SignUpAsHost() {
         
         if(password1===confirmPassword){
                   await createUserWithEmailAndPassword(auth,email,confirmPassword)
-                  .then((userCredential)=>{
+                  .then(async (userCredential)=>{
                     const user = userCredential.user;
                     console.log('User created:', user.uid);
-                                  addDoc(collection(db, "hosts"), {
+                                await addDoc(collection(db, "hosts"), {
                                   hostId: user.uid,
                                   hostFirstName: firstName,
                                   hostLastName: lastName,
@@ -63,6 +65,8 @@ function SignUpAsHost() {
                                   hostUsername: username,
                                   hostEmail: email,
                                   hostRetreatDetails: details,
+                                  hostDateOfBirth: dateOfBirth,
+                                  hostPhone: phone,
                                   veganRetreat:isCheckedVeganRetreat,
                                   hypnoRetreat:isCheckedHypnoRetreat,
                                   meditationRetreat:isCheckedMeditationRetreat,
@@ -71,7 +75,6 @@ function SignUpAsHost() {
                                   yogaRetreat:isCheckedYogaRetreat,
                                   recreationRetreat:isCheckedRecreationRetreat,
                                   others:isCheckedOthers,
-                                  isDisplayed: false,
                                   hostProfilePicUrl:"https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40",
                                   createdAt: new Date()
                                 });
@@ -100,6 +103,7 @@ function SignUpAsHost() {
                     const user = userCredential.user;
                     console.log('User signed in:', user.uid); 
                     navigate(`/profile/${user.uid}`);
+                    window.location.reload();
 
                   })  
                   .catch((error)=>{
@@ -194,7 +198,7 @@ function SignUpAsHost() {
     
    
         <div className="justify-center items-center grid h-auto">
-           Create a host Profile
+          <h1 className='font-bold m-4 text-xl'>Create a host Profile</h1>
         <div className="max-w-xl">
   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     <br/>
@@ -225,6 +229,16 @@ function SignUpAsHost() {
         Email
       </label>
             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" onChange={(e)=> setEmail(e.target.value)} />
+     <br/><br/>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Date of Birth
+      </label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dateOfBirth" type="date" placeholder="Date of Birth" onChange={(e)=> setDateOfBirth(e.target.value)} />
+      <br/><br/>
+       <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Phone Number
+      </label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="tel" placeholder="Phone Number" onChange={(e)=> setPhone(e.target.value)} />
      <br/><br/>
     <div className="mb-6">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
@@ -267,12 +281,12 @@ function SignUpAsHost() {
             <br/>
                    <label className="block text-gray-700 text-sm font-bold mb-2" >
             What kind of Retreats will you be hosting in details?...</label>
-                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="details" placeholder="Tell us in details what kind of retreats you would love to host....." onChange={(e)=> setDetails(e.target.value)}></textarea>\
+                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="details" placeholder="Tell us in details what kind of retreats you would love to host....." onChange={(e)=> setDetails(e.target.value)}></textarea>
        </div>
 
     </div>
     <div className="flex items-center justify-between">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={create}>
+      <button className="bg-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={create}>
         Create a Profile
       </button>
      

@@ -69,11 +69,11 @@ const submitAI =() => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button className="bg-white hover:bg-white text-retreat-forest
                   hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={host}>
-                  Sancta 
+                  Homes 
                 </Button>
                 <Button className="bg-white hover:bg-white text-retreat-forest
                   hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={host}>
-                  Lumière
+                  Shop
                 </Button>
                 
                 <Button  className="bg-lime-900 text-white 
