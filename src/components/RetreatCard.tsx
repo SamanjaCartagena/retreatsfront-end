@@ -26,7 +26,7 @@ export function RetreatCard() {
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
   const [selectedLocation, setSelectedLocation] = useState("");
   const [value, setValue] = React.useState<Dayjs | null>(dayjs());
-  const [selectedPrice, setSelectedPrice] = useState("")
+  const [selectedPrice, setSelectedPrice] = useState(0.0)
   const[isApproved, setIsApproved] = useState(false)
   
   const valueSelected=(e)=>{
@@ -43,7 +43,7 @@ export function RetreatCard() {
       try {
         const retreats = [];
         // Reference the collection
-        if (selectedLocation === ""  && selectedPrice === "" && selectedType === "" ) {
+        if (selectedLocation === ""  && selectedPrice === 0.0 && selectedType === "" ) {
           const q = query(collection(db, "retreats"), where("isDisplayed", "==", true));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -55,7 +55,7 @@ export function RetreatCard() {
 
         
         }
-        else if ( selectedPrice === "" && selectedType === "" && selectedLocation !== "") {
+        else if ( selectedPrice === 0.0 && selectedType === "" && selectedLocation !== "") {
         setListOfRetreats([])
         const retreats1 = [];
 
@@ -71,19 +71,20 @@ export function RetreatCard() {
         })
       });
     }
-        else if (selectedLocation === ""  && selectedType === "" && selectedPrice !== "") {  
+        else if (selectedLocation === ""  && selectedType === "" && selectedPrice !== 0.0) {  
           setListOfRetreats([])
-          const retreats1=[]
-          const q3 = await query(collection(db, "retreats"), where("price", "<=", selectedPrice), where("isDisplayed","==", true));
+          const retreats3=[]
+          
+          const q3 = query(collection(db, "retreats"), where("price", "<=", selectedPrice));
         getDocs(q3).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
-          retreats1.push({ ...doc.data() }); 
+          retreats3.push({ ...doc.data() }); 
         });
-        setListOfRetreats(retreats1);
+        setListOfRetreats(retreats3);
       });
     }
-     else if (selectedLocation === "" && selectedPrice === "" && selectedType !== "" ) {  
+     else if (selectedLocation === "" && selectedPrice === 0.0 && selectedType !== "" ) {  
       setListOfRetreats([])
       const retreats2=[]
           const q3 = await query(collection(db, "retreats"), where("type1", "==", selectedType), where("isDisplayed", "==", true));
@@ -95,39 +96,33 @@ export function RetreatCard() {
         setListOfRetreats(retreats2);
       });
     }
-       else if (selectedType === "" && selectedLocation !== "" && selectedPrice !== "" ) {  
-        setListOfRetreats([])
-          const q3 = await query(collection(db, "retreats"), where("price", "<=", selectedPrice ), where("isDisplayed", "==", true));
-        getDocs(q3).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retreats.push({ ...doc.data() }); 
-        });
-        setListOfRetreats(retreats);
-      });
-    }
-     else if (selectedLocation === "" && selectedPrice !== "" && selectedType !== "" ) {  
+    else if (selectedLocation !== "" && selectedPrice === 0.0 && selectedType !== "" ) {  
       setListOfRetreats([])
-          const q3 = await query(collection(db, "retreats"),and (where("price", "<=", selectedPrice ), where("type", "==", selectedType)));
+      const retreats2=[]
+          const q3 = await query(collection(db, "retreats"), where("type1", "==", selectedType), where("isDisplayed", "==", true), where("location","==",selectedLocation));
         getDocs(q3).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
-          retreats.push({ ...doc.data() }); 
+          retreats2.push({ ...doc.data() }); 
         });
-        setListOfRetreats(retreats);
+        setListOfRetreats(retreats2);
       });
     }
-     else if (selectedLocation !== "" && selectedPrice !== "" && selectedType !== "" ) {  
+     else if (selectedLocation !== "" && selectedPrice !== 0.0 && selectedType !== "" ) {  
       setListOfRetreats([])
-          const q3 = await query(collection(db, "retreats"),and (where("price", "<=", selectedPrice ), where("location", "==", selectedLocation), where("type", "==", selectedType)));
+      const retreats2=[]
+          const q3 = await query(collection(db, "retreats"), where("type1", "==", selectedType), where("location","==",selectedLocation), where("price","<=",selectedPrice));
         getDocs(q3).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
-          retreats.push({ ...doc.data() }); 
+          retreats2.push({ ...doc.data() }); 
         });
-        setListOfRetreats(retreats);
+        setListOfRetreats(retreats2);
       });
     }
+      
+     
+
    
       }
       catch (err) {
@@ -166,11 +161,10 @@ export function RetreatCard() {
   }, [selectedLocation, selectedPrice, selectedType]);
 
   const searchPrice =(v)=>{
-    if(v === ""){
-      setSelectedPrice("")
-      return;
+    if(v==""){
+      return
     }
-      const valueDoubleFloat = parseFloat(v);
+      const valueDoubleFloat = parseFloat(v.target.value);
 
     setSelectedPrice(valueDoubleFloat)
   }
@@ -223,30 +217,7 @@ export function RetreatCard() {
 
 
  
-    const submitRetreats=()=>{
-    try{
-      const q =query(collection(db, "retreats"), and(where("type1", "==",selectedType), where("location","==",selectedLocation), where("price", "<=",selectedPrice)));
-      const querySnapshot = getDocs(q);
-      const retreats = [];
-      querySnapshot.then((snapshot)=>{
-        snapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retreats.push({ ...doc.data() });
-          
-        console.log(retreats);  
-          setListOfRetreats(retreats);
-        });
 
-             setListOfRetreats(retreats);
-
-  });
-}
-catch(error){
-  console.error("Error fetching retreats: ", error);
-  alert("No such retreat found. Please adjust your search criteria and try again.")
-}
-   
-    }
   const pageCount = Math.ceil(listOfRetreats.length/usersPerPage)
 const changePage= ({selected}) => {
   setPageNumber(selected)
@@ -294,9 +265,8 @@ const changePage= ({selected}) => {
     </select>
     </div>
     <div>
-    <select className="bg-white p-2 rounded-md" onChange={(e)=>searchPrice(e)} value={selectedPrice}>
-        <option value="">Select Price Range</option>
-    <option value="0">Free</option>
+    <select className="bg-white p-2 rounded-md" onChange={searchPrice} value={selectedPrice}>
+    <option value="0">Select Price</option>
     <option value="1000">Less than $1000</option>
     <option value="2000">Less than $2000</option>
     <option value="5000">Less than $5000</option>
@@ -313,9 +283,7 @@ const changePage= ({selected}) => {
     </LocalizationProvider>
   **/}
     </div>
-            <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={submitRetreats}>
-              Submit
-            </Button>
+          
           </div>
         </div>
       </div>

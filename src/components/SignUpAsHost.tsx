@@ -22,7 +22,6 @@ function SignUpAsHost() {
   const [lastName, setLastName] = useState('');
   const [introduction, setIntroduction] = useState('');
   const [username, setUsername] = useState('');
-  const [retreatTypes, setRetreatTypes] = useState([]);
   const [details, setDetails] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
@@ -31,8 +30,9 @@ function SignUpAsHost() {
   const [isCheckedSoundHealing, setIsCheckedSoundHealing] = useState(false)
   const [isCheckedMeditationRetreat, setIsCheckedMeditationRetreat] = useState(false)
   const [isCheckedCorporateRetreat, setIsCheckedCorporateRetreat] = useState(false)
-  const [isCheckedHealthRetreat, setIsCheckedHealthRetreat] = useState(false)
+  const [isCheckedWorkoutRetreat, setIsCheckedWorkoutRetreat] = useState(false)
   const [isCheckedYogaRetreat, setIsCheckedYogaRetreat] = useState(false)
+  const [isCheckedHikingRetreat, setIsCheckedHikingRetreat] = useState(false)
   const [isPurpose, setIsPurpose] = useState(false)
   const [cancellation, setCancellation] = useState(false)
   const [isCheckedRecreationRetreat, setIsCheckedRecreationRetreat] = useState(false)
@@ -45,6 +45,9 @@ function SignUpAsHost() {
   const [type1, setType1] = useState('')
   const [type2, setType2] = useState('')
   const [type3, setType3] = useState('')
+  const [type4, setType4] = useState('')
+  const [type5, setType5] = useState('')
+  const [type6, setType6] =useState('')
   const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/retreat1.jpg?alt=media&token=0c739aa7-357f-4422-b0ff-49d055754ecb"
   
   const closeModal = () => setIsModalOpen(false);
@@ -61,24 +64,63 @@ function SignUpAsHost() {
       setType1('None')
     }
   }
-  const vegan=()=>{
-    setIsCheckedVeganRetreat(true)
+  const vegan=(e)=>{
+    setIsCheckedVeganRetreat(!isCheckedVeganRetreat)
     if(isCheckedVeganRetreat){
-          setType2('Vegan')
+       setType2('Vegan')
+       alert(type2)
+    }
+    else{
+          setType2('None')
+          alert(type2)
+  }
+
+    
+    
+  }
+   const corporate=()=>{
+    setIsCheckedCorporateRetreat(!isCheckedCorporateRetreat)
+    if(isCheckedCorporateRetreat){
+          setType4('Corporate Retreate')
+          console.log(type4)
 
     }
     else{
-      setType2('None')
+      setType4('None')
+      console.log(type4)
+    }
+  }
+    const workout=()=>{
+    setIsCheckedWorkoutRetreat(!isCheckedWorkoutRetreat)
+    if(isCheckedWorkoutRetreat){
+          setType5('Workout Retreat')
+          console.log(type5)
+
+    }
+    else{
+      setType5('None')
+      console.log(type5)
+    }
+  }
+  const hiking=()=> {
+    setIsCheckedHikingRetreat(!isCheckedHikingRetreat)
+    if(isCheckedHikingRetreat){
+      setType6('Hiking')
+    }
+    else{
+      setType6('None')
     }
   }
     const sound=()=>{
-    setIsCheckedSoundHealing(true)
+    setIsCheckedSoundHealing(!isCheckedSoundHealing)
     if(isCheckedSoundHealing){
           setType3('Sound Healing')
+          console.log(type3)
 
     }
     else{
       setType3('None')
+      console.log(type3)
     }
   }
   const create= async()=>{
@@ -114,6 +156,9 @@ function SignUpAsHost() {
                                   type1:type1,
                                   type2:type2,
                                   type3:type3,
+                                  type4:type4,
+                                  type5:type5,
+                                  type6:type6,
                                   payout:payout,
                                   others:isCheckedOthers,
                                   cancellation:cancellation,
@@ -347,15 +392,19 @@ function SignUpAsHost() {
       <br/>
       <input type="checkbox" id="meditationretreat" checked={isCheckedMeditationRetreat} onChange={meditation}/>
       <label >&nbsp;Meditation Retreat</label><br/>
-      <input type="checkbox" id="corporateretreat" checked={isCheckedCorporateRetreat} onChange={(e)=> setIsCheckedCorporateRetreat(true)}/>
+      <input type="checkbox" id="corporateretreat" checked={isCheckedCorporateRetreat} onChange={corporate}/>
       <label >&nbsp;Corporate Retreat</label><br/>
-      <input type="checkbox" id="healthretreat" checked={isCheckedHealthRetreat} onChange={(e)=> setIsCheckedHealthRetreat(true)}/>
+      <input type="checkbox" id="workout" checked={isCheckedWorkoutRetreat} onChange={workout}/>
       
-      <label >&nbsp;Health Retreat</label>
+      <label >&nbsp;Workout Retreat</label>
       <br/>
          <input type="checkbox" id="yogaretreat" checked={isCheckedYogaRetreat} onChange={(e)=>setIsCheckedYogaRetreat(true)}/>
       
       <label >&nbsp;Yoga Retreat</label>
+      <br/>
+       <input type="checkbox" id="hikingretreat" checked={isCheckedHikingRetreat} onChange={hiking}/>
+      
+      <label >&nbsp;Hiking Retreat</label>
       <br/>
         <input type="checkbox" id="recreationretreat" checked={isCheckedRecreationRetreat} onChange={(e)=>setIsCheckedRecreationRetreat(true)}/>
       
