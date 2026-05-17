@@ -2,10 +2,15 @@
 import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
 import ModalCancellation from './ModalCancellation';
+import Modal from './Modal';
 export function Footer() {
   const [openCancellationModal, setOpenCancellationModal] = useState(false);
+  const [openTypesModal, setOpenTypesModal] = useState(false);
   const openCancel = () => {
     setOpenCancellationModal(true);
+  };
+  const openTypes = () => {
+    setOpenTypesModal(true);
   };
   return (
     <footer className="bg-white border-t">
@@ -33,6 +38,27 @@ export function Footer() {
                 Open Policies
               </button>
             </ModalCancellation>
+              <Modal isOpen={openTypesModal} onClose={() => {
+              setOpenTypesModal(false);
+            }}>
+              <br/>
+              <br/>
+              <br/>
+              <br/>
+              <h2 className="text-xl font-semibold mb-4">Retreat Types</h2>
+              <p className="text-sm text-muted-foreground">
+               <strong>Explore different types of retreats to find the perfect fit for your needs.</strong><br/><br/>
+<strong>Wellness Retreats:</strong> Focus on physical and mental well-being through yoga, meditation, and healthy living.
+<br/><br/>
+<strong>Guest Responsibility:</strong> Clarifies that guests are responsible for reviewing individual host terms before booking.
+<br/><br/>
+<strong>Financial Protection:</strong> Includes a strong recommendation for travel insurance to cover potential losses due to partner-specific cancellation windows.
+
+              </p>
+              <button className="mt-4 px-4 py-2 bg-lime-700 hover:bg-lime-800 text-white rounded-md hover:bg-retreat-forest transition-colors" onClick={()=> window.open('https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/Cancellation_Policy_Retreats_Around_The_World.pdf?alt=media&token=68caf53d-b471-4bd2-acaa-3bf620a37f63', '_blank')}>
+                Open Policies
+              </button>
+            </Modal>
             <h3 className="font-serif font-semibold mb-4">Retreats Around The World</h3>
             <p className="text-muted-foreground text-sm">
               Discover transformative retreat experiences in the world's most inspiring locations.
@@ -41,7 +67,7 @@ export function Footer() {
           <div>
             <h4 className="font-medium mb-4">Explore</h4>
             <ul className="space-y-2">
-              <li><Link to='/' className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Retreat Types</Link></li>
+              <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm" onClick={() => setOpenTypesModal(true)}>Retreat Types</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Destinations</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Featured Retreats</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Last Minute</a></li>

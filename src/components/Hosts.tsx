@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
 import { Card, CardContent } from "@/components/ui/card";
 import { List, Star } from "lucide-react";
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
 import {db} from '../firebase.js';
+import ReactPaginate from 'react-paginate';
+import ModalHosts from './ModalHost.js';
 import { Separator } from "@radix-ui/react-separator";
 
 export default function Hosts() {
@@ -22,10 +24,10 @@ export default function Hosts() {
          const guides = [];
          // Reference the collection
          if (searchLocation ===  "" && selectedType === "") {
-           const q = query(collection(db, "guides"));
+           const q = query(collection(db, "hosts"));
          const querySnapshot = await getDocs(q);
          querySnapshot.forEach((doc) => {
-           console.log(doc.id, " => ", doc.data().name);
+           console.log(doc.id, " => ", doc.data().hostFirstName);
            guides.push({ ...doc.data() });
          });
          setListOfGuides(guides);
@@ -34,13 +36,31 @@ export default function Hosts() {
          
          }
          else if (  selectedType === "" && searchLocation !== "") {
+          setListOfGuides([])
        const guides1 = [];
-         const q2 = await query(collection(db, "guides"), (where("location", "==", searchLocation)));
+         const q2 = await query(collection(db, "hosts"), (where("location", "==", searchLocation)));
          getDocs(q2).then((querySnapshot) => {
         
  
          querySnapshot.forEach((doc) => {
-           console.log(doc.id, " => ", doc.data().name);
+           console.log(doc.id, " => ", doc.data().hostFirstName);
+           guides1.push({ ...doc.data() });
+           
+         console.log(guides1);  
+                  setListOfGuides(guides1);
+         })
+       });
+     }
+       else if (  selectedType !== "" && searchLocation == "") {
+          setListOfGuides([])
+       const guides1 = [];
+       const q2 =query(collection(db, "hosts"),or (where("type1", "==",selectedType), where("type2","==",selectedType), where("type3","==", selectedType), where("type4","==",selectedType)));
+
+       getDocs(q2).then((querySnapshot) => {
+        
+ 
+         querySnapshot.forEach((doc) => {
+           console.log(doc.id, " => ", doc.data().hostFirstName);
            guides1.push({ ...doc.data() });
            
          console.log(guides1);  
@@ -66,75 +86,14 @@ export default function Hosts() {
   
  
  
+  
    
-   
-   /** 
-   const retrMonth = [];
-      const q15 =query(collection(db, "retreats"), (where("month", "==",selectedMonth)));
+   }, [selectedType, searchLocation]);
  
-            getDocs(q15).then((snapshot) => {
+
+  
+
  
-         snapshot.forEach((doc) => {
-           console.log(doc.id, " => ", doc.data().name);
-           retrMonth.push({ ...doc.data() });
-           
-         console.log(retrMonth);  
-                  setListOfRetreats(retrMonth);
-         });
- 
- 
-   });
-   **/
-   
-   }, [searchLocation,  selectedType]);
- 
-  const fetchPrevious=()=>{
-  const firstHostId=listOfHosts[0].id;
-  console.log(firstHostId-3)
-     
-    const q1 =query(collection(db, "hosts"))
-    const q= query(q1, orderBy("id","asc"),startAfter(firstHostId-6), limit(5));
-    getDocs(q).then((querySnapshot) => {
-      const colors = [];
-      
-      querySnapshot.forEach((doc) => {
-        console.log("Doc ID:", doc.data().id);
-        if(doc.data().id>firstHostId-6){
-          colors.push({ ...doc.data() });
-        }
-        
-      });
-      console.log(colors);
-      setListOfHosts(colors);
-      
-    }); 
-  }
-    const fetchNext=()=>{
-    const lastColorId=listOfHosts[listOfHosts.length-1].id;
-    console.log("Last Color ID:", lastColorId);
-    const q1 =query(collection(db, "hosts"))
-    const q= query(q1, orderBy("id","asc"),startAfter(lastColorId), limit(5));
-    getDocs(q).then((querySnapshot) => {
-      const colors = [];
-      
-      querySnapshot.forEach((doc) => {
-        console.log("Doc ID:", doc.data().id);
-        if(doc.data().id>lastColorId){
-          colors.push({ ...doc.data() });
-        }
-        
-      });
-      console.log(colors);
-      setListOfHosts(colors);
-      
-    }); 
-  }
-  const guideSelected=(id)=>{
-    navigate(`/guides/${id}`)
-  }
-  const fetchMain=()=>{
-    window.location.reload();
-  }
   const search=(e) => {
     console.log(e.target.value)
     if(e.target.value==""){
@@ -151,26 +110,59 @@ export default function Hosts() {
     setSearchLocation(e.target.value)
     
   }
- 
-    const searchTypesOfRetreats=()=>{
-      
-      const q =query(collection(db, "hosts"),or (where("type1", "==",selectedType), where("location","==",searchLocation), where("type2","==", selectedType), where("type3","==",selectedType)));
-      const querySnapshot = getDocs(q);
-      const retreats = [];
-      querySnapshot.then((snapshot)=>{
-        snapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retreats.push({ ...doc.data() });
-          
-        console.log(retreats);  
-          setListOfHosts(retreats);
-        });
+   
+   
 
-   
-  });
+
+    const [pageNumber, setPageNumber] = useState(0)
+    
+      const usersPerPage = 8
+      const pagesVisited = pageNumber * usersPerPage
+      const pageCount = Math.ceil(listOfGuides.length/usersPerPage)
+      const changePage= ({selected}) => {
+          setPageNumber(selected)
+
+      }
+      const displayHosts = listOfGuides.slice(pagesVisited, pagesVisited + usersPerPage)
+       .map(guide => {
+          return(
+                 
+                <div key={guide.hostId} >
+                
+                  <h2>{guide.hostFirstName}</h2>
+                   <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
+            <div className="aspect-[5/3] overflow-hidden">
+              <img
+                src={guide.hostProfilePicUrl}
+                alt={guide.hostId}
+                className="w-full h-full object-cover transition-transform duration-500"
+              />
+            </div>
+            <CardContent className="p-4">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-1 text-sm">
+                  <Star size={16} fill="currentColor" className="text-retreat-forest" />
+                  <h1>{guide.hostFirstName}</h1>
+                </div>
+              </div>
+              <p className="text-muted-foreground text-sm mb-2">
+              </p>
+              <div className="flex justify-between items-center mt-1">
+            
+              </div>
+              <div className="mt-3 font-medium">
+                <span className="text-lg"></span>
+                          <span className="text-lg"></span>
       
-   
-    }
+                <span className="text-sm text-muted-foreground"> / person</span>
+                    <Link to={`/hostdetails/${guide.hostId}`} ><button  className='bg-lime-700 ml-50px  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</button></Link>
+      
+              </div>
+            </CardContent>
+          </Card>
+          </div>
+            
+      )})
   return (
     <div>
       <div className=" py-16">
@@ -183,18 +175,21 @@ export default function Hosts() {
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
              <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
     <option value="">Select Type</option>
-    <option value="meditation">Photographers</option>
-    <option value="muay thai">Vegan Chefs</option>
-    <option value="vegan">Sound Healers</option>
-    <option value="yoga">Yoga teachers</option>
-    <option value="India">Alchemists</option>
-    <option value="Greece">Chefs</option>
-    <option value="Peru">Gym Coach</option>
-    <option value="Australia">Hikers</option>
+    <option value="Meditation">Meditation</option>
+    <option value="Vegan">Vegan</option>
+    <option value="Sound Healing">Sound Healing</option>
+    <option value="Yoga">Yoga</option>
+    <option value="Alchemistry">Alchemistry</option>
+    <option value="Forest">Forest Healing</option>
+    <option value="Workout">Workout</option>
+    <option value="Hiking">Hiking</option>
+    <option value="Womens">Women's Retreat</option>
+
     </select>
            
   <select className="bg-white p-2 rounded-md" onChange={searchPlace}>
     <option value="">Select Location</option>
+    <option value="Everywhere">Everywhere</option>
     <option value="Bali">Bali</option>
     <option value="Thailand">Thailand</option>
     <option value="Costa Rica">Costa Rica</option>
@@ -206,61 +201,28 @@ export default function Hosts() {
     </select>
     
            
-            <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={searchTypesOfRetreats}>
-              Submit
-            </Button>
+           
           </div>
         </div>
       </div>
     </div>
          
    <Separator />
-     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8">
-           {listOfGuides.map((guide)=>{
-             return <div key={guide.id} >
-          
-            <h2>{guide.firstName}</h2>
-             <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={()=>guideSelected(guide.id)}>
-      <div className="aspect-[5/3] overflow-hidden">
-        <img
-          src={guide.imageurl}
-          alt={guide.firstName}
-          className="w-full h-full object-cover transition-transform duration-500"
-        />
-      </div>
-      <CardContent className="p-4">
-        <div className="flex justify-between items-start">
-          <h3 className="font-serif font-medium text-lg line-clamp-1">{guide.firstName}</h3>
-          <div className="flex items-center gap-1 text-sm">
-            <Star size={16} fill="currentColor" className="text-retreat-forest" />
-            <span>{guide.firstName}&nbsp; {guide.lastName}</span>
-          </div>
-        </div>
-        <p className="text-muted-foreground text-sm mb-2">{guide.profession}
-        </p>
-        <div className="flex justify-between items-center mt-1">
-      
-        </div>
-        <div className="mt-3 font-medium">
-          <span className="text-lg">${guide.firstName}</span>
-          <span className="text-sm text-muted-foreground"> / person</span>
-        </div>
-      </CardContent>
-    </Card>
-    
-             </div>
-           })}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8" >
+       {displayHosts}
+       
+    </div> 
+     <div className="flex justify-center items-center gap-4 mb-8">
+                                                    <ReactPaginate
+                                                          previousLabel={"Previous"}
+                                                           nextLabel={"Next"}
+                                                          pageCount={pageCount}
+                                                          onPageChange={changePage}
+                                                          containerClassName={"paginationBttns"}
+                                                       previousLinkClassName={"previousBttn"}
 
-    </div>                                             <div className="flex justify-center items-center gap-4 mb-8">
-                                                     <button onClick={fetchPrevious} style={{width:'200px;',height:'60px;', padding:'10px;'}} 
-                                                     className="hover:bg-lime-700 hover:text-white p-3 hover:m-2 rounded-md">Previous</button>
-                                   <button onClick={fetchMain} style={{width:'200px;',height:'60px;', padding:'10px;'}}
-                           
-                           className="hover:bg-lime-700 hover:text-white p-3 hover:m-2 rounded-md">Main Page</button>
-                           <button onClick={fetchNext} style={{width:'200px;',height:'60px;', padding:'10px;'}}
-                           
-                           className="hover:bg-lime-700 hover:text-white p-3 hover:m-2 rounded-md">Next</button>
-            </div>
+                                                          />
+                                                         </div>   
             
          </div>   
          

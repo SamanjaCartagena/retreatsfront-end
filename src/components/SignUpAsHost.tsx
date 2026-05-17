@@ -9,6 +9,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword,signInWithPopup, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import ModalCancellation from './ModalCancellation.js';
 import { set } from 'date-fns';
 
 function SignUpAsHost() {
@@ -25,23 +26,61 @@ function SignUpAsHost() {
   const [details, setDetails] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
+  const [payout,setPayout]= useState(false)
   const [isCheckedVeganRetreat, setIsCheckedVeganRetreat] = useState(false)
-  const [isCheckedHypnoRetreat, setIsCheckedHypnoRetreat] = useState(false)
+  const [isCheckedSoundHealing, setIsCheckedSoundHealing] = useState(false)
   const [isCheckedMeditationRetreat, setIsCheckedMeditationRetreat] = useState(false)
   const [isCheckedCorporateRetreat, setIsCheckedCorporateRetreat] = useState(false)
   const [isCheckedHealthRetreat, setIsCheckedHealthRetreat] = useState(false)
   const [isCheckedYogaRetreat, setIsCheckedYogaRetreat] = useState(false)
   const [isPurpose, setIsPurpose] = useState(false)
+  const [cancellation, setCancellation] = useState(false)
   const [isCheckedRecreationRetreat, setIsCheckedRecreationRetreat] = useState(false)
   const [isCheckedOthers, setIsCheckedOthers] = useState(false)
+  const [modalCancellationOpen, setModalCancellationOpen] = useState(false);
   const [phone, setPhone] = useState('');
+  const [terms, setTerms] = useState(false);
+  const [openTermsModal, setOpenTermsModal] = useState(false);
   const [dateOfBirth, setDateOfBirth] = useState(''); 
+  const [type1, setType1] = useState('')
+  const [type2, setType2] = useState('')
+  const [type3, setType3] = useState('')
   const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/retreat1.jpg?alt=media&token=0c739aa7-357f-4422-b0ff-49d055754ecb"
-
+  
   const closeModal = () => setIsModalOpen(false);
   const closePasswordModal =()=>setPasswordModal(false);
   const closePurposeModal =()=> setIsPurpose(false)
   const closePasswordLengthModal =()=> setPasswordLengthModal(false);
+  const meditation=()=>{
+    setIsCheckedMeditationRetreat(true)
+    if(isCheckedMeditationRetreat){
+          setType1('Meditation')
+
+    }
+    else{
+      setType1('None')
+    }
+  }
+  const vegan=()=>{
+    setIsCheckedVeganRetreat(true)
+    if(isCheckedVeganRetreat){
+          setType2('Vegan')
+
+    }
+    else{
+      setType2('None')
+    }
+  }
+    const sound=()=>{
+    setIsCheckedSoundHealing(true)
+    if(isCheckedSoundHealing){
+          setType3('Sound Healing')
+
+    }
+    else{
+      setType3('None')
+    }
+  }
   const create= async()=>{
       try{
         if(confirmPassword.length<8 || password1.length<8){
@@ -51,6 +90,11 @@ function SignUpAsHost() {
             setConfirmPassword('');
             return;
         }
+        if(!terms || !payout || !cancellation){
+          setOpenTermsModal(true);
+          return;
+        }
+        
         
         if(password1===confirmPassword){
                   await createUserWithEmailAndPassword(auth,email,confirmPassword)
@@ -67,14 +111,13 @@ function SignUpAsHost() {
                                   hostRetreatDetails: details,
                                   hostDateOfBirth: dateOfBirth,
                                   hostPhone: phone,
-                                  veganRetreat:isCheckedVeganRetreat,
-                                  hypnoRetreat:isCheckedHypnoRetreat,
-                                  meditationRetreat:isCheckedMeditationRetreat,
-                                  corporateRetreat:isCheckedCorporateRetreat, 
-                                  healthRetreat:isCheckedHealthRetreat,
-                                  yogaRetreat:isCheckedYogaRetreat,
-                                  recreationRetreat:isCheckedRecreationRetreat,
+                                  type1:type1,
+                                  type2:type2,
+                                  type3:type3,
+                                  payout:payout,
                                   others:isCheckedOthers,
+                                  cancellation:cancellation,
+                                  terms:terms,
                                   hostProfilePicUrl:"https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40",
                                   createdAt: new Date()
                                 });
@@ -134,12 +177,55 @@ function SignUpAsHost() {
                 Password must be at least 6 characters long, Password must contain letters and numbers!
             </div>
             </Modal>
+            <Modal isOpen={openTermsModal} onClose={()=> setOpenTermsModal(false)}>
+          <div style={{width:'100%', position:'relative', top:'50%', left:'50%', transform:'translate(-50%, -50%)'}} className="justify-center items-center text-center p-4 bold text-lg">
+                Please read the terms and conditions, payout policies, cancellation policies and check the boxes to agree before creating a profile!
+            </div>
+            </Modal>
         <div className="absolute inset-0 hero-gradient flex flex-col justify-center">
           <div className="container mx-auto max-w-3xl px-4 md:px-6">
             <div className="animate-fade-in">
               <h1 className="text-4xl md:text-5xl sm:text-2xl md:pt-6 lg:text-6xl font-serif font-bold tracking-tight text-white mb-6">
                 Transform A Mind with a Retreat.
               </h1>
+              <Modal isOpen={terms} onClose={()=> setTerms(false)}>
+          <div style={{width:'100%', position:'relative', top:'50%', left:'50%', transform:'translate(-50%, -50%)'}} className="justify-center items-center text-center p-4 bold text-lg">
+            <br/><br/>
+            <br/><br/>
+            <br/><br/>
+            <br/><br/>
+            <br/><br/>
+                This document outlines the partnership structure, the 15% commission fee, and the specific payout trigger (immediately following the cancellation date) as requested. It is styled with an aesthetic suitable for a spiritual healing and travel brand.
+                <br/><br/>
+                <strong>Partnership Structure:</strong><br/>
+                Retreats Around The World (RATW) operates as a platform connecting hosts with guests seeking transformative retreat experiences. Hosts list their retreats on the RATW platform, and guests book directly through the site. RATW provides marketing, customer support, and payment processing services to facilitate these connections.
+                <br/><br/>
+                <button className="mt-4 px-4 py-2 bg-lime-700 hover:bg-lime-800 text-white rounded-md hover:bg-retreat-forest transition-colors" onClick={()=> window.open('https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/Retreats_Around_The_World_Terms.pdf?alt=media&token=90cd4e50-3d26-4b64-ad8d-40c9fcf8b1b2', '_blank')}>
+                Open Terms and Conditions
+              </button>
+
+            </div>
+            
+              </Modal>
+              <ModalCancellation isOpen={modalCancellationOpen} onClose={()=> setModalCancellationOpen(false)}>
+                     <br/>
+              <br/>
+              <br/>
+              <br/>
+              <h2 className="text-xl font-semibold mb-4">Cancellation Policy</h2>
+              <p className="text-sm text-muted-foreground">
+               <strong>We understand that plans can change at the last minute. But we have to comply with our partners' policies.</strong><br/><br/>
+<strong>Third-Party Alignment:</strong> Explicitly states that funds are held and managed according to the specific policies of the partnered hosts or retreat centers.
+<br/><br/>
+<strong>Guest Responsibility:</strong> Clarifies that guests are responsible for reviewing individual host terms before booking.
+<br/><br/>
+<strong>Financial Protection:</strong> Includes a strong recommendation for travel insurance to cover potential losses due to partner-specific cancellation windows.
+
+              </p>
+              <button className="mt-4 px-4 py-2 bg-lime-700 hover:bg-lime-800 text-white rounded-md hover:bg-retreat-forest transition-colors" onClick={()=> window.open('https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/Cancellation_Policy_Retreats_Around_The_World.pdf?alt=media&token=68caf53d-b471-4bd2-acaa-3bf620a37f63', '_blank')}>
+                Open Policies
+              </button>
+              </ModalCancellation>
                    <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div style={{width:'100%',}}>
                 Congratulations on Creating a profile
@@ -181,11 +267,11 @@ function SignUpAsHost() {
                 <Button className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={()=> setIsPurpose(true)}>
                  Purpose
                 </Button>
-                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
-                 Influence
+                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={()=> setTerms(true)}>
+                 Terms and Conditions
                 </Button>
-                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6">
-                 Secure a Location
+                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={()=>setModalCancellationOpen(true)}>
+                 Cancellation Policy
                 </Button>
                
               </div>
@@ -253,13 +339,13 @@ function SignUpAsHost() {
        <label className="block text-gray-700 text-sm font-bold mb-2" >
        What kind of retreats will you be hosting? Check all that apply.</label>
       <br/>
-      <input type="checkbox" id="veganretreat" checked={isCheckedVeganRetreat} onChange={(e)=>setIsCheckedVeganRetreat(true)}/>
+      <input type="checkbox" id="veganretreat" checked={isCheckedVeganRetreat} onChange={vegan}/>
       <label >&nbsp;Vegan Retreat</label>
       <br/>
-      <input type="checkbox" id="hypnoretreat" checked={isCheckedHypnoRetreat} onChange={(e)=>setIsCheckedHypnoRetreat(true)}/>
-      <label  >&nbsp;Hypnotherapy</label>
+      <input type="checkbox" id="soundhealing" checked={isCheckedSoundHealing} onChange={sound}/>
+      <label  >&nbsp;Sound Healing</label>
       <br/>
-      <input type="checkbox" id="meditationretreat" checked={isCheckedMeditationRetreat} onChange={(e)=>setIsCheckedMeditationRetreat(true)}/>
+      <input type="checkbox" id="meditationretreat" checked={isCheckedMeditationRetreat} onChange={meditation}/>
       <label >&nbsp;Meditation Retreat</label><br/>
       <input type="checkbox" id="corporateretreat" checked={isCheckedCorporateRetreat} onChange={(e)=> setIsCheckedCorporateRetreat(true)}/>
       <label >&nbsp;Corporate Retreat</label><br/>
@@ -285,12 +371,24 @@ function SignUpAsHost() {
        </div>
 
     </div>
+             <input type="checkbox" id="terms"  checked={terms}  />
+
+     <label >&nbsp;By checking this box, I agree to the Terms and Conditions</label><br/>
+              <input type="checkbox" id="payout"  checked={payout}  />
+
+     <label >&nbsp;By checking this box, I agree to the Payout Terms</label><br/>
+              <input type="checkbox" id="cancel" checked={cancellation} />
+
+     <label >&nbsp;By checking this box, I agree to the Cancellation Policies</label><br/><br/>
+      
+      
     <div className="flex items-center justify-between">
       <button className="bg-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={create}>
         Create a Profile
       </button>
      
      </div>
+
       
       <br/>
       
