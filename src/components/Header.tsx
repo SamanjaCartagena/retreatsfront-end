@@ -115,7 +115,9 @@ const [id,setId]=useState('');
     >
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+            <h1 className="mt-20">
                 Sign out Successful!
+                </h1>
             </div>
             </Modal>
       <div className="container flex items-center justify-between">

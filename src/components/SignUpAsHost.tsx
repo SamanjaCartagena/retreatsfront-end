@@ -5,15 +5,18 @@ import { Input } from "@/components/ui/input";
 import Modal from './Modal.js';
 import ModalHost from './ModalHost.js'
 import {auth, googleProvider, db} from '../firebase.js';
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc, query, getDocs, where } from "firebase/firestore"; 
 import { createUserWithEmailAndPassword,signInWithPopup, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import ModalCancellation from './ModalCancellation.js';
 import { set } from 'date-fns';
-
+import dayjs, { Dayjs } from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 function SignUpAsHost() {
-  const [email, setEmail] = useState('');
+  const [hostEmail, setHostEmail] = useState('');
   const [password1, setPassword1] = useState('');
   const navigate = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,7 +28,9 @@ function SignUpAsHost() {
   const [details, setDetails] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [passwordModal, setPasswordModal] = useState(false);
+  const [isCheckedCancellation, setIsCheckedCancellation] = useState(false);
   const [payout,setPayout]= useState(false)
+  const [value, setValue] = React.useState<Dayjs | null>();
   const [isCheckedVeganRetreat, setIsCheckedVeganRetreat] = useState(false)
   const [isCheckedSoundHealing, setIsCheckedSoundHealing] = useState(false)
   const [isCheckedMeditationRetreat, setIsCheckedMeditationRetreat] = useState(false)
@@ -33,113 +38,178 @@ function SignUpAsHost() {
   const [isCheckedWorkoutRetreat, setIsCheckedWorkoutRetreat] = useState(false)
   const [isCheckedYogaRetreat, setIsCheckedYogaRetreat] = useState(false)
   const [isCheckedHikingRetreat, setIsCheckedHikingRetreat] = useState(false)
+  const [isCheckedTerms, setIsCheckedTerms] = useState(false)
   const [isPurpose, setIsPurpose] = useState(false)
   const [cancellation, setCancellation] = useState(false)
   const [isCheckedRecreationRetreat, setIsCheckedRecreationRetreat] = useState(false)
   const [isCheckedOthers, setIsCheckedOthers] = useState(false)
   const [modalCancellationOpen, setModalCancellationOpen] = useState(false);
   const [phone, setPhone] = useState('');
+  const [emailCheck, setEmailCheck] = useState('');
+  const [isPayputChecked, setIsPayoutChecked] = useState(false)
   const [terms, setTerms] = useState(false);
   const [openTermsModal, setOpenTermsModal] = useState(false);
-  const [dateOfBirth, setDateOfBirth] = useState(''); 
+  const [dateOfBirth, setDateOfBirth] = useState(dayjs().format('MM/DD/YYYY')); 
   const [type1, setType1] = useState('')
   const [type2, setType2] = useState('')
   const [type3, setType3] = useState('')
   const [type4, setType4] = useState('')
   const [type5, setType5] = useState('')
   const [type6, setType6] =useState('')
+  const [type7, setType7] = useState('')
+  const [type8, setType8] = useState('')
+  const [type9, setType9] = useState('')  
   const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/retreat1.jpg?alt=media&token=0c739aa7-357f-4422-b0ff-49d055754ecb"
   
   const closeModal = () => setIsModalOpen(false);
   const closePasswordModal =()=>setPasswordModal(false);
   const closePurposeModal =()=> setIsPurpose(false)
   const closePasswordLengthModal =()=> setPasswordLengthModal(false);
-  const meditation=()=>{
-    setIsCheckedMeditationRetreat(true)
-    if(isCheckedMeditationRetreat){
+  const birthday=(e)=>{
+    setDateOfBirth(dayjs(e).format('MM/DD/YYYY'))
+    alert(dateOfBirth)
+  }
+  const meditation=(e)=>{
+    if(e.target.checked){
+      setIsCheckedMeditationRetreat(true)
           setType1('Meditation')
 
     }
     else{
+      setIsCheckedMeditationRetreat(false)
       setType1('None')
     }
   }
   const vegan=(e)=>{
-    setIsCheckedVeganRetreat(!isCheckedVeganRetreat)
-    if(isCheckedVeganRetreat){
-       setType2('Vegan')
-       alert(type2)
+    if(e.target.checked){
+      setIsCheckedVeganRetreat(true)
+      setType2('Vegan')
     }
     else{
-          setType2('None')
-          alert(type2)
+      setIsCheckedVeganRetreat(false)
+      setType2('None')
+    }
   }
-
-    
-    
+  const changedTerms=(e)=>{
+    setIsCheckedTerms(!isCheckedTerms)
+   
+   
   }
-   const corporate=()=>{
-    setIsCheckedCorporateRetreat(!isCheckedCorporateRetreat)
-    if(isCheckedCorporateRetreat){
-          setType4('Corporate Retreate')
-          console.log(type4)
-
+   const corporate=(e)=>{
+    if(e.target.checked){
+      setIsCheckedCorporateRetreat(true)
+      setType4('Corporate Retreate')
+      console.log(type4)
     }
     else{
+      setIsCheckedCorporateRetreat(false)
       setType4('None')
       console.log(type4)
     }
   }
-    const workout=()=>{
-    setIsCheckedWorkoutRetreat(!isCheckedWorkoutRetreat)
-    if(isCheckedWorkoutRetreat){
+    const workout=(e)=>{
+    if(e.target.checked){
           setType5('Workout Retreat')
-          console.log(type5)
-
+          setIsCheckedWorkoutRetreat(true)
     }
     else{
       setType5('None')
-      console.log(type5)
+      setIsCheckedWorkoutRetreat(false)
     }
   }
-  const hiking=()=> {
-    setIsCheckedHikingRetreat(!isCheckedHikingRetreat)
-    if(isCheckedHikingRetreat){
+  const yoga =(e)=>{
+    if(e.target.checked){
+      setIsCheckedYogaRetreat(true)
+      setType7('Yoga')
+    }
+    else{
+      setIsCheckedYogaRetreat(false)
+      setType7('None')
+    }
+  }
+  const recreation=(e)=>{
+    if(e.target.checked){
+      setIsCheckedRecreationRetreat(true)
+      setType8('Recreation')
+    }
+    else{
+      setIsCheckedRecreationRetreat(false)
+      setType8('None')
+    }
+  }
+  const pay=()=>{
+    setIsPayoutChecked(!isPayputChecked)  
+  }
+  const others=(e)=>{
+    if(e.target.checked){
+      setIsCheckedOthers(true)
+          setType9('Others')
+    }
+    else{
+      setIsCheckedOthers(false)
+      setType9('None')
+    }
+  }
+  const hiking=(e)=> {
+    if(e.target.checked){
+      setIsCheckedHikingRetreat(true)
       setType6('Hiking')
     }
     else{
+      setIsCheckedHikingRetreat(false)
       setType6('None')
     }
   }
-    const sound=()=>{
-    setIsCheckedSoundHealing(!isCheckedSoundHealing)
-    if(isCheckedSoundHealing){
-          setType3('Sound Healing')
-          console.log(type3)
-
-    }
-    else{
-      setType3('None')
-      console.log(type3)
-    }
+  const cancel=()=>{
+    setIsCheckedCancellation(!isCheckedCancellation)  
+  }
+    const sound=(e)=>{
+      if(e.target.checked){ 
+        setIsCheckedSoundHealing(true)
+        setType3('Sound Healing')
+      }
+      else{
+        setIsCheckedSoundHealing(false)
+        setType3('None')
+      }
+    
   }
   const create= async()=>{
       try{
-        if(confirmPassword.length<8 || password1.length<8){
+         const emailQuery = query(collection(db, "hosts"), where("hostEmail", "==", hostEmail));
+        const emailQuerySnapshot = await getDocs(emailQuery);
+        const usernameQuery = query(collection(db, "hosts"), where("hostUsername", "==", username));
+        const usernameQuerySnapshot = await getDocs(usernameQuery);
+
+                
+        if(emailQuerySnapshot.size > 0){
+          alert("You already have an email address registered with us!")
+          return;
+        }
+        else if(usernameQuerySnapshot.size > 0){
+          alert("This username has been taken. Please try a new one")
+          return;
+        }
+
+       else if(confirmPassword.length<8 || password1.length<8){
 
             setPasswordLengthModal(true);
             setPassword1('');
             setConfirmPassword('');
             return;
         }
-        if(!terms || !payout || !cancellation){
+       else if(!isCheckedTerms || !isPayputChecked || !isCheckedCancellation){
           setOpenTermsModal(true);
           return;
         }
-        
-        
-        if(password1===confirmPassword){
-                  await createUserWithEmailAndPassword(auth,email,confirmPassword)
+        else if(password1!==confirmPassword){
+          alert("Passwords do not match")
+          setPasswordModal(true)
+          return;
+        }
+         
+        else if(password1===confirmPassword){
+                  await createUserWithEmailAndPassword(auth,hostEmail,confirmPassword)
                   .then(async (userCredential)=>{
                     const user = userCredential.user;
                     console.log('User created:', user.uid);
@@ -149,7 +219,7 @@ function SignUpAsHost() {
                                   hostLastName: lastName,
                                   hostIntroduction: introduction,
                                   hostUsername: username,
-                                  hostEmail: email,
+                                  hostEmail: hostEmail,
                                   hostRetreatDetails: details,
                                   hostDateOfBirth: dateOfBirth,
                                   hostPhone: phone,
@@ -159,20 +229,21 @@ function SignUpAsHost() {
                                   type4:type4,
                                   type5:type5,
                                   type6:type6,
+                                  type7:type7,
+                                  type8:type8,
+                                  type9:type9,
                                   payout:payout,
-                                  others:isCheckedOthers,
-                                  cancellation:cancellation,
-                                  terms:terms,
+                                  cancellation:isCheckedCancellation,
                                   hostProfilePicUrl:"https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40",
                                   createdAt: new Date()
                                 });
-                                 fetch('http://localhost:3000/send-Admin-email', {
+                                 fetch('http://localhost:3000/send-admin-email', {
                                    method: 'POST',
                                   headers: {
                                   'Content-Type': 'application/json',
 
                      },
-                              body:JSON.stringify({ name: "Admin", email: "samanja.cartagena@gmail.com", content: `A new host has just signed up with the name ${firstName} ${lastName} and email ${email}. Please review their profile and approve their hosting privileges. ` }), 
+                              body:JSON.stringify({ name: "Admin", email: "samanja.cartagena@gmail.com", content: `A new host has just signed up with the name ${firstName} ${lastName} and email ${hostEmail}. Please review their profile and approve their hosting privileges. ` }), 
                               
                });
                                     fetch('http://localhost:3000/send-email', {
@@ -181,10 +252,10 @@ function SignUpAsHost() {
                                   'Content-Type': 'application/json',
 
                      },
-                              body:JSON.stringify({ name: firstName, email: email, content: "Welcome to Retreats Around The World, a community for mindful retreats and travelling to recover from the stresses of daily life." }), 
+                              body:JSON.stringify({ name: firstName, email: hostEmail, content: "Welcome to Retreats Around The World, a community for mindful retreats and travelling to recover from the stresses of daily life." }), 
                               
                });
-                           signInWithEmailAndPassword(auth, email, confirmPassword)
+                           signInWithEmailAndPassword(auth, hostEmail, confirmPassword)
                   .then((userCredential)=>{
                      setIsModalOpen(true);
 
@@ -202,7 +273,17 @@ function SignUpAsHost() {
         })
       }
         else{
-           setPasswordModal(true);
+          alert("Something went wrong! Please try again!")
+          setFirstName("")
+          setLastName("")
+          setUsername("")
+          setHostEmail("")
+          setPassword1("")
+          setConfirmPassword("")
+          setIntroduction("")
+          setDetails("")
+          setDateOfBirth(dayjs().format('MM/DD/YYYY'))
+          return
         }
         }catch(err){
             console.error(err)
@@ -359,13 +440,16 @@ function SignUpAsHost() {
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Email
       </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" onChange={(e)=> setEmail(e.target.value)} />
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" onChange={(e)=> setHostEmail(e.target.value)} />
      <br/><br/>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Date of Birth
       </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="dateOfBirth" type="date" placeholder="Date of Birth" onChange={(e)=> setDateOfBirth(e.target.value)} />
-      <br/><br/>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker value={value} onChange={(e)=>birthday(e)}/>
+          </LocalizationProvider>
+          <br/>
+          <br/>
        <label className="block text-gray-700 text-sm font-bold mb-2" >
         Phone Number
       </label>
@@ -398,7 +482,7 @@ function SignUpAsHost() {
       
       <label >&nbsp;Workout Retreat</label>
       <br/>
-         <input type="checkbox" id="yogaretreat" checked={isCheckedYogaRetreat} onChange={(e)=>setIsCheckedYogaRetreat(true)}/>
+         <input type="checkbox" id="yogaretreat" checked={isCheckedYogaRetreat} onChange={yoga}/>
       
       <label >&nbsp;Yoga Retreat</label>
       <br/>
@@ -406,11 +490,11 @@ function SignUpAsHost() {
       
       <label >&nbsp;Hiking Retreat</label>
       <br/>
-        <input type="checkbox" id="recreationretreat" checked={isCheckedRecreationRetreat} onChange={(e)=>setIsCheckedRecreationRetreat(true)}/>
+        <input type="checkbox" id="recreationretreat" checked={isCheckedRecreationRetreat} onChange={recreation}/>
       
       <label>&nbsp;Recreation Retreat</label>
       <br/>
-      <input type="checkbox" id="others" checked={isCheckedOthers} onChange={(e)=> setIsCheckedOthers(true)}/>
+      <input type="checkbox" id="others" checked={isCheckedOthers} onChange={others}/>
             <label >&nbsp;Others</label>
             <br/>
             <br/>
@@ -420,13 +504,13 @@ function SignUpAsHost() {
        </div>
 
     </div>
-             <input type="checkbox" id="terms"  checked={terms}  />
+             <input type="checkbox" id="terms"  checked={isCheckedTerms} onChange={changedTerms} />
 
      <label >&nbsp;By checking this box, I agree to the Terms and Conditions</label><br/>
-              <input type="checkbox" id="payout"  checked={payout}  />
+              <input type="checkbox" id="payout"  checked={isPayputChecked} onChange={pay} />
 
      <label >&nbsp;By checking this box, I agree to the Payout Terms</label><br/>
-              <input type="checkbox" id="cancel" checked={cancellation} />
+              <input type="checkbox" id="cancel" checked={isCheckedCancellation} onChange={cancel} />
 
      <label >&nbsp;By checking this box, I agree to the Cancellation Policies</label><br/><br/>
       

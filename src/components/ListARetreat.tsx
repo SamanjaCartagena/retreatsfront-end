@@ -19,10 +19,11 @@ function ListARetreat() {
    const[retreatType, setRetreatType] = useState("")
    const[address,setAddress] = useState("")
    const[country,setCountry] = useState("")
-   
+   const [startDate, setStartDate] = useState(dayjs().format('MM/DD/YYYY'))
+   const [endDate, setEndDate] = useState(dayjs().format('MM/DD/YYYY'))
    const[price,setPrice] = useState(0.00)
   const [value, setValue] = React.useState<Dayjs | null>();
-      const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
+      const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
    const [kind,setKind] = useState("")
    const[isTerms, setIsTerms] = useState(false)
    const [documentId,setDocumentId] = useState("")
@@ -70,14 +71,15 @@ function ListARetreat() {
 
    }
 
-     const valueSelected=(e)=>{
-  const m=e.format('MMMM')
-  setSelectedMonth(m)
- 
-    
+     const startAtDate=(e)=>{
+  setStartDate(e)
+  
+
 
 }
-
+const endAtDate=(e)=>{
+ setEndDate(e)
+}
 
  
   const testing = async () => {
@@ -116,6 +118,8 @@ function ListARetreat() {
                                          pic1: imageList[0],
                                          pic2: imageList[1],
                                          pic3: imageList[2],
+                                         startDate:startDate,
+                                         endDate:endDate
 
          }).then(()=>{
           
@@ -271,7 +275,7 @@ function ListARetreat() {
        Start Date of Retreat
       </label>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker value={value} onChange={(e)=>valueSelected(e)}/>
+      <DatePicker value={value} onChange={(e)=>startAtDate(e)}/>
     </LocalizationProvider>
     </div>
     <div>
@@ -279,7 +283,7 @@ function ListARetreat() {
        End Date of Retreat
       </label>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker value={value} onChange={(e)=>valueSelected(e)}/>
+      <DatePicker value={value} onChange={(e)=>endAtDate(e)}/>
         
     </LocalizationProvider>
 
