@@ -18,10 +18,8 @@ function Host() {
     // Signed in 
     const user = userCredential.user;
     alert('Sign In Successful'+user.email);
-    navigate(`/`);
+    navigate(`/profile/${user.uid}`);
     window.location.reload()
-
-    // ...
   })
   .catch((error) => {
     const errorCode = error.code;

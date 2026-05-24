@@ -103,7 +103,7 @@ function SignUpAsHost() {
     }
     else{
       setIsCheckedCorporateRetreat(false)
-      setType4('None')
+      setType4('Not Corporate Retreat')
       console.log(type4)
     }
   }
@@ -113,7 +113,7 @@ function SignUpAsHost() {
           setIsCheckedWorkoutRetreat(true)
     }
     else{
-      setType5('None')
+      setType5('Not Workout Retreat')
       setIsCheckedWorkoutRetreat(false)
     }
   }
@@ -124,7 +124,7 @@ function SignUpAsHost() {
     }
     else{
       setIsCheckedYogaRetreat(false)
-      setType7('None')
+      setType7('Not Yoga Retreat')
     }
   }
   const recreation=(e)=>{
@@ -134,7 +134,7 @@ function SignUpAsHost() {
     }
     else{
       setIsCheckedRecreationRetreat(false)
-      setType8('None')
+      setType8('Not Recreation')
     }
   }
   const pay=()=>{
@@ -147,7 +147,7 @@ function SignUpAsHost() {
     }
     else{
       setIsCheckedOthers(false)
-      setType9('None')
+      setType9('Not others')
     }
   }
   const hiking=(e)=> {
@@ -157,7 +157,7 @@ function SignUpAsHost() {
     }
     else{
       setIsCheckedHikingRetreat(false)
-      setType6('None')
+      setType6('Not Hiking')
     }
   }
   const cancel=()=>{
@@ -170,7 +170,7 @@ function SignUpAsHost() {
       }
       else{
         setIsCheckedSoundHealing(false)
-        setType3('None')
+        setType3('Not Sound Healing')
       }
     
   }

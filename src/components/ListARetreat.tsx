@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react'
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
-import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serverTimestamp } from "firebase/firestore";
 import { db, auth,storage} from "../firebase.js";
 
 import { useParams, useNavigate } from 'react-router-dom';
@@ -33,12 +33,11 @@ function ListARetreat() {
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
    const [imageList, setImageList] = useState([]);
-
-   const [retreatId, setRetreatId] = useState("")
+   const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
    const params = useParams();
    const userId = params.userId;
    const navigate= useNavigate()
-    const imageListRef = ref(storage, `/retreatimages/${userId}/`);
+    const imageListRef = ref(storage, `/retreatimages/${userId}/${retreatId}/`);
     const deleteImage=(url)=>{
        alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
@@ -55,7 +54,7 @@ function ListARetreat() {
        if(imageUpload == null) return;
        
        
-       const imageRef = ref(storage, `/retreatimages/${userId}/${imageUpload.name+v4()}`);
+       const imageRef = ref(storage, `/retreatimages/${userId}/${retreatId}/${imageUpload.name+v4()}`);
        uploadBytes(imageRef, imageUpload).then((snapshot)=>{
          getDownloadURL(snapshot.ref).then((url)=>{
            setImageList((prev)=>[...prev, url]);
@@ -82,23 +81,7 @@ const endAtDate=(e)=>{
 }
 
  
-  const testing = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/send-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
 
-      },
-      body:JSON.stringify({ name: hostFirstName, email: hostEmail, content: "Thank you for hosting your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
-    });
-
-    const result = await response.json();
-    console.log('Success:', result);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
 
    const host =() => {
 
@@ -109,17 +92,18 @@ const endAtDate=(e)=>{
                                          address: address,
                                          location: country,
                                          price:price, 
+                                         retreatId: retreatId,
                                          id:v4()+userId,
                                          hostId:userId,
                                          hostFirstName:hostFirstName,
                                          hostEmail:hostEmail,
                                          hostLastName:hostLastName,
-                                         isDisplayed: false,
+                                         isDisplayed: true,
+                                         createdAt: serverTimestamp(),
                                          pic1: imageList[0],
                                          pic2: imageList[1],
                                          pic3: imageList[2],
-                                         startDate:startDate,
-                                         endDate:endDate
+                                         
 
          }).then(()=>{
           
@@ -168,6 +152,11 @@ const endAtDate=(e)=>{
                       });
                     });
                   });
+                  const retreatQuery = query(collection(db, "retreats"), where("hostId", "==", userId));
+                          const retreatQuerySnapshot = await getDocs(retreatQuery);
+                                    setRetreatId(retreatQuerySnapshot.size + 1);
+
+ 
          
             })
   
