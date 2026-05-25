@@ -103,6 +103,7 @@ const endAtDate=(e)=>{
                                          pic1: imageList[0],
                                          pic2: imageList[1],
                                          pic3: imageList[2],
+                                         pic4: imageList[3],
                                          
 
          }).then(()=>{

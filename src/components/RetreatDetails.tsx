@@ -2,16 +2,22 @@ import React,{useEffect, useState} from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
 
-import {db} from '../firebase.js';
+import {db,storage} from '../firebase.js';
 import { Button } from './ui/button.js';
 import Modal from './Modal.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import dayjs from 'dayjs';
+import { getDownloadURL, listAll, ref } from 'firebase/storage';
 function RetreatDetails() {
     const params = useParams()
-    const retreatId= params.id
+    const id= params.id
     const [retreatName, setRetreatName] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
+    const [imageUrl1, setImageUrl1] = useState("");
+    const [imageUrl2, setImageUrl2] = useState("");
+    const [imageUrl3, setImageUrl3] = useState("");
+    const [imageUrl4, setImageUrl4] = useState("");
+    const [imageList, setImageList] = useState([]);
+    const [userId, setUserId] = useState("");
     const [retreatAddress, setRetreatAddress] = useState("");
     const [hostLastName, setHostLastName] = useState("");
     const [hostFirstName, setHostFirstName] = useState("");
@@ -24,8 +30,12 @@ function RetreatDetails() {
     const [emailHostModal, setEmailHostModal] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false)
     const [guestEmail, setGuestEmail] = useState(false)
-    const [notLogged, setNotLogged] = useState(false)
+    const [viewPhotos, setViewPhotos] = useState(false)
+      const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
     
+    const [notLogged, setNotLogged] = useState(false)
+    console.log("User id in retreat details is", userId)
+    console.log("Retreat id in retreat details is", retreatId)
 
 const closeEmailHostModal =()=>{
   setEmailHostModal(false)
@@ -58,6 +68,10 @@ const sendEmail=()=>{
                               
                })
 }
+const viewAllPhotos=()=>{
+  setViewPhotos(true)
+  
+}
 useEffect(()=>{
   const auth=getAuth()
           onAuthStateChanged(auth, (user) => {
@@ -65,6 +79,7 @@ useEffect(()=>{
     // User is signed in, see docs for a list of available properties
     // https://google.com
     const uid = user.uid;
+    setUserId(uid);
     const guestEmail = user.email;
     setLoggedIn(true)
     setGuestEmail(true)
@@ -76,7 +91,8 @@ useEffect(()=>{
     console.log("User is logged out");
   }
 });
-          const q2 = query(collection(db, "retreats"), (where("id", "==", retreatId)));
+          
+          const q2 = query(collection(db, "retreats"), (where("id", "==", id)));
           getDocs(q2).then((querySnapshot) => {
          
           const retreats: any[] = [];
@@ -84,21 +100,38 @@ useEffect(()=>{
             console.log(doc.id, " => ", doc.data().name);
             retreats.push({ ...doc.data() });
             setRetreatName(doc.data().name);
-            setImageUrl(doc.data().imageurl);
+            setImageUrl1(doc.data().pic1);
+            setImageUrl2(doc.data().pic2);
+            setImageUrl3(doc.data().pic3);
+            setImageUrl4(doc.data().pic4);
+            setUserId(doc.data().hostId);
+            setRetreatId(doc.data().retreatId);
             setRetreatAddress(doc.data().address);
             setHostLastName(doc.data().hostLastName);
-            setHostFirstName(doc.data().hostName);
+            setHostFirstName(doc.data().hostFirstName);
             setMonth(doc.data().month);
             setCountry(doc.data().location);
             setHostEmail(doc.data().hostEmail);
             setHostPic(doc.data().hostProfilePic);
             setPrice(doc.data().price)
+            console.log("Retreat id is", doc.data().retreatId)
             
           console.log(retreats);  
           })
          
         });
-},[])
+            const imageListRef = ref(storage, `/retreatimages/${userId}/${retreatId}/`);
+
+          listAll(imageListRef).then((res)=>{
+                            res.items.forEach((item)=>{
+                              getDownloadURL(item).then((url)=>{
+                                setImageList((prev)=>[...prev, url]);
+                                
+                              });
+                            });
+                          })
+                          console.log("Image list is", imageList)
+},[retreatId, userId])
   return (
     <div  className="relative h-auto min-h-[auto] w-full overflow-hidden grid place-items-center">
         <br/>
@@ -107,7 +140,35 @@ useEffect(()=>{
         <br/>
          <h1 className='text-4xl'>{retreatName}</h1>
          <br/>
-         <img src={imageUrl} alt={retreatName} className="w-80% h-full object-cover" />  
+         
+
+<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-1/2 justify-center items-center ">
+  <div><img className="h-auto max-w-full rounded-lg object-cover" src={imageUrl1} alt=""/></div>
+  <div><img className="h-auto max-w-full rounded-lg object-cover" src={imageUrl2} alt=""/></div>
+  <div><img className="h-auto max-w-full rounded-lg object-cover" src={imageUrl3} alt=""/></div>
+  <div><img className="h-auto max-w-full rounded-lg object-cover" src={imageUrl4} alt=""/></div>
+ 
+</div>
+ <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white justify-right " style={{ justifyContent: 'right', justifyItems: 'right'}} onClick={viewAllPhotos}>
+    View all photos
+  </Button>
+     
+
+<br/>
+Hello from retreat details
+        {imageList.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/>
+      
+      <p>{url}</p>
+      <br/>
+
+
+
+      </div>
+      
+     })}
+                  <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white justify-right" onClick={sendEmail}>Contact {hostFirstName}</Button>
+
          <br/>
          {loggedIn &&
              <Modal isOpen={emailHostModal} onClose={closeEmailHostModal}>
@@ -118,7 +179,6 @@ useEffect(()=>{
                   <textarea>
 
                   </textarea>
-                  <Button onClick={sendEmail}>Contact {hostFirstName}</Button>
                 </form>
 
             </div>
@@ -134,7 +194,6 @@ useEffect(()=>{
           <h1 className='text-2xl'>{retreatAddress}&nbsp;{month}&nbsp;{country}</h1>
           <h1 className='text-2xl'>About the Host</h1>
                    <h1 className='text-2xl'>${price} for days{} </h1>
-
           <div className="text-center w-full justify-center p-10 rounded-lg flex m-4 gap-4 items-right">
 
             <div>
