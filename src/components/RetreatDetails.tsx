@@ -1,13 +1,15 @@
 import React,{useEffect, useState} from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
-
+import ImageModal from './ImageModal.js';
 import {db,storage} from '../firebase.js';
 import { Button } from './ui/button.js';
 import Modal from './Modal.js'
+import ImageSlider from './ImageSlider.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import dayjs from 'dayjs';
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
+import { Card } from './ui/card.js';
 function RetreatDetails() {
     const params = useParams()
     const id= params.id
@@ -24,15 +26,18 @@ function RetreatDetails() {
     const [month, setMonth] = useState("");
     const [country, setCountry] = useState("");
     const [hostPic, setHostPic] = useState(""); 
+    const [openImageModal, setOpenImageModal] = useState(false);
     const [price, setPrice] = useState(0);
     const [hostEmail, setHostEmail] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
+    const [currentIndex, setCurrentIndex] = useState(0)
+
     const [emailHostModal, setEmailHostModal] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false)
     const [guestEmail, setGuestEmail] = useState(false)
-    const [viewPhotos, setViewPhotos] = useState(false)
       const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
-    
+      const [active, setActive] = useState(0);
+
     const [notLogged, setNotLogged] = useState(false)
     console.log("User id in retreat details is", userId)
     console.log("Retreat id in retreat details is", retreatId)
@@ -46,6 +51,16 @@ const closeNotLogged=()=>{
 const book=()=>{
   alert("retreat booked")
 }
+
+      const containerStyles = {
+    width: '700px',
+    height: '500px',
+    margin: '0 auto',
+    position:'center'
+  };
+   
+ 
+
 const contactHost =()=> {
   
 if(loggedIn){
@@ -69,7 +84,7 @@ const sendEmail=()=>{
                })
 }
 const viewAllPhotos=()=>{
-  setViewPhotos(true)
+  setOpenImageModal(true)
   
 }
 useEffect(()=>{
@@ -130,43 +145,42 @@ useEffect(()=>{
                               });
                             });
                           })
-                          console.log("Image list is", imageList)
-},[retreatId, userId])
+
+                        },[retreatId, userId])
   return (
-    <div  className="relative h-auto min-h-[auto] w-full overflow-hidden grid place-items-center">
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+    <div className="min-h-screen bg-gray-100 mt-30 justify-center items-center justify-items-center">
+        
+        <div className="max-w-full mx-auto text-center">
          <h1 className='text-4xl'>{retreatName}</h1>
          <br/>
          
+<center>
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-2 w-100% m-4 justify-center items-center justify-items-center ">
+  
+  {imageList.length > 0 &&  imageList.slice(0, 4).map((imageUrl, index) => (
+             
+             <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
+      <img className="w-85 md:w-50 lg:w-full rounded-lg" src={imageUrl} alt={`Retreat Image ${index + 1}`} />
+    </Card>
+))}
 
-<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-1/2 justify-center items-center ">
-  <div><img className="h-auto max-w-full rounded-lg object-cover" src={imageUrl1} alt=""/></div>
-  <div><img className="h-auto max-w-full rounded-lg object-cover" src={imageUrl2} alt=""/></div>
-  <div><img className="h-auto max-w-full rounded-lg object-cover" src={imageUrl3} alt=""/></div>
-  <div><img className="h-auto max-w-full rounded-lg object-cover" src={imageUrl4} alt=""/></div>
  
 </div>
+</center>
  <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white justify-right " style={{ justifyContent: 'right', justifyItems: 'right'}} onClick={viewAllPhotos}>
     View all photos
   </Button>
      
 
 <br/>
-Hello from retreat details
-        {imageList.map((url)=>{
-      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/>
-      
-      <p>{url}</p>
-      <br/>
-
-
-
+<center>
+<ImageModal isOpen={openImageModal} onClose={()=>setOpenImageModal(false)} style={{justifyContent:'center', alignItems:'center', width:'100%', height:'100%'}}>
+   <div style={containerStyles}>
+     <ImageSlider slides={imageList}/>
       </div>
       
-     })}
+     </ImageModal>
+     </center>
                   <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white justify-right" onClick={sendEmail}>Contact {hostFirstName}</Button>
 
          <br/>
@@ -213,6 +227,7 @@ Hello from retreat details
             
             </div>
             
+          </div>
           </div>
     </div>
   )
