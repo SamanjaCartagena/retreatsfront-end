@@ -167,7 +167,7 @@ useEffect(()=>{
  
 </div>
 </center>
- <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white justify-right " style={{ justifyContent: 'right', justifyItems: 'right'}} onClick={viewAllPhotos}>
+ <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white justify-right m-2" style={{ justifyContent: 'right', justifyItems: 'right'}} onClick={viewAllPhotos}>
     View all photos
   </Button>
      
