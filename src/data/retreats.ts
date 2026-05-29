@@ -30,4 +30,5 @@ export const featuredDestinations = [
   { name: 'Emirates', image: 'https://media.cntraveler.com/photos/66ec51d7a66d02c5e80a4fe6/4:3/w_4864,h_3648,c_limit/GettyImages-1334589964.jpg', count: 67, url:"https://emirates.com" },
   { name: 'JetBlue', image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/cd/51/e3/jetblue-airways.jpg?w=1200&h=-1&s=1', count: 45, url:"https://jetblue.com" },
   { name: 'Hawaiian Airlines', image: 'https://content.r9cdn.net/rimg/dimg/ce/a6/cbbdc66b-al-HA-162b0641d5c.jpg?width=1366&height=768&xhint=1160&yhint=633&crop=true', count: 38, url:"https://hawaiianairlines.com" },
+  
 ];

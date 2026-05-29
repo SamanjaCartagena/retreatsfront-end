@@ -6,16 +6,13 @@ const ImageModal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null; // Don't render if not open
 
   return (
-    <div className="modal-overlay justify-center items-center h-800px" onClick={onClose}>
-            <div className="items-center justify-center">
-      <div className="modal-content justify-center items-center h-auto" onClick={(e) => e.stopPropagation()}>
-                    <img src={logo} style={{width:'80px', height:'80px', position:'relative', left:'10%', marginLeft:'110px', marginBottom:'10px'}}/>
+    <div className="image-modal-overlay w-full h-full bg-black/90" onClick={onClose}>
+      <div className="image-modal-content max-w-5xl min-w-full h-full justify-center bg-transparent items-center" onClick={(e) => e.stopPropagation()}>
 
-        <button className="modal-close-button" onClick={onClose}>
+        <button className="image-modal-close-button" onClick={onClose}>
           &times;
         </button>
         {children}
-        </div>
       </div>
     </div>
   );

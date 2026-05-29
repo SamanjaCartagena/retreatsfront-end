@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
 import ImageModal from './ImageModal.js';
+import './ImageModal.css';
 import {db,storage} from '../firebase.js';
 import { Button } from './ui/button.js';
 import Modal from './Modal.js'
@@ -52,12 +53,7 @@ const book=()=>{
   alert("retreat booked")
 }
 
-      const containerStyles = {
-    width: '700px',
-    height: '500px',
-    margin: '0 auto',
-    position:'center'
-  };
+
    
  
 
@@ -149,18 +145,24 @@ useEffect(()=>{
                         },[retreatId, userId])
   return (
     <div className="min-h-screen bg-gray-100 mt-30 justify-center items-center justify-items-center">
-        
+        <ImageModal isOpen={openImageModal} onClose={()=>setOpenImageModal(false)} className="justify-center items-center">
+   <div className="w-full h-full justify-center items-center bg-transparent">
+     <ImageSlider slides={imageList} />
+      </div>
+      
+     </ImageModal>
+     
         <div className="max-w-full mx-auto text-center">
          <h1 className='text-4xl'>{retreatName}</h1>
          <br/>
          
 <center>
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-2 w-100% m-4 justify-center items-center justify-items-center ">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-2 w-100% m-4 justify-center align-center items-center justify-items-center">
   
-  {imageList.length > 0 &&  imageList.slice(0, 4).map((imageUrl, index) => (
+  {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
-             <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
-      <img className="w-85 md:w-50 lg:w-full rounded-lg" src={imageUrl} alt={`Retreat Image ${index + 1}`} />
+             <Card className="rounded-xl w-100 overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={viewAllPhotos} key={index}>
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt={`Retreat Image ${index + 1}`} />
     </Card>
 ))}
 
@@ -174,17 +176,12 @@ useEffect(()=>{
 
 <br/>
 <center>
-<ImageModal isOpen={openImageModal} onClose={()=>setOpenImageModal(false)} style={{justifyContent:'center', alignItems:'center', width:'100%', height:'100%'}}>
-   <div style={containerStyles}>
-     <ImageSlider slides={imageList}/>
-      </div>
-      
-     </ImageModal>
+
      </center>
                   <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white justify-right" onClick={sendEmail}>Contact {hostFirstName}</Button>
 
          <br/>
-         {loggedIn &&
+       {/** 
              <Modal isOpen={emailHostModal} onClose={closeEmailHostModal}>
           <div style={{width:'100%', position:'relative', top:'50%', left:'50%', transform:'translate(-50%, -50%)'}} className="justify-center items-center text-center p-4 bold text-lg">
                <form>
@@ -197,13 +194,15 @@ useEffect(()=>{
 
             </div>
             </Modal>
-          }
-             <Modal isOpen={notLogged} onClose={closeNotLogged}>
+          
+             <Modal isOpen={notLogged} onClose={closeNotLogged} >
           <div style={{width:'100%', position:'relative', top:'50%', left:'50%', transform:'translate(-50%, -50%)'}} className="justify-center items-center text-center p-4 bold text-lg">
                <p>Please sign up or log in to contact {hostFirstName}</p>
 
             </div>
             </Modal>
+
+            **/}
           
           <h1 className='text-2xl'>{retreatAddress}&nbsp;{month}&nbsp;{country}</h1>
           <h1 className='text-2xl'>About the Host</h1>
