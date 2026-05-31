@@ -3,14 +3,49 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serverTimestamp } from "firebase/firestore";
 import { db, auth,storage} from "../firebase.js";
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+
 
 import Modal from "./Modal.js";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 export function Newsletter() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [emailSubs, setEmailSubs] = useState("");
+  const [userId, setUserId] = useState("");
+  const [isSignedInModal, setIsSignedInModal] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [alreadySubscribed, setAlreadySubscribed] = useState(false);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        setUserId(uid);
+        setIsSignedIn(true);
+         async () => {
+      const q = query(collection(db, "subscribers"), where("email", "==", emailSubs));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        setAlreadySubscribed(true);
+      } else {
+        setAlreadySubscribed(false);
+      }
+    };
+      } else {
+        setUserId("");
+        setIsSignedIn(false);
+      }
+
+    });
+  
+   
+  }, [emailSubs]);
+
   const subscribed = () => {
+    if(!isSignedIn){
+      setIsSignedInModal(true);
+      return;
+    }
     addDoc(collection(db, "subscribers"), {
       email: emailSubs
     }).then(() => {
@@ -23,15 +58,22 @@ export function Newsletter() {
     <div className="bg-yellow-100 py-16">
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
-          <Modal isOpen={isSubscribed} onClose={() => setIsSubscribed(false)}>
+          <Modal isOpen={isSignedInModal} onClose={() => setIsSignedInModal(false)}>
             <div className="p-4 mt-20 text-center">
               <h2 className="text-2xl font-serif font-semibold mb-4">
-                Thank you for subscribing!
+                Please sign in to subscribe to our newsletter!
+              </h2>
+              </div>
+            </Modal>
+          <Modal isOpen={alreadySubscribed} onClose={() => setAlreadySubscribed(false)}>
+            <div className="p-4 mt-20 text-center">
+              <h2 className="text-2xl font-serif font-semibold mb-4">
+                You are already subscribed!
               </h2>
               <p className="text-muted-foreground mb-8">
                 You will now receive the latest retreat news and exclusive offers in your inbox.
               </p>
-              <Button className="bg-retreat-sage hover:bg-retreat-forest" onClick={() => setIsSubscribed(false)}>
+              <Button className="bg-retreat-sage hover:bg-retreat-forest" onClick={() => setAlreadySubscribed(false)}>
                 Close
               </Button>
             </div>
@@ -58,3 +100,5 @@ export function Newsletter() {
     </div>
   );
 }
+
+

@@ -246,14 +246,20 @@ const changePage= ({selected}) => {
             <div>
              <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
     <option value="">Select Type</option>
+    <option value="Adventure">Adventure</option>
+    <option value="Art">Art</option>
+    <option value="Ayurveda">Ayurveda</option>
+        <option value="Detox">Detox</option>
+        <option value="Horse">Horse Retreat</option>
+     <option value="Men">Men's Retreat</option>
     <option value="Meditation">Meditation</option>
-    <option value="muay thai">Muay Thai</option>
+    <option value="Martial Arts">Martial Arts</option>
+    <option value="Spiritual">Spiritual</option>
+        <option value="Surfing">Surfing</option>
     <option value="Vegan">Vegan</option>
     <option value="yoga">Yoga</option>
-    <option value="India">India</option>
     <option value="Womens">Women's Retreat</option>
-    <option value="Peru">Peru</option>
-    <option value="Australia">Australia</option>
+    <option value="Writing">Writing</option>
     </select>
            </div>
            <div>
@@ -453,7 +459,7 @@ const changePage= ({selected}) => {
     <option value="Yemen">Yemen</option>
     <option value="Zambia">Zambia</option>
     <option value="Zimbabwe">Zimbabwe</option>
-    
+
     </select>
     </div>
     <div>

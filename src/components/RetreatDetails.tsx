@@ -11,6 +11,9 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import dayjs from 'dayjs';
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { Card } from './ui/card.js';
+import stripe from 'stripe';
+import StripeCheckout from 'react-stripe-checkout';
+
 function RetreatDetails() {
     const params = useParams()
     const id= params.id
@@ -29,28 +32,76 @@ function RetreatDetails() {
     const [hostPic, setHostPic] = useState(""); 
     const [openImageModal, setOpenImageModal] = useState(false);
     const [price, setPrice] = useState(0);
+    const [guestEmail, setGuestEmail] = useState("");
     const [hostEmail, setHostEmail] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0)
-
+    const [bookRetreat, setBookRetreat] = useState({
+            name:"Retreat Name",
+            email:"Customer Email",
+            price:0,
+           productBy:"Host Name",
+             retreatId:0,
+             hostId:0,    
+           })
     const [emailHostModal, setEmailHostModal] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false)
-    const [guestEmail, setGuestEmail] = useState(false)
       const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
       const [active, setActive] = useState(0);
 
     const [notLogged, setNotLogged] = useState(false)
     console.log("User id in retreat details is", userId)
     console.log("Retreat id in retreat details is", retreatId)
-
+const navigate = useNavigate();
 const closeEmailHostModal =()=>{
   setEmailHostModal(false)
 }
 const closeNotLogged=()=>{
   setNotLogged(false)
 }
-const book=()=>{
-  alert("retreat booked")
+
+   const makePayment= (token) =>{
+      if(loggedIn){
+    const body  ={
+      token, 
+      bookRetreat
+    }
+    const headers= {
+      "Content-Type":"application/json"
+    }
+    return fetch(`http://localhost:3000/book-retreat`,{
+      method:"POST",
+      headers,
+      body:JSON.stringify(body)
+    }).then( response =>{
+          console.log("RESPONSE", response)
+          const {status} = response;
+          console.log("STATUS ", status)
+          if(status === 200){
+            navigate("/success")
+          }
+            else{
+              alert("There was an issue with your payment. Please try again.")
+            }
+
+})
+      
+    .catch(error =>
+      {
+        console.log(error)
+        alert("There was an error processing your booking. Please try again later.") 
+    })
+
+  }
+  else{
+    setNotLogged(true)
+
+  }
+   
+   
+    
+    
+
 }
 
 
@@ -93,7 +144,7 @@ useEffect(()=>{
     setUserId(uid);
     const guestEmail = user.email;
     setLoggedIn(true)
-    setGuestEmail(true)
+    setGuestEmail(guestEmail)
     
     console.log("User is logged in:", uid);
   } else {
@@ -125,6 +176,14 @@ useEffect(()=>{
             setHostEmail(doc.data().hostEmail);
             setHostPic(doc.data().hostProfilePic);
             setPrice(doc.data().price)
+            setBookRetreat({
+              email: guestEmail,
+              name: doc.data().name,
+              price: doc.data().price,
+              productBy: doc.data().hostFirstName,
+              retreatId: doc.data().retreatId,
+              hostId: doc.data().hostId,
+            })
             console.log("Retreat id is", doc.data().retreatId)
             
           console.log(retreats);  
@@ -145,7 +204,7 @@ useEffect(()=>{
                         },[retreatId, userId])
   return (
     <div className="min-h-screen bg-gray-100 mt-30 justify-center items-center justify-items-center">
-        <ImageModal isOpen={openImageModal} onClose={()=>setOpenImageModal(false)} className="justify-center items-center">
+        <ImageModal isOpen={openImageModal} onClose={()=>setOpenImageModal(false)} >
    <div className="w-full h-full justify-center items-center bg-transparent">
      <ImageSlider slides={imageList} />
       </div>
@@ -222,10 +281,21 @@ useEffect(()=>{
 
             <Button onClick={contactHost}>Contact {hostFirstName}</Button><br/>
             <br/>
-            <Button onClick={book}>Book this Retreat</Button>
-            
+            {loggedIn && (
+              <StripeCheckout 
+                stripeKey = "pk_live_51TGWAfHFx7gkDqvcnUNJA0HfnDrgXWy8Uidb0sDoQU6fhmwuoLiqLYWozr6YquYP4soWimEAXtkUtzTJ9PbIW5nC00r4PDuwxU"
+                token={makePayment}
+                name="Book This Retreat"
+                amount={bookRetreat.price * 100}
+     >
+      <button className="btn-large pink">Book This Retreat ${bookRetreat.price}</button>
+      </StripeCheckout>
+            )}
+            {!loggedIn && (
+              <p>Please log in to book this retreat</p>
+            )}
             </div>
-            
+                        
           </div>
           </div>
     </div>

@@ -21,6 +21,7 @@ import GuideDetails from "./components/GuideDetails";
 import Guides from "@/components/Guides";
 import GuideSignUp from "@/components/GuideSignUp";
 import Airways from "@/components/Airways";
+import Success from "@/components/Success";
 
 const queryClient = new QueryClient();
 const App = () => (
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/signupasHost" element={<SignUpAsHost/>}/>
           <Route path="/admin" element={<Admin/>}/>
           <Route path="/hosts/:userId" element={<ProfileSelected/>}/>
+          <Route path="/success" element={<Success/>}/>
 
           <Route path="/profile/:userId" element={<ProfileDetails/>}/>
           <Route path="/list/:userId" element={<ListARetreat/>}/>

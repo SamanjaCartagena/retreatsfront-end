@@ -30,12 +30,12 @@ export default function CreateGuest() {
                         const user = userCredential.user;
                         console.log('User created:', user.uid);
                                       addDoc(collection(db, "guests"), {
-                                      id: user.uid,
-                                      firstName: firstName,
-                                      lastName: lastName,
-                                      username: username,
-                                      email: email,
-                                      kind:kind,
+                                      guestId: user.uid,
+                                      guestFirstName: firstName,
+                                      guestLastName: lastName,
+                                      guestUsername: username,
+                                      guestEmail: email,
+                                      guestKind:kind,
                                       createdAt: new Date()
                                     });
                       })
