@@ -113,7 +113,7 @@ const endAtDate=(e)=>{
 
          }).then(async ()=>{
           
-       await  fetch('http://159.65.179.142:5000/send-email', {
+       await  fetch('https://159.65.179.142:5000/send-email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
