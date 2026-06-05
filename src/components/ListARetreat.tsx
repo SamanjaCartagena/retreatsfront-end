@@ -113,7 +113,7 @@ const endAtDate=(e)=>{
 
          }).then(()=>{
           
-         fetch('https://www.retreatsaroundtheworld.net/send-email', {
+         fetch('https://retreatsaroundtheworld.net/send-email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
