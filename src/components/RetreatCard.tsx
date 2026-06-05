@@ -159,6 +159,7 @@ export function RetreatCard() {
   **/
   
   }, [selectedLocation, selectedPrice, selectedType]);
+ 
 
   const searchPrice =(v)=>{
     if(v==""){
@@ -191,6 +192,8 @@ export function RetreatCard() {
       <CardContent className="p-4">
         <div className="flex justify-between items-start">
           <h3 className="font-serif font-medium text-lg line-clamp-1">{retreat.name}</h3>
+          <h3 className="font-serif font-medium text-lg line-clamp-1">{retreat.startAt?.toDate()?.toLocaleDateString('en-US')}</h3> -
+          <h3 className="font-serif font-medium text-lg line-clamp-1">{retreat.endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
           <div className="flex items-center gap-1 text-sm">
             <Star size={16} fill="currentColor" className="text-retreat-forest" />
             <span>{retreat.name}</span>
@@ -208,8 +211,8 @@ export function RetreatCard() {
           <span className="text-sm text-muted-foreground"> / person</span>
           
               <Link to={`/retreatdetails/${retreat.id}`} ><br/><br/>
-              <button  className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</button></Link>
-                            <button  className='bg-lime-700 m-4  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center' onClick={() => window.open('https://www.tripadvisor.com', '_blank')}>Trip Advisor</button>
+              <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">Find Out More</Button></Link>
+                             <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white ml-5" onClick={() => window.open('https://www.tripadvisor.com', '_blank')}>Trip Advisor</Button>
 
         </div>
       </CardContent>

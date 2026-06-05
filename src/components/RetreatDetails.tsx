@@ -33,6 +33,9 @@ function RetreatDetails() {
     const [openImageModal, setOpenImageModal] = useState(false);
     const [price, setPrice] = useState(0);
     const [guestEmail, setGuestEmail] = useState("");
+    const [startAt, setStartAt] = useState(null);
+    const [endAt, setEndAt] = useState(null);
+    const [kind, setKind] = useState("");
     const [hostEmail, setHostEmail] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -172,7 +175,10 @@ useEffect(()=>{
             setHostLastName(doc.data().hostLastName);
             setHostFirstName(doc.data().hostFirstName);
             setMonth(doc.data().month);
+            setKind(doc.data().kind);
             setCountry(doc.data().location);
+            setStartAt(doc.data().startAt);
+            setEndAt(doc.data().endAt);
             setHostEmail(doc.data().hostEmail);
             setHostPic(doc.data().hostProfilePic);
             setPrice(doc.data().price)
@@ -228,17 +234,16 @@ useEffect(()=>{
  
 </div>
 </center>
+<div className="w-full h-full flex justify-end items-center bg-transparent">
  <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white justify-right m-2" style={{ justifyContent: 'right', justifyItems: 'right'}} onClick={viewAllPhotos}>
     View all photos
   </Button>
      
 
 <br/>
-<center>
 
-     </center>
-                  <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white justify-right" onClick={sendEmail}>Contact {hostFirstName}</Button>
-
+                  <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white text-align: right justify-items: right" onClick={sendEmail}>Contact {hostFirstName}</Button>
+           </div>
          <br/>
        {/** 
              <Modal isOpen={emailHostModal} onClose={closeEmailHostModal}>
@@ -265,12 +270,15 @@ useEffect(()=>{
           
           <h1 className='text-2xl'>{retreatAddress}&nbsp;{month}&nbsp;{country}</h1>
           <h1 className='text-2xl'>About the Host</h1>
-                   <h1 className='text-2xl'>${price} for days{} </h1>
+                    <h3 className="font-serif font-medium m-2 text-lg line-clamp-1">{startAt?.toDate()?.toLocaleDateString('en-US')}</h3> -
+          <h3 className="font-serif font-medium text-lg m-2 line-clamp-1">{endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
+
+                   <h1 className='text-2xl'>${price} for&nbsp; {Math.abs(endAt?.toDate()?.getDate() - startAt?.toDate()?.getDate())}&nbsp;days in {retreatAddress}</h1>
           <div className="text-center w-full justify-center p-10 rounded-lg flex m-4 gap-4 items-right">
 
             <div>
             <p className='text-lg font-semibold mt-4'>{hostFirstName} &nbsp;{hostLastName}</p>
-            <p className='w-80'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p className='w-80'>{kind}</p>
             </div>
             <div>
             <img src={hostPic} alt={hostFirstName} className="w-60 h-60 rounded-full object-cover" />

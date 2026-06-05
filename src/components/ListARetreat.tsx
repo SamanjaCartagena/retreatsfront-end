@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react'
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
-import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serverTimestamp, Timestamp} from "firebase/firestore";
 import { db, auth,storage} from "../firebase.js";
 
 import { useParams, useNavigate } from 'react-router-dom';
@@ -19,8 +19,8 @@ function ListARetreat() {
    const[retreatType, setRetreatType] = useState("")
    const[address,setAddress] = useState("")
    const[country,setCountry] = useState("")
-   const [startDate, setStartDate] = useState(dayjs().format('MM/DD/YYYY'))
-   const [endDate, setEndDate] = useState(dayjs().format('MM/DD/YYYY'))
+   const [startDate, setStartDate] = useState(null)
+   const [endDate, setEndDate] = useState(null)
    const[price,setPrice] = useState(0.00)
   const [value, setValue] = React.useState<Dayjs | null>();
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
@@ -71,13 +71,15 @@ function ListARetreat() {
    }
 
      const startAtDate=(e)=>{
-  setStartDate(e)
+    const timestamp = Timestamp.fromDate(new Date(e));
+    setStartDate(timestamp)
   
 
 
 }
 const endAtDate=(e)=>{
- setEndDate(e)
+  const timestamp1 = Timestamp.fromDate(new Date(e));
+ setEndDate(timestamp1)
 }
 
  
@@ -99,6 +101,9 @@ const endAtDate=(e)=>{
                                          hostEmail:hostEmail,
                                          hostLastName:hostLastName,
                                          isDisplayed: true,
+                                         startAt: startDate,
+                                         endAt: endDate,
+                                         kind: kind,
                                          createdAt: serverTimestamp(),
                                          pic1: imageList[0],
                                          pic2: imageList[1],
@@ -292,13 +297,13 @@ const endAtDate=(e)=>{
 
 <label for="profile-pic">Upload retreat pics</label><br/>
 
-          <input type="file" id="profile-pic"  onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
-                   <button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
+          <input type="file" id="profile-pic" className='bg-lime-700 text-white font-bold py-2 px-4 w-1/2 m-2 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+                   <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
 
           </div>
      {imageList.map((url)=>{
       return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
-                      <button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</button>
+                      <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
 
 
 
@@ -306,9 +311,9 @@ const endAtDate=(e)=>{
       
      })}
         
-    <button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={host}>
+    <Button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={host}>
         Host a Retreat
-      </button>
+      </Button>
       </form>
       </div>
     </div> 

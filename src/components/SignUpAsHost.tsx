@@ -237,7 +237,7 @@ function SignUpAsHost() {
                                   hostProfilePicUrl:"https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40",
                                   createdAt: new Date()
                                 });
-                                 fetch('http://localhost:5000/send-admin-email', {
+                                 fetch('http://localhost:3000/send-admin-email', {
                                    method: 'POST',
                                   headers: {
                                   'Content-Type': 'application/json',
@@ -246,7 +246,7 @@ function SignUpAsHost() {
                               body:JSON.stringify({ name: "Admin", email: "samanja.cartagena@gmail.com", content: `A new host has just signed up with the name ${firstName} ${lastName} and email ${hostEmail}. Please review their profile and approve their hosting privileges. ` }), 
                               
                });
-                                    fetch('http://localhost:5000/send-email', {
+                                    fetch('http://localhost:3000/send-email', {
                                    method: 'POST',
                                   headers: {
                                   'Content-Type': 'application/json',
