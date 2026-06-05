@@ -111,9 +111,9 @@ const endAtDate=(e)=>{
                                          pic4: imageList[3],
                                          
 
-         }).then(()=>{
+         }).then(async ()=>{
           
-         fetch('https://retreatsaroundtheworld.net/send-email', {
+       await  fetch('https://localhost:5000/send-email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
