@@ -13,6 +13,7 @@ export function Newsletter() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [emailSubs, setEmailSubs] = useState("");
   const [userId, setUserId] = useState("");
+  const [placeHolderEmail, setPlaceHolderEmail] = useState("");
   const [isSignedInModal, setIsSignedInModal] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [alreadySubscribed, setAlreadySubscribed] = useState(false);
@@ -20,6 +21,7 @@ export function Newsletter() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
+        setPlaceHolderEmail(user.email);
         setUserId(uid);
         setIsSignedIn(true);
          async () => {
@@ -87,7 +89,7 @@ export function Newsletter() {
           <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
             <Input
               type="email"
-              placeholder="Your email address"
+              value={placeHolderEmail || emailSubs}
               className="bg-white"
               onChange={(e) => setEmailSubs(e.target.value)}
             />

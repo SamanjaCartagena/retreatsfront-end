@@ -171,7 +171,7 @@ export function RetreatCard() {
   }
   const [pageNumber, setPageNumber] = useState(0)
 
-  const usersPerPage = 8
+  const usersPerPage = 50
   const pagesVisited = pageNumber * usersPerPage
   const displayRetreats = listOfRetreats.slice(pagesVisited, pagesVisited + usersPerPage)
   .map(retreat => {

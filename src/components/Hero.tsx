@@ -2,23 +2,31 @@
 import { Button } from "@/components/ui/button";
 import {useState} from 'react';
 import pic from '../assets/retreats.png';
-import ModalAI from "./ModalAI";
+import Modal from "./Modal";
 import loading from '../assets/loading.gif';
 import { set } from "date-fns";
 import { useNavigate } from "react-router-dom";
 export function Hero() {
   const [isAIOpen, setIsAIOpen]= useState(false);
   const [loadingAI, setLoadingAI]= useState(false);
+  const [isHomeOpen, setIsHomeOpen]= useState(false);
+  const [isShopOpen, setIsShopOpen]= useState(false);
   const navigate=useNavigate()
   const askai =()=>{
     setIsAIOpen(true);
+  }
+  const homes =()=>{
+    setIsHomeOpen(true);
   }
  const closeAI =() => {
     setIsAIOpen(false);
     setLoadingAI (false);
  }
- const host=()=>{
-  navigate('/host')
+ const closeHomes =() => {
+    setIsHomeOpen(false);
+ }
+ const shop =()=>{
+  setIsShopOpen(true);
  }
 const submitAI =() => {
   // Handle AI submission logic here
@@ -28,27 +36,27 @@ const submitAI =() => {
 }
   return (
     <div className="relative h-[80vh] min-h-[700px] w-full overflow-hidden">
-      <ModalAI isOpen={isAIOpen} onClose={closeAI} >
-        <div className="p-6">
-          <h2 className="text-2xl font-bold mb-4">AI Retreat Match</h2>
-          <p className="mb-4">Answer a few questions to find your perfect retreat match!</p>
-          <textarea
-            className="w-full h-64 p-2 border border-gray-300 rounded-md mb-4"
-            placeholder="Explain what you are looking for in the perfect retreat..."
-          ></textarea>
-          {/* Add your AI matching form or content here */}
-          {loadingAI && <div className="grid justify-center items-center mb-4">
-            <h2>Loading...</h2><br/>
-            <img src={loading} alt="Loading..." style={{width:'50px', height:'50px'}}/>
-          </div>}
-          <Button onClick={submitAI} className="bg-retreat-forest text-white hover:bg-retreat-cream hover:text-retreat-forest mb-4 mr-4">
-            Submit
-          </Button>
-          <Button onClick={closeAI} className="bg-retreat-forest text-white hover:bg-retreat-cream hover:text-retreat-forest">
-            Close
-          </Button>
-        </div>
-        </ModalAI> 
+      <Modal isOpen={isAIOpen} onClose={closeAI} >
+        <div className="flex flex-col items-center justify-center h-full">
+          <center>
+            <h3 className="text-xl font-bold mb-4">Coming Soon! Our AI Retreat Match is in development and will be available shortly.</h3>
+          </center>
+          </div>
+        </Modal> 
+        <Modal isOpen={isHomeOpen} onClose={closeHomes} >
+        <div className="flex flex-col items-center justify-center h-full">
+          <center>
+            <h3 className="text-xl font-bold mb-4">Coming Soon!</h3>
+          </center>
+          </div>
+        </Modal> 
+        <Modal isOpen={isShopOpen} onClose={() => setIsShopOpen(false)} >
+        <div className="flex flex-col items-center justify-center h-full">
+          <center>
+            <h3 className="text-xl font-bold mb-4">Coming Soon!</h3>
+          </center>
+          </div>
+        </Modal> 
 
       
       <div 
@@ -68,11 +76,11 @@ const submitAI =() => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button className="bg-white hover:bg-white text-retreat-forest
-                  hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={host}>
+                  hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={homes}>
                   Homes 
                 </Button>
                 <Button className="bg-white hover:bg-white text-retreat-forest
-                  hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={host}>
+                  hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={shop}>
                   Shop
                 </Button>
                 

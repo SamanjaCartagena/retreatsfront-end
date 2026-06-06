@@ -11,6 +11,7 @@ import Modal from "./Modal";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import YoutubeIcon from '@mui/icons-material/YouTube';
 import logo from '../assets/logoretreat.png'
 import {
   Sheet,
@@ -158,6 +159,7 @@ const [id,setId]=useState('');
             <FacebookIcon style={{margin:'5px', cursor:'pointer'}}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
             <InstagramIcon style={{margin:'5px', cursor:'pointer'}} onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')} />
             <TwitterIcon style={{margin:'5px', cursor:'pointer'}} onClick={() => window.open('https://x.com/Retreats_World', '_blank')} />
+              <YoutubeIcon style={{margin:'5px', cursor:'pointer'}} onClick={() => window.open('https://www.youtube.com/@retreatsaroundtheworld', '_blank')} />
           </div>
           
           <Sheet>

@@ -242,7 +242,7 @@ useEffect(()=>{
 
 <br/>
 
-                  <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white text-align: right justify-items: right" onClick={sendEmail}>Contact {hostFirstName}</Button>
+                  <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white text-align: right justify-items: right" onClick={sendEmail}>Inquire</Button>
            </div>
          <br/>
        {/** 
@@ -287,8 +287,9 @@ useEffect(()=>{
                           Check out {hostFirstName}
                           </Button>
 
-            <Button onClick={contactHost}>Contact {hostFirstName}</Button><br/>
+            <Button onClick={contactHost}>Inquire </Button><br/>
             <br/>
+            {/** 
             {loggedIn && (
               <StripeCheckout 
                 stripeKey = "pk_live_51TGWAfHFx7gkDqvcnUNJA0HfnDrgXWy8Uidb0sDoQU6fhmwuoLiqLYWozr6YquYP4soWimEAXtkUtzTJ9PbIW5nC00r4PDuwxU"
@@ -302,6 +303,7 @@ useEffect(()=>{
             {!loggedIn && (
               <p>Please log in to book this retreat</p>
             )}
+              **/}
             </div>
                         
           </div>
