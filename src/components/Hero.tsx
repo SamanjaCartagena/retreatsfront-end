@@ -59,7 +59,7 @@ const submitAI =() => {
         <div className="absolute inset-0 hero-gradient flex flex-col justify-center">
           <div className="container mx-auto max-w-3xl px-4 md:px-6">
             <div className="animate-fade-in">
-              <h1 className="text-4xl md:text-5xl sm:text-2xl md:pt-6 lg:text-6xl font-serif font-bold tracking-tight text-white mb-6">
+              <h1 className="text-2xl md:text-2xl sm:text-2xl md:pt-6 lg:text-5xl font-serif font-bold tracking-tight text-white mb-6">
                 Transform Your Mind with a Retreat.
               </h1>
               <p className="text-xl text-white/90 mb-8 max-w-2xl">

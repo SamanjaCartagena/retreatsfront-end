@@ -72,7 +72,7 @@ const closeNotLogged=()=>{
     const headers= {
       "Content-Type":"application/json"
     }
-    return fetch(`http://localhost:5000/book-retreat`,{
+    return fetch(`https://retreatsaroundtheworld.net/book-retreat`,{
       method:"POST",
       headers,
       body:JSON.stringify(body)
