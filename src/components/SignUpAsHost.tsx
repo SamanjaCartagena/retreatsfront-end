@@ -67,7 +67,6 @@ function SignUpAsHost() {
   const closePasswordLengthModal =()=> setPasswordLengthModal(false);
   const birthday=(e)=>{
     setDateOfBirth(dayjs(e).format('MM/DD/YYYY'))
-    alert(dateOfBirth)
   }
   const meditation=(e)=>{
     if(e.target.checked){

@@ -21,6 +21,7 @@ function ListARetreat() {
    const[country,setCountry] = useState("")
    const [startDate, setStartDate] = useState(null)
    const [endDate, setEndDate] = useState(null)
+   const [currency, setCurrency] = useState("USD");
    const[price,setPrice] = useState(0.00)
   const [value, setValue] = React.useState<Dayjs | null>();
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
@@ -104,11 +105,11 @@ const endAtDate=(e)=>{
                                          startAt: startDate,
                                          endAt: endDate,
                                          kind: kind,
+                                         currency: currency,
                                          createdAt: serverTimestamp(),
                                          pic1: imageList[0],
-                                         pic2: imageList[1],
-                                         pic3: imageList[2],
-                                         pic4: imageList[3],
+                                         pic2: imageList[1]
+                                        
                                          
 
          }).then(async ()=>{
@@ -458,7 +459,19 @@ const endAtDate=(e)=>{
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Price of Retreat
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Last Name" onChange={pricing}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing}/>
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="AUD">AUD</option>
+        <option value="CAD">CAD</option>
+        <option value="RP">RP</option>
+        <option value="IDR">IDR</option>         
+      </select>
     </div>
     
     <div className="mb-4 flex gap-4">
