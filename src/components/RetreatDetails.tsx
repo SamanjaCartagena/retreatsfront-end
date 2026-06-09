@@ -199,6 +199,12 @@ useEffect(()=>{
           })
          
         });
+            const profilePicRef = ref(storage, `/profilePic/${userId}/profile.jpg`);
+          getDownloadURL(profilePicRef).then((url)=>{
+            setHostPic(url);
+          }).catch((error)=>{
+            console.log("Error getting profile picture:", error);
+          })
             const imageListRef = ref(storage, `/retreatimages/${userId}/${retreatId}/`);
 
           listAll(imageListRef).then((res)=>{
@@ -288,25 +294,32 @@ useEffect(()=>{
             **/}
           
           <h1 className='text-2xl'>{retreatAddress}&nbsp;{month}&nbsp;{country}</h1>
-          <h1 className='text-2xl'>About the Host</h1>
 
                     <h3 className="font-serif font-medium m-2 text-lg line-clamp-1">{startAt?.toDate()?.toLocaleDateString('en-US')} -&nbsp;
           {endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
                    <h1 className='text-2xl'>${price} for&nbsp; {Math.abs(endAt?.toDate()?.getDate() - startAt?.toDate()?.getDate())}&nbsp;days in {retreatAddress}</h1>
-          <div className="text-center w-full justify-center p-10 rounded-lg flex m-4 gap-4 items-right">
+                   <center>
+          <div className="text-center w-3/4  lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
 
             <div>
+
             <p className='text-lg md:w-full sm:w-full font-semibold mt-4'>{hostFirstName} &nbsp;{hostLastName}</p>
-            <p className='w-80 md:w-full sm:w-full'>{kind}</p>
+            <p className='w-60 md:w-full sm:w-full p-10'>{kind}</p>
             </div>
             <div>
-            <img src={hostPic} alt={hostFirstName} className="w-60 h-60 rounded-full object-cover" />
+                        <h1 className='text-2xl mb-4'>About the Host</h1>
+
+            <img src={hostPic}  className="w-60 h-60  rounded-full object-cover" />
             <br/>
-                        <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white m-4" >
+            <br/>
+            <div className=" grid justify-center items-center">
+                        <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" >
                           Check out {hostFirstName}
                           </Button>
+                          
 
-            <Button onClick={contactHost}>Inquire </Button><br/>
+            <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 w-60 text-white" onClick={()=>setInquiryModal(true)}>Inquire </Button><br/>
+            </div>
             <br/>
             {/** 
             {loggedIn && (
@@ -326,6 +339,7 @@ useEffect(()=>{
             </div>
                         
           </div>
+          </center>
           </div>
     </div>
   )
