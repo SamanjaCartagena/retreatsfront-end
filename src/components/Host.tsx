@@ -6,8 +6,11 @@ import { Button } from "@/components/ui/button";
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import Hosts from './Hosts.js'
 import { Link } from 'lucide-react';
+import Modal from './Modal.js';
 function Host() {
-
+  
+  const auth = getAuth();
+  const [doesUserExist, setDoesUserExist] = useState(true);
   const navigate=useNavigate();
   const [email, setEmail]=useState('');
   const [userId, setUserId]=useState('');
@@ -25,6 +28,7 @@ function Host() {
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
+    setDoesUserExist(false);
   });
   }
   const forgot = async() => {
@@ -44,8 +48,15 @@ function Host() {
     <div className="justify-center items-center grid h-screen absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pic})` }}>
       
       <div className="w-full max-w-xs items-center justify-center">
-        
-      
+        <Modal isOpen={!doesUserExist} onClose={()=>setDoesUserExist(true)} >
+        <div className="bg-white p-6 rounded shadow-md">
+          <h2 className="text-lg font-bold mb-4">User Not Found</h2>
+          <p className="mb-4">The email or password you entered is incorrect. Please try again.</p>
+          <Button onClick={()=>setDoesUserExist(true)} className="bg-lime-700 hover:bg-lime-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Close
+          </Button>
+        </div>
+      </Modal>
   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 className='justify-center items-center text-center p-4 bold text-lg'>Sign in as a Host to list a Retreat</h2>
 

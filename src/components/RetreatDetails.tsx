@@ -17,7 +17,10 @@ import StripeCheckout from 'react-stripe-checkout';
 function RetreatDetails() {
     const params = useParams()
     const id= params.id
+    const [inquiryModal, setInquiryModal] = useState(false);
     const [retreatName, setRetreatName] = useState("");
+    const [messageToHost, setMessageToHost] = useState("");
+
     const [imageUrl1, setImageUrl1] = useState("");
     const [imageUrl2, setImageUrl2] = useState("");
     const [imageUrl3, setImageUrl3] = useState("");
@@ -37,7 +40,6 @@ function RetreatDetails() {
     const [endAt, setEndAt] = useState(null);
     const [kind, setKind] = useState("");
     const [hostEmail, setHostEmail] = useState("");
-    const [messageToHost, setMessageToHost] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0)
     const [bookRetreat, setBookRetreat] = useState({
             name:"Retreat Name",
@@ -51,11 +53,12 @@ function RetreatDetails() {
     const [loggedIn, setLoggedIn] = useState(false)
       const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
       const [active, setActive] = useState(0);
-
+const message = `Hello, I am interested in attending your retreat called ${retreatName} in ${country} in ${startAt?.toDate()?.toLocaleDateString('en-US')}. Please let me know if there is availability and any additional information I should know. Thank you!`
     const [notLogged, setNotLogged] = useState(false)
     console.log("User id in retreat details is", userId)
     console.log("Retreat id in retreat details is", retreatId)
 const navigate = useNavigate();
+
 const closeEmailHostModal =()=>{
   setEmailHostModal(false)
 }
@@ -209,8 +212,24 @@ useEffect(()=>{
 
                         },[retreatId, userId])
   return (
-    <div className="min-h-screen bg-gray-100 mt-30 justify-center items-center justify-items-center">
+    <div className="min-h-screen bg-gray-100 mt-30 lg:flex md:grid-cols-1 justify-center items-center justify-items-center">
+      <Modal isOpen={inquiryModal} onClose={()=>setInquiryModal(false)} >
+            <form className="bg-white p-6 rounded shadow-md w-96 mt-20" onSubmit={sendEmail}>
+              <h2 className="text-lg font-bold mb-4">Contact {hostFirstName}</h2>
+              <label className="block text-gray-700 text-sm font-bold mb-2" >
+                Your Email
+              </label>
+              <input type="email" required placeholder="Your email address" value={guestEmail} onChange={(e)=>setGuestEmail(e.target.value)} className="w-full p-2 border rounded mb-4" />
+              <textarea className="w-full h-32 p-2 border rounded mb-4"   onChange={(e)=>setMessageToHost(e.target.value)}>
+                {message}
+              </textarea>
+              <Button onClick={sendEmail} className="bg-lime-700 hover:bg-lime-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Send Message
+              </Button>
+            </form>
+            </Modal>
         <ImageModal isOpen={openImageModal} onClose={()=>setOpenImageModal(false)} >
+          
    <div className="w-full h-full justify-center items-center bg-transparent">
      <ImageSlider slides={imageList} />
       </div>
@@ -218,11 +237,11 @@ useEffect(()=>{
      </ImageModal>
      
         <div className="max-w-full mx-auto text-center">
-         <h1 className='text-4xl'>{retreatName}</h1>
+         <h1 className='text-4xl bold mt-4'>{retreatName}</h1>
          <br/>
          
 <center>
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-2 w-100% m-4 justify-center align-center items-center justify-items-center">
+<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:flex  gap-2 w-full m-4 justify-center align-center items-center justify-items-center">
   
   {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
@@ -234,15 +253,15 @@ useEffect(()=>{
  
 </div>
 </center>
-<div className="w-full h-full flex justify-end items-center bg-transparent">
- <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white justify-right m-2" style={{ justifyContent: 'right', justifyItems: 'right'}} onClick={viewAllPhotos}>
+<div className="w-full h-full flex lg:justify-center  md:justify-center sm:justify-center sm:grid-cols-1 items-center bg-transparent">
+ <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700  text-white  m-2"  onClick={viewAllPhotos}>
     View all photos
   </Button>
      
 
 <br/>
 
-                  <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white text-align: right justify-items: right" onClick={sendEmail}>Inquire</Button>
+                  <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white  justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
            </div>
          <br/>
        {/** 
@@ -270,15 +289,15 @@ useEffect(()=>{
           
           <h1 className='text-2xl'>{retreatAddress}&nbsp;{month}&nbsp;{country}</h1>
           <h1 className='text-2xl'>About the Host</h1>
-                    <h3 className="font-serif font-medium m-2 text-lg line-clamp-1">{startAt?.toDate()?.toLocaleDateString('en-US')}</h3> -
-          <h3 className="font-serif font-medium text-lg m-2 line-clamp-1">{endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
 
+                    <h3 className="font-serif font-medium m-2 text-lg line-clamp-1">{startAt?.toDate()?.toLocaleDateString('en-US')} -&nbsp;
+          {endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
                    <h1 className='text-2xl'>${price} for&nbsp; {Math.abs(endAt?.toDate()?.getDate() - startAt?.toDate()?.getDate())}&nbsp;days in {retreatAddress}</h1>
           <div className="text-center w-full justify-center p-10 rounded-lg flex m-4 gap-4 items-right">
 
             <div>
-            <p className='text-lg font-semibold mt-4'>{hostFirstName} &nbsp;{hostLastName}</p>
-            <p className='w-80'>{kind}</p>
+            <p className='text-lg md:w-full sm:w-full font-semibold mt-4'>{hostFirstName} &nbsp;{hostLastName}</p>
+            <p className='w-80 md:w-full sm:w-full'>{kind}</p>
             </div>
             <div>
             <img src={hostPic} alt={hostFirstName} className="w-60 h-60 rounded-full object-cover" />

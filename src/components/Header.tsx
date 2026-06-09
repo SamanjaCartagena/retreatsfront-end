@@ -67,6 +67,8 @@ const [id,setId]=useState('');
   const navigate = useNavigate();
   const retreatcenter=()=>{
      navigate('/retreatcenters');
+     window.location.reload();
+
 
   }
 

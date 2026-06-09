@@ -179,7 +179,7 @@ export function RetreatCard() {
            
           <div key={retreat.id} >
           
-            <h2>{retreat.name}</h2>
+            <h2 className="text-xl font-bold mb-2">{retreat.name}</h2>
             <Link to={`/retreatdetails/${retreat.id}`} >
              <Card className="rounded-xl overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
@@ -191,22 +191,22 @@ export function RetreatCard() {
       </div>
       <CardContent className="p-4">
         <div className="flex justify-between items-start">
-          <h3 className="font-serif font-medium text-lg line-clamp-1">{retreat.name}</h3>
           <h3 className="font-serif font-medium text-lg line-clamp-1">{retreat.startAt?.toDate()?.toLocaleDateString('en-US')}</h3> -
           <h3 className="font-serif font-medium text-lg line-clamp-1">{retreat.endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
           <div className="flex items-center gap-1 text-sm">
             <Star size={16} fill="currentColor" className="text-retreat-forest" />
-            <span>{retreat.name}</span>
+            <span>{retreat.retreatCenterName}</span>
           </div>
         </div>
-        <p className="text-muted-foreground text-sm mb-2">{retreat.type1},{retreat.type2},{retreat.type3}
-        </p>
+        <p className="text-muted-foreground text-sm mb-2">{retreat.type1}</p>
+                                      <span className="text-lg">{retreat.location}</span>
+
         <div className="flex justify-between items-center mt-1">
       
         </div>
         <div className="mt-3 font-medium">
+
           <span className="text-lg">${retreat.price}</span>
-                    <span className="text-lg">${retreat.month}</span>
 
           <span className="text-sm text-muted-foreground"> / person</span>
           

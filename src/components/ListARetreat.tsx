@@ -15,7 +15,8 @@ import { Button } from './ui/button.js';
 import Modal from './Modal.js';
 import nodemailer from 'nodemailer';
 function ListARetreat() {
-   const[retreatName, setRetreatName]= useState("")
+   const [retreatName, setRetreatName] = useState("")
+   const[retreatCenterName, setRetreatCenterName]= useState("")
    const[retreatType, setRetreatType] = useState("")
    const[address,setAddress] = useState("")
    const[country,setCountry] = useState("")
@@ -92,6 +93,7 @@ const endAtDate=(e)=>{
          addDoc(collection(db, "retreats"), {
                                          name: retreatName,
                                          type1: retreatType,
+                                         retreatCenterName: retreatCenterName,
                                          address: address,
                                          location: country,
                                          price:price, 
@@ -232,19 +234,19 @@ const endAtDate=(e)=>{
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Name of Retreat
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstname" type="text" placeholder="First Name" onChange={(e)=>setRetreatName(e.target.value)}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstname" type="text" placeholder="Name of Retreat" onChange={(e)=>setRetreatName(e.target.value)}/>
     </div>
          <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type of Retreat
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Last Name" onChange={(e)=>setRetreatType(e.target.value)}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Type of Retreat" onChange={(e)=>setRetreatType(e.target.value)}/>
     </div>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Name of Retreat Center/Hotel/Place
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="center" type="text" placeholder="Name of Retreat Center/Hotel/Place" onChange={(e)=>setRetreatName(e.target.value)}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="center" type="text" placeholder="Name of Retreat Center/Hotel/Place" onChange={(e)=>setRetreatCenterName(e.target.value)}/>
     </div>
      <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
