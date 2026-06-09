@@ -127,13 +127,13 @@ export default function Hosts() {
        .map(guide => {
           return(
                  
-                <div key={guide.hostId} >
+                <div key={guide.hostId} onClick={()=>navigate(`/profile/${guide.hostId}`)}>
                 
                   <h2>{guide.hostFirstName}</h2>
                    <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
             <div className="aspect-[5/3] overflow-hidden">
               <img
-                src={guide.hostProfilePicUrl}
+                src={guide.profilePicUrl}
                 alt={guide.hostId}
                 className="w-full h-full object-cover transition-transform duration-500"
               />

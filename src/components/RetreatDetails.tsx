@@ -13,6 +13,7 @@ import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { Card } from './ui/card.js';
 import stripe from 'stripe';
 import StripeCheckout from 'react-stripe-checkout';
+import { Link } from 'lucide-react';
 
 function RetreatDetails() {
     const params = useParams()
@@ -59,6 +60,10 @@ const message = `Hello, I am interested in attending your retreat called ${retre
     console.log("Retreat id in retreat details is", retreatId)
 const navigate = useNavigate();
 
+const contact =()=>{
+    navigate(`/profile/${userId}`)
+  
+}
 const closeEmailHostModal =()=>{
   setEmailHostModal(false)
 }
@@ -313,9 +318,11 @@ useEffect(()=>{
             <br/>
             <br/>
             <div className=" grid justify-center items-center">
-                        <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" >
+                       
+                        <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={()=>navigate(`/profile/${userId}`)}>
                           Check out {hostFirstName}
                           </Button>
+                         
                           
 
             <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 w-60 text-white" onClick={()=>setInquiryModal(true)}>Inquire </Button><br/>

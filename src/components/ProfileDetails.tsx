@@ -16,7 +16,7 @@ import {v4} from 'uuid';
 export default function Profile() {
   const params = useParams();
   const userId = params.userId;
-
+  console.log("User ID from URL:", userId);
   const [id,setId]=useState('');
   const [firstName,setFirstName]=useState('');
   const [lastName,setLastName]=useState('');
@@ -129,17 +129,13 @@ export default function Profile() {
   }
     useEffect(() => {
      
-       onAuthStateChanged(auth, async (user) => {
-    if (user)  {
-      // User is signed in
-      const uid = user.uid;
-
+      const loadData = async () => {
      const q =query(collection(db, "hosts"), where("hostId", "==", userId));
       const querySnapshot = await getDocs(q);
-          querySnapshot.forEach((doc) => {
+        querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     setDocumentId(doc.id)
-    setAvatarUrl(doc.data().hostProfilePicUrl)
+    setAvatarUrl(doc.data().profilePicUrl)
     setFirstName(doc.data().hostFirstName);
     setLastName(doc.data().hostLastName);
     setEmail(doc.data().hostEmail);
@@ -179,15 +175,9 @@ export default function Profile() {
       });
     });
       console.log('User is signed in with UID:', userId);
-    } else {
-      // User is signed out
-
-      console.log('No user is signed in.'); 
-      
-      } 
     }
-    )
-  
+    loadData();
+
   },[])
   return (
     <div className="max-w-4xl pt-40 mx-auto p-4 grid place-items-center">
