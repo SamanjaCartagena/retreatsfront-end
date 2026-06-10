@@ -90,7 +90,7 @@ export default function Centers() {
           <div key={retreat.id} >
           
             <h2>{retreat.name}</h2>
-            <Link to={`/retreatcenters/${retreat.id}`} >
+            <Link to={`/retreatcenterdetails/${retreat.id}`} >
              <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
