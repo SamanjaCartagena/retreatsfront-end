@@ -116,8 +116,10 @@ export default function Centers() {
         <div className="mt-3 font-medium">
           <span className="text-lg">${retreat.price}</span>
           <span className="text-sm text-muted-foreground"> / person</span>
+          <br/>
               <Link to={`/retreatcenters/${retreat.id}`} >
-              <Button  className='bg-lime-700 ml-50px  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</Button></Link>
+              <Button  className='bg-lime-700 ml-50px  text-white font-bold py-2 mr-4 mt-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</Button></Link>
+              <Button className='bg-lime-700 ml-50px  text-white font-bold py-2  px-2 mt-2rounded focus:outline-none focus:shadow-outline align-items-right text-center' onClick={() => window.open('https://www.tripadvisor.com', '_blank')}>Trip Advisor</Button>
 
         </div>
       </CardContent>
