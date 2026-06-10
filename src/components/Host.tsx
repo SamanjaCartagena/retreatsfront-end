@@ -24,6 +24,8 @@ function Host() {
     // Signed in 
     const user = userCredential.user;
     navigate(`/profile/${user.uid}`);
+    window.location.reload();
+    console.log('User signed in with UID:', user.uid);
   })
   .catch((error) => {
     const errorCode = error.code;

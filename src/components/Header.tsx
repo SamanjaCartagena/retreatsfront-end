@@ -139,29 +139,29 @@ const [id,setId]=useState('');
            {logout &&  <Link to={`/profile/${id}`} className="text-sm underline mt-2" >
               Welcome {`${displayName}`}
             </Link>}
-           {logout &&  <Button variant="ghost" size="sm" className="text-sm" onClick={loggedout}>
+           {logout &&  <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={loggedout}>
               Log Out
             </Button>}
           </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
             
-            <Button variant="ghost" size="sm" className="text-sm" onClick={host}>
+            <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={host}>
               Host
             </Button>
-            <Button variant="ghost" size="sm" className="text-sm" onClick={guides}>
+            <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={guides}>
               Guides
             </Button>
-            <Button variant="ghost" size="sm" className="text-sm" onClick={guest}>
+            <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={guest}>
               Guest
             </Button>
             <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white" onClick={retreatcenter}>
               Retreat Centers
             </Button>
-            <FacebookIcon style={{margin:'5px', cursor:'pointer'}}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
-            <InstagramIcon style={{margin:'5px', cursor:'pointer'}} onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')} />
-            <TwitterIcon style={{margin:'5px', cursor:'pointer'}} onClick={() => window.open('https://x.com/Retreats_World', '_blank')} />
-              <YoutubeIcon style={{margin:'5px', cursor:'pointer'}} onClick={() => window.open('https://www.youtube.com/@retreatsaroundtheworld', '_blank')} />
+            <FacebookIcon style={{margin:'5px', cursor:'pointer', color:'#4d7c0f'}}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
+            <InstagramIcon style={{margin:'5px', cursor:'pointer', color:'#4d7c0f'}} onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')} />
+            <TwitterIcon style={{margin:'5px', cursor:'pointer', color:'#4d7c0f'}} onClick={() => window.open('https://x.com/Retreats_World', '_blank')} />
+              <YoutubeIcon style={{margin:'5px', cursor:'pointer', color:'#4d7c0f'}} onClick={() => window.open('https://www.youtube.com/@retreatsaroundtheworld', '_blank')} />
           </div>
           
           <Sheet>

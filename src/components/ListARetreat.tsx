@@ -566,9 +566,9 @@ const endAtDate=(e)=>{
 
     <div className="mb-4">
 
-<label for="profile-pic">Upload retreat pics</label><br/>
+<label for="profile-pic">Upload at least one image</label><br/>
 
-          <input type="file" id="profile-pic" className='bg-lime-700 text-white font-bold py-2 px-4 w-1/2 m-2 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
                    <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
 
           </div>
