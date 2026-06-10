@@ -155,9 +155,11 @@ const [id,setId]=useState('');
             <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={guest}>
               Guest
             </Button>
-            <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white" onClick={retreatcenter}>
+            <Link to="/retreatcenters">
+            <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">
               Retreat Centers
             </Button>
+            </Link>
             <FacebookIcon style={{margin:'5px', cursor:'pointer', }}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
             <InstagramIcon style={{margin:'5px', cursor:'pointer',}} onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')} />
             <TwitterIcon style={{margin:'5px', cursor:'pointer', }} onClick={() => window.open('https://x.com/Retreats_World', '_blank')} />
