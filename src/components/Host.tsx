@@ -58,32 +58,32 @@ function Host() {
         </div>
       </Modal>
   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <h2 className='justify-center items-center text-center p-4 bold text-lg'>Sign in as a Host to list a Retreat</h2>
+            <h2 className='justify-center items-center text-center p-4 font-bold text-lime-700 text-lg'>Sign in as a Host to list a Retreat</h2>
 
     <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
+      <label className="block text-gray-700 text-sm font-bold mb-2 text-lime-700" >
         Email
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" onChange={(e)=>setEmail(e.target.value)}/>
     </div>
     <div className="mb-6">
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
+      <label className="block text-gray-700 text-sm font-bold mb-2 text-lime-700" >
         Password
       </label>
-      <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=> setPassword(e.target.value)}/>
-      <p className="text-red-500 text-xs italic">Please choose a password.</p>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=> setPassword(e.target.value)}/>
+      <p className="text-lime-700 text-xs italic">Please choose a password.</p>
     </div>
     <div className="flex items-center justify-between">
       <Button className="bg-lime-700 hover:bg-lime-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={signIn}>
         Sign In
       </Button>
-      <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#" onClick={forgot}>
+      <a className="inline-block align-baseline font-bold text-sm text-lime-700 hover:text-lime-500" href="#" onClick={forgot}>
         Forgot Password?
       </a>
      
       </div>
       <br/>
-       <h2 className="inline-block align-baseline font-bold text-decoration-line text-md cursor-pointer text-blue-500 hover:text-blue-800" onClick={signUpHost}>
+       <h2 className="inline-block align-baseline font-bold text-decoration-line text-md cursor-pointer text-lime-700 hover:text-lime-500" onClick={signUpHost}>
         Create a Profile
       </h2>
   </form>

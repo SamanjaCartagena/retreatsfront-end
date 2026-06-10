@@ -22,6 +22,7 @@ import { get } from "react-hook-form";
 export function RetreatCard() {
     const [listOfRetreats, setListOfRetreats] = useState([]);
       const [selectedType, setSelectedType] = useState("")
+      const [america, setAmerica] = useState(false)
       const [searchType, setSearchType] = useState("");
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -59,7 +60,9 @@ export function RetreatCard() {
         setListOfRetreats([])
         const retreats1 = [];
 
-        const q2 = await query(collection(db, "retreats"), where("location", "==", selectedLocation), where("isDisplayed", "==", true));
+        if(selectedLocation=="United States of America"){
+          const q2 =  query(collection(db, "retreats"), where("location", "==", selectedLocation), where("isDisplayed", "==", true));
+          setAmerica(true)
         getDocs(q2).then((querySnapshot) => {
        
 
@@ -69,8 +72,24 @@ export function RetreatCard() {
           
           setListOfRetreats(retreats1);
         })
+      
       });
     }
+    else{
+              const q12 = await query(collection(db, "retreats"), where("location", "==", selectedLocation), where("isDisplayed", "==", true));
+
+      getDocs(q12).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats1.push({ ...doc.data() });
+    }
+    );
+    setListOfRetreats(retreats1);
+  });
+
+  }
+}
+ 
         else if (selectedLocation === ""  && selectedType === "" && selectedPrice !== 0.0) {  
           setListOfRetreats([])
           const retreats3=[]
@@ -180,6 +199,7 @@ export function RetreatCard() {
           <div key={retreat.id} >
           
             <h2 className="text-xl font-bold mb-2">{retreat.name}</h2>
+
             <Link to={`/retreatdetails/${retreat.id}`} >
              <Card className="rounded-xl overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
@@ -199,7 +219,8 @@ export function RetreatCard() {
           </div>
         </div>
         <p className="text-muted-foreground text-sm mb-2">{retreat.type1}</p>
-                                      <span className="text-lg">{retreat.location}</span>
+                                      <span className="text-md">{retreat.address}, {retreat.location}</span>
+
 
         <div className="flex justify-between items-center mt-1">
       

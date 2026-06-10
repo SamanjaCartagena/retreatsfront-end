@@ -18,6 +18,7 @@ export default function Profile() {
   const userId = params.userId;
   console.log("User ID from URL:", userId);
   const [id,setId]=useState('');
+  const [onlyUser, setOnlyUser] = useState(false);
   const [firstName,setFirstName]=useState('');
   const [lastName,setLastName]=useState('');
   const [email,setEmail]=useState('');  
@@ -174,20 +175,37 @@ export default function Profile() {
         });
       });
     });
-      console.log('User is signed in with UID:', userId);
     }
     loadData();
-
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log('User authstate is signed in with UID:', user.uid);
+    if (userId === user.uid) {
+    setOnlyUser(true);
+    } else {
+      setOnlyUser(false);
+    }
+  } else {
+    console.log('No user is signed in');  
+  }
+})
   },[])
   return (
     <div className="max-w-4xl pt-40 mx-auto p-4 grid place-items-center">
+          {onlyUser && ( 
           <h1 className="text-2xl flex font-bold mb-4">Hi {firstName}, Would you like to list your retreat?</h1>
+          )}
           <div className="flexbox gap-4">
            <img src={avatarUrl} alt="Avatar" className="w-60 h-60 mt-4 rounded-full mb-4 justify-center items-center mx-auto object-cover"/>
+            {onlyUser && (
+              <div>
           <input type="file" id="profile-pic"  onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
           <br/><br/>
-          <button onClick={profile} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Profile Picture</button>
+          <Button onClick={profile} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Profile Picture</Button>
+          </div>
+            )}
           <br/>
+          
           </div>
            <Modal isOpen={openEditor} onClose={()=>setOpenEditor(false)}>
           <div style={{width:'100%',}} className="justify-center mt-20 items-center text-center p-4 bold text-sm">
@@ -241,6 +259,7 @@ export default function Profile() {
 
                 </div>
                 </Modal>
+      
     <div className="w-full p-8 h-auto flex justify-center items-center ">
       
       <div className="bg-white  px-8  pb-8 mb-4">      
@@ -263,7 +282,7 @@ export default function Profile() {
         <p className="mb-4"><span className="font-bold">Retreat Type 9:</span> {type9}</p>
                 
 
-        
+        {onlyUser && (
         <div className="grid  items-center mt-1">
         
         
@@ -276,23 +295,45 @@ export default function Profile() {
           <button className='bg-lime-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat Center</button>
 
         </Link>
-          <button className='bg-lime-700 w-full text-white mt-2 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Edit Your Info</button>
+    
+          <Button className='bg-lime-700 w-full text-white mt-2 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Edit Your Info</Button>
         
         <br/>
+
          <label for="pic">Upload pics for display </label><br/>
     <input type="file" className="mt-4" onChange={(event)=>{setImageUpload(event.target.files[0])}} name="pic" id="pic"/>
     <br/>
          <button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
          <div className="flex gap-4 mt-4">
       {imageList.map((url)=>{
-      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
-                     <button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</button>
-
-
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'>
+        <img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                    
+                    {onlyUser && (
+                      <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+                    )}
+                    </div>
+                    
+    
+      
+      })
+    }
 
       </div>
       
-     })}
+      
+
+      
+
+      </div>
+      
+  )}
+
+      
+
+      </div>
+      
+     
      </div>
           
         
@@ -300,11 +341,11 @@ export default function Profile() {
         
       
     </div>
-    </div>
+    
    
   
-    </div>
-    </div>
+    
+    
   )
 }
 
