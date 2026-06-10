@@ -13,6 +13,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import {v4} from 'uuid';
+import { Card } from './ui/card.js';
 export default function Profile() {
   const params = useParams();
   const userId = params.userId;
@@ -310,13 +311,13 @@ onAuthStateChanged(auth, (user) => {
          
          <div className="grid gap-4 mt-4">
       {imageList.map((url)=>{
-      return <div className='border-2 rounded border-solid border-lime-700  p-4'>
+      return <Card className="w-full h-auto bg-gray-100 p-4 rounded" key={url}>
         <img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
                     
                     {onlyUser && (
                       <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
                     )}
-                    </div>
+                    </Card>
                     
     
       

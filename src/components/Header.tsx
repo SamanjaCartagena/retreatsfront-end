@@ -158,10 +158,10 @@ const [id,setId]=useState('');
             <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white" onClick={retreatcenter}>
               Retreat Centers
             </Button>
-            <FacebookIcon style={{margin:'5px', cursor:'pointer', color:'#4d7c0f'}}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
-            <InstagramIcon style={{margin:'5px', cursor:'pointer', color:'#4d7c0f'}} onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')} />
-            <TwitterIcon style={{margin:'5px', cursor:'pointer', color:'#4d7c0f'}} onClick={() => window.open('https://x.com/Retreats_World', '_blank')} />
-              <YoutubeIcon style={{margin:'5px', cursor:'pointer', color:'#4d7c0f'}} onClick={() => window.open('https://www.youtube.com/@retreatsaroundtheworld', '_blank')} />
+            <FacebookIcon style={{margin:'5px', cursor:'pointer', }}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
+            <InstagramIcon style={{margin:'5px', cursor:'pointer',}} onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')} />
+            <TwitterIcon style={{margin:'5px', cursor:'pointer', }} onClick={() => window.open('https://x.com/Retreats_World', '_blank')} />
+              <YoutubeIcon style={{margin:'5px', cursor:'pointer', }} onClick={() => window.open('https://www.youtube.com/@retreatsaroundtheworld', '_blank')} />
           </div>
           
           <Sheet>
