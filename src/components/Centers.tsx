@@ -90,6 +90,7 @@ export default function Centers() {
           <div key={retreat.id} >
           
             <h2>{retreat.name}</h2>
+            <Link to={`/retreatcenters/${retreat.id}`} >
              <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
@@ -115,11 +116,13 @@ export default function Centers() {
         <div className="mt-3 font-medium">
           <span className="text-lg">${retreat.price}</span>
           <span className="text-sm text-muted-foreground"> / person</span>
-              <Link to={`/retreatdetails/${retreat.id}`} ><button  className='bg-lime-700 ml-50px  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</button></Link>
+              <Link to={`/retreatcenters/${retreat.id}`} >
+              <Button  className='bg-lime-700 ml-50px  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</Button></Link>
 
         </div>
       </CardContent>
     </Card>
+    </Link>
     </div>
       
 )})
