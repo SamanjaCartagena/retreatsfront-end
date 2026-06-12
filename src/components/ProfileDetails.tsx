@@ -200,9 +200,9 @@ onAuthStateChanged(auth, (user) => {
            <img src={avatarUrl} alt="Avatar" className="w-60 h-60 mt-4 rounded-full mb-4 justify-center items-center mx-auto object-cover"/>
             {onlyUser && (
               <div>
-          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+          <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
           <br/><br/>
-          <Button onClick={profile} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Profile Picture</Button>
+          <Button onClick={profile} className='bg-lime-700  w-60 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Profile Picture</Button>
           </div>
             )}
           <br/>
@@ -288,28 +288,34 @@ onAuthStateChanged(auth, (user) => {
         
           {onlyUser && (
        <Link to={`/list/${userId}`}className="mb-2 mt-2" >
-          <button className='bbg-lime-700 w-full text-white mt-2 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat</button>
+          <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat</Button>
 
         </Link>
         )}
         {onlyUser && (
         <Link to={`/list/${userId}`} className="mb-2 mt-2" >
-          <button className='bg-lime-700 w-full text-white mt-2 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat Center</button>
+          <Button className='bg-lime-700  text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat Center</Button>
 
         </Link>
         )}
         {onlyUser && (
-          <Button className='bg-lime-700 w-full text-white mt-2 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Edit Your Info</Button>
+          <Button className='bg-lime-700 w-full text-white mt-2 font-bold py-2 px-4 items-center align-middle w-60 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Edit Your Info</Button>
         )}
         
         <br/>
-       
+       {onlyUser && (
+        <div>
          <label for="pic">Upload pics for display </label><br/>
-    <input type="file" className="bg-lime-700 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onChange={(event)=>{setImageUpload(event.target.files[0])}} name="pic" id="pic"/>
+    <input type="file" className="bg-lime-700 cursor-pointer text-white font-bold py-2 px-4 w-60 rounded focus:outline-none focus:shadow-outline" onChange={(event)=>{setImageUpload(event.target.files[0])}} name="pic" id="pic"/>
+       </div>
+       )}
+       {onlyUser && (
+        <div>
     <br/>
-         <button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
-         
-         <div className="grid gap-4 mt-4">
+         <button onClick={uploadImage} className='bg-lime-700 w-60  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
+         </div>
+       )}
+         <div className="lg:grid-cols-3 gap-4 md:grid md:grid-cols-2 sm:grid-cols-1 mt-4">
       {imageList.map((url)=>{
       return <Card className="w-full h-auto bg-gray-100 p-4 rounded" key={url}>
         <img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>

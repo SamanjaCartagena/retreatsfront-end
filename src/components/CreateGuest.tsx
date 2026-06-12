@@ -17,7 +17,7 @@ export default function CreateGuest() {
   const [username, setUsername] =useState('')
   const [kind, setKind] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/sahara-erg-chebbi.jpg?alt=media&token=f7fccad4-349b-46a8-a906-e12e156f9c06"
+  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/guest-background-pic.jpeg?alt=media&token=f14e01cd-a545-4f5d-a532-fb7f9af50e28"
 
   const closeModal=()=>{
     setIsModalOpen(false)
@@ -57,12 +57,11 @@ export default function CreateGuest() {
    
     <div className="justify-center  grid h-screen absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pic})` }} >
       
-      <div className="w-full max-w-lg items-center justify-center"></div>
-    
+    <br/>
     
 
 
- <form className="bg-white w-full shadow-md rounded px-8 pt-6 pb-8  mt-4">
+ <form className="bg-white w-full shadow-md h-auto rounded px-8 pt-6 pb-8   mt-8">
             <h2 className='justify-center items-center text-center p-4 bold text-lg'>Sign up as a Guest</h2>
                 <ModalHost isOpen={isModalOpen} onClose={closeModal}>
           <div style={{width:'100%',}}>
@@ -97,12 +96,12 @@ export default function CreateGuest() {
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Password
       </label>
-      <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=> setPassword(e.target.value)}/>
+      <input className="shadow appearance-none border b rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=> setPassword(e.target.value)}/>
       <p className="text-red-500 text-xs italic">Please choose a password.</p>
        <label className="block text-gray-700 text-sm font-bold mb-2" >
         Confirm Password
       </label>
-      <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=> setConfirmPassword(e.target.value)}/>
+      <input className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=> setConfirmPassword(e.target.value)}/>
       <p className="text-red-500 text-xs italic">Please choose a password.</p>
     </div>
       <div className="mb-6">
@@ -113,17 +112,17 @@ export default function CreateGuest() {
 
     </div>
     <div className="flex items-center justify-between">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={create}>
+      <button className="bg-lime-700 hover:bg-lime-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={create}>
         Sign Up
       </button>
-      <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+      <a className="inline-block align-baseline font-bold text-sm text-lime-700 hover:text-lime-800" href="#">
         Forgot Password?
       </a>
      
       </div>
     
       <br/>
-       <h2 className="inline-block align-baseline font-bold text-decoration-line text-md cursor-pointer text-blue-500 hover:text-blue-800" >
+       <h2 className="inline-block align-baseline font-bold text-decoration-line text-md cursor-pointer text-lime-700 hover:text-lime-800" >
         Sign in
       </h2>
   </form>

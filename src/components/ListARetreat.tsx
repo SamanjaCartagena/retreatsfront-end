@@ -553,7 +553,7 @@ const endAtDate=(e)=>{
         
     </LocalizationProvider>
 
-    </div>
+    
     </div>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
@@ -567,11 +567,11 @@ const endAtDate=(e)=>{
     <div className="mb-4">
 
 <label for="profile-pic">Upload at least one image</label><br/>
-
-          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
-                   <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
-
-          </div>
+        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+    
+      <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+    </div>
+  </div>
      {imageList.map((url)=>{
       return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
                       <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
@@ -587,7 +587,8 @@ const endAtDate=(e)=>{
       </Button>
       </form>
       </div>
-    </div> 
+    </div>
+   
   )
 }
 

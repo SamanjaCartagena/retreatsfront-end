@@ -49,7 +49,6 @@ function SignUpAsHost() {
   const [isPayputChecked, setIsPayoutChecked] = useState(false)
   const [terms, setTerms] = useState(false);
   const [openTermsModal, setOpenTermsModal] = useState(false);
-  const [dateOfBirth, setDateOfBirth] = useState(dayjs().format('MM/DD/YYYY')); 
   const [type1, setType1] = useState('')
   const [type2, setType2] = useState('')
   const [type3, setType3] = useState('')
@@ -65,9 +64,7 @@ function SignUpAsHost() {
   const closePasswordModal =()=>setPasswordModal(false);
   const closePurposeModal =()=> setIsPurpose(false)
   const closePasswordLengthModal =()=> setPasswordLengthModal(false);
-  const birthday=(e)=>{
-    setDateOfBirth(dayjs(e).format('MM/DD/YYYY'))
-  }
+
   const meditation=(e)=>{
     if(e.target.checked){
       setIsCheckedMeditationRetreat(true)
@@ -220,7 +217,6 @@ function SignUpAsHost() {
                                   hostUsername: username,
                                   hostEmail: hostEmail,
                                   hostRetreatDetails: details,
-                                  hostDateOfBirth: dateOfBirth,
                                   hostPhone: phone,
                                   type1:type1,
                                   type2:type2,
@@ -281,7 +277,6 @@ function SignUpAsHost() {
           setConfirmPassword("")
           setIntroduction("")
           setDetails("")
-          setDateOfBirth(dayjs().format('MM/DD/YYYY'))
           return
         }
         }catch(err){
@@ -320,7 +315,7 @@ function SignUpAsHost() {
             <br/><br/>
             <br/><br/>
             <br/><br/>
-                This document outlines the partnership structure, the 15% commission fee, and the specific payout trigger (immediately following the cancellation date) as requested. It is styled with an aesthetic suitable for a spiritual healing and travel brand.
+                This document outlines the partnership structure, the minimum of 15% commission fee, and the specific payout trigger (immediately following the cancellation date) as requested. It is styled with an aesthetic suitable for a spiritual healing and travel brand.
                 <br/><br/>
                 <strong>Partnership Structure:</strong><br/>
                 Retreats Around The World (RATW) operates as a platform connecting hosts with guests seeking transformative retreat experiences. Hosts list their retreats on the RATW platform, and guests book directly through the site. RATW provides marketing, customer support, and payment processing services to facilitate these connections.
@@ -441,14 +436,8 @@ function SignUpAsHost() {
       </label>
             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" onChange={(e)=> setHostEmail(e.target.value)} />
      <br/><br/>
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-        Date of Birth
-      </label>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker value={value} onChange={(e)=>birthday(e)}/>
-          </LocalizationProvider>
-          <br/>
-          <br/>
+      
+          
        <label className="block text-gray-700 text-sm font-bold mb-2" >
         Phone Number
       </label>

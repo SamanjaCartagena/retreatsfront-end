@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState, useRef} from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
 import ImageModal from './ImageModal.js';
@@ -11,17 +11,26 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import dayjs from 'dayjs';
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { Card } from './ui/card.js';
+import emailjs from '@emailjs/browser';
+import { useToast } from "@/hooks/use-toast";
+
 import stripe from 'stripe';
 import StripeCheckout from 'react-stripe-checkout';
 import { Link } from 'lucide-react';
+import { Input } from './ui/input.js';
 
 function RetreatDetails() {
     const params = useParams()
     const id= params.id
+     const [formData, setFormData] = useState({
+      user_name:"",
+      user_email:"",
+      user_message:""
+     })
+
     const [inquiryModal, setInquiryModal] = useState(false);
     const [retreatName, setRetreatName] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
-
     const [imageUrl1, setImageUrl1] = useState("");
     const [imageUrl2, setImageUrl2] = useState("");
     const [imageUrl3, setImageUrl3] = useState("");
@@ -50,11 +59,14 @@ function RetreatDetails() {
              retreatId:0,
              hostId:0,    
            })
+
     const [emailHostModal, setEmailHostModal] = useState(false);
+ 
+
+    const form = useRef();
     const [loggedIn, setLoggedIn] = useState(false)
       const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
       const [active, setActive] = useState(0);
-const message = `Hello, I am interested in attending your retreat called ${retreatName} in ${country} in ${startAt?.toDate()?.toLocaleDateString('en-US')}. Please let me know if there is availability and any additional information I should know. Thank you!`
     const [notLogged, setNotLogged] = useState(false)
     console.log("User id in retreat details is", userId)
     console.log("Retreat id in retreat details is", retreatId)
@@ -116,7 +128,11 @@ const closeNotLogged=()=>{
 }
 
 
-   
+    const { toast } = useToast();
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
  
 
 const contactHost =()=> {
@@ -145,6 +161,30 @@ const viewAllPhotos=()=>{
   setOpenImageModal(true)
   
 }
+const handleSubmit=(e: React.FormEvent)=>{
+    e.preventDefault();
+
+    emailjs
+      .sendForm('service_9u700we', 'template_slv7qow', form.current, {
+        publicKey: 'iYI6t4bT28fP2liFc',
+      })
+      .then(
+        () => {
+
+          console.log('SUCCESS!');
+          setInquiryModal(false)
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
+          toast({
+      title: "Inquiry Submitted",
+      description: `Thank you for your interest in ${retreatName} in ${country}. We will get back to you soon!` ,
+    });
+    // Reset form
+   
+                    }
 useEffect(()=>{
   const auth=getAuth()
           onAuthStateChanged(auth, (user) => {
@@ -204,6 +244,12 @@ useEffect(()=>{
           })
          
         });
+        setFormData({
+           user_name: "",
+    user_email: guestEmail,
+    user_message: `Hello, I am interested in attending your retreat called ${retreatName} in ${country} in ${startAt?.toDate()?.toLocaleDateString('en-US')}. Please let me know if there is availability and any additional information I should know. Thank you!`,
+        })
+    
             const profilePicRef = ref(storage, `/profilePic/${userId}/profile.jpg`);
           getDownloadURL(profilePicRef).then((url)=>{
             setHostPic(url);
@@ -225,18 +271,15 @@ useEffect(()=>{
   return (
     <div className="min-h-screen bg-gray-100 mt-30 lg:flex md:grid-cols-1 justify-center items-center justify-items-center">
       <Modal isOpen={inquiryModal} onClose={()=>setInquiryModal(false)} >
-            <form className="bg-white p-6 rounded shadow-md w-96 mt-20" onSubmit={sendEmail}>
+            <form className="bg-white p-6 rounded shadow-md w-96 mt-20" onSubmit={handleSubmit} ref={form}>
               <h2 className="text-lg font-bold mb-4">Contact {hostFirstName}</h2>
               <label className="block text-gray-700 text-sm font-bold mb-2" >
                 Your Email
               </label>
-              <input type="email" required placeholder="Your email address" value={guestEmail} onChange={(e)=>setGuestEmail(e.target.value)} className="w-full p-2 border rounded mb-4" />
-              <textarea className="w-full h-32 p-2 border rounded mb-4"   onChange={(e)=>setMessageToHost(e.target.value)}>
-                {message}
+              <Input type="email" name="user_email" required placeholder="Your email address" value={formData.user_email} onChange={handleInputChange} className="w-full p-2 border rounded mb-4" />
+              <textarea className="w-full h-32 p-2 border rounded mb-4" name="user_message"   onChange={handleInputChange} value={formData.user_message}  >
               </textarea>
-              <Button onClick={sendEmail} className="bg-lime-700 hover:bg-lime-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Send Message
-              </Button>
+              <input type="submit" value="Send Inquiry" className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer" />
             </form>
             </Modal>
         <ImageModal isOpen={openImageModal} onClose={()=>setOpenImageModal(false)} >
