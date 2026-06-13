@@ -1,6 +1,6 @@
 import React,{useEffect, useState, useRef} from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
+import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast, doc, documentId, updateDoc} from 'firebase/firestore';
 import ImageModal from './ImageModal.js';
 import './ImageModal.css';
 import {db,storage} from '../firebase.js';
@@ -36,11 +36,14 @@ function RetreatDetails() {
     const [imageUrl3, setImageUrl3] = useState("");
     const [imageUrl4, setImageUrl4] = useState("");
     const [imageList, setImageList] = useState([]);
+    const [centerName, setCenterName] = useState("")
+    const [hostIsUser, setHostIsUser] = useState(false)
     const [userId, setUserId] = useState("");
     const [retreatAddress, setRetreatAddress] = useState("");
     const [hostLastName, setHostLastName] = useState("");
     const [hostFirstName, setHostFirstName] = useState("");
     const [month, setMonth] = useState("");
+    const [editModal, setEditModal] = useState(false);
     const [country, setCountry] = useState("");
     const [hostPic, setHostPic] = useState(""); 
     const [openImageModal, setOpenImageModal] = useState(false);
@@ -49,6 +52,7 @@ function RetreatDetails() {
     const [startAt, setStartAt] = useState(null);
     const [endAt, setEndAt] = useState(null);
     const [kind, setKind] = useState("");
+    const [documentId, setDocumentId] = useState("");
     const [hostEmail, setHostEmail] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0)
     const [bookRetreat, setBookRetreat] = useState({
@@ -75,6 +79,23 @@ const navigate = useNavigate();
 const contact =()=>{
     navigate(`/profile/${userId}`)
   
+}
+const saveChanges=async(e)=>{
+     e.preventDefault()
+     alert(retreatName)
+      const docRef = doc(db, "retreats", documentId);
+      console.log(documentId)
+     await updateDoc(docRef, { 
+      name:retreatName,
+      address:retreatAddress,
+      kind:kind,
+      location:country,
+      price:price,
+      retreatCenterName:centerName,
+
+          
+     });
+         setEditModal(false)
 }
 const closeEmailHostModal =()=>{
   setEmailHostModal(false)
@@ -145,7 +166,9 @@ else {
 }
 
 }
-
+const delImg=(e)=>{
+  alert(e)
+}
 const sendEmail=()=>{
   fetch('http://localhost:3000/send-email-host', {
                                    method: 'POST',
@@ -196,8 +219,12 @@ useEffect(()=>{
     const guestEmail = user.email;
     setLoggedIn(true)
     setGuestEmail(guestEmail)
-    
-    console.log("User is logged in:", uid);
+    if(user.uid ==userId){
+      setHostIsUser(true)
+    }
+    else{
+      setHostIsUser(false)
+    }
   } else {
     // User is signed out
     setLoggedIn(false)
@@ -211,13 +238,16 @@ useEffect(()=>{
           const retreats: any[] = [];
           querySnapshot.forEach((doc) => {
             console.log(doc.id, " => ", doc.data().name);
+
             retreats.push({ ...doc.data() });
+            setDocumentId(doc.id);
             setRetreatName(doc.data().name);
             setImageUrl1(doc.data().pic1);
             setImageUrl2(doc.data().pic2);
             setImageUrl3(doc.data().pic3);
             setImageUrl4(doc.data().pic4);
             setUserId(doc.data().hostId);
+            setCenterName(doc.data().retreatCenterName);
             setRetreatId(doc.data().retreatId);
             setRetreatAddress(doc.data().address);
             setHostLastName(doc.data().hostLastName);
@@ -286,6 +316,7 @@ useEffect(()=>{
           
    <div className="w-full h-full justify-center items-center bg-transparent">
      <ImageSlider slides={imageList} />
+    
       </div>
       
      </ImageModal>
@@ -301,6 +332,7 @@ useEffect(()=>{
              
              <Card className="rounded-xl w-100 overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={viewAllPhotos} key={index}>
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt={`Retreat Image ${index + 1}`} />
+      
     </Card>
 ))}
 
@@ -311,12 +343,44 @@ useEffect(()=>{
  <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700  text-white  m-2"  onClick={viewAllPhotos}>
     View all photos
   </Button>
-     
+      <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
+              {hostIsUser &&   <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setEditModal(true)}>Edit Info</Button>
 
-<br/>
-
-                  <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white  justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
+}
            </div>
+           <Modal isOpen={editModal} onClose={()=>setEditModal(false)}>
+            <div className='mt-25'>
+             <form>
+              <label>Name of Retreat</label><br/>
+              <input type="text" className='border-solid p-2 border-black border-2 m-2'  placeholder={retreatName}  onChange={(e)=>setRetreatName(e.target.value)}/><br/>
+              <label>Address of Retreat</label><br/>
+              <input type="text" className='border-solid p-2 border-black border-2 m-2'  placeholder={retreatAddress}/><br/>
+              <label>Country of Retreat</label><br/>
+              <input type="text" className='border-solid p-2 border-black border-2 m-2' placeholder={country}/><br/>
+              <label>Retreat Center Name</label><br/>
+              <input type="text" className='border-solid p-2 border-black border-2 m-2' placeholder={centerName} onChange={(e)=>setCenterName(e.target.value)}/><br/>
+              <label>Price of Retreat</label><br/>
+              <input type='number' className='border-solid p-2 border-black border-2 m-2' placeholder={price}/> <br/>
+              <label>About The Retreat</label><br/>
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." aria-placeholder={kind}></textarea>
+              <label>Delete image: </label>
+              {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
+             
+             <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt={`Retreat Image ${index + 1}`} />
+      <Button className='bg-lime-700 hover:bg-lime-800' onClick={(e)=>delImg(index)}>Delete</Button>
+      
+    </Card>
+    
+))}
+
+         <Button className='bg-lime-700 hover:bg-lime-800' onClick={saveChanges}>Save</Button>
+              
+
+
+             </form>
+             </div>
+           </Modal>
          <br/>
        {/** 
              <Modal isOpen={emailHostModal} onClose={closeEmailHostModal}>
@@ -340,8 +404,8 @@ useEffect(()=>{
             </Modal>
 
             **/}
-          
-          <h1 className='text-2xl'>{retreatAddress}&nbsp;{month}&nbsp;{country}</h1>
+          <h1 className='text-2xl font-bold'>{centerName}</h1>
+          <h1 className='text-xl'>{retreatAddress}&nbsp;{month}&nbsp;{country}</h1>
 
                     <h3 className="font-serif font-medium m-2 text-lg line-clamp-1">{startAt?.toDate()?.toLocaleDateString('en-US')} -&nbsp;
           {endAt?.toDate()?.toLocaleDateString('en-US')}</h3>

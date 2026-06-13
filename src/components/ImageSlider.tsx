@@ -1,6 +1,7 @@
 import { useState } from "react";
 import './ImageModal.css';
-const ImageSlider = ({ slides }) => {
+import { Button } from "./ui/button";
+const ImageSlider = ({ slides}) => {
     const [currentIndex, setCurrentIndex] = useState(0)
 
     const sliderStyles={
@@ -11,6 +12,7 @@ const ImageSlider = ({ slides }) => {
         height:'700px',
         margin:'0 auto',
     }   
+  
     const slideStyles={
         width:'100%',
         height:'100%',
@@ -65,7 +67,9 @@ const ImageSlider = ({ slides }) => {
     return <div style={sliderStyles} className="max-w-4xl h-full relative md:w-full lg:w-full justify-center items-center">
         <div style={leftArrowStyle} onClick={goToPrevious}>◀</div>
         <div style={rightArrowStyle} onClick={goToNext}>▶</div>
-    <div style={slideStyles} className="w-full h-full"></div>
+    <div style={slideStyles} className="w-full h-full">
+
+    </div>
    
      </div>
       
