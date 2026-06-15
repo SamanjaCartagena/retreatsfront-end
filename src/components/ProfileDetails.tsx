@@ -9,11 +9,10 @@ import { useParams } from 'react-router-dom';
 import SocialMedia from './SocialMedia.js';
 import {Link} from 'react-router-dom';
 import Modal from './Modal.js';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
+
 import {v4} from 'uuid';
 import { Card } from './ui/card.js';
+import { url } from 'inspector';
 export default function Profile() {
   const params = useParams();
   const userId = params.userId;
@@ -39,6 +38,7 @@ export default function Profile() {
   const [pinterestLink, setPinterestLink] = useState("")
   const [hostIntroduction, setHostIntroduction] = useState("")
   const [phone,setPhone] = useState("")
+  const [allRetreats, setAllRetreats] = useState([])
   const [retreatDetails, setRetreatDetails] = useState("")
   const [type1, setType1] = useState("")
   const [type2, setType2] = useState("")
@@ -178,14 +178,18 @@ export default function Profile() {
     });
     }
     loadData();
-onAuthStateChanged(auth, (user) => {
-  if (user) {
+onAuthStateChanged(auth, async (user) => {
+  if  (user) {
     console.log('User authstate is signed in with UID:', user.uid);
     if (userId === user.uid) {
     setOnlyUser(true);
+        
+       
+
     } else {
       setOnlyUser(false);
     }
+    console.log(allRetreats)
   } else {
     console.log('No user is signed in');  
   }
@@ -269,8 +273,8 @@ onAuthStateChanged(auth, (user) => {
         <p className="mb-4"><span className="font-bold">Username:</span> {hostUserName}</p>
         <p className="mb-4"><span className="font-bold">Email:</span> {email}</p>
         <p className="mb-4"><span className="font-bold">Phone:</span> {phone}</p>
-                <p className="mb-4"><span className="font-bold">Introduction:</span> {hostIntroduction}</p>
-                <p className="mb-4"><span className="font-bold">Retreat Details:</span> {retreatDetails}</p>
+        <p className="mb-4"><span className="font-bold">Introduction:</span> {hostIntroduction}</p>
+        <p className="mb-4"><span className="font-bold">Retreat Details:</span> {retreatDetails}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 1:</span> {type1}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 2:</span> {type2}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 3:</span> {type3}</p>  
@@ -329,10 +333,15 @@ onAuthStateChanged(auth, (user) => {
       
       })
     }
+    
+
+
+  
 
       </div>
-      
-      
+      <br/>
+       
+     
 
       
 

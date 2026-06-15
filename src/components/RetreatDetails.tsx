@@ -3,13 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast, doc, documentId, updateDoc} from 'firebase/firestore';
 import ImageModal from './ImageModal.js';
 import './ImageModal.css';
-import {db,storage} from '../firebase.js';
+import {db,storage, } from '../firebase.js';
 import { Button } from './ui/button.js';
 import Modal from './Modal.js'
 import ImageSlider from './ImageSlider.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import dayjs from 'dayjs';
-import { getDownloadURL, listAll, ref } from 'firebase/storage';
+import { getDownloadURL, listAll, ref, StorageReference, deleteObject } from 'firebase/storage';
 import { Card } from './ui/card.js';
 import emailjs from '@emailjs/browser';
 import { useToast } from "@/hooks/use-toast";
@@ -52,6 +52,7 @@ function RetreatDetails() {
     const [startAt, setStartAt] = useState(null);
     const [endAt, setEndAt] = useState(null);
     const [kind, setKind] = useState("");
+    const [allRetreats, setAllRetreats] = useState([]);
     const [documentId, setDocumentId] = useState("");
     const [hostEmail, setHostEmail] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -166,8 +167,13 @@ else {
 }
 
 }
-const delImg=(e)=>{
-  alert(e)
+const delImg=(url)=>{
+    const imageRef = ref(storage, url);
+       deleteObject(imageRef).then(() => {
+         setImageList((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+       }).catch((error) => {
+         console.error("Error deleting image: ", error);
+       });
 }
 const sendEmail=()=>{
   fetch('http://localhost:3000/send-email-host', {
@@ -221,6 +227,12 @@ useEffect(()=>{
     setGuestEmail(guestEmail)
     if(user.uid ==userId){
       setHostIsUser(true)
+
+
+
+
+
+
     }
     else{
       setHostIsUser(false)
@@ -368,7 +380,7 @@ useEffect(()=>{
              
              <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt={`Retreat Image ${index + 1}`} />
-      <Button className='bg-lime-700 hover:bg-lime-800' onClick={(e)=>delImg(index)}>Delete</Button>
+      <Button className='bg-lime-700 hover:bg-lime-800' onClick={(e)=>delImg(imageUrl)}>Delete</Button>
       
     </Card>
     
@@ -451,6 +463,9 @@ useEffect(()=>{
             )}
               **/}
             </div>
+            {hostIsUser &&
+            <h1>{allRetreats}</h1>
+            }
                         
           </div>
           </center>
@@ -460,3 +475,5 @@ useEffect(()=>{
 }
 
 export default RetreatDetails
+
+

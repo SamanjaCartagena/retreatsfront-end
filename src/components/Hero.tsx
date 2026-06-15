@@ -15,7 +15,7 @@ export function Hero() {
   const askai =()=>{
     setIsAIOpen(true);
   }
-  const homes =()=>{
+  const mentors =()=>{
     setIsHomeOpen(true);
   }
  const closeAI =() => {
@@ -76,8 +76,8 @@ const submitAI =() => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button className="bg-white hover:bg-white text-retreat-forest
-                  hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={homes}>
-                  Homes 
+                  hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={mentors}>
+                 Mentors
                 </Button>
                 <Button className="bg-white hover:bg-white text-retreat-forest
                   hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={shop}>

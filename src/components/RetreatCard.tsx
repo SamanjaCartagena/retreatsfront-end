@@ -48,7 +48,7 @@ export function RetreatCard() {
           const q = query(collection(db, "retreats"), where("isDisplayed", "==", true));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
+          console.log(doc.id, " => ", doc.data().guideFirstName);
           retreats.push({ ...doc.data() });
         });
         setListOfRetreats(retreats);
@@ -151,31 +151,6 @@ export function RetreatCard() {
 
     fetchData();
     
-    
- 
-
- 
-
-
-  
-  
-  /** 
-  const retrMonth = [];
-     const q15 =query(collection(db, "retreats"), (where("month", "==",selectedMonth)));
-
-           getDocs(q15).then((snapshot) => {
-
-        snapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retrMonth.push({ ...doc.data() });
-          
-        console.log(retrMonth);  
-                 setListOfRetreats(retrMonth);
-        });
-
-
-  });
-  **/
   
   }, [selectedLocation, selectedPrice, selectedType]);
  
@@ -222,9 +197,7 @@ export function RetreatCard() {
                                       <span className="text-md">{retreat.address}, {retreat.location}</span>
 
 
-        <div className="flex justify-between items-center mt-1">
-      
-        </div>
+       
         <div className="mt-3 font-medium">
 
           <span className="text-lg">${retreat.price}</span>
