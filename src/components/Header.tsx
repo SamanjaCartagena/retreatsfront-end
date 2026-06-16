@@ -21,6 +21,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {  Twitter } from "lucide-react";
+import { sign } from "crypto";
 
 export function Header() {
 const [id,setId]=useState('');
@@ -29,14 +30,15 @@ const [id,setId]=useState('');
   if (user)  {
     // User is signed in
     const uid = user.uid;
+    setId(user.uid)
    const q =query(collection(db, "hosts"), where("hostId", "==", uid));
+   
    const q2 =query(collection(db, "guides"), where("id", "==", uid));
    const querySnapshot2 = await getDocs(q2);
     const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
   console.log(doc.id, " => ", doc.data().id);
-  setId(doc.data().hostId);
  
 });
  querySnapshot2.forEach((doc) => {
@@ -64,6 +66,7 @@ const [id,setId]=useState('');
   const [email, setEmail] = useState('')
   const [password,setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [signInModal, setSignInModal] = useState(false)
   const closeModal =() => {
     setIsModalOpen(false);
  }
@@ -102,9 +105,27 @@ const [id,setId]=useState('');
   const home=() =>{
     navigate('/')
   }
-  const profile=()=>{
-    navigate(`/profile`);
+  
+  const signin=()=>{
+    setSignInModal(true)
+    setModalProfile(false)
    
+  }
+  const signinreal=()=>{
+    signInWithEmailAndPassword(auth, email, password)
+      .then(()=>{
+        onAuthStateChanged(auth, async (user) => {
+          if  (user) {
+            console.log('User authstate is signed in with UID:', user.uid);
+            navigate(`/adminpage/${user.uid}`)
+            window.location.reload()
+          }
+        })
+      })
+  }
+  const createProfile =() =>{
+    setSignInModal(false)
+    setModalProfile(true)
   }
   const guides=()=>{
     navigate('/guides');
@@ -139,6 +160,7 @@ const [id,setId]=useState('');
     >
       <Modal isOpen={modalProfile} onClose={()=>setModalProfile(false)}>
                   <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+                    <br/>
 
         <h1 className="mt-20">
                 Create a Profile
@@ -150,7 +172,26 @@ const [id,setId]=useState('');
                 <label className="text-align-left m-2 text-sm">Confirm Password</label>
                 <Input type="password" placeholder="***************" onChange={(e)=>setConfirmPassword(e.target.value)} />
                 <br/>
-                <Button className="w-60 bg-lime-700 bg-lime-800" onClick={create}>Create</Button>
+                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={create}>Create</Button>
+                                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={signin}>Sign In</Button>
+
+                </div>
+      </Modal>
+      <Modal isOpen={signInModal} onClose={()=>setSignInModal(false)}>
+                  <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+
+        <h1 className="mt-20">
+                Sign In
+                </h1>
+                <label className="text-align-left m-2 text-sm">Email</label>
+                <Input type="email" placeholder="Email" onChange={(e)=> setEmail(e.target.value)}/>
+                 <label className="text-align-left m-2 text-sm" >Password</label>
+                <Input type="password" placeholder="***************" onChange={(e)=>setPassword(e.target.value)}/>
+             
+                <br/>
+                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={createProfile}>Create</Button>
+                                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={signinreal}>Sign In</Button>
+
                 </div>
       </Modal>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -182,7 +223,7 @@ const [id,setId]=useState('');
           </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
-            
+            <Link to='/host'><Button>Host</Button></Link>
             <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={()=>setModalProfile(true)}>
               <UserPen />
               Profile

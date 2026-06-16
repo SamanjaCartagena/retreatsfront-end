@@ -28,6 +28,7 @@ function SignUpAsHost() {
   const [passwordModal, setPasswordModal] = useState(false);
   const [isCheckedCancellation, setIsCheckedCancellation] = useState(false);
   const [payout,setPayout]= useState(false)
+  const [hostId, setHostId] = useState('')
   const [value, setValue] = React.useState<Dayjs | null>();
   const [isCheckedVeganRetreat, setIsCheckedVeganRetreat] = useState(false)
   const [isCheckedSoundHealing, setIsCheckedSoundHealing] = useState(false)
@@ -56,6 +57,7 @@ function SignUpAsHost() {
   const [type7, setType7] = useState('')
   const [type8, setType8] = useState('')
   const [type9, setType9] = useState('')  
+  const[signedUp, setSignedUp] = useState(false)
   const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/retreat1.jpg?alt=media&token=0c739aa7-357f-4422-b0ff-49d055754ecb"
   
   const closeModal = () => setIsModalOpen(false);
@@ -68,6 +70,7 @@ function SignUpAsHost() {
             console.log('User authstate is signed in with UID:', user.uid);
             console.log(user.email)
             setHostEmail(user.email)
+            setHostId(user.uid)
           }
       })
 
@@ -194,30 +197,17 @@ function SignUpAsHost() {
           return;
         }
 
-       else if(confirmPassword.length<8 || password1.length<8){
-
-            setPasswordLengthModal(true);
-            setPassword1('');
-            setConfirmPassword('');
-            return;
-        }
+     
        else if(!isCheckedTerms || !isPayputChecked || !isCheckedCancellation){
           setOpenTermsModal(true);
           return;
         }
-        else if(password1!==confirmPassword){
-          alert("Passwords do not match")
-          setPasswordModal(true)
-          return;
-        }
+       
+        else {
          
-        else if(password1===confirmPassword){
-                  await createUserWithEmailAndPassword(auth,hostEmail,confirmPassword)
-                  .then(async (userCredential)=>{
-                    const user = userCredential.user;
-                    console.log('User created:', user.uid);
+                 
                                 await addDoc(collection(db, "hosts"), {
-                                  hostId: user.uid,
+                                  hostId: hostId,
                                   hostFirstName: firstName,
                                   hostLastName: lastName,
                                   hostIntroduction: introduction,
@@ -238,8 +228,10 @@ function SignUpAsHost() {
                                   cancellation:isCheckedCancellation,
                                   hostProfilePicUrl:"https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40",
                                   createdAt: new Date()
-                                });
-                                 fetch('http://localhost:3000/send-admin-email', {
+                                }).then(()=>{
+                                  setSignedUp(true)
+                                  
+                                             fetch('http://localhost:3000/send-admin-email', {
                                    method: 'POST',
                                   headers: {
                                   'Content-Type': 'application/json',
@@ -247,8 +239,8 @@ function SignUpAsHost() {
                      },
                               body:JSON.stringify({ name: "Admin", email: "samanja.cartagena@gmail.com", content: `A new host has just signed up with the name ${firstName} ${lastName} and email ${hostEmail}. Please review their profile and approve their hosting privileges. ` }), 
                               
-               });
-                                    fetch('http://localhost:3000/send-email', {
+               });            
+                                   fetch('http://localhost:3000/send-email', {
                                    method: 'POST',
                                   headers: {
                                   'Content-Type': 'application/json',
@@ -257,6 +249,8 @@ function SignUpAsHost() {
                               body:JSON.stringify({ name: firstName, email: hostEmail, content: "Welcome to Retreats Around The World, a community for mindful retreats and travelling to recover from the stresses of daily life." }), 
                               
                });
+                                })
+                 
                            signInWithEmailAndPassword(auth, hostEmail, confirmPassword)
                   .then((userCredential)=>{
                      setIsModalOpen(true);
@@ -270,22 +264,13 @@ function SignUpAsHost() {
                   .catch((error)=>{
                     console.error('Error creating user:', error);
                   });
-                  
 
-        })
-      }
-        else{
-          alert("Something went wrong! Please try again!")
-          setFirstName("")
-          setLastName("")
-          setUsername("")
-          setPassword1("")
-          setConfirmPassword("")
-          setIntroduction("")
-          setDetails("")
-          return
         }
-        }catch(err){
+                  
+      
+      }
+      
+      catch(err){
             console.error(err)
         }
       }
@@ -298,6 +283,15 @@ function SignUpAsHost() {
         className="absolute inset-0 bg-cover bg-center" 
         style={{ backgroundImage: `url(${pic})` }}
       >
+        <Modal isOpen={signedUp} onClose={()=>setSignedUp(false)}>
+        <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+                    <br/>
+
+        <h1 className="mt-20">
+                Congratulations on SigningUp!
+                </h1>
+                </div>
+        </Modal>
       <Modal isOpen={passwordLengthModal} onClose={closePasswordLengthModal}>
           <div style={{width:'100%', position:'relative', top:'50%', left:'50%', transform:'translate(-50%, -50%)'}} className="justify-center items-center text-center p-4 bold text-lg">
                 Password must be at least 6 characters long, Password must contain letters and numbers!
@@ -447,7 +441,6 @@ function SignUpAsHost() {
      <br/><br/>
     <div className="mb-6">
      
-            <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=>setConfirmPassword(e.target.value)}/>
        <label className="block text-gray-700 text-sm font-bold mb-2" >
        What kind of retreats will you be hosting? Check all that apply.</label>
       <br/>

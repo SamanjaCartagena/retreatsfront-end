@@ -31,6 +31,7 @@ export default function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [facebookLink, setFacebookLink] = useState("")
   const [faceLink, setFaceLink]= useState("")
+  const [modalForHost, setModalForHost] = useState(false)
   const [instagramLink, setInstagramLink] = useState("")
   const [instaLink, setInstaLink] = useState("")
   const [twitterLink, setTwitterLink] = useState("")
@@ -134,6 +135,11 @@ export default function Profile() {
       const loadData = async () => {
      const q =query(collection(db, "hosts"), where("hostId", "==", userId));
       const querySnapshot = await getDocs(q);
+       if(querySnapshot.size === 0){
+          setModalForHost(true)
+          return;
+        }
+        else{
         querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     setDocumentId(doc.id)
@@ -161,6 +167,7 @@ export default function Profile() {
     setType8(doc.data().type8);
     setType9(doc.data().type9);
   });
+}
 
     const profilePic = ref(storage, `/profilePic/${userId}/profile.jpg`);
       getDownloadURL(profilePic).then((url)=>{
@@ -197,6 +204,19 @@ onAuthStateChanged(auth, async (user) => {
   },[])
   return (
     <div className="max-w-4xl pt-40 mx-auto p-4 grid place-items-center">
+       <Modal isOpen={modalForHost} onClose={()=>setModalForHost(false)}>
+            <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+                    <br/>
+
+             <h1 className="mt-20">
+              You are not signed up as a host!
+             </h1>
+             <br/>
+             <Link to={`/adminpage/${userId}/signupasHost`}>
+             <Button className='bg-lime-700 hover:bg-lime-800'>Sign Up as a Host</Button>
+             </Link>
+             </div>
+       </Modal>
           {onlyUser && ( 
           <h1 className="text-2xl flex font-bold mb-4">Hi {firstName}, Would you like to list your retreat?</h1>
           )}
@@ -210,7 +230,7 @@ onAuthStateChanged(auth, async (user) => {
           </div>
             )}
           <br/>
-          
+          <Button>Sign Up As a Host</Button>
           </div>
            <Modal isOpen={openEditor} onClose={()=>setOpenEditor(false)}>
           <div style={{width:'100%',}} className="justify-center mt-20 items-center text-center p-4 bold text-sm">
