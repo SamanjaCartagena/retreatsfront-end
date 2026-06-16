@@ -429,6 +429,12 @@ useEffect(()=>{
 
             <p className='text-lg md:w-full sm:w-full font-semibold mt-4'>{hostFirstName} &nbsp;{hostLastName}</p>
             <p className='w-60 md:w-full sm:w-full p-10'>{kind}</p>
+            <div className='border-2 rounded'>
+            <h1 className='text-2xl mb-4'>How to get there?</h1>
+                                    <h1>Nearest Airport</h1>
+                                  
+
+                                    </div>
             </div>
             <div>
                         <h1 className='text-2xl mb-4'>About the Host</h1>
@@ -436,6 +442,8 @@ useEffect(()=>{
             <img src={hostPic}  className="w-60 h-60  rounded-full object-cover" />
             <br/>
             <br/>
+                                    
+
             <div className=" grid justify-center items-center">
                        
                         <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={()=>navigate(`/profile/${userId}`)}>

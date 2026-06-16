@@ -8,7 +8,6 @@ function AdminPage() {
 const params=useParams()
 const auth=getAuth()
 const userId = params.userId;
-
    useEffect(()=>{
 
           onAuthStateChanged(auth, (user) => {
@@ -16,7 +15,6 @@ const userId = params.userId;
       // User is signed in, see docs for a list of available properties
       // https://google.com
       const uid = user.uid;
-  
   
       }
       else{
@@ -50,7 +48,10 @@ const userId = params.userId;
     <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
     <img src={pic} />
     <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Guide Admin</Button>
+        <Link to={`guidesignup`}>
+
         <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Sign Up As a Guide</Button>
+        </Link>
     
     
     </div>

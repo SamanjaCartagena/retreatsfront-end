@@ -230,6 +230,7 @@ function SignUpAsHost() {
                                   createdAt: new Date()
                                 }).then(()=>{
                                   setSignedUp(true)
+                                  navigate(`/profile/${hostId}`)
                                   
                                              fetch('http://localhost:3000/send-admin-email', {
                                    method: 'POST',

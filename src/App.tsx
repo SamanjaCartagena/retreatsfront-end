@@ -23,6 +23,7 @@ import GuideSignUp from "@/components/GuideSignUp";
 import Airways from "@/components/Airways";
 import Success from "@/components/Success";
 import GuideAdmin from "./components/GuideAdmin";
+
 import RetreatCenterDetails from "@/components/RetreatCenterDetails";
 import AdminPage from "@/components/AdminPage"
 
@@ -48,7 +49,7 @@ const App = () => (
           <Route path="/success" element={<Success/>}/>
           
           <Route path="/guideadmin/:userId" element={<GuideAdmin/>}/>
-
+          <Route path="/adminpage/:userId/guidesignup" element={<GuideSignUp/>}/>
           <Route path="/profile/:userId" element={<ProfileDetails/>}/>
           <Route path="/list/:userId" element={<ListARetreat/>}/>
           <Route path="/retreatdetails/:id" element={<RetreatDetails/>}/>

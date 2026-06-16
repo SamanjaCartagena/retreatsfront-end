@@ -143,6 +143,7 @@ export default function Hosts() {
                 <div className="flex items-center gap-1 text-sm">
                   <Star size={16} fill="currentColor" className="text-retreat-forest" />
                   <h1>{guide.hostFirstName}</h1>
+                  <h1>{guide.specialty}</h1>
                 </div>
               </div>
               <p className="text-muted-foreground text-sm mb-2">
@@ -154,8 +155,10 @@ export default function Hosts() {
                 <span className="text-lg"></span>
                           <span className="text-lg"></span>
       
-                <span className="text-sm text-muted-foreground"> / person</span>
-                    <Link to={`/hostdetails/${guide.hostId}`} ><button  className='bg-lime-700 ml-50px  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</button></Link>
+                <br/>
+                    <Link to={`/hostdetails/${guide.hostId}`} >
+                    
+                    <button  className='bg-lime-700 ml-50px  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</button></Link>
       
               </div>
             </CardContent>

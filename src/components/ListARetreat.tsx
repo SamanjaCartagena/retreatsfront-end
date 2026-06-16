@@ -36,6 +36,8 @@ function ListARetreat() {
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
    const [imageList, setImageList] = useState([]);
+   const [nearestAirport, setNearestAirport] = useState("")
+   const [notIncluded, setNotIncluded] = useState("")
    const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
    const params = useParams();
    const userId = params.userId;
@@ -109,6 +111,7 @@ const endAtDate=(e)=>{
                                          startAt: startDate,
                                          endAt: endDate,
                                          kind: kind,
+                                         nearestAirport:nearestAirport,
                                          currency: currency,
                                          createdAt: serverTimestamp(),
                                          pic1: imageList[0],
@@ -554,7 +557,9 @@ const endAtDate=(e)=>{
     </LocalizationProvider>
 
     
-    </div>
+    </div><br/>
+ </div>
+    
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Tell us something about the Retreat
@@ -562,7 +567,22 @@ const endAtDate=(e)=>{
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setKind(e.target.value)}></textarea>
    
     </div>
-        
+          <div className='mb-4'>
+      <label>
+        Nearest Airport
+      </label>
+           1. <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Nearest Airport" onChange={(e)=>setNearestAirport(e.target.value)}/>
+
+    
+  </div>
+    <div className='mb-4'>
+      <label>
+        What's not included?
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write what is not included here..." onChange={(e)=>setNotIncluded(e.target.value)}></textarea>
+
+    
+  </div>
 
     <div className="mb-4">
 
@@ -571,7 +591,7 @@ const endAtDate=(e)=>{
     
       <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
     </div>
-  </div>
+     
      {imageList.map((url)=>{
       return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
                       <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>

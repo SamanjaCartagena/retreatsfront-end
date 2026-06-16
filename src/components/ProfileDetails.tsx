@@ -229,7 +229,7 @@ onAuthStateChanged(auth, async (user) => {
           </div>
             )}
           <br/>
-          <Button>Sign Up As a Host</Button>
+     
           </div>
            <Modal isOpen={openEditor} onClose={()=>setOpenEditor(false)}>
           <div style={{width:'100%',}} className="justify-center mt-20 items-center text-center p-4 bold text-sm">
@@ -304,12 +304,12 @@ onAuthStateChanged(auth, async (user) => {
         <p className="mb-4"><span className="font-bold">Retreat Type 7:</span> {type7}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 8:</span> {type8}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 9:</span> {type9}</p>
-                
-       <Link to={`/guideadmin/${userId}`}className="mb-2 mt-2" >
+              {onlyUser &&  
+       <Link to={`/guidesignup/${userId}`}className="mb-2 mt-2" >
           <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>Become a Guide</Button>
 
         </Link>
-      
+}
         <div className="grid  items-center mt-1">
         
           {onlyUser && (

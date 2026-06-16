@@ -256,12 +256,22 @@ const [id,setId]=useState('');
             </a>
           </MenuItem>
           </Link>
+          <Link to="/guides">
           <MenuItem>
             <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
             >
               Guides
+            </a>
+          </MenuItem>
+          </Link>
+          <MenuItem>
+            <a
+              href="#"
+              className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+            >
+              Guests
             </a>
           </MenuItem>
           <Link to='/retreatcenters'>

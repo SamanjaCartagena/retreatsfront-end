@@ -7,10 +7,13 @@ import React,{useEffect, useState} from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 
 function GuideAdmin() {
+  const params=useParams()
+  console.log(params.id)
     useEffect(()=>{
 
     },[])
   return (
+    
     <div>GuideAdmin</div>
   )
 }
