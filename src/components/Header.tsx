@@ -13,6 +13,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YoutubeIcon from '@mui/icons-material/YouTube';
 import { UserPen } from 'lucide-react';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
 import logo from '../assets/logoretreat.png'
 import {
@@ -223,17 +224,61 @@ const [id,setId]=useState('');
           </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
-            <Link to='/host'><Button>Host</Button></Link>
-            <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={()=>setModalProfile(true)}>
-              <UserPen />
-              Profile
-            </Button>
            
-            <Link to="/retreatcenters">
-            <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">
+            <Menu as="div" className="relative inline-block">
+      <MenuButton className="inline-flex w-full justify-center border-0  px-3 py-2 text-sm font-semibold  text-lime-700" >
+        <UserPen />
+              Account
+      </MenuButton>
+
+      <MenuItems
+        transition
+        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-lime-800 text-white outline-1 -outline-offset-1  transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+      >
+        <div className="py-1">
+          <MenuItem >
+            <a
+              href="#"
+              className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+              onClick={()=>setModalProfile(true)}
+            >
+              Profile
+            </a>
+          </MenuItem>
+          <Link to='/host'>
+          <MenuItem>
+            <a
+              href="#"
+              className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+
+            >
+              Hosts
+            </a>
+          </MenuItem>
+          </Link>
+          <MenuItem>
+            <a
+              href="#"
+              className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+            >
+              Guides
+            </a>
+          </MenuItem>
+          <Link to='/retreatcenters'>
+            <MenuItem>
+            <a
+              href="#"
+              className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+            >
               Retreat Centers
-            </Button>
-            </Link>
+            </a>
+          </MenuItem>
+          </Link>
+        </div>
+      </MenuItems>
+    </Menu>
+           
+            
             <FacebookIcon style={{margin:'5px', cursor:'pointer', }}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
             <InstagramIcon style={{margin:'5px', cursor:'pointer',}} onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')} />
             <TwitterIcon style={{margin:'5px', cursor:'pointer', }} onClick={() => window.open('https://x.com/Retreats_World', '_blank')} />

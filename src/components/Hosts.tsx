@@ -133,7 +133,7 @@ export default function Hosts() {
                    <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
             <div className="aspect-[5/3] overflow-hidden">
               <img
-                src={guide.profilePicUrl}
+                src={guide.hostProfilePicUrl}
                 alt={guide.hostId}
                 className="w-full h-full object-cover transition-transform duration-500"
               />
@@ -169,7 +169,7 @@ export default function Hosts() {
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4">
-            Plan a Retreat!
+            Meet our Hosts!
           </h2>
          
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">

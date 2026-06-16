@@ -81,7 +81,7 @@ export default function Profile() {
           const docRef = doc(db, "hosts", documentId);
 
            updateDoc(docRef, {
-             profilePicUrl: avatarUrl,
+             hostProfilePicUrl: avatarUrl,
             
                    });
       }
@@ -90,7 +90,7 @@ export default function Profile() {
    }
    
  const deleteImage=(url)=>{
-   alert("Are you sure you want to delete this image?"+url);
+   console.log("Are you sure you want to delete this image?"+url);
     const imageRef = ref(storage, url);
     deleteObject(imageRef).then(() => {
       setImageList((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -190,7 +190,6 @@ onAuthStateChanged(auth, async (user) => {
     console.log('User authstate is signed in with UID:', user.uid);
     if (userId === user.uid) {
     setOnlyUser(true);
-        
        
 
     } else {
