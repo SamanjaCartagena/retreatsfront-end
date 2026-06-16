@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db,auth } from "../firebase.js";
 import {Link} from 'react-router-dom';
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword } from "firebase/auth";
 import Modal from "./Modal";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YoutubeIcon from '@mui/icons-material/YouTube';
+import { UserPen } from 'lucide-react';
+
 import logo from '../assets/logoretreat.png'
 import {
   Sheet,
@@ -34,14 +36,12 @@ const [id,setId]=useState('');
         querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
   console.log(doc.id, " => ", doc.data().id);
-  setDisplayName(doc.data().hostFirstName);
   setId(doc.data().hostId);
  
 });
  querySnapshot2.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
   console.log(doc.id, " => ", doc.data().id);
-  setDisplayName(doc.data().firstName);
   setId(doc.data().id);       
     setLogout(true);  
     console.log('User   is signed in with UID:', uid);
@@ -60,7 +60,10 @@ const [id,setId]=useState('');
   const [isScrolled, setIsScrolled] = useState(false);
   const[logout,setLogout]=useState(true);
   const [isModalOpen, setIsModalOpen]= useState(false);
-  const [displayName, setDisplayName]= useState('');
+  const [modalProfile, setModalProfile] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password,setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const closeModal =() => {
     setIsModalOpen(false);
  }
@@ -71,7 +74,25 @@ const [id,setId]=useState('');
 
 
   }
+  const create=async()=>{
+    if (password == confirmPassword){
+     await createUserWithEmailAndPassword(auth, email, password)
+    .then(()=>{
+      signInWithEmailAndPassword(auth, email, password)
+      .then(()=>{
+        onAuthStateChanged(auth, async (user) => {
+          if  (user) {
+            console.log('User authstate is signed in with UID:', user.uid);
+            navigate(`/adminpage/${user.uid}`)
+            window.location.reload()
+          }
+      })
+    })
 
+    })
+    
+  }
+}
   const host=() =>{
     navigate('/host');
   }
@@ -116,6 +137,22 @@ const [id,setId]=useState('');
         isScrolled ? "bg-white/90  shadow-sm py-3" : "bg-transparent py-5"
       }`}
     >
+      <Modal isOpen={modalProfile} onClose={()=>setModalProfile(false)}>
+                  <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+
+        <h1 className="mt-20">
+                Create a Profile
+                </h1>
+                <label className="text-align-left m-2 text-sm">Email</label>
+                <Input type="email" placeholder="Email" onChange={(e)=> setEmail(e.target.value)}/>
+                 <label className="text-align-left m-2 text-sm" >Password</label>
+                <Input type="password" placeholder="***************" onChange={(e)=>setPassword(e.target.value)}/>
+                <label className="text-align-left m-2 text-sm">Confirm Password</label>
+                <Input type="password" placeholder="***************" onChange={(e)=>setConfirmPassword(e.target.value)} />
+                <br/>
+                <Button className="w-60 bg-lime-700 bg-lime-800" onClick={create}>Create</Button>
+                </div>
+      </Modal>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
             <h1 className="mt-20">
@@ -136,8 +173,8 @@ const [id,setId]=useState('');
        
            <div className="flex items-right">
           <div className="hidden md:flex items-center gap-2"></div>
-           {logout &&  <Link to={`/profile/${id}`} className="text-sm underline mt-2" >
-              Welcome {`${displayName}`}
+           {logout &&  <Link to={`/adminpage/${id}`} className="text-sm underline mt-2" >
+              Welcome 
             </Link>}
            {logout &&  <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={loggedout}>
               Log Out
@@ -146,15 +183,11 @@ const [id,setId]=useState('');
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
             
-            <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={host}>
-              Host
+            <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={()=>setModalProfile(true)}>
+              <UserPen />
+              Profile
             </Button>
-            <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={guides}>
-              Guides
-            </Button>
-            <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={guest}>
-              Guest
-            </Button>
+           
             <Link to="/retreatcenters">
             <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">
               Retreat Centers

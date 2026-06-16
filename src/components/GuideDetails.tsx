@@ -60,7 +60,7 @@ function GuideDetails() {
                 });
             
             
-                    const profilePicRef = ref(storage, `/profilePic/${userId}/profile.jpg`);
+                    const profilePicRef = ref(storage, `/profilePic/${guideId}/profile.jpg`);
                   getDownloadURL(profilePicRef).then((url)=>{
                     setHostPic(url);
                   }).catch((error)=>{

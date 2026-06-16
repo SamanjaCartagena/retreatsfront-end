@@ -22,7 +22,9 @@ import Guides from "@/components/Guides";
 import GuideSignUp from "@/components/GuideSignUp";
 import Airways from "@/components/Airways";
 import Success from "@/components/Success";
+import GuideAdmin from "./components/GuideAdmin";
 import RetreatCenterDetails from "@/components/RetreatCenterDetails";
+import AdminPage from "@/components/AdminPage"
 
 const queryClient = new QueryClient();
 const App = () => (
@@ -39,10 +41,13 @@ const App = () => (
           <Route path="/retreatcenterdetails/:id" element={<RetreatCenterDetails/>}/>
           <Route path="/guest" element={<Guest/>}/>
           <Route path="/host" element={<Host/>}/>
-          <Route path="/signupasHost" element={<SignUpAsHost/>}/>
+          <Route path="/adminpage/:userId/signupasHost" element={<SignUpAsHost/>}/>
           <Route path="/admin" element={<Admin/>}/>
+          <Route path="/adminpage/:userId" element={<AdminPage/>}/>
           <Route path="/hosts/:userId" element={<ProfileSelected/>}/>
           <Route path="/success" element={<Success/>}/>
+          
+          <Route path="/guideadmin/:userId" element={<GuideAdmin/>}/>
 
           <Route path="/profile/:userId" element={<ProfileDetails/>}/>
           <Route path="/list/:userId" element={<ListARetreat/>}/>

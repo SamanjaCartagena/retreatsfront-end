@@ -286,7 +286,10 @@ onAuthStateChanged(auth, async (user) => {
         <p className="mb-4"><span className="font-bold">Retreat Type 8:</span> {type8}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 9:</span> {type9}</p>
                 
+       <Link to={`/guideadmin/${userId}`}className="mb-2 mt-2" >
+          <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>Become a Guide</Button>
 
+        </Link>
       
         <div className="grid  items-center mt-1">
         

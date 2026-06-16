@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import { Checkbox } from '@radix-ui/react-checkbox'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,11 +6,9 @@ import Modal from './Modal.js';
 import ModalHost from './ModalHost.js'
 import {auth, googleProvider, db} from '../firebase.js';
 import { collection, addDoc, query, getDocs, where } from "firebase/firestore"; 
-import { createUserWithEmailAndPassword,signInWithPopup, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import {useState} from 'react';
+import { createUserWithEmailAndPassword,signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom';
 import ModalCancellation from './ModalCancellation.js';
-import { set } from 'date-fns';
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -64,7 +62,16 @@ function SignUpAsHost() {
   const closePasswordModal =()=>setPasswordModal(false);
   const closePurposeModal =()=> setIsPurpose(false)
   const closePasswordLengthModal =()=> setPasswordLengthModal(false);
+  useEffect(()=>{
+      onAuthStateChanged(auth, async (user) => {
+          if  (user) {
+            console.log('User authstate is signed in with UID:', user.uid);
+            console.log(user.email)
+            setHostEmail(user.email)
+          }
+      })
 
+  },[])
   const meditation=(e)=>{
     if(e.target.checked){
       setIsCheckedMeditationRetreat(true)
@@ -272,7 +279,6 @@ function SignUpAsHost() {
           setFirstName("")
           setLastName("")
           setUsername("")
-          setHostEmail("")
           setPassword1("")
           setConfirmPassword("")
           setIntroduction("")
@@ -431,11 +437,7 @@ function SignUpAsHost() {
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" onChange={(e)=> setUsername(e.target.value)}/>
       <br/><br/>
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-        Email
-      </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" onChange={(e)=> setHostEmail(e.target.value)} />
-     <br/><br/>
+  
       
           
        <label className="block text-gray-700 text-sm font-bold mb-2" >
@@ -444,14 +446,7 @@ function SignUpAsHost() {
             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="tel" placeholder="Phone Number" onChange={(e)=> setPhone(e.target.value)} />
      <br/><br/>
     <div className="mb-6">
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Create Password
-      </label>
-      <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=>setPassword1(e.target.value)}/>
-      <p className="text-red-500 text-xs italic">Please choose a password.</p>
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Confirm Password
-      </label>
+     
             <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" onChange={(e)=>setConfirmPassword(e.target.value)}/>
        <label className="block text-gray-700 text-sm font-bold mb-2" >
        What kind of retreats will you be hosting? Check all that apply.</label>
