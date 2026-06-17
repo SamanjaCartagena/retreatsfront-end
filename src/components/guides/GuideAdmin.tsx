@@ -1,19 +1,19 @@
 import React,{useEffect, useState} from 'react'
 import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc } from "firebase/firestore";
-import { db, auth,storage} from "../firebase.js";
+import { db, auth,storage} from "../../firebase.js";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import SocialMedia from './SocialMedia.js';
+import SocialMedia from '../SocialMedia.js';
 import {Link} from 'react-router-dom';
-import Modal from './Modal.js';
+import Modal from '../Modal.js';
 
 import {v4} from 'uuid';
-import { Card } from './ui/card.js';
+import { Card } from '../ui/card.js';
 import { url } from 'inspector';
-export default function Profile() {
+export default function GuideAdmin() {
   const params = useParams();
   const userId = params.userId;
   console.log("User ID from URL:", userId);
@@ -26,48 +26,29 @@ export default function Profile() {
   const [imageList, setImageList] = useState([]);
   const [avatarUrl, setAvatarUrl] = useState("");
   const [documentId, setDocumentId] = useState("")
-  const [details, setDetails] = useState("")
-  const [hostUserName, setHostUserName] = useState("")
+  const [guideSpecialty, setGuideSpecialty] = useState("")
+  const [guideUserName, setGuideUserName] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [facebookLink, setFacebookLink] = useState("")
-  const [faceLink, setFaceLink]= useState("")
   const [modalForHost, setModalForHost] = useState(false)
-  const [instagramLink, setInstagramLink] = useState("")
-  const [instaLink, setInstaLink] = useState("")
-  const [twitterLink, setTwitterLink] = useState("")
-  const [twitLink, setTwitLink] = useState("")
-  const [pinterestLink, setPinterestLink] = useState("")
-  const [hostIntroduction, setHostIntroduction] = useState("")
+  const [guideIntroduction, setGuideIntroduction] = useState("")
   const [phone,setPhone] = useState("")
   const [allRetreats, setAllRetreats] = useState([])
-  const [retreatDetails, setRetreatDetails] = useState("")
-  const [type1, setType1] = useState("")
-  const [type2, setType2] = useState("")
-  const [type3, setType3] = useState("")
-  const [type4, setType4] = useState("")
-  const [type5, setType5] = useState("")
-  const [type6, setType6] = useState("")
-  const [type7, setType7] = useState("")
-  const [type8, setType8] = useState("")
-  const [type9, setType9] = useState("")
+ 
   const [openEditor, setOpenEditor] = useState(false)
   const navigate = useNavigate()
     const imageListRef = ref(storage, `/images/${userId}/`);
     const profileRef = ref(storage, `/profilePic/${userId}/`);
     const deleteImageRef = ref(storage, `/images/${userId}/`);
     const saveChanges =()=>{
-      const docRef = doc(db, "hosts", documentId);
-      updateDoc(docRef, { hostFirstName: firstName,
-        hostLastName: lastName,
-        hostEmail: email, 
-        hostUsername: hostUserName,
-        hostIntroduction: hostIntroduction,
-        hostPhone: phone,
-        hostRetreatDetails: retreatDetails,
-        type1: type1,
-        type2: type2,
-        type3: type3,
-        type4: type4
+      const docRef = doc(db, "guides", documentId);
+      updateDoc(docRef, { guideFirstName: firstName,
+        guideLastName: lastName,
+        guideEmail: email, 
+        guideUsername:guideUserName,
+        guideIntroduction: guideIntroduction,
+        guidePhone: phone,
+        guideSpecialty: guideSpecialty,
+      
        });
        setOpenEditor(false);
     }
@@ -78,10 +59,10 @@ export default function Profile() {
     uploadBytes(profilePicRef, imageUpload).then((snapshot)=>{
       getDownloadURL(snapshot.ref).then((url)=>{
         setAvatarUrl(url);
-          const docRef = doc(db, "hosts", documentId);
+          const docRef = doc(db, "guides", documentId);
 
            updateDoc(docRef, {
-             hostProfilePicUrl: avatarUrl,
+             guideProfilePicUrl: avatarUrl,
             
                    });
       }
@@ -105,23 +86,14 @@ export default function Profile() {
     setIsModalOpen(false)
   }
 
-  const submitSocials =() => {
-    const docRef = doc(db, "hosts", documentId);
-    updateDoc(docRef, {
-      facebook: facebookLink,
-      instagram: instagramLink,
-      twitter: twitterLink,
-      pinterest: pinterestLink
-    });
-    setIsModalOpen(false);
-  }
+ 
   const uploadImage=()=>{
     // Create a root reference
     console.log("Upload Image");
     if(imageUpload == null) return;
     
     
-    const imageRef = ref(storage, `/images/${userId}/${imageUpload.name+v4()}`);
+    const imageRef = ref(storage, `/guides/${userId}/${imageUpload.name+v4()}`);
     uploadBytes(imageRef, imageUpload).then((snapshot)=>{
       getDownloadURL(snapshot.ref).then((url)=>{
         setImageList((prev)=>[...prev, url]);
@@ -133,7 +105,7 @@ export default function Profile() {
     useEffect(() => {
      
       const loadData = async () => {
-     const q =query(collection(db, "hosts"), where("hostId", "==", userId));
+     const q =query(collection(db, "guides"), where("guideId", "==", userId));
       const querySnapshot = await getDocs(q);
        if(querySnapshot.size === 0){
           setModalForHost(true)
@@ -144,32 +116,17 @@ export default function Profile() {
     // doc.data() is never undefined for query doc snapshots
     setDocumentId(doc.id)
     setAvatarUrl(doc.data().profilePicUrl)
-    setFirstName(doc.data().hostFirstName);
-    setLastName(doc.data().hostLastName);
-    setEmail(doc.data().hostEmail);
-    setId(doc.data().hostId);
-    setDetails(doc.data().details);
-    setFaceLink(doc.data().facebook);
-    setInstaLink(doc.data().instagram);
-    setTwitLink(doc.data().twitter);
-    setPinterestLink(doc.data().pinterest);
-    setHostIntroduction(doc.data().hostIntroduction);
-    setPhone(doc.data().hostPhone);
-    setRetreatDetails(doc.data().hostRetreatDetails);
-    setHostUserName(doc.data().hostUsername);
-    setType1(doc.data().type1);
-    setType2(doc.data().type2);
-    setType3(doc.data().type3);
-    setType4(doc.data().type4);
-    setType5(doc.data().type5);
-    setType6(doc.data().type6);
-    setType7(doc.data().type7);
-    setType8(doc.data().type8);
-    setType9(doc.data().type9);
+    setFirstName(doc.data().guideFirstName);
+    setLastName(doc.data().guideLastName);
+    setGuideIntroduction(doc.data().guideIntroduction);
+    setPhone(doc.data().guidePhone);
+    setGuideSpecialty(doc.data().guideSpecialty);
+    setGuideUserName(doc.data().guideUsername);
+   
   });
 }
 
-    const profilePic = ref(storage, `/profilePic/${userId}/profile.jpg`);
+    const profilePic = ref(storage, `/guideProfilePic/${userId}/profile.jpg`);
       getDownloadURL(profilePic).then((url)=>{
         setAvatarUrl(url);
       }
@@ -189,6 +146,8 @@ onAuthStateChanged(auth, async (user) => {
   if  (user) {
     console.log('User authstate is signed in with UID:', user.uid);
     if (userId === user.uid) {
+      setEmail(user.email)
+      setId(user.uid)
     setOnlyUser(true);
        
 
@@ -208,11 +167,11 @@ onAuthStateChanged(auth, async (user) => {
                     <br/>
 
              <h1 className="mt-20">
-              You are not signed up as a host!
+              You are not signed up as a guide!
              </h1>
              <br/>
-             <Link to={`/adminpage/${userId}/signupasHost`}>
-             <Button className='bg-lime-700 hover:bg-lime-800'>Sign Up as a Host</Button>
+             <Link to={`/adminpage/${userId}/guidesignup`}>
+             <Button className='bg-lime-700 hover:bg-lime-800'>Sign Up as a Guide</Button>
              </Link>
              </div>
        </Modal>
@@ -238,47 +197,13 @@ onAuthStateChanged(auth, async (user) => {
              <input type="text" placeholder="Last Name" value={lastName} onChange={(e)=>setLastName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
              <input type="text" placeholder="Phone Number" value={phone} onChange={(e)=>setPhone(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
              <input type="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
-             <input type="text" placeholder="Username" value={hostUserName} onChange={(e)=>setHostUserName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
-             <textarea placeholder="Host Introduction" value={hostIntroduction} onChange={(e)=>setHostIntroduction(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
-              <textarea placeholder="Retreat Details" value={retreatDetails} onChange={(e)=>setRetreatDetails(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
+             <input type="text" placeholder="Username" value={guideUserName} onChange={(e)=>setGuideUserName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
+             <textarea placeholder="Host Introduction" value={guideIntroduction} onChange={(e)=>setGuideIntroduction(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
+              <textarea placeholder="Guide Specialty" value={guideSpecialty} onChange={(e)=>setGuideSpecialty(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
               <h1 className="text-xl font-bold mb-2">Retreat Types (Check all that apply)</h1>
-              <div className="flex m-2 border-2 border-solid border-gray-300 rounded p-4">
-              <input type="checkbox" checked={!!type1} onChange={(e)=>setType1(e.target.checked ? 'Meditation' : '')} />
-              <label>&nbsp;Meditation</label><br/>
-              </div>
-                            <div className="flex m-2 border-2 border-solid border-gray-300 rounded p-4">
-
-              <input type="checkbox" checked={!!type2} onChange={(e)=>setType2(e.target.checked ? 'Vegan' : '')} />
-              <label>&nbsp;Vegan</label><br/>
-              </div>
-              <div className="flex m-2 border-2 border-solid border-gray-300 rounded p-4">
-              <input type="checkbox" checked={!!type3} onChange={(e)=>setType3(e.target.checked ? 'Sound Healing' : '')} />
-              <label>&nbsp;Sound Healing</label><br/>
-              </div>
-              <div className="flex m-2 border-2 border-solid border-gray-300 rounded p-4">
-              <input type="checkbox" checked={!!type4} onChange={(e)=> setType4(e.target.checked ? 'Corporate Retreat' : '')} />
-              <label>&nbsp;Corporate Retreat</label><br/>
-              </div>
-              <div className="flex m-2 border-2 border-solid border-gray-300 rounded p-4">
-              <input type="checkbox" checked={!!type5} onChange={(e)=>setType5(e.target.checked ? 'Workout Retreat' : '')} />
-              <label>&nbsp;Workout Retreat</label><br/>
-              </div>
-              <div className="flex m-2 border-2 border-solid border-gray-300 rounded p-4">
-              <input type="checkbox" checked={!!type6} onChange={(e)=>setType6(e.target.checked ? 'Hiking' : '')} />
-              <label>&nbsp;Hiking</label><br/>
-              </div>
-              <div className="flex m-2 border-2 border-solid border-gray-300 rounded p-4">
-              <input type="checkbox" checked={!!type7} onChange={(e)=>setType7(e.target.checked ? 'Yoga' : '')} />
-              <label>&nbsp;Yoga</label><br/>
-              </div>
-              <div className="flex m-2 border-2 border-solid border-gray-300 rounded p-4">
-              <input type="checkbox" checked={!!type8} onChange={(e)=>setType8(e.target.checked ? 'Recreation' : '')} />
-              <label>&nbsp;Recreation</label><br/>
-              </div>
-              <div className="flex m-2 border-2 border-solid border-gray-300 rounded p-4">
-              <input type="checkbox" checked={!!type9} onChange={(e)=>setType9(e.target.checked ? 'Others' : '')} />
-              <label>&nbsp;Others</label><br/>
-              </div>
+            
+                       
+       
               <button onClick={saveChanges} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Save Changes</button>
 
                 </div>
@@ -289,41 +214,16 @@ onAuthStateChanged(auth, async (user) => {
       <div className="bg-white  px-8  pb-8 mb-4">      
         <p className="mb-4"><span className="font-bold">First Name:</span> {firstName}</p>
         <p className="mb-4"><span className="font-bold">Last Name:</span> {lastName}</p>
-        <p className="mb-4"><span className="font-bold">Username:</span> {hostUserName}</p>
+        <p className="mb-4"><span className="font-bold">Username:</span> {guideUserName}</p>
         <p className="mb-4"><span className="font-bold">Email:</span> {email}</p>
         <p className="mb-4"><span className="font-bold">Phone:</span> {phone}</p>
-        <p className="mb-4"><span className="font-bold">Introduction:</span> {hostIntroduction}</p>
-        <p className="mb-4"><span className="font-bold">Retreat Details:</span> {retreatDetails}</p>
-        <p className="mb-4"><span className="font-bold">Retreat Type 1:</span> {type1}</p>
-        <p className="mb-4"><span className="font-bold">Retreat Type 2:</span> {type2}</p>
-        <p className="mb-4"><span className="font-bold">Retreat Type 3:</span> {type3}</p>  
-        <p className="mb-4"><span className="font-bold">Retreat Type 4:</span> {type4}</p>
-        <p className="mb-4"><span className="font-bold">Retreat Type 5:</span> {type5}</p>  
-        <p className="mb-4"><span className="font-bold">Retreat Type 6:</span> {type6}</p>
-
-        <p className="mb-4"><span className="font-bold">Retreat Type 7:</span> {type7}</p>
-        <p className="mb-4"><span className="font-bold">Retreat Type 8:</span> {type8}</p>
-        <p className="mb-4"><span className="font-bold">Retreat Type 9:</span> {type9}</p>
-              {onlyUser &&  
-       <Link to={`/guidesignup/${userId}`}className="mb-2 mt-2" >
-          <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>Become a Guide</Button>
-
-        </Link>
-}
+        <p className="mb-4"><span className="font-bold">Introduction:</span> {guideIntroduction}</p>
+        <p className="mb-4"><span className="font-bold">Guide Specialty:</span> {guideSpecialty}</p>
+       
+  
         <div className="grid  items-center mt-1">
         
-          {onlyUser && (
-       <Link to={`/list/${userId}`}className="mb-2 mt-2" >
-          <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat</Button>
-
-        </Link>
-        )}
-        {onlyUser && (
-        <Link to={`/list/${userId}`} className="mb-2 mt-2" >
-          <Button className='bg-lime-700  text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat Center</Button>
-
-        </Link>
-        )}
+      
         {onlyUser && (
           <Button className='bg-lime-700 w-full text-white mt-2 font-bold py-2 px-4 items-center align-middle w-60 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Edit Your Info</Button>
         )}

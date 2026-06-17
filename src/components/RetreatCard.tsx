@@ -490,9 +490,10 @@ const changePage= ({selected}) => {
        {displayRetreats}
        
     </div>                                           
-                                    <div className="flex justify-center items-center gap-4 mb-8 text-green">
+                                    <div className="flex justify-center items-center gap-4 mb-8 text-black">
                                                     <ReactPaginate
                                                           previousLabel={"Previous"}
+                                                          
                                                            nextLabel={"Next"}
                                                           pageCount={pageCount}
                                                           onPageChange={changePage}

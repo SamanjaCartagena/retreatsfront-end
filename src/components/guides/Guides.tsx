@@ -1,15 +1,15 @@
 import React,{useState, useEffect} from 'react'
-import pic from '../assets/yoga2.jpg'
+import pic from '../../assets/yoga2.jpg'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
-import { db, auth,storage} from "../firebase.js";
+import { db, auth,storage} from "../../firebase.js";
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";  
 import { updateDoc,doc, addDoc, getDocs,where, collection, QueryDocumentSnapshot, query } from '@firebase/firestore';
 import { set } from 'date-fns';
-import { Card, CardContent } from './ui/card.js';
+import { Card, CardContent } from '../ui/card.js';
 import { Star } from 'lucide-react';
-import { Button } from './ui/button.js';
-import { Separator } from './ui/separator.js';
+import { Button } from '../ui/button.js';
+import { Separator } from '../ui/separator.js';
 export default function Guides() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');

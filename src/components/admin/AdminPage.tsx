@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import pic from '../assets/logoretreat.png'
+import pic from '../../assets/logoretreat.png'
 function AdminPage() {
 const params=useParams()
 const auth=getAuth()
@@ -35,11 +35,11 @@ const userId = params.userId;
     <div className='flex mt-5 justify-center items-center'>
   <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
     <img src={pic} />
-            <Link to={`/profile/${userId}`}>
+            <Link to={`hostdetails`}>
 
     <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Host Admin</Button>
     </Link>
-    <Link to="signupasHost">
+    <Link to={`signupashost`}>
         <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Sign Up As a Host</Button>
         </Link>
 
@@ -47,7 +47,9 @@ const userId = params.userId;
     
     <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
     <img src={pic} />
+    <Link to={`guideadmin`}>
     <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Guide Admin</Button>
+    </Link>
         <Link to={`guidesignup`}>
 
         <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Sign Up As a Guide</Button>

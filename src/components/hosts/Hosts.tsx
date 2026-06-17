@@ -6,9 +6,9 @@ import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} fr
 import { Card, CardContent } from "@/components/ui/card";
 import { List, Star } from "lucide-react";
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
-import {db} from '../firebase.js';
+import {db} from '../../firebase.js';
 import ReactPaginate from 'react-paginate';
-import ModalHosts from './ModalHost.js';
+import ModalHosts from '../ModalHost.js';
 import { Separator } from "@radix-ui/react-separator";
 
 export default function Hosts() {

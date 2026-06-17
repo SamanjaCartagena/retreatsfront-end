@@ -9,8 +9,7 @@ import { Newsletter } from "@/components/Newsletter";
 import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+ 
 
 
 

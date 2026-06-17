@@ -1,21 +1,22 @@
 import React, {useEffect, useState} from 'react'
 import { Button } from "@/components/ui/button";
-import pic from '../assets/bozeman.jpg';
+import pic from '../../assets/bozeman.jpg';
 import { useNavigate } from "react-router-dom"; 
-import ModalGuides from './ModalGuides';
-import chef1 from '../assets/nic.jpg';
-import chef2 from '../assets/vegan.jpg';
-import chef3 from '../assets/ayurveda.jpg';
-import yoga1 from '../assets/yoga.jpg';
-import yoga2 from '../assets/yoga1.jpg';
-import yoga3 from '../assets/yoga2.jpg';
-import tourist1 from '../assets/guide1.jpg';
-import tourist2 from '../assets/guide2.jpg';
-import tourist3 from '../assets/guide3.jpg';
-import tourist4 from '../assets/guide4.jpg';
+import ModalGuides from '../ModalGuides.js';
+import chef1 from '../../assets/nic.jpg';
+import chef2 from '../../assets/vegan.jpg';
+import chef3 from '../../assets/ayurveda.jpg';
+import yoga1 from '../../assets/yoga.jpg';
+import yoga2 from '../../assets/yoga1.jpg';
+import yoga3 from '../../assets/yoga2.jpg';
+import tourist1 from '../../assets/guide1.jpg';
+import tourist2 from '../../assets/guide2.jpg';
+import tourist3 from '../../assets/guide3.jpg';
+import tourist4 from '../../assets/guide4.jpg';
 import { collection, addDoc } from "firebase/firestore"; 
-import { db } from '../firebase.js';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,signInWithPopup, signOut  } from "firebase/auth";
+
+import { db } from '../../firebase.js';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,signInWithPopup, signOut, onAuthStateChanged  } from "firebase/auth";
 function GuideSignUp() {
     const [modalOpen, setModalOpen]= useState(false);
     const [yogaModalOpen, setYogaModalOpen]= useState(false);
@@ -26,36 +27,52 @@ function GuideSignUp() {
     const [profession, setProfession]= useState('');
     const [specialty, setSpecialty]= useState('');
     const [email, setEmail]= useState('');
+    const [guideId, setGuideId] = useState('');
+    const [phone,setPhone] = useState('')
     const [password, setPassword]= useState('');
     const [confirmPassword, setConfirmPassword]= useState('');
     const [userName, setUserName]= useState('');
     const auth = getAuth();
+    useEffect(()=>{
+onAuthStateChanged(auth, async (user) => {
+  if(user){
+    console.log(user.uid)
+    const userId=user.uid
+    setGuideId(userId)
+  }
+
+
+
+})
+
+    },[])
     const guideProfile = async() => {
          try{
 
-             if(password===confirmPassword){
                        await createUserWithEmailAndPassword(auth,email,confirmPassword)
                        .then((userCredential)=>{
                          const user = userCredential.user;
                          console.log('User created:', user.uid);
                                        addDoc(collection(db, "guides"), {
-                                       id: user.uid,
+                                       guideId: guideId,
                                        guideFirstName: firstName,
                                        guideLastName: lastName,
                                        guideUserName: userName,
-                                      
+                                       guidePhone:phone,
                                        guideProfession: profession,
                                        guideSpecialty: specialty,
 
                                        createdAt: new Date()
                                      });
+                                     navigate('/guideadmin/${}')
                        })
                        .catch((error)=>{
                          console.error('Error creating user:', error);
                        });
+                       navigate('/guidedetails')
                        
      
-             }
+             
             
              }catch(error){
                 console.error('Error creating guide profile:', error);
@@ -285,6 +302,11 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
         Profession
       </label>
                   <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="profession" type="text" placeholder="Profession" onChange={(e) => setProfession(e.target.value)} />
+      <br/><br/>
+ <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Phone
+      </label>
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="text" placeholder="Phone" onChange={(e) => setPhone(e.target.value)} />
       <br/><br/>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Specialty

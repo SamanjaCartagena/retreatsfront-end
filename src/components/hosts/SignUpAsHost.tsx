@@ -2,13 +2,13 @@ import React,{useEffect, useState} from 'react'
 import { Checkbox } from '@radix-ui/react-checkbox'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Modal from './Modal.js';
-import ModalHost from './ModalHost.js'
-import {auth, googleProvider, db} from '../firebase.js';
+import Modal from '../Modal.js';
+import ModalHost from '../ModalHost.js'
+import {auth, googleProvider, db} from '../../firebase.js';
 import { collection, addDoc, query, getDocs, where } from "firebase/firestore"; 
 import { createUserWithEmailAndPassword,signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom';
-import ModalCancellation from './ModalCancellation.js';
+import ModalCancellation from '../ModalCancellation.js';
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';

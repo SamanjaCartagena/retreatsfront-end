@@ -1,12 +1,11 @@
 import React,{useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
-import {auth} from '../firebase.js';
-import pic from '../assets/form.png';
+import {auth} from '../../firebase.js';
 import { Button } from "@/components/ui/button";
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import Hosts from './Hosts.js'
 import { Link } from 'lucide-react';
-import Modal from './Modal.js';
+import Modal from '../Modal.js';
 function Host() {
   
   const auth = getAuth();
