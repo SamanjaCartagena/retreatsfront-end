@@ -49,10 +49,6 @@ onAuthStateChanged(auth, async (user) => {
     const guideProfile = async() => {
          try{
 
-                       await createUserWithEmailAndPassword(auth,email,confirmPassword)
-                       .then((userCredential)=>{
-                         const user = userCredential.user;
-                         console.log('User created:', user.uid);
                                        addDoc(collection(db, "guides"), {
                                        guideId: guideId,
                                        guideFirstName: firstName,
@@ -64,12 +60,8 @@ onAuthStateChanged(auth, async (user) => {
 
                                        createdAt: new Date()
                                      });
-                                     navigate('/guideadmin/${}')
-                       })
-                       .catch((error)=>{
-                         console.error('Error creating user:', error);
-                       });
-                       navigate('/guidedetails')
+                                     navigate(`/adminpage/${guideId}/guideadmin`)
+                      
                        
      
              
@@ -363,9 +355,9 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
 
     </div>
     <div className="flex items-center justify-between">
-      <button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={guideProfile} >
+      <Button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={guideProfile} >
         Create a Profile
-      </button>
+      </Button>
      
      </div>
       

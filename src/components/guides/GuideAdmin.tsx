@@ -36,9 +36,8 @@ export default function GuideAdmin() {
  
   const [openEditor, setOpenEditor] = useState(false)
   const navigate = useNavigate()
-    const imageListRef = ref(storage, `/images/${userId}/`);
-    const profileRef = ref(storage, `/profilePic/${userId}/`);
-    const deleteImageRef = ref(storage, `/images/${userId}/`);
+    const imageListRef = ref(storage, `/guides/${userId}/`);
+    
     const saveChanges =()=>{
       const docRef = doc(db, "guides", documentId);
       updateDoc(docRef, { guideFirstName: firstName,
@@ -55,7 +54,7 @@ export default function GuideAdmin() {
 
    const profile=()=>{
     
-    const profilePicRef = ref(storage, `/profilePic/${userId}/profile.jpg`);
+    const profilePicRef = ref(storage, `/guideProfilePic/${userId}/profile.jpg`);
     uploadBytes(profilePicRef, imageUpload).then((snapshot)=>{
       getDownloadURL(snapshot.ref).then((url)=>{
         setAvatarUrl(url);
@@ -184,13 +183,13 @@ onAuthStateChanged(auth, async (user) => {
               <div>
           <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
           <br/><br/>
-          <Button onClick={profile} className='bg-lime-700  w-60 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Profile Picture</Button>
+          <Button onClick={profile} className='bg-lime-700  w-60 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Profile Picture</Button>
           </div>
             )}
           <br/>
      
           </div>
-           <Modal isOpen={openEditor} onClose={()=>setOpenEditor(false)}>
+           <Modal isOpen={openEditor} onClose={()=>setOpenEditor(true)}>
           <div style={{width:'100%',}} className="justify-center mt-20 items-center text-center p-4 bold text-sm">
               <h1 className="text-2xl font-bold mb-4">Edit Your Profile</h1>
              <input type="text" placeholder="First Name" value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
@@ -204,7 +203,7 @@ onAuthStateChanged(auth, async (user) => {
             
                        
        
-              <button onClick={saveChanges} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Save Changes</button>
+              <button onClick={saveChanges} className='bg-lime-700  text-white  py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Save Changes</button>
 
                 </div>
                 </Modal>
@@ -225,20 +224,22 @@ onAuthStateChanged(auth, async (user) => {
         
       
         {onlyUser && (
-          <Button className='bg-lime-700 w-full text-white mt-2 font-bold py-2 px-4 items-center align-middle w-60 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Edit Your Info</Button>
+          <Button className='bg-lime-700 w-full text-white mt-2  py-2 px-4 items-center align-middle w-60 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Edit Your Info</Button>
         )}
-        
+        {onlyUser && (
+          <Button className='bg-lime-700 w-full text-white mt-2  py-2 px-4 items-center align-middle w-60 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Sign Up As a Host</Button>
+        )}
         <br/>
        {onlyUser && (
         <div>
          <label for="pic">Upload pics for display </label><br/>
-    <input type="file" className="bg-lime-700 cursor-pointer text-white font-bold py-2 px-4 w-60 rounded focus:outline-none focus:shadow-outline" onChange={(event)=>{setImageUpload(event.target.files[0])}} name="pic" id="pic"/>
+    <input type="file" className="bg-lime-700 cursor-pointer text-white  py-2 px-4 w-60 rounded focus:outline-none focus:shadow-outline" onChange={(event)=>{setImageUpload(event.target.files[0])}} name="pic" id="pic"/>
        </div>
        )}
        {onlyUser && (
         <div>
     <br/>
-         <button onClick={uploadImage} className='bg-lime-700 w-60  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
+         <button onClick={uploadImage} className='bg-lime-700 w-60  text-white  py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
          </div>
        )}
          <div className="lg:grid-cols-3 gap-4 md:grid md:grid-cols-2 sm:grid-cols-1 mt-4">
@@ -247,7 +248,7 @@ onAuthStateChanged(auth, async (user) => {
         <img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
                     
                     {onlyUser && (
-                      <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+                      <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white  py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
                     )}
                     </Card>
                     

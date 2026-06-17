@@ -44,6 +44,7 @@ function SignUpAsHost() {
   const [isCheckedOthers, setIsCheckedOthers] = useState(false)
   const [modalCancellationOpen, setModalCancellationOpen] = useState(false);
   const [phone, setPhone] = useState('');
+  const [airport, setAirport] = useState('')
   const [emailCheck, setEmailCheck] = useState('');
   const [isPayputChecked, setIsPayoutChecked] = useState(false)
   const [terms, setTerms] = useState(false);
@@ -226,6 +227,7 @@ function SignUpAsHost() {
                                   type9:type9,
                                   payout:payout,
                                   cancellation:isCheckedCancellation,
+                                  airport:airport,
                                   hostProfilePicUrl:"https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40",
                                   createdAt: new Date()
                                 }).then(()=>{
@@ -440,6 +442,10 @@ function SignUpAsHost() {
       </label>
             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="tel" placeholder="Phone Number" onChange={(e)=> setPhone(e.target.value)} />
      <br/><br/>
+         <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Nearest Airport
+      </label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="text" placeholder="Nearest Airport" onChange={(e)=> setAirport(e.target.value)} />
     <div className="mb-6">
      
        <label className="block text-gray-700 text-sm font-bold mb-2" >
