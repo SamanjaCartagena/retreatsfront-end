@@ -20,8 +20,9 @@ import { Link } from 'lucide-react';
 import { Input } from './ui/input.js';
 
 function RetreatDetails() {
-    const params = useParams()
-    const id= params.id
+     const params = useParams()
+     const id= params.id
+    const auth=getAuth()
      const [formData, setFormData] = useState({
       user_name:"",
       user_email:"",
@@ -31,10 +32,7 @@ function RetreatDetails() {
     const [inquiryModal, setInquiryModal] = useState(false);
     const [retreatName, setRetreatName] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
-    const [imageUrl1, setImageUrl1] = useState("");
-    const [imageUrl2, setImageUrl2] = useState("");
-    const [imageUrl3, setImageUrl3] = useState("");
-    const [imageUrl4, setImageUrl4] = useState("");
+    
     const [imageList, setImageList] = useState([]);
     const [currentUser, setCurrentUser] = useState("")
     const [centerName, setCenterName] = useState("")
@@ -213,7 +211,7 @@ const handleSubmit=(e: React.FormEvent)=>{
    
                     }
 useEffect(()=>{
-  const auth=getAuth()
+ 
           onAuthStateChanged(auth, (user) => {
   if (user) {
     
@@ -231,8 +229,8 @@ useEffect(()=>{
     console.log("User is logged out");
   }
 });
-          
-          const q2 = query(collection(db, "retreats"), (where("id", "==", id)));
+
+          const q2 = query(collection(db, "retreats"),where('id','==',id));
           getDocs(q2).then((querySnapshot) => {
          
           const retreats: any[] = [];
@@ -242,10 +240,7 @@ useEffect(()=>{
             retreats.push({ ...doc.data() });
             setDocumentId(doc.id);
             setRetreatName(doc.data().name);
-            setImageUrl1(doc.data().pic1);
-            setImageUrl2(doc.data().pic2);
-            setImageUrl3(doc.data().pic3);
-            setImageUrl4(doc.data().pic4);
+          
             setHostId(doc.data().hostId);
             setCenterName(doc.data().retreatCenterName);
             setRetreatId(doc.data().retreatId);
@@ -269,11 +264,13 @@ useEffect(()=>{
               hostId: doc.data().hostId,
             })
             console.log("Retreat id is", doc.data().retreatId)
-            
+            console.log("Host pic is"+ doc.data().hostProfilePic)
+            console.log("Host id is "+hostId)
           console.log(retreats);  
           })
          
         });
+      
         setFormData({
            user_name: "",
     user_email: guestEmail,
@@ -295,9 +292,8 @@ useEffect(()=>{
                                 
                               });
                             });
-                          })
-
-                        },[])
+                          });
+                        },[hostId])
   return (
     <div className="min-h-screen bg-gray-100 mt-30 lg:flex md:grid-cols-1 justify-center items-center justify-items-center">
       <Modal isOpen={inquiryModal} onClose={()=>setInquiryModal(false)} >
