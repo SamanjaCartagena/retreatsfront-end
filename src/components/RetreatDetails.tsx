@@ -36,9 +36,10 @@ function RetreatDetails() {
     const [imageUrl3, setImageUrl3] = useState("");
     const [imageUrl4, setImageUrl4] = useState("");
     const [imageList, setImageList] = useState([]);
+    const [currentUser, setCurrentUser] = useState("")
     const [centerName, setCenterName] = useState("")
     const [hostIsUser, setHostIsUser] = useState(false)
-    const [userId, setUserId] = useState("");
+    const [hostId, setHostId] = useState("");
     const [retreatAddress, setRetreatAddress] = useState("");
     const [hostLastName, setHostLastName] = useState("");
     const [hostFirstName, setHostFirstName] = useState("");
@@ -73,14 +74,11 @@ function RetreatDetails() {
       const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
       const [active, setActive] = useState(0);
     const [notLogged, setNotLogged] = useState(false)
-    console.log("User id in retreat details is", userId)
+    console.log("User id in retreat details is", hostId)
     console.log("Retreat id in retreat details is", retreatId)
 const navigate = useNavigate();
 
-const contact =()=>{
-    navigate(`/profile/${userId}`)
-  
-}
+
 const saveChanges=async(e)=>{
      e.preventDefault()
      alert(retreatName)
@@ -218,27 +216,17 @@ useEffect(()=>{
   const auth=getAuth()
           onAuthStateChanged(auth, (user) => {
   if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://google.com
-    const uid = user.uid;
-    setUserId(uid);
-    const guestEmail = user.email;
+    
+    setCurrentUser(user.uid);
     setLoggedIn(true)
-    setGuestEmail(guestEmail)
-    if(user.uid ==userId){
+    setGuestEmail(user.email)
+    if(user.uid ==currentUser){
       setHostIsUser(true)
-
-
-
-
-
-
     }
     else{
       setHostIsUser(false)
     }
   } else {
-    // User is signed out
     setLoggedIn(false)
     console.log("User is logged out");
   }
@@ -258,7 +246,7 @@ useEffect(()=>{
             setImageUrl2(doc.data().pic2);
             setImageUrl3(doc.data().pic3);
             setImageUrl4(doc.data().pic4);
-            setUserId(doc.data().hostId);
+            setHostId(doc.data().hostId);
             setCenterName(doc.data().retreatCenterName);
             setRetreatId(doc.data().retreatId);
             setRetreatAddress(doc.data().address);
@@ -292,13 +280,13 @@ useEffect(()=>{
     user_message: `Hello, I am interested in attending your retreat called ${retreatName} in ${country} in ${startAt?.toDate()?.toLocaleDateString('en-US')}. Please let me know if there is availability and any additional information I should know. Thank you!`,
         })
     
-            const profilePicRef = ref(storage, `/profilePic/${userId}/profile.jpg`);
+            const profilePicRef = ref(storage, `/profilePic/${hostId}/profile.jpg`);
           getDownloadURL(profilePicRef).then((url)=>{
             setHostPic(url);
           }).catch((error)=>{
             console.log("Error getting profile picture:", error);
           })
-            const imageListRef = ref(storage, `/retreatimages/${userId}/${retreatId}/`);
+            const imageListRef = ref(storage, `/retreatimages/${hostId}/${retreatId}/`);
 
           listAll(imageListRef).then((res)=>{
                             res.items.forEach((item)=>{
@@ -309,7 +297,7 @@ useEffect(()=>{
                             });
                           })
 
-                        },[retreatId, userId])
+                        },[])
   return (
     <div className="min-h-screen bg-gray-100 mt-30 lg:flex md:grid-cols-1 justify-center items-center justify-items-center">
       <Modal isOpen={inquiryModal} onClose={()=>setInquiryModal(false)} >
@@ -446,7 +434,7 @@ useEffect(()=>{
 
             <div className=" grid justify-center items-center">
                        
-                        <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={()=>navigate(`/profile/${userId}`)}>
+                        <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={()=>navigate(`/profile/${hostId}`)}>
                           Check out {hostFirstName}
                           </Button>
                          
