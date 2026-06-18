@@ -14,7 +14,7 @@ function Host() {
   const [email, setEmail]=useState('');
   const [userId, setUserId]=useState('');
   const [password, setPassword]=useState('');
-  const pic="https://halohealingtherapies.com/wp-content/uploads/sites/41846/2024/02/beauty-spa-1024x683.jpg"
+  const pic="https://media.cntraveler.com/photos/5c82a32d2fd2ea2d63da348c/16:9/w_4000,h_2250,c_limit/KAUAI_GettyImages-176612798.jpg"
   const signUpHost=()=>{
     navigate('/signUpAsHost');
   }

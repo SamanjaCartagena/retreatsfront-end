@@ -51,9 +51,12 @@ const App = () => (
           <Route path="/adminpage/:userId/guidedetails" element={<GuideDetails/>}/>
           <Route path="/adminpage/:userId/guidesignup" element={<GuideSignUp/>}/>
           <Route path="/adminpage/:userId/guideadmin" element={<GuideAdmin/>}/>
-          <Route path="/adminpage/:userId/hostdetails" element={<ProfileDetails/>}/>
+          <Route path="/adminpage/:id/hostdetails" element={<ProfileDetails/>}/>
           <Route path="/adminpage/:userId/signupashost" element={<SignUpAsHost/>}/>
           <Route path="/adminpage/:userid/guests" element={<Guests/>}/>
+          <Route path="/adminpage/:userid/retreatcenters" element={<RetreatCenters/>}/>
+
+          
 
           <Route path="/success" element={<Success/>}/>
           <Route path="/guidedetails" element={<GuideDetails/>}/>

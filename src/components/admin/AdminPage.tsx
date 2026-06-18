@@ -64,6 +64,15 @@ const userId = params.userId;
         <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Sign Up As a Guest</Button>
         </Link>
     </div>
+     <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
+    <img src={pic} />
+    <Link to={`retreatcenters`}>
+     <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Retreat Center</Button>
+     </Link>
+     <Link to={`signupashost`}>
+        <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Retreat Center Sign Up</Button>
+        </Link>
+    </div>
     </div>
     
     </div>

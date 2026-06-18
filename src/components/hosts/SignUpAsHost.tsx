@@ -392,6 +392,7 @@ function SignUpAsHost() {
         <div className="justify-center items-center grid h-auto">
           <h1 className='font-bold m-4 text-xl'>Create a host Profile</h1>
         <div className="max-w-xl">
+          <p className="text-red-500 italic">Sign up as a host to list a retreat or a Retreat Center</p>
   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     <br/>
     <div className="mb-4">

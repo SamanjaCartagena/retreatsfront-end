@@ -12,7 +12,6 @@ import Modal from '../Modal.js';
 
 import {v4} from 'uuid';
 import { Card } from '../ui/card.js';
-import { url } from 'inspector';
 export default function Profile() {
   const params = useParams();
   const userId = params.id;
@@ -185,7 +184,7 @@ onAuthStateChanged(auth, async (user) => {
     console.log('No user is signed in');  
   }
 })
-  },[id])
+  },[userId])
   return (
     <div className="max-w-4xl pt-40 mx-auto p-4 grid place-items-center">
       
