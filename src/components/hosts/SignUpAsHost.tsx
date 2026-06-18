@@ -232,27 +232,10 @@ function SignUpAsHost() {
                                   createdAt: new Date()
                                 }).then(()=>{
                                   setSignedUp(true)
-                                  navigate(`/profile/${hostId}`)
+                                  navigate(`/host/${hostId}`)
                                   
-                                             fetch('http://localhost:3000/send-admin-email', {
-                                   method: 'POST',
-                                  headers: {
-                                  'Content-Type': 'application/json',
-
-                     },
-                              body:JSON.stringify({ name: "Admin", email: "samanja.cartagena@gmail.com", content: `A new host has just signed up with the name ${firstName} ${lastName} and email ${hostEmail}. Please review their profile and approve their hosting privileges. ` }), 
-                              
-               });            
-                                   fetch('http://localhost:3000/send-email', {
-                                   method: 'POST',
-                                  headers: {
-                                  'Content-Type': 'application/json',
-
-                     },
-                              body:JSON.stringify({ name: firstName, email: hostEmail, content: "Welcome to Retreats Around The World, a community for mindful retreats and travelling to recover from the stresses of daily life." }), 
-                              
-               });
-                                })
+                          
+                     })
                  
                            signInWithEmailAndPassword(auth, hostEmail, confirmPassword)
                   .then((userCredential)=>{

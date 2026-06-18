@@ -40,7 +40,10 @@ const App = () => (
           <Route path="/retreatcenters" element={<RetreatCenters/>}/>
           <Route path="/retreatcenterdetails/:id" element={<RetreatCenterDetails/>}/>
           <Route path="/guests" element={<Guests/>}/>
+          {/***Host Account */}
           <Route path="/host" element={<Host/>}/>
+          <Route path="/host/:id" element={<ProfileDetails/>}/>
+
                             {/**Admin Page */}
           <Route path="/adminpage/:userId/signupasHost" element={<SignUpAsHost/>}/>
           <Route path="/admin" element={<Admin/>}/>
@@ -52,11 +55,9 @@ const App = () => (
           <Route path="/adminpage/:userId/signupashost" element={<SignUpAsHost/>}/>
           <Route path="/adminpage/:userid/guests" element={<Guests/>}/>
 
-
           <Route path="/success" element={<Success/>}/>
           <Route path="/guidedetails" element={<GuideDetails/>}/>
           <Route path="/guideadmin/:userId" element={<GuideAdmin/>}/>
-          <Route path="/profile/:userId" element={<ProfileDetails/>}/>
           <Route path="/list/:userId" element={<ListARetreat/>}/>
           <Route path="/retreatdetails/:id" element={<RetreatDetails/>}/>
           <Route path="/guides" element={<Guides/>}/>

@@ -15,7 +15,8 @@ import { Card } from '../ui/card.js';
 import { url } from 'inspector';
 export default function Profile() {
   const params = useParams();
-  const userId = params.userId;
+  const userId = params.id;
+
   console.log("User ID from URL:", userId);
   const [id,setId]=useState('');
   const [onlyUser, setOnlyUser] = useState(false);
@@ -127,7 +128,7 @@ export default function Profile() {
         querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     setDocumentId(doc.id)
-    setAvatarUrl(doc.data().profilePicUrl)
+    setAvatarUrl(doc.data().hostProfilePicUrl)
     setFirstName(doc.data().hostFirstName);
     setLastName(doc.data().hostLastName);
     setEmail(doc.data().hostEmail);
@@ -184,7 +185,7 @@ onAuthStateChanged(auth, async (user) => {
     console.log('No user is signed in');  
   }
 })
-  },[])
+  },[id])
   return (
     <div className="max-w-4xl pt-40 mx-auto p-4 grid place-items-center">
       
@@ -362,4 +363,3 @@ onAuthStateChanged(auth, async (user) => {
     
   )
 }
-

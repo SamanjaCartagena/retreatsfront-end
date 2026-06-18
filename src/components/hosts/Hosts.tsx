@@ -27,7 +27,6 @@ export default function Hosts() {
            const q = query(collection(db, "hosts"));
          const querySnapshot = await getDocs(q);
          querySnapshot.forEach((doc) => {
-           console.log(doc.id, " => ", doc.data().hostFirstName);
            guides.push({ ...doc.data() });
          });
          setListOfGuides(guides);
@@ -110,7 +109,7 @@ export default function Hosts() {
     setSearchLocation(e.target.value)
     
   }
-   
+ 
    
 
 
@@ -126,44 +125,38 @@ export default function Hosts() {
       const displayHosts = listOfGuides.slice(pagesVisited, pagesVisited + usersPerPage)
        .map(guide => {
           return(
-                 
-                <div key={guide.hostId} onClick={()=>navigate(`/profile/${guide.hostId}`)}>
-                
-                  <h2>{guide.hostFirstName}</h2>
-                   <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
-            <div className="aspect-[5/3] overflow-hidden">
-              <img
-                src={guide.hostProfilePicUrl}
-                alt={guide.hostId}
-                className="w-full h-full object-cover transition-transform duration-500"
-              />
-            </div>
-            <CardContent className="p-4">
-              <div className="flex justify-between items-start">
-                <div className="flex items-center gap-1 text-sm">
-                  <Star size={16} fill="currentColor" className="text-retreat-forest" />
-                  <h1>{guide.hostFirstName}</h1>
-                  <h1>{guide.specialty}</h1>
-                </div>
-              </div>
-              <p className="text-muted-foreground text-sm mb-2">
-              </p>
-              <div className="flex justify-between items-center mt-1">
-            
-              </div>
-              <div className="mt-3 font-medium">
-                <span className="text-lg"></span>
-                          <span className="text-lg"></span>
-      
-                <br/>
-                    <Link to={`/hostdetails/${guide.hostId}`} >
-                    
-                    <button  className='bg-lime-700 ml-50px  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</button></Link>
-      
-              </div>
-            </CardContent>
-          </Card>
-          </div>
+                  <div key={guide.id} >
+                         
+                           <h2 className="text-xl font-bold mb-2">{guide.name}</h2>
+                            <Link to={`${guide.hostId}`}>
+                            <Card className="rounded-xl overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer " >
+                     <div className="aspect-[5/3] overflow-hidden">
+                       <img
+                         src={guide.hostProfilePicUrl}
+                         alt={guide.hostFirstname}
+                         className="w-full h-full object-cover transition-transform duration-500"
+                       />
+                     </div>
+                     <CardContent className="p-4">
+                      
+               
+               
+                      
+                       <div className="mt-3 font-medium">
+               
+               
+                         <span className="text-sm text-muted-foreground"> / person</span>
+                         
+                             <Link to={`${guide.hostId}`} ><br/><br/>
+                             <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">Find Out More</Button></Link>
+                                            <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white ml-5" onClick={() => window.open('https://www.tripadvisor.com', '_blank')}>Trip Advisor</Button>
+               
+                       </div>
+                     </CardContent>
+                   </Card>
+                   </Link>
+                   </div>
+          
             
       )})
   return (

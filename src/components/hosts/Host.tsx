@@ -14,7 +14,7 @@ function Host() {
   const [email, setEmail]=useState('');
   const [userId, setUserId]=useState('');
   const [password, setPassword]=useState('');
-  const pic=""
+  const pic="https://halohealingtherapies.com/wp-content/uploads/sites/41846/2024/02/beauty-spa-1024x683.jpg"
   const signUpHost=()=>{
     navigate('/signUpAsHost');
   }
@@ -45,27 +45,22 @@ function Host() {
 
   return (
     <div>
-        <div className="relative h-auto min-h-auto w-full overflow-hidden">
+           <div className="relative h-[40vh] min-h-[400px] w-full overflow-hidden">
    
     <div className="justify-center items-center grid h-screen absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pic})` }}>
       
+      <div className="w-full max-w-xs items-center justify-center">
         
       
   
-</div>
- 
 
-    
-        <Hosts/>
-        <Modal isOpen={!doesUserExist} onClose={()=>setDoesUserExist(true)} >
-        <div className="bg-white p-6 rounded shadow-md">
-          <h2 className="text-lg font-bold mb-4">User Not Found</h2>
-          <p className="mb-4">The email or password you entered is incorrect. Please try again.</p>
-          <Button onClick={()=>setDoesUserExist(true)} className="bg-lime-700 hover:bg-lime-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Close
-          </Button>
-        </div>
-      </Modal>
+ 
+</div>
+
+
+</div>
+
+    </div>
  
     
 
@@ -74,7 +69,7 @@ function Host() {
 
 
 
-    </div>
+    <Hosts/>
      
     </div>
   )
