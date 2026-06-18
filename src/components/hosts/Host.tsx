@@ -14,6 +14,7 @@ function Host() {
   const [email, setEmail]=useState('');
   const [userId, setUserId]=useState('');
   const [password, setPassword]=useState('');
+  const pic=""
   const signUpHost=()=>{
     navigate('/signUpAsHost');
   }
@@ -44,10 +45,17 @@ function Host() {
 
   return (
     <div>
-        <div className="relative h-[80vh] min-h-[1000px] w-full overflow-hidden">
+        <div className="relative h-auto min-h-auto w-full overflow-hidden">
    
+    <div className="justify-center items-center grid h-screen absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pic})` }}>
       
-      <div className="w-full mt-20 items-center justify-center">
+        
+      
+  
+</div>
+ 
+
+    
         <Hosts/>
         <Modal isOpen={!doesUserExist} onClose={()=>setDoesUserExist(true)} >
         <div className="bg-white p-6 rounded shadow-md">
@@ -65,7 +73,7 @@ function Host() {
 
 
 
-</div>
+
     </div>
      
     </div>

@@ -8,12 +8,11 @@ import {Header} from "@/components/Header"
 import Guest from "@/components/Guest"
 import Host from "@/components/hosts/Host"
 import {Footer} from "@/components/Footer"
-import RetreatCenters from "./components/RetreatCenters";
+import RetreatCenters from "@/components/centers/RetreatCenters";
 import NotFound from "./pages/NotFound";
 import SignUpAsHost from "@/components/hosts/SignUpAsHost";
 import Admin from "@/components/admin/Admin";
 import ProfileDetails from "./components/hosts/ProfileDetails";
-import CreateGuest from "./components/CreateGuest";
 import ListARetreat from "./components/ListARetreat";
 import RetreatDetails from "./components/RetreatDetails";
 import GuideDetails from "./components/guides/GuideDetails";
@@ -22,8 +21,9 @@ import GuideSignUp from "@/components/guides/GuideSignUp";
 import Airways from "@/components/Airways";
 import Success from "@/components/Success";
 import GuideAdmin from "./components/guides/GuideAdmin";
+import Guests from "./components/guests/Guests";
 
-import RetreatCenterDetails from "@/components/RetreatCenterDetails";
+import RetreatCenterDetails from "@/components/centers/RetreatCenterDetails";
 import AdminPage from "@/components/admin/AdminPage"
 
 const queryClient = new QueryClient();
@@ -39,7 +39,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/retreatcenters" element={<RetreatCenters/>}/>
           <Route path="/retreatcenterdetails/:id" element={<RetreatCenterDetails/>}/>
-          <Route path="/guest" element={<Guest/>}/>
+          <Route path="/guests" element={<Guests/>}/>
           <Route path="/host" element={<Host/>}/>
                             {/**Admin Page */}
           <Route path="/adminpage/:userId/signupasHost" element={<SignUpAsHost/>}/>
@@ -50,6 +50,7 @@ const App = () => (
           <Route path="/adminpage/:userId/guideadmin" element={<GuideAdmin/>}/>
           <Route path="/adminpage/:userId/hostdetails" element={<ProfileDetails/>}/>
           <Route path="/adminpage/:userId/signupashost" element={<SignUpAsHost/>}/>
+          <Route path="/adminpage/:userid/guests" element={<Guests/>}/>
 
 
           <Route path="/success" element={<Success/>}/>
@@ -59,7 +60,6 @@ const App = () => (
           <Route path="/list/:userId" element={<ListARetreat/>}/>
           <Route path="/retreatdetails/:id" element={<RetreatDetails/>}/>
           <Route path="/guides" element={<Guides/>}/>
-          <Route path="/createguest" element={<CreateGuest/>}/>
           <Route path="/guidesignup" element={<GuideSignUp/>}/>
           <Route path="/airlines" element={<Airways/>}/>
             

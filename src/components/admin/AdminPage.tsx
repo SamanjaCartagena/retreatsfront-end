@@ -60,7 +60,9 @@ const userId = params.userId;
     <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
     <img src={pic} />
      <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Guest Admin</Button>
+     <Link to={`guests`}>
         <Button className='w-40 bg-lime-700 hover:bg-lime-800 m-2'>Sign Up As a Guest</Button>
+        </Link>
     </div>
     </div>
     

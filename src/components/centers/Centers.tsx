@@ -3,12 +3,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { List, Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
-import {db} from '../firebase.js';
+import {db} from '../../firebase.js';
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "@/components/ui/button";
 import ReactPaginate from 'react-paginate';
 import {Link} from 'react-router-dom'
-import './RetreatCard.css'
+import '../RetreatCard.css'
 
 
 export default function Centers() {

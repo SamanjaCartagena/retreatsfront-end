@@ -266,6 +266,7 @@ const [id,setId]=useState('');
             </a>
           </MenuItem>
           </Link>
+          <Link to="/guests">
           <MenuItem>
             <a
               href="#"
@@ -274,6 +275,7 @@ const [id,setId]=useState('');
               Guests
             </a>
           </MenuItem>
+          </Link>
           <Link to='/retreatcenters'>
             <MenuItem>
             <a

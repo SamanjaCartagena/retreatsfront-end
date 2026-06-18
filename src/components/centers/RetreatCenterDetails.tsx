@@ -1,7 +1,7 @@
 import React from 'react'
 import {useEffect, useState} from 'react'
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
-import {db} from '../firebase.js';  
+import {db} from '../../firebase.js';  
 import {useParams} from 'react-router-dom'
 function RetreatCenterDetails() {
     const [nameOfCenter, setNameOfCenter] = useState([]);
