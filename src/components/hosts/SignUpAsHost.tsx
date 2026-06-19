@@ -66,6 +66,7 @@ function SignUpAsHost() {
   const closePurposeModal =()=> setIsPurpose(false)
   const closePasswordLengthModal =()=> setPasswordLengthModal(false);
   useEffect(()=>{
+    window.scrollTo(0,0)
       onAuthStateChanged(auth, async (user) => {
           if  (user) {
             console.log('User authstate is signed in with UID:', user.uid);

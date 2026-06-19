@@ -9,7 +9,8 @@ import { useParams } from 'react-router-dom';
 import SocialMedia from '../SocialMedia.js';
 import {Link} from 'react-router-dom';
 import Modal from '../Modal.js';
-
+import ImageModal from '../ImageModal.js';
+import ImageSlider from '../ImageSlider.js';
 import {v4} from 'uuid';
 import { Card } from '../ui/card.js';
 export default function Profile() {
@@ -40,6 +41,7 @@ export default function Profile() {
   const [phone,setPhone] = useState("")
   const [allRetreats, setAllRetreats] = useState([])
   const [retreatDetails, setRetreatDetails] = useState("")
+  const [displayPic, setDisplayPic] = useState(false)
   const [type1, setType1] = useState("")
   const [type2, setType2] = useState("")
   const [type3, setType3] = useState("")
@@ -116,7 +118,7 @@ export default function Profile() {
 
   }
     useEffect(() => {
-     
+    window.scrollTo(0,0)
       const loadData = async () => {
      const q =query(collection(db, "hosts"), where("hostId", "==", userId));
       const querySnapshot = await getDocs(q);
@@ -169,6 +171,7 @@ export default function Profile() {
     });
     }
     loadData();
+
 onAuthStateChanged(auth, async (user) => {
   if  (user) {
     console.log('User authstate is signed in with UID:', user.uid);
@@ -261,8 +264,9 @@ onAuthStateChanged(auth, async (user) => {
       <div className="bg-white  px-8  pb-8 mb-4">      
         <p className="mb-4"><span className="font-bold">First Name:</span> {firstName}</p>
         <p className="mb-4"><span className="font-bold">Last Name:</span> {lastName}</p>
+        
         <p className="mb-4"><span className="font-bold">Username:</span> {hostUserName}</p>
-        <p className="mb-4"><span className="font-bold">Email:</span> {email}</p>
+        {onlyUser && <p className="mb-4"><span className="font-bold">Email:</span> {email}</p>}
         <p className="mb-4"><span className="font-bold">Phone:</span> {phone}</p>
         <p className="mb-4"><span className="font-bold">Introduction:</span> {hostIntroduction}</p>
         <p className="mb-4"><span className="font-bold">Retreat Details:</span> {retreatDetails}</p>
@@ -291,7 +295,7 @@ onAuthStateChanged(auth, async (user) => {
         </Link>
         )}
         {onlyUser && (
-        <Link to={`/list/${userId}`} className="mb-2 mt-2" >
+        <Link to={`listacenter`} className="mb-2 mt-2" >
           <Button className='bg-lime-700  text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat Center</Button>
 
         </Link>
@@ -313,20 +317,28 @@ onAuthStateChanged(auth, async (user) => {
          <button onClick={uploadImage} className='bg-lime-700 w-60  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
          </div>
        )}
-         <div className="lg:grid-cols-3 gap-4 md:grid md:grid-cols-2 sm:grid-cols-1 mt-4">
+         <div className="lg:grid-cols-2 gap-4 md:grid md:grid-cols-2 sm:grid-cols-1 mt-4">
       {imageList.map((url)=>{
-      return <Card className="w-full h-auto bg-gray-100 p-4 rounded" key={url}>
+         
+      return <Card className="w-full h-auto bg-gray-100 p-4 rounded cursor-pointer" key={url} onClick={()=>setDisplayPic(true)}>
         <img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
-                    
                     {onlyUser && (
                       <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
                     )}
                     </Card>
-                    
+                   
     
       
       })
     }
+    <ImageModal isOpen={displayPic} onClose={()=>setDisplayPic(false)} >
+          
+   <div className="w-full h-full justify-center items-center bg-transparent">
+     <ImageSlider slides={imageList} />
+    
+      </div>
+      
+     </ImageModal>
     
 
 

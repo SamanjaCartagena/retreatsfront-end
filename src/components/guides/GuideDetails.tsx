@@ -17,6 +17,7 @@ function GuideDetails() {
         const [imageList, setImageList]=useState([])
         const [hostPic, setHostPic] = useState("")
         useEffect(()=>{
+          window.scrollTo(0,0)
           const auth=getAuth()
                   onAuthStateChanged(auth, (user) => {
           if (user) {

@@ -34,6 +34,7 @@ function GuideSignUp() {
     const [userName, setUserName]= useState('');
     const auth = getAuth();
     useEffect(()=>{
+      window.scrollTo(0,0)
 onAuthStateChanged(auth, async (user) => {
   if(user){
     console.log(user.uid)

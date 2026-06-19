@@ -25,6 +25,7 @@ import Guests from "./components/guests/Guests";
 
 import RetreatCenterDetails from "@/components/centers/RetreatCenterDetails";
 import AdminPage from "@/components/admin/AdminPage"
+import ListARetreatCenter from "./components/centers/ListARetreatCenter";
 
 const queryClient = new QueryClient();
 const App = () => (
@@ -55,7 +56,8 @@ const App = () => (
           <Route path="/adminpage/:userId/signupashost" element={<SignUpAsHost/>}/>
           <Route path="/adminpage/:userid/guests" element={<Guests/>}/>
           <Route path="/adminpage/:userid/retreatcenters" element={<RetreatCenters/>}/>
-
+                          {/**List a Retreat Center */}
+          <Route path="adminpage/:id/hostdetails/listacenter" element={<ListARetreatCenter/>}/>
           
 
           <Route path="/success" element={<Success/>}/>

@@ -7,7 +7,9 @@ import Hosts from './Hosts.js'
 import { Link } from 'lucide-react';
 import Modal from '../Modal.js';
 function Host() {
-  
+  useEffect(()=>{
+   window.scrollTo(0,0)
+  },[])
   const auth = getAuth();
   const [doesUserExist, setDoesUserExist] = useState(true);
   const navigate=useNavigate();

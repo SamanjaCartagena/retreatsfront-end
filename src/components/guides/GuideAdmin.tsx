@@ -102,7 +102,7 @@ export default function GuideAdmin() {
 
   }
     useEffect(() => {
-     
+     window.scrollTo(0,0)
       const loadData = async () => {
      const q =query(collection(db, "guides"), where("guideId", "==", userId));
       const querySnapshot = await getDocs(q);

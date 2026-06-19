@@ -211,14 +211,13 @@ const handleSubmit=(e: React.FormEvent)=>{
    
                     }
 useEffect(()=>{
- 
+ window.scrollTo(0,0)
           onAuthStateChanged(auth, (user) => {
   if (user) {
     
-    setCurrentUser(user.uid);
     setLoggedIn(true)
     setGuestEmail(user.email)
-    if(user.uid ==currentUser){
+    if(user.uid ==hostId){
       setHostIsUser(true)
     }
     else{

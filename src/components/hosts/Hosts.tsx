@@ -126,13 +126,13 @@ export default function Hosts() {
        .map(guide => {
           return(
                   <div key={guide.id} >
-                         
+
                            <h2 className="text-xl font-bold mb-2">{guide.name}</h2>
                             <Link to={`${guide.hostId}`}>
                             <Card className="rounded-xl overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer " >
                      <div className="aspect-[5/3] overflow-hidden">
                        <img
-                         src={guide.hostProfilePicUrl}
+                         src={`${guide.hostProfilePicUrl}`}
                          alt={guide.hostFirstname}
                          className="w-full h-full object-cover transition-transform duration-500"
                        />
@@ -145,7 +145,9 @@ export default function Hosts() {
                        <div className="mt-3 font-medium">
                
                
-                         <span className="text-sm text-muted-foreground"> / person</span>
+                         <span className="text-sm text-muted-foreground">{guide.hostFirstName}&nbsp;&nbsp;&nbsp;{guide.hostLastName}</span><br/>
+                                                  <span className="text-sm text-muted-foreground">{guide.hostRetreatDetails}</span>
+
                          
                              <Link to={`${guide.hostId}`} ><br/><br/>
                              <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">Find Out More</Button></Link>

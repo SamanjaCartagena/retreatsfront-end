@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
 import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serverTimestamp, Timestamp} from "firebase/firestore";
-import { db, auth,storage} from "../firebase.js";
+import { db, auth,storage} from "../../firebase.js";
 
 import { useParams, useNavigate } from 'react-router-dom';
 import {v4} from 'uuid';
@@ -10,11 +10,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import pic from '../assets/form.png';
-import { Button } from './ui/button.js';
-import Modal from './Modal.js';
+import pic from '../../assets/form.png';
+import { Button } from '../ui/button.js';
+import Modal from '../Modal.js';
 import nodemailer from 'nodemailer';
-function ListARetreat() {
+function ListARetreatCenter() {
    const [retreatName, setRetreatName] = useState("")
    const[retreatCenterName, setRetreatCenterName]= useState("")
    const[retreatType, setRetreatType] = useState("")
@@ -93,7 +93,7 @@ const endAtDate=(e)=>{
    const host =() => {
 
       
-         addDoc(collection(db, "retreats"), {
+         addDoc(collection(db, "centers"), {
                                          name: retreatName,
                                          type1: retreatType,
                                          retreatCenterName: retreatCenterName,
@@ -237,31 +237,26 @@ const endAtDate=(e)=>{
       <form className="bg-white max-w-full min-w-xs shadow-md rounded px-8 pt-6 pb-8  mt-4" >
         <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-        Name of Retreat
+        Name of Retreat Center
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstname" type="text" placeholder="Name of Retreat" onChange={(e)=>setRetreatName(e.target.value)}/>
     </div>
          <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-        Type of Retreat
+        Type of Retreat Center
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Type of Retreat" onChange={(e)=>setRetreatType(e.target.value)}/>
     </div>
-    <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-        Name of Retreat Center/Hotel/Place
-      </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="center" type="text" placeholder="Name of Retreat Center/Hotel/Place" onChange={(e)=>setRetreatCenterName(e.target.value)}/>
-    </div>
+  
      <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Address of Retreat
+       Address of Retreat Center
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Address of Retreat" onChange={(e)=>setAddress(e.target.value)}/>
     </div>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Country of Retreat
+       Country
       </label>
       <select className="bg-white p-2 rounded-md" onChange={(e)=>setCountry(e.target.value)} value={country}>
         <option value="">Select Location</option>
@@ -542,7 +537,7 @@ const endAtDate=(e)=>{
     <div className="mb-4 flex gap-4">
       <div>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Start Date of Retreat
+       Start Date of Availability
       </label>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker value={value} onChange={(e)=>startAtDate(e)}/>
@@ -550,7 +545,7 @@ const endAtDate=(e)=>{
     </div>
     <div>
     <label className="block text-gray-700 text-sm font-bold mb-2" >
-       End Date of Retreat
+       End Date of Availability
       </label>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker value={value} onChange={(e)=>endAtDate(e)}/>
@@ -563,7 +558,7 @@ const endAtDate=(e)=>{
     
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Tell us something about the Retreat
+       Tell us something about the Retreat Center
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setKind(e.target.value)}></textarea>
    
@@ -604,7 +599,7 @@ const endAtDate=(e)=>{
      })}
         
     <Button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={host}>
-        Host a Retreat
+        List your center
       </Button>
       </form>
       </div>
@@ -613,4 +608,4 @@ const endAtDate=(e)=>{
   )
 }
 
-export default ListARetreat
+export default ListARetreatCenter

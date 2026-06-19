@@ -46,6 +46,7 @@ export default function Guests() {
       
   }
   useEffect(()=>{
+    window.scrollTo(0,0)
     onAuthStateChanged(auth, async (user) => {
       if  (user) {
         setGuestId(user.uid)
