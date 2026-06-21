@@ -155,7 +155,7 @@ const [id,setId]=useState('');
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 bg-white ${
+      className={`fixed top-0 w-full z-50 transition-all duration-300 bg-transparent ${
         isScrolled ? "bg-white/90  shadow-sm py-3" : "bg-transparent py-5"
       }`}
     >
@@ -204,10 +204,9 @@ const [id,setId]=useState('');
             </Modal>
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-2 cursor-pointer" onClick={home}>
-          <img src={logo} style={{width:'60px', height:'60px'}}/>
           <div className="hidden md:block" onClick={home}>
-            <h1 className="text-lg font-serif font-bold text-lime-700">
-              Retreats <span className="text-lime-700">Around The World</span>
+            <h1 className="text-xl font-serif font-bold text-white">
+              Retreats <span className=" text-xl text-white font-bold">Around The World</span>
             </h1>
           </div>
         </div>
@@ -215,10 +214,10 @@ const [id,setId]=useState('');
        
            <div className="flex items-right">
           <div className="hidden md:flex items-center gap-2"></div>
-           {logout &&  <Link to={`/adminpage/${id}`} className="text-sm underline mt-2" >
+           {logout &&  <Link to={`/adminpage/${id}`} className="text-sm text-white underline mt-2" >
               Welcome 
             </Link>}
-           {logout &&  <Button variant="ghost" size="sm" className="text-sm text-lime-700" onClick={loggedout}>
+           {logout &&  <Button variant="ghost" size="sm" className="text-sm text-white" onClick={loggedout}>
               Log Out
             </Button>}
           </div>
@@ -226,7 +225,7 @@ const [id,setId]=useState('');
           <div className="hidden md:flex items-center gap-2">
            
             <Menu as="div" className="relative inline-block">
-      <MenuButton className="inline-flex w-full justify-center border-0  px-3 py-2 text-sm font-semibold  text-lime-700" >
+      <MenuButton className="inline-flex w-full justify-center border-0  px-3 py-2 text-sm font-semibold  text-white" >
         <UserPen />
               Account
       </MenuButton>

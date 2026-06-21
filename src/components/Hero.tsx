@@ -1,10 +1,9 @@
 
 import { Button } from "@/components/ui/button";
 import {useState} from 'react';
-import pic from '../assets/retreats.png';
 import Modal from "./Modal";
+import logo from '../assets/logoretreat.png'
 import loading from '../assets/loading.gif';
-import { set } from "date-fns";
 import { useNavigate } from "react-router-dom";
 export function Hero() {
   const [isAIOpen, setIsAIOpen]= useState(false);
@@ -12,6 +11,8 @@ export function Hero() {
   const [isHomeOpen, setIsHomeOpen]= useState(false);
   const [isShopOpen, setIsShopOpen]= useState(false);
   const navigate=useNavigate()
+
+  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/oceanhero.gif?alt=media&token=07480f93-2352-4865-a847-0effc613ab7c"
   const askai =()=>{
     setIsAIOpen(true);
   }
@@ -67,29 +68,28 @@ const submitAI =() => {
         <div className="absolute inset-0 hero-gradient flex flex-col justify-center">
           <div className="container mx-auto max-w-3xl px-4 md:px-6">
             <div className="animate-fade-in">
-              <h1 className="text-2xl md:text-2xl sm:text-2xl md:pt-6 lg:text-5xl font-serif font-bold tracking-tight text-white mb-6">
-                Transform Your Mind with a Retreat.
-              </h1>
-              <p className="text-xl text-white/90 mb-8 max-w-2xl">
-              Your next breakthrough is unlikely to happen at your desk.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-white hover:bg-white text-retreat-forest
-                  hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={mentors}>
+              <center><img src={logo} className="justify-center" style={{width:'150px', height:'150px'}}/></center>
+              <center><h1 className="text-2xl md:text-2xl sm:text-2xl md:pt-6 lg:text-5xl font-serif font-bold tracking-tight text-white justify-center mb-6">
+                Retreat. Reset. Restart.
+              </h1></center>
+                <center>
+              <div className="flex flex-col justify-center sm:flex-row gap-4">
+                <Button className=" bg-transparent text-white border-white border-2 border-radius hover:bg-white hover:text-lime-700
+                  font-medium text-base px-8 py-6" onClick={mentors}>
                  Mentors
                 </Button>
-                <Button className="bg-white hover:bg-white text-retreat-forest
-                  hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={shop}>
+                <Button className=" bg-transparent text-white border-white border-2 border-radius hover:bg-white hover:text-lime-700
+                   font-medium text-base px-8 py-6" onClick={shop}>
                   Shop
                 </Button>
                 
-                <Button  className="bg-lime-900 text-white 
-                  hover:bg-white hover:text-lime-700 font-medium text-base px-8 py-6" onClick={askai}>
+                <Button  className="bg-transparent text-white border-white border-2 border-radius
+                  hover:bg-white hover:text-lime-700  font-medium text-base px-8 py-6" onClick={askai}>
                  AI Retreat Match
                 </Button>
                
               </div>
+              </center>
             </div>
           </div>
         </div>
