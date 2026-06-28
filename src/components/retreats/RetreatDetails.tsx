@@ -1,23 +1,23 @@
 import React,{useEffect, useState, useRef} from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast, doc, documentId, updateDoc} from 'firebase/firestore';
-import ImageModal from './ImageModal.js';
-import './ImageModal.css';
-import {db,storage, } from '../firebase.js';
-import { Button } from './ui/button.js';
-import Modal from './Modal.js'
-import ImageSlider from './ImageSlider.js';
+import ImageModal from '../ImageModal.js';
+import '../ImageModal.css';
+import {db,storage, } from '../../firebase.js';
+import { Button } from '../ui/button.js';
+import Modal from '../Modal.js'
+import ImageSlider from '../ImageSlider.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import dayjs from 'dayjs';
 import { getDownloadURL, listAll, ref, StorageReference, deleteObject } from 'firebase/storage';
-import { Card } from './ui/card.js';
+import { Card } from '../ui/card.js';
 import emailjs from '@emailjs/browser';
 import { useToast } from "@/hooks/use-toast";
 
 import stripe from 'stripe';
 import StripeCheckout from 'react-stripe-checkout';
 import { Link } from 'lucide-react';
-import { Input } from './ui/input.js';
+import { Input } from '../ui/input.js';
 
 function RetreatDetails() {
      const params = useParams()

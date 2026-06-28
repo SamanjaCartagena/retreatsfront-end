@@ -29,6 +29,7 @@ function ListARetreatCenter() {
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
    const [kind,setKind] = useState("")
    const[isTerms, setIsTerms] = useState(false)
+   const [hostId, setHostId] = useState("")
    const [documentId,setDocumentId] = useState("")
    const [hostFirstName, setHostFirstName] = useState("")
    const [hostEmail, setHostEmail] = useState("")
@@ -38,11 +39,14 @@ function ListARetreatCenter() {
    const [imageList, setImageList] = useState([]);
    const [nearestAirport, setNearestAirport] = useState("")
    const [notIncluded, setNotIncluded] = useState("")
-   const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
+   const [centerId, setCenterId] = useState(Math.floor(Math.random() * 1000000));
    const params = useParams();
-   const userId = params.userId;
+   const userId = params.id;
    const navigate= useNavigate()
-    const imageListRef = ref(storage, `/retreatimages/${userId}/${retreatId}/`);
+   
+
+
+    const imageListRef = ref(storage, `/centerimages/${centerId}/`);
     const deleteImage=(url)=>{
        alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
@@ -59,7 +63,7 @@ function ListARetreatCenter() {
        if(imageUpload == null) return;
        
        
-       const imageRef = ref(storage, `/retreatimages/${userId}/${retreatId}/${imageUpload.name+v4()}`);
+       const imageRef = ref(storage, `/centerimages/${centerId}/${imageUpload.name+v4()}`);
        uploadBytes(imageRef, imageUpload).then((snapshot)=>{
          getDownloadURL(snapshot.ref).then((url)=>{
            setImageList((prev)=>[...prev, url]);
@@ -94,16 +98,14 @@ const endAtDate=(e)=>{
 
       
          addDoc(collection(db, "centers"), {
-                                         name: retreatName,
                                          type1: retreatType,
                                          retreatCenterName: retreatCenterName,
                                          address: address,
                                          location: country,
-                                         state: state,
                                          price:price, 
-                                         retreatId: retreatId,
+                                         centerId: centerId,
                                          id:v4()+userId,
-                                         hostId:userId,
+                                         hostId:hostId,
                                          hostFirstName:hostFirstName,
                                          hostEmail:hostEmail,
                                          hostLastName:hostLastName,
@@ -115,11 +117,12 @@ const endAtDate=(e)=>{
                                          currency: currency,
                                          createdAt: serverTimestamp(),
                                          pic1: imageList[0],
+
                                         
                                          
 
          }).then(async ()=>{
-          
+         {/*** 
        await  fetch('https://retreatsaroundtheworld.net/send-email', {
       method: 'POST',
       headers: {
@@ -128,6 +131,8 @@ const endAtDate=(e)=>{
       },
       body:JSON.stringify({ name: hostFirstName, email: hostEmail, content: "Thank you for hosting your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
     });
+
+    ***/}
           navigate('/')
 
   })
@@ -145,17 +150,16 @@ const endAtDate=(e)=>{
        onAuthStateChanged(auth, async (user) => {
          if (user)  {
            // User is signed in
-           console.log("host Id is: ", userId)
-     
-          const q =query(collection(db, "hosts"), where("hostId", "==", userId));
+           console.log("host Id is: ", user.uid)
+           console.log("userId is"+userId)
+           setHostId(user.uid)
+          const q =query(collection(db, "hosts"), where("hostId", "==", hostId));
            const querySnapshot = await getDocs(q);
                querySnapshot.forEach((doc) => {
-
          setDocumentId(doc.id)
          setHostFirstName(doc.data().hostFirstName)
          setHostLastName(doc.data().hostLastName)
          setHostEmail(doc.data().hostEmail)
-         console.log(doc.data().hostFirstName)
                })
               }
                   listAll(imageListRef).then((res)=>{
@@ -166,11 +170,7 @@ const endAtDate=(e)=>{
                       });
                     });
                   });
-                  const retreatQuery = query(collection(db, "retreats"), where("hostId", "==", userId));
-                          const retreatQuerySnapshot = await getDocs(retreatQuery);
-                                    setRetreatId(retreatQuerySnapshot.size + 1);
-
- 
+                
          
             })
   
@@ -516,7 +516,7 @@ const endAtDate=(e)=>{
     </div>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Price of Retreat
+       Price per night
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing}/>
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
@@ -567,7 +567,7 @@ const endAtDate=(e)=>{
       <label>
         Nearest Airport
       </label>
-           1. <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Nearest Airport" onChange={(e)=>setNearestAirport(e.target.value)}/>
+           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Nearest Airport" onChange={(e)=>setNearestAirport(e.target.value)}/>
 
     
   </div>

@@ -12,7 +12,7 @@ export function Hero() {
   const [isShopOpen, setIsShopOpen]= useState(false);
   const navigate=useNavigate()
 
-  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/oceanhero.gif?alt=media&token=07480f93-2352-4865-a847-0effc613ab7c"
+  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/download.gif?alt=media&token=535e9111-7cfb-492b-af8b-e128b41472e5"
   const askai =()=>{
     setIsAIOpen(true);
   }
@@ -36,7 +36,7 @@ const submitAI =() => {
   
 }
   return (
-    <div className="relative h-[80vh] min-h-[700px] w-full overflow-hidden">
+    <div className="relative h-[90vh] min-h-[800px] w-full overflow-hidden">
       <Modal isOpen={isAIOpen} onClose={closeAI} >
         <div className="flex flex-col items-center justify-center h-full">
           <center>

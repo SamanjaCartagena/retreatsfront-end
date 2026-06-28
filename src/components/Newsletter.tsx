@@ -17,6 +17,8 @@ export function Newsletter() {
   const [isSignedInModal, setIsSignedInModal] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [alreadySubscribed, setAlreadySubscribed] = useState(false);
+    const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/download.gif?alt=media&token=535e9111-7cfb-492b-af8b-e128b41472e5"
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -57,12 +59,12 @@ export function Newsletter() {
   };
 
   return (
-    <div className="bg-yellow-100 py-16">
+    <div className="py-16" style={{ backgroundImage: `url(${pic})`, backgroundRepeat:'no-repeat', backgroundSize:'100%', color:'white' }}>
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
           <Modal isOpen={isSignedInModal} onClose={() => setIsSignedInModal(false)}>
             <div className="p-4 mt-20 text-center">
-              <h2 className="text-2xl font-serif font-semibold mb-4">
+              <h2 className="text-2xl text-white font-serif font-semibold mb-4">
                 Please sign in to subscribe to our newsletter!
               </h2>
               </div>
@@ -75,15 +77,15 @@ export function Newsletter() {
               <p className="text-muted-foreground mb-8">
                 You will now receive the latest retreat news and exclusive offers in your inbox.
               </p>
-              <Button className="bg-retreat-sage hover:bg-retreat-forest" onClick={() => setAlreadySubscribed(false)}>
+              <Button className="bg-white hover:bg-lime-700" onClick={() => setAlreadySubscribed(false)}>
                 Close
               </Button>
             </div>
           </Modal>
-          <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4">
+          <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4 text-white">
             Get inspired for your next retreat
           </h2>
-          <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+          <p className="text-muted-foreground mb-8 max-w-xl mx-auto text-white">
             Join our newsletter and be the first to discover new retreat experiences, exclusive offers and wellness inspiration.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
@@ -93,7 +95,7 @@ export function Newsletter() {
               className="bg-white"
               onChange={(e) => setEmailSubs(e.target.value)}
             />
-            <Button className="bg-retreat-sage hover:bg-retreat-forest whitespace-nowrap" onClick={subscribed}>
+            <Button className="bg-white text-lime-700 hover:bg-lime-700 hover:text-white whitespace-nowrap" onClick={subscribed}>
               Subscribe
             </Button>
           </div>

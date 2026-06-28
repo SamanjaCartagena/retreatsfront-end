@@ -14,7 +14,7 @@ import SignUpAsHost from "@/components/hosts/SignUpAsHost";
 import Admin from "@/components/admin/Admin";
 import ProfileDetails from "./components/hosts/ProfileDetails";
 import ListARetreat from "./components/ListARetreat";
-import RetreatDetails from "./components/RetreatDetails";
+import RetreatDetails from "./components/retreats/RetreatDetails";
 import GuideDetails from "./components/guides/GuideDetails";
 import Guides from "@/components/guides/Guides";
 import GuideSignUp from "@/components/guides/GuideSignUp";
@@ -57,7 +57,7 @@ const App = () => (
           <Route path="/adminpage/:userid/guests" element={<Guests/>}/>
           <Route path="/adminpage/:userid/retreatcenters" element={<RetreatCenters/>}/>
                           {/**List a Retreat Center */}
-          <Route path="adminpage/:id/hostdetails/listacenter" element={<ListARetreatCenter/>}/>
+          <Route path="adminpage/:id/listacenter" element={<ListARetreatCenter/>}/>
           
 
           <Route path="/success" element={<Success/>}/>

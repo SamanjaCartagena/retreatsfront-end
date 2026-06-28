@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { db,auth } from "../firebase.js";
+import { db,auth  } from "../firebase.js";
 import {Link} from 'react-router-dom';
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
 import Modal from "./Modal";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -68,6 +68,8 @@ const [id,setId]=useState('');
   const [password,setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [signInModal, setSignInModal] = useState(false)
+  const [resetPassword, setResetPassword] = useState(false)
+  const [noEmail, setNoEmail] = useState(false)
   const closeModal =() => {
     setIsModalOpen(false);
  }
@@ -78,10 +80,33 @@ const [id,setId]=useState('');
 
 
   }
+  const forgot =()=>{
+  sendPasswordResetEmail(auth, email)
+  .then(() => {
+    if(email){
+            setSignInModal(false)
+           setResetPassword(true)
+            
+    }else{
+            setNoEmail(true)
+    }
+    
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+  }
   const create=async()=>{
     if (password == confirmPassword){
      await createUserWithEmailAndPassword(auth, email, password)
-    .then(()=>{
+    .then((userCredential)=>{
+      const user = userCredential.user;
+
+      sendEmailVerification(user)
+      .then(() => {
+        console.log("Verification email sent successfully!");
+      });
       signInWithEmailAndPassword(auth, email, password)
       .then(()=>{
         onAuthStateChanged(auth, async (user) => {
@@ -154,70 +179,29 @@ const [id,setId]=useState('');
   }
 
   return (
+    <div>
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 bg-transparent ${
-        isScrolled ? "bg-white/90  shadow-sm py-3" : "bg-transparent py-5"
+      className={`fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-transparent  ${
+        isScrolled ? "font-bold  shadow-sm py-3 text-lime-700" : "bg-transparent py-5 text-white"
       }`}
     >
-      <Modal isOpen={modalProfile} onClose={()=>setModalProfile(false)}>
-                  <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
-                    <br/>
 
-        <h1 className="mt-20">
-                Create a Profile
-                </h1>
-                <label className="text-align-left m-2 text-sm">Email</label>
-                <Input type="email" placeholder="Email" onChange={(e)=> setEmail(e.target.value)}/>
-                 <label className="text-align-left m-2 text-sm" >Password</label>
-                <Input type="password" placeholder="***************" onChange={(e)=>setPassword(e.target.value)}/>
-                <label className="text-align-left m-2 text-sm">Confirm Password</label>
-                <Input type="password" placeholder="***************" onChange={(e)=>setConfirmPassword(e.target.value)} />
-                <br/>
-                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={create}>Create</Button>
-                                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={signin}>Sign In</Button>
 
-                </div>
-      </Modal>
-      <Modal isOpen={signInModal} onClose={()=>setSignInModal(false)}>
-                  <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
-
-        <h1 className="mt-20">
-                Sign In
-                </h1>
-                <label className="text-align-left m-2 text-sm">Email</label>
-                <Input type="email" placeholder="Email" onChange={(e)=> setEmail(e.target.value)}/>
-                 <label className="text-align-left m-2 text-sm" >Password</label>
-                <Input type="password" placeholder="***************" onChange={(e)=>setPassword(e.target.value)}/>
-             
-                <br/>
-                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={createProfile}>Create</Button>
-                                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={signinreal}>Sign In</Button>
-
-                </div>
-      </Modal>
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
-            <h1 className="mt-20">
-                Sign out Successful!
-                </h1>
-            </div>
-            </Modal>
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-2 cursor-pointer" onClick={home}>
           <div className="hidden md:block" onClick={home}>
-            <h1 className="text-xl font-serif font-bold text-white">
-              Retreats <span className=" text-xl text-white font-bold">Around The World</span>
+            <h1 className="text-xl font-serif font-bold">
+              Retreats <span className=" text-xl  font-bold">Around The World</span>
             </h1>
           </div>
         </div>
 
-       
            <div className="flex items-right">
           <div className="hidden md:flex items-center gap-2"></div>
-           {logout &&  <Link to={`/adminpage/${id}`} className="text-sm text-white underline mt-2" >
+           {logout &&  <Link to={`/adminpage/${id}`} className="text-sm  underline mt-2" >
               Welcome 
             </Link>}
-           {logout &&  <Button variant="ghost" size="sm" className="text-sm text-white" onClick={loggedout}>
+           {logout &&  <Button variant="ghost" size="sm" className="text-sm " onClick={loggedout}>
               Log Out
             </Button>}
           </div>
@@ -225,20 +209,20 @@ const [id,setId]=useState('');
           <div className="hidden md:flex items-center gap-2">
            
             <Menu as="div" className="relative inline-block">
-      <MenuButton className="inline-flex w-full justify-center border-0  px-3 py-2 text-sm font-semibold  text-white" >
+      <MenuButton className="inline-flex w-full justify-center border-0  px-3 py-2 text-sm font-semibold  " >
         <UserPen />
               Account
       </MenuButton>
 
       <MenuItems
         transition
-        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-lime-800 text-white outline-1 -outline-offset-1  transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-lime-800 data-focus:outline-hidden text-white outline-1 -outline-offset-1 data-focus:text-white transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
       >
         <div className="py-1">
           <MenuItem >
             <a
               href="#"
-              className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+              className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
               onClick={()=>setModalProfile(true)}
             >
               Profile
@@ -248,7 +232,7 @@ const [id,setId]=useState('');
           <MenuItem>
             <a
               href="#"
-              className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+              className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
 
             >
               Hosts
@@ -259,7 +243,7 @@ const [id,setId]=useState('');
           <MenuItem>
             <a
               href="#"
-              className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+              className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
             >
               Guides
             </a>
@@ -269,7 +253,7 @@ const [id,setId]=useState('');
           <MenuItem>
             <a
               href="#"
-              className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+              className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
             >
               Guests
             </a>
@@ -279,7 +263,7 @@ const [id,setId]=useState('');
             <MenuItem>
             <a
               href="#"
-              className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+              className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
             >
               Retreat Centers
             </a>
@@ -290,8 +274,8 @@ const [id,setId]=useState('');
     </Menu>
            
             
-            <FacebookIcon style={{margin:'5px', cursor:'pointer', }}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
-            <InstagramIcon style={{margin:'5px', cursor:'pointer',}} onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')} />
+            <FacebookIcon style={{margin:'5px', cursor:'pointer',}}  onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494', '_blank')} />
+            <InstagramIcon style={{margin:'5px', cursor:'pointer'}} onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')} />
             <TwitterIcon style={{margin:'5px', cursor:'pointer', }} onClick={() => window.open('https://x.com/Retreats_World', '_blank')} />
               <YoutubeIcon style={{margin:'5px', cursor:'pointer', }} onClick={() => window.open('https://www.youtube.com/@retreatsaroundtheworld', '_blank')} />
           </div>
@@ -355,5 +339,68 @@ const [id,setId]=useState('');
  
         </div>
     </header>
+     <Modal isOpen={modalProfile} onClose={()=>setModalProfile(false)} >
+                  <div style={{width:'100%', color:'black'}} className="justify-center items-center text-center p-4 bold text-lg">
+                    <br/>
+
+        <h1 className="mt-20">
+                Create a Profile
+                </h1>
+                <label className="text-align-left m-2 text-sm">Email</label>
+                <Input type="email" placeholder="Email" onChange={(e)=> setEmail(e.target.value)}/>
+                 <label className="text-align-left m-2 text-sm" >Password</label>
+                <Input type="password" placeholder="***************" onChange={(e)=>setPassword(e.target.value)}/>
+                <label className="text-align-left m-2 text-sm">Confirm Password</label>
+                <Input type="password" placeholder="***************" onChange={(e)=>setConfirmPassword(e.target.value)} />
+                <br/>
+                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={create}>Create</Button>
+                                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={signin}>Sign In</Button>
+
+                </div>
+      </Modal>
+       
+    <Modal   isOpen={signInModal} onClose={()=>setSignInModal(false)} >
+                  <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+
+        <h1 className="mt-20">
+                Sign In
+                </h1>
+                <label className="text-align-left m-2 text-sm">Email</label>
+                <Input type="email" placeholder="Email" onChange={(e)=> setEmail(e.target.value)}/>
+                 <label className="text-align-left m-2 text-sm" >Password</label>
+                <Input type="password" placeholder="***************" onChange={(e)=>setPassword(e.target.value)}/>
+             
+                <br/>
+                                 <label className="text-align-left float-left  text-sm text-red-500 cursor-pointer" onClick={forgot}>Forgot Password?</label><br/>
+                                 <br/>
+
+                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={createProfile}>Create</Button>
+                                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={signinreal}>Sign In</Button>
+
+                </div>
+      </Modal>
+       <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+            <h1 className="mt-20">
+                Sign out Successful!
+                </h1>
+            </div>
+            </Modal>
+            <Modal isOpen={resetPassword} onClose={()=>setResetPassword(false)}>
+                        <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+                                    <h1 className="mt-20">
+                We have sent you an email to reset your password! Please check your inbox and spam.
+                </h1>
+              </div>
+            </Modal>
+            <Modal isOpen={noEmail} onClose={()=>setNoEmail(false)}>
+                        <div style={{width:'100%',}} className="justify-center items-center text-center p-4 bold text-lg">
+                                    <h1 className="mt-20">
+                
+                Please type an email address!
+                </h1>
+              </div>
+            </Modal>
+    </div>
   );
 }

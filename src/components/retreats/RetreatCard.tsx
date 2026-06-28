@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { List, Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
-import {db} from '../firebase.js';
+import {db} from '../../firebase.js';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { Separator } from "@radix-ui/react-separator";
@@ -177,7 +177,7 @@ export function RetreatCard() {
             <h2 className="text-xl font-bold mb-2">{retreat.name}</h2>
 
             <Link to={`/retreatdetails/${retreat.id}`} >
-             <Card className="rounded-xl overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer ">
+             <Card className="rounded-xl h-130 overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
           src={retreat.pic1}
