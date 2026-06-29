@@ -2,6 +2,7 @@
 import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
 import ModalCancellation from './ModalCancellation';
+import { Newsletter } from './Newsletter';
 import Modal from './Modal';
 export function Footer() {
   const [openCancellationModal, setOpenCancellationModal] = useState(false);
@@ -13,9 +14,12 @@ export function Footer() {
     setOpenTypesModal(true);
   };
   return (
+    <div>
+      <Newsletter/>
     <footer className="bg-white border-t">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          
           <div>
             <ModalCancellation isOpen={openCancellationModal} onClose={() => {
               setOpenCancellationModal(false);
@@ -94,7 +98,7 @@ export function Footer() {
         </div>
         <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm text-muted-foreground mb-4 md:mb-0">
-            © 2025 Retreats Around The World. All rights reserved.
+            © 2026 Retreats Around The World. All rights reserved.
           </div>
           <div className="flex gap-8">
             <a href="#" className="text-sm text-muted-foreground hover:text-retreat-forest transition-colors">Privacy</a>
@@ -104,5 +108,6 @@ export function Footer() {
         </div>
       </div>
     </footer>
+    </div>
   );
 }

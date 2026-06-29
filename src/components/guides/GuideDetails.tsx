@@ -80,14 +80,10 @@ function GuideDetails() {
         
                                 },[guideId])
   return (
-         <div  className="relative h-auto min-h-[auto] w-full overflow-hidden grid place-items-center">
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        
-        
-        {guideId}</div>
+                             <div className="max-w-full pt-40 mx-auto p-4 grid place-items-center" style={{ backgroundColor:'lightGray', color:'black'}}>
+                              <h2>{guideId}</h2>
+                              </div>
+
   )
 }
 

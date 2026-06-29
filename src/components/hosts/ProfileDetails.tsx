@@ -189,13 +189,13 @@ onAuthStateChanged(auth, async (user) => {
 })
   },[userId])
   return (
-    <div className="max-w-4xl pt-40 mx-auto p-4 grid place-items-center">
+                     <div className="max-w-full pt-40 mx-auto p-4 grid place-items-center" style={{ backgroundColor:'lightGray', color:'black'}}>
       
           {onlyUser && ( 
           <h1 className="text-2xl flex font-bold mb-4">Hi {firstName}, Would you like to list your retreat?</h1>
           )}
           <div className="flexbox gap-4">
-           <img src={avatarUrl} alt="Avatar" className="w-60 h-60 mt-4 rounded-full mb-4 justify-center items-center mx-auto object-cover"/>
+           <img src={avatarUrl} alt="Avatar" className="w-60 h-60 mt-2 rounded-full mb-4 justify-center items-center mx-auto object-cover"/>
             {onlyUser && (
               <div>
           <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>

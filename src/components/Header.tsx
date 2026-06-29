@@ -62,6 +62,8 @@ const [id,setId]=useState('');
 },[])
   const [isScrolled, setIsScrolled] = useState(false);
   const[logout,setLogout]=useState(true);
+    const [isOpen, setIsOpen] = useState(false)
+
   const [isModalOpen, setIsModalOpen]= useState(false);
   const [modalProfile, setModalProfile] = useState(false)
   const [email, setEmail] = useState('')
@@ -79,6 +81,10 @@ const [id,setId]=useState('');
      window.location.reload();
 
 
+  }
+  const openSesame=()=>{
+    setIsOpen(false)
+    setModalProfile(true)
   }
   const forgot =()=>{
   sendPasswordResetEmail(auth, email)
@@ -280,12 +286,13 @@ const [id,setId]=useState('');
               <YoutubeIcon style={{margin:'5px', cursor:'pointer', }} onClick={() => window.open('https://www.youtube.com/@retreatsaroundtheworld', '_blank')} />
           </div>
           
-          <Sheet>
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="outline"
                 size="icon"
-                className="md:hidden rounded-full"
+                className="md:hidden rounded-full text-lime-700"
+                onClick={() => setIsOpen(!isOpen)}
                 
               >
                 <svg
@@ -315,17 +322,49 @@ const [id,setId]=useState('');
                     </div>
                     <h2 className="font-serif text-lg font-semibold">Retreats Around The World</h2>
                   </div>
-                  <Button variant="ghost" className="w-full justify-start" onClick={host}>
-                    Host
+                          
+
+                  <Button variant="ghost" className="w-full justify-start" onClick={openSesame}>
+                    Profile
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start" onClick={guest}>
-                    Guest
+                  
+                            <Link to='/host' className="mt-2">
+
+                  <Button variant="ghost" className="w-full justify-start" >
+                    Hosts
                   </Button>
+                  </Link>
+                                              <Link to='/guides' className="mt-2">
+
+                  <Button variant="ghost" className="w-full justify-start mt-2" >
+                    Guides
+                  </Button>
+                  </Link>
+                                                                <Link to='/guests' className="mt-2">
+
+                  <Button variant="ghost" className="w-full justify-start mt-2">
+                    Guests
+                  </Button>
+                  </Link>
+                  <Link to='/retreatcenter' className="mt-2">
+
                   <Button variant="ghost" className="w-full justify-start" onClick={retreatcenter}>
                     Retreat Centers
                   </Button>
-                   
-                
+                  </Link>
+
+                  <Button variant="ghost" className="w-full justify-start" onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494')}>
+                    Facebook
+                  </Button>
+                   <Button variant="ghost" className="w-full justify-start" onClick={() => window.open('https://x.com/Retreats_World')}>
+                    Twitter
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start" onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')}>
+                    Instagram
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start" onClick={() => window.open('https://www.youtube.com/@retreatsaroundtheworld', '_blank')} >
+                    Youtube
+                  </Button>
                 </div>
               </div>
             </SheetContent>
@@ -340,7 +379,7 @@ const [id,setId]=useState('');
         </div>
     </header>
      <Modal isOpen={modalProfile} onClose={()=>setModalProfile(false)} >
-                  <div style={{width:'100%', color:'black'}} className="justify-center items-center text-center p-4 bold text-lg">
+                  <div className="justify-center items-center text-center p-4 bold text-lg">
                     <br/>
 
         <h1 className="mt-20">
@@ -354,7 +393,7 @@ const [id,setId]=useState('');
                 <Input type="password" placeholder="***************" onChange={(e)=>setConfirmPassword(e.target.value)} />
                 <br/>
                 <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={create}>Create</Button>
-                                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={signin}>Sign In</Button>
+                                <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2 zIndex-1000" onClick={signin}>Sign In</Button>
 
                 </div>
       </Modal>

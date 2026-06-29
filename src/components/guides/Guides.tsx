@@ -1,5 +1,4 @@
 import React,{useState, useEffect} from 'react'
-import pic from '../../assets/yoga2.jpg'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 import { db, auth,storage} from "../../firebase.js";
@@ -22,7 +21,7 @@ export default function Guides() {
   const params = useParams();
      const userId = params.userId;
      const [avatarUrl, setAvatarUrl] = useState("");
-  
+     const pic='https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/sherpas.jpg?alt=media&token=07da771f-1b0f-4cd3-a920-fbc64c4492d6'
      const [imageUpload, setImageUpload] = useState(null);
   
   const auth = getAuth();
@@ -203,7 +202,7 @@ export default function Guides() {
           
             <h2 className="text-xl font-bold mb-2">{guide.name}</h2>
 
-            <Link to={`/retreatdetails/${guide.id}`} >
+            <Link to={`/guides/${guide.id}`} >
              <Card className="rounded-xl overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
@@ -252,7 +251,7 @@ const changePage= ({selected}) => {
 
   return (
      <div>
-        <div className="relative h-[80vh] min-h-[700px] w-full overflow-hidden">
+        <div className="relative h-[60vh] min-h-[600px] w-full overflow-hidden">
    
     <div className="justify-center items-center grid h-screen absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pic})` }}>
       

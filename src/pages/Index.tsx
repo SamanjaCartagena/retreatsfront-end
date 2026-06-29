@@ -5,8 +5,9 @@ import { Hero } from "@/components/Hero";
 import { CategoryFilter } from "@/components/CategoryFilter";
 import { RetreatCard } from "@/components/retreats/RetreatCard";
 import { FeaturedDestinations } from "@/components/Destinations";
-import { Newsletter } from "@/components/Newsletter";
+import { FeaturedCenters} from "@/components/centers/CenterDisplay";
 import { Separator } from "@/components/ui/separator";
+import Founder from '@/components/admin/Founder'
 
 const Index = () => {
  
@@ -21,10 +22,9 @@ const Index = () => {
           
         <RetreatCard />
 
-       
-        
+       <FeaturedCenters/>
+        <Founder/>
         <FeaturedDestinations />
-        <Newsletter />
       </main>
     </div>
   );

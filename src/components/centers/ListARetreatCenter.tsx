@@ -15,7 +15,7 @@ import { Button } from '../ui/button.js';
 import Modal from '../Modal.js';
 import nodemailer from 'nodemailer';
 function ListARetreatCenter() {
-   const [retreatName, setRetreatName] = useState("")
+  {/**Retreat Center Information */}
    const[retreatCenterName, setRetreatCenterName]= useState("")
    const[retreatType, setRetreatType] = useState("")
    const[address,setAddress] = useState("")
@@ -25,19 +25,23 @@ function ListARetreatCenter() {
    const [state, setState] = useState("")
    const [currency, setCurrency] = useState("USD");
    const[price,setPrice] = useState(0.00)
-  const [value, setValue] = React.useState<Dayjs | null>();
-      const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
+   const [value, setValue] = React.useState<Dayjs | null>();
    const [kind,setKind] = useState("")
    const[isTerms, setIsTerms] = useState(false)
    const [hostId, setHostId] = useState("")
    const [documentId,setDocumentId] = useState("")
+   const [nearestAirport, setNearestAirport] = useState("")
+   const [pickupService, setPickupService] = useState("")
+
+
    const [hostFirstName, setHostFirstName] = useState("")
    const [hostEmail, setHostEmail] = useState("")
    const [hostLastName, setHostLastName] = useState("")
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
    const [imageList, setImageList] = useState([]);
-   const [nearestAirport, setNearestAirport] = useState("")
+         const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
+
    const [notIncluded, setNotIncluded] = useState("")
    const [centerId, setCenterId] = useState(Math.floor(Math.random() * 1000000));
    const params = useParams();
@@ -114,6 +118,7 @@ const endAtDate=(e)=>{
                                          endAt: endDate,
                                          kind: kind,
                                          nearestAirport:nearestAirport,
+                                         airportService:pickupService,
                                          currency: currency,
                                          createdAt: serverTimestamp(),
                                          pic1: imageList[0],
@@ -239,7 +244,7 @@ const endAtDate=(e)=>{
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Name of Retreat Center
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstname" type="text" placeholder="Name of Retreat" onChange={(e)=>setRetreatName(e.target.value)}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstname" type="text" placeholder="Name of Retreat" onChange={(e)=>setRetreatCenterName(e.target.value)}/>
     </div>
          <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
@@ -568,6 +573,14 @@ const endAtDate=(e)=>{
         Nearest Airport
       </label>
            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Nearest Airport" onChange={(e)=>setNearestAirport(e.target.value)}/>
+
+    
+  </div>
+   <div className='mb-4'>
+      <label>
+        Provide Airport services:
+      </label>
+           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Airport pick up service" onChange={(e)=>setPickupService(e.target.value)}/>
 
     
   </div>

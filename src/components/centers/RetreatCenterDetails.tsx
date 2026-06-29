@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {useEffect, useState} from 'react'
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
 import {db, storage} from '../../firebase.js';  
@@ -7,15 +7,21 @@ import {useParams} from 'react-router-dom';
 import ImageSlider from '../ImageSlider.js';
 import { Card } from '../ui/card.js';
 import { Button } from '../ui/button.js';
+import emailjs from '@emailjs/browser';
+import { useToast } from "@/hooks/use-toast";
 import { getDownloadURL, listAll, ref, StorageReference, deleteObject } from 'firebase/storage';
+import Modal from '../Modal.js';
+import { Input } from '../ui/input.js';
+import { onAuthStateChanged } from 'firebase/auth';
 
 function RetreatCenterDetails() {
   {  /***Retreat center information extraced from database */}
-    const [nameOfCenter, setNameOfCenter] = useState([]);
+    const [nameOfCenter, setNameOfCenter] = useState("");
     const [location, setLocation] = useState('')
     const [address, setAddress] = useState('')
     const [kind, setKind] = useState('')
     const [airport, setAirport] = useState('')
+    const [inquiryModal, setInquiryModal] = useState(false)
     const [centerId, setCenterId] = useState('')
    {/**Host information */}
     const [hostId, setHostId] = useState('')
@@ -23,9 +29,48 @@ function RetreatCenterDetails() {
     const [openImageModal, setOpenImageModal] = useState(false)
     const [imageList, setImageList] = useState([]);
     const [hostIsUser, setHostIsUser] = useState(false)
+        const form = useRef();
     
+    const [formData, setFormData] = useState({
+          user_name:"",
+          user_email:"",
+          user_message:""
+         })
+ 
+       
+    
+    
+    const { toast } = useToast();
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+      };
   const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/download.gif?alt=media&token=535e9111-7cfb-492b-af8b-e128b41472e5"
+    
+  const handleSubmit=(e: React.FormEvent)=>{
+    e.preventDefault();
 
+    emailjs
+      .sendForm('service_9u700we', 'template_slv7qow', form.current, {
+        publicKey: 'iYI6t4bT28fP2liFc',
+      })
+      .then(
+        () => {
+
+          console.log('SUCCESS!');
+          setInquiryModal(false)
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
+          toast({
+      title: "Inquiry Submitted",
+      description: `Thank you for your interest in ${nameOfCenter} in ${location}. We will get back to you soon!` ,
+    });
+    // Reset form
+   
+                    }
     const viewAllPhotos=()=>{
   setOpenImageModal(true)
   
@@ -34,6 +79,7 @@ function RetreatCenterDetails() {
     const id = params.id;
     useEffect(() => {
      window.scrollTo(0,0)
+     
     const q1 =query(collection(db, "centers"), where ("id", "==", id));
               getDocs(q1).then((querySnapshot) => {
              
@@ -41,16 +87,22 @@ function RetreatCenterDetails() {
               querySnapshot.forEach((doc) => {
                 console.log(doc.id, " => ", doc.data().name);
                 retreats.push({ ...doc.data() });
-                setNameOfCenter(doc.data().name);
+                setNameOfCenter(doc.data().retreatCenterName);
                 setLocation(doc.data().location)
                 setAddress(doc.data().address)
                 setKind(doc.data().kind)
-                setAirport(doc.data().airport)
+                setAirport(doc.data().nearestAirport)
                 setHostId(doc.data().hostId)
                 setCenterId(doc.data().centerId)
+                
               })
 
             })
+                  setFormData({
+           user_name: "",
+    user_email: "",
+    user_message: `Hello, I am interested in attending your retreat called ${nameOfCenter} in ${location}. Please let me know if there is availability and any additional information I should know. Thank you!`,
+        })
               const imageListRef = ref(storage, `/centerimages/${centerId}/`);
               listAll(imageListRef).then((res)=>{
                                           res.items.forEach((item)=>{
@@ -61,12 +113,22 @@ function RetreatCenterDetails() {
                                           });
                                         });
             
-}, [id,, centerId])
+}, [id, centerId])
     
    
   return (          
-             <div className="relative h-auto min-h-auto w-full overflow-hidden lg:flex md:grid-cols-1 justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
-
+       <div className="relative h-auto min-h-auto w-full overflow-hidden lg:flex md:grid-cols-1 justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
+         <Modal isOpen={inquiryModal} onClose={()=>setInquiryModal(false)} >
+            <form className="bg-white p-6 rounded shadow-md w-96 mt-20" onSubmit={handleSubmit} ref={form}>
+              <label className="block text-gray-700 text-sm font-bold mb-2" >
+                Your Email
+              </label>
+              <Input type="email" name="user_email" required placeholder="Your email address" value={formData.user_email} onChange={handleInputChange} className="w-full p-2 border rounded mb-4" />
+              <textarea className="w-full h-32 p-2 border rounded mb-4" name="user_message"   onChange={handleInputChange} value={formData.user_message}  >
+              </textarea>
+              <input type="submit" value="Send Inquiry" className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer" />
+            </form>
+            </Modal>
             
         <ImageModal isOpen={openImageModal} onClose={()=>setOpenImageModal(false)} >
           
@@ -78,7 +140,7 @@ function RetreatCenterDetails() {
      </ImageModal>
      
         <div className="max-w-full mx-auto text-center">
-         <h1 className='text-4xl bold mt-4'>{nameOfCenter}</h1>
+         <h1 className='text-4xl bold mt-20'>{nameOfCenter}</h1>
          <br/>
          
 <center>
@@ -99,6 +161,7 @@ function RetreatCenterDetails() {
  <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700  text-white  m-2"  onClick={viewAllPhotos}>
     View all photos
   </Button>
+         <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
    
 
            </div>
@@ -137,9 +200,9 @@ function RetreatCenterDetails() {
             <div>
 
             <p className='w-60 md:w-full sm:w-full p-10'>{kind}</p>
-            <div className='border-2 rounded w-80'>
+            <div className='border-2 rounded w-full'>
             <h1 className='text-2xl mb-4'>How do you get there?</h1>
-                                    <h1>Nearest Airport: {airport}</h1>
+                                    <h1><strong>Nearest Airport:</strong> {airport}</h1>
                                     
 
                                     </div>

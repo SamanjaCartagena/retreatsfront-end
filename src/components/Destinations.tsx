@@ -1,22 +1,24 @@
 
 import { featuredDestinations } from "../data/retreats";
 import { Card, CardContent } from "@/components/ui/card";
+import Marquee from "react-fast-marquee";
 
 export function FeaturedDestinations() {
   return (
-    <div className="container py-12">
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl md:text-3xl font-serif font-semibold">
+    <div className="py-12">
+      <div className="container flex justify-between items-center mb-8">
+        <h2 className="text-2xl text-lime-900 justify-center align-center font-serif font-semibold">
           Flight Deals
                   </h2>
         <a href="#" className="text-retreat-ocean hover:text-retreat-forest transition-colors font-medium" onClick={() => window.open("/airlines", "_blank")}>
           View all
         </a>
       </div>
+      <Marquee gradientWidth={300} gradientColor="white" direction="right">
+               <div className="w-full flex grid-cols-1 sm:grid-cols-1 lg:grid-cols-6 ">
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {featuredDestinations.map((destination, index) => (
-          <Card key={index} className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all cursor-pointer" onClick={()=>window.open(destination.url, "_blank")}>
+          <Card key={index} className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md m-2 transition-all cursor-pointer" onClick={()=>window.open(destination.url, "_blank")}>
             <div className="relative h-60">
               <img
                 src={destination.image}
@@ -33,6 +35,7 @@ export function FeaturedDestinations() {
           </Card>
         ))}
       </div>
+      </Marquee>
     </div>
   );
 }

@@ -25,30 +25,33 @@ const userId = params.userId;
 
    },[])
   return (
-    <div  style={{ backgroundImage: `url(${pic1})`, backgroundRepeat:'no-repeat', backgroundSize:'100%'}}>
-        <div className="relative h-[80vh] min-h-[900px] w-full overflow-hidden" >
-   
-    <div className="justify-center items-center grid h-screen absolute inset-0 bg-cover bg-center"  >
-      
-      <div className="w-full max-w-xs items-center justify-center">
-        <center><img src={pic} style={{width:'150px', height:'150px'}}/></center>
+    <div className="relative h-[100vh] min-h-[1400px] w-full overflow-hidden">
 
-    <center><h1 className='text-2xl font-bold text-white'>Welcome to the Admin Page!</h1></center>
-    <div className='flex mt-5 justify-center md:grid-cols-2 sm:grid-cols-1 items-center'>
+        <div 
+        className="absolute inset-0 bg-cover bg-center" 
+        style={{ backgroundImage: `url(${pic1})` }}
+      >   
+      <div className="absolute inset-0 hero-gradient flex flex-col justify-center">
+          <div className="container mx-auto max-w-3xl px-4 md:px-6">
+            <div className="animate-fade-in">
+              <center><img src={pic} className="justify-center" style={{width:'150px', height:'150px'}}/></center>
+              <center><h1 className="text-2xl md:text-2xl sm:text-2xl md:pt-6 lg:text-5xl font-serif font-bold tracking-tight text-white justify-center mb-6">
+                Welcome to the Admin Page!
+              </h1></center>
+                <center>
+              <div className="flex flex-col justify-center mt-6 sm:flex-row gap-4">
+               <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
+              <center><h2 className='text-white font-bold'>Admin</h2></center>
+                        <Link to={`hostdetails`}>
 
-  <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
-    <center><h2 className='text-white font-bold'>Admin</h2></center>
-            <Link to={`hostdetails`}>
-
-    <Button className='w-40 bg-white text-lime-700 m-2'>Host Admin</Button>
-    </Link>
-    <Link to={`signupashost`}>
-        <Button className='w-40 bg-white text-lime-700 m-2'>Sign Up As a Host</Button>
-        </Link>
+                 <Button className='w-40 bg-white text-lime-700 m-2'>Host Admin</Button>
+                 </Link>
+                <Link to={`signupashost`}>
+                  <Button className='w-40 bg-white text-lime-700 m-2'>Sign Up As a Host</Button>
+                  </Link>
 
     </div>
-    
-    <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
+     <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
           <center><h2 className='text-white font-bold'>Guide</h2></center>
 
     <Link to={`guideadmin`}>
@@ -61,15 +64,16 @@ const userId = params.userId;
     
     
     </div>
-    <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
+      <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
           <center><h2 className='text-white font-bold'>Guest</h2></center>
-
+        <Link to={`guests`}>
      <Button className='w-40 bg-white text-lime-700 m-2'>Guest Admin</Button>
+     </Link>
      <Link to={`guests`}>
         <Button className='w-40 bg-white text-lime-700 m-2'>Sign Up As a Guest</Button>
         </Link>
     </div>
-     <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
+       <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
           <center><h2 className='text-white font-bold'>Retreat Centers</h2></center>
 
     <Link to={`retreatcenters`}>
@@ -79,12 +83,15 @@ const userId = params.userId;
         <Button className='w-40 bg-white text-lime-700 m-2'>Retreat Center Sign Up</Button>
         </Link>
     </div>
+              </div>
+              </center>
+            </div>
+          </div>
+        </div>
+
+    </div>
     </div>
     
-    </div>
-    </div>
-    </div>
-    </div>
   )
 }
 

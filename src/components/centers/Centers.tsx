@@ -14,63 +14,130 @@ export default function Centers() {
     const [listOfRetreats, setListOfRetreats] = useState([]);
       const [selectedType, setSelectedType] = useState("")
       const [searchType, setSearchType] = useState("Select Type");
-      const [searchLocation, setSearchLocation] = useState(0.00);
-  const [selectedLocation, setSelectedLocation] = useState("Select Location");
-  const [selectedPrice, setSelectedPrice] = useState("Select Price")
+      const [searchLocation, setSearchLocation] = useState('');
+        const [selectedLocation, setSelectedLocation] = useState("");
+      
+      const [selectedPrice, setSelectedPrice] = useState(0.0)
+ 
   useEffect(() => {
-    const q1 =query(collection(db, "centers"));
-    getDocs(q1).then((querySnapshot) => {
-      const treats = [];
-      querySnapshot.forEach((doc) => {
-        treats.push({ ...doc.data() });
+    window.scroll(0,0)
+     const retreats = [];
+            // Reference the collection
+         
+    
+            
+            
+       const fetchData = async () => {
+            
+          try {
+           
+
+            const retreats = [];
+            // Reference the collection
+            if (selectedLocation === ""  && selectedPrice === 0.0 && selectedType === "" ) {
+              const q = query(collection(db, "centers"), where("isDisplayed", "==", true));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+              retreats.push({ ...doc.data() });
+            });
+            setListOfRetreats(retreats);
+            return;
+    
+            
+            }
+            else if ( selectedPrice === 0.0 && selectedType === "" && selectedLocation !== "") {
+            setListOfRetreats([])
+            const retreats1 = [];
+    
+            if(selectedLocation=="United States of America"){
+              const q2 =  query(collection(db, "centers"), where("location", "==", selectedLocation), where("isDisplayed", "==", true));
+            getDocs(q2).then((querySnapshot) => {
+           
+    
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data().name);
+              retreats1.push({ ...doc.data() });
+              
+              setListOfRetreats(retreats1);
+            })
+          
+          });
+        }
+        else{
+                  const q12 = await query(collection(db, "centers"), where("location", "==", selectedLocation), where("isDisplayed", "==", true));
+    
+          getDocs(q12).then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data().name);
+              retreats1.push({ ...doc.data() });
+        }
+        );
+        setListOfRetreats(retreats1);
       });
-      console.log(treats.length);
-      setListOfRetreats(treats);
-      console.log(listOfRetreats);
-    }); 
-         const retreats = [];
-
-    const q12 =query(collection(db, "centers"), where("location","==",selectedLocation));
-      const querySnapshot = getDocs(q12);
-      querySnapshot.then((snapshot)=>{
-        snapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retreats.push({ ...doc.data() });
-          setListOfRetreats(retreats);
-        });
-
-
-  });
-   const ret = [];
-
-    const q13 =query(collection(db, "centers"), (where("type1", "==",selectedType)));
-           getDocs(q13).then((snapshot) => {
-
-        snapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          ret.push({ ...doc.data() });
+    
+      }
+    }
+     
+            else if (selectedLocation === ""  && selectedType === "" && selectedPrice !== 0.0) {  
+              setListOfRetreats([])
+              const retreats3=[]
+              
+              const q3 = query(collection(db, "centers"), where("price", "<=", selectedPrice));
+            getDocs(q3).then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data().name);
+              retreats3.push({ ...doc.data() }); 
+            });
+            setListOfRetreats(retreats3);
+          });
+        }
+         else if (selectedLocation === "" && selectedPrice === 0.0 && selectedType !== "" ) {  
+          setListOfRetreats([])
+          const retreats2=[]
+              const q3 = await query(collection(db, "centers"), where("type1", "==", selectedType), where("isDisplayed", "==", true));
+            getDocs(q3).then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data().name);
+              retreats2.push({ ...doc.data() }); 
+            });
+            setListOfRetreats(retreats2);
+          });
+        }
+        else if (selectedLocation !== "" && selectedPrice === 0.0 && selectedType !== "" ) {  
+          setListOfRetreats([])
+          const retreats2=[]
+              const q3 = await query(collection(db, "centers"), where("type1", "==", selectedType), where("isDisplayed", "==", true), where("location","==",selectedLocation));
+            getDocs(q3).then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data().name);
+              retreats2.push({ ...doc.data() }); 
+            });
+            setListOfRetreats(retreats2);
+          });
+        }
+         else if (selectedLocation !== "" && selectedPrice !== 0.0 && selectedType !== "" ) {  
+          setListOfRetreats([])
+          const retreats2=[]
+              const q3 = await query(collection(db, "centers"), where("type1", "==", selectedType), where("location","==",selectedLocation), where("price","<=",selectedPrice));
+            getDocs(q3).then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log(doc.id, " => ", doc.data().name);
+              retreats2.push({ ...doc.data() }); 
+            });
+            setListOfRetreats(retreats2);
+          });
+        }
           
-        console.log(ret);  
-                 setListOfRetreats(ret);
-        });
-
-
-  });
-  const retr = [];
-
-    const q14 =query(collection(db, "centers"), (where("price", "<=",selectedPrice)));
-           getDocs(q14).then((snapshot) => {
-
-        snapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retr.push({ ...doc.data() });
-          
-        console.log(retr);  
-                 setListOfRetreats(retr);
-        });
-
-
-  });
+         
+    
+       
+          }
+          catch (err) {
+            console.error("Error fetching data: ", err);
+          } 
+        };
+    
+        fetchData();
   }, [selectedLocation, selectedType, selectedPrice]);
 
   const searchPrice =(event)=>{
@@ -100,10 +167,10 @@ export default function Centers() {
       </div>
       <CardContent className="p-4">
         <div className="flex justify-between items-start">
-          <h3 className="font-serif font-medium text-lg line-clamp-1">{retreat.name}</h3>
+          <h3 className="font-serif font-medium text-lg line-clamp-1">{retreat.retreatCenterName}</h3>
           <div className="flex items-center gap-1 text-sm">
             <Star size={16} fill="currentColor" className="text-retreat-forest" />
-            <span>{retreat.name}</span>
+            <span>{retreat.location}</span>
           </div>
         </div>
         <p className="text-muted-foreground text-sm mb-2">{retreat.type1},{retreat.type2},{retreat.type3}
@@ -114,10 +181,8 @@ export default function Centers() {
         </div>
         <div className="mt-3 font-medium">
           <span className="text-lg">${retreat.price}</span>
-          <span className="text-sm text-muted-foreground"> / person</span>
+          <span className="text-sm text-muted-foreground"> / night</span>
           <br/>
-              <Link to={`/retreatcenters/${retreat.id}`} >
-              <Button  className='bg-lime-700 ml-50px  text-white font-bold py-2 mr-4 mt-2 px-2 rounded focus:outline-none focus:shadow-outline align-items-right text-center'>Find Out More</Button></Link>
               <Button className='bg-lime-700 ml-50px  text-white font-bold py-2  px-2 mt-2rounded focus:outline-none focus:shadow-outline align-items-right text-center' onClick={() => window.open('https://www.tripadvisor.com', '_blank')}>Trip Advisor</Button>
 
         </div>
@@ -178,19 +243,15 @@ const changePage= ({selected}) => {
           </h2>
          
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
-             <select className="bg-white p-2 rounded-md" onChange={search} value={selectedType}>
+             <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
     <option value="">Select Type</option>
     <option value="meditation">Meditation</option>
     <option value="muay thai">Muay Thai</option>
     <option value="vegan">Vegan</option>
-    <option value="yoga">Yoga</option>
-    <option value="India">India</option>
-    <option value="Greece">Greece</option>
-    <option value="Peru">Peru</option>
-    <option value="Australia">Australia</option>
+   
     </select>
            
-  <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
+    <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
         <option value="">Select Location</option>
     <option value="Afghanistan">Afghanistan</option>
     <option value="Albania">Albania</option>
@@ -389,7 +450,6 @@ const changePage= ({selected}) => {
 
     </select>
     <select className="bg-white p-2 rounded-md" onChange={searchPrice} value={selectedPrice}>
-        <option value="">Select Price Range</option>
     <option value="0">Free</option>
     <option value="1000">Less than $1000</option>
     <option value="2000">Less than $2000</option>

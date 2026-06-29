@@ -49,7 +49,6 @@ export function RetreatCard() {
           const q = query(collection(db, "retreats"), where("isDisplayed", "==", true));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().guideFirstName);
           retreats.push({ ...doc.data() });
         });
         setListOfRetreats(retreats);

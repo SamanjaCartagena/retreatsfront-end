@@ -16,7 +16,8 @@ function Host() {
   const [email, setEmail]=useState('');
   const [userId, setUserId]=useState('');
   const [password, setPassword]=useState('');
-  const pic="https://media.cntraveler.com/photos/5c82a32d2fd2ea2d63da348c/16:9/w_4000,h_2250,c_limit/KAUAI_GettyImages-176612798.jpg"
+  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/healers.jpeg?alt=media&token=9dcc58f1-6a84-464b-8d92-d9483e9a49e9"
+
   const signUpHost=()=>{
     navigate('/signUpAsHost');
   }
@@ -47,7 +48,7 @@ function Host() {
 
   return (
     <div>
-           <div className="relative h-[40vh] min-h-[400px] w-full overflow-hidden">
+           <div className="relative h-[60vh] min-h-[600px] w-full overflow-hidden">
    
     <div className="justify-center items-center grid h-screen absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pic})` }}>
       
