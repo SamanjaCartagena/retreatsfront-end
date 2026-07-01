@@ -32,7 +32,8 @@ function RetreatDetails() {
     const [inquiryModal, setInquiryModal] = useState(false);
     const [retreatName, setRetreatName] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
-    
+    const [flightIncluded, setFlightIncluded] = useState("")
+    const [airportPickup, setAirportPickup] = useState("")
     const [imageList, setImageList] = useState([]);
     const [currentUser, setCurrentUser] = useState("")
     const [centerName, setCenterName] = useState("")
@@ -51,6 +52,7 @@ function RetreatDetails() {
     const [startAt, setStartAt] = useState(null);
     const [endAt, setEndAt] = useState(null);
     const [kind, setKind] = useState("");
+    const [nearestAirport, setNearestAirport] = useState("")
     const [allRetreats, setAllRetreats] = useState([]);
     const [documentId, setDocumentId] = useState("");
     const [hostEmail, setHostEmail] = useState("");
@@ -239,7 +241,7 @@ useEffect(()=>{
             retreats.push({ ...doc.data() });
             setDocumentId(doc.id);
             setRetreatName(doc.data().name);
-          
+            setNearestAirport(doc.data().nearestAirport)
             setHostId(doc.data().hostId);
             setCenterName(doc.data().retreatCenterName);
             setRetreatId(doc.data().retreatId);
@@ -254,6 +256,8 @@ useEffect(()=>{
             setHostEmail(doc.data().hostEmail);
             setHostPic(doc.data().hostProfilePic);
             setPrice(doc.data().price)
+            setFlightIncluded(doc.data().flightIncluded)
+            setAirportPickup(doc.data().airportPickup)
             setBookRetreat({
               email: guestEmail,
               name: doc.data().name,
@@ -326,7 +330,7 @@ useEffect(()=>{
   {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
              <Card className="rounded-xl w-100 overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={viewAllPhotos} key={index}>
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt={`Retreat Image ${index + 1}`} />
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
       
     </Card>
 ))}
@@ -334,11 +338,12 @@ useEffect(()=>{
  
 </div>
 </center>
-<div className="w-full h-full flex lg:justify-center  md:justify-center sm:justify-center sm:grid-cols-1 items-center bg-transparent">
+<div className="w-full h-full flex lg:justify-center  md:justify-center sm:justify-center sm:grid-cols-1 md:grid-cols-1 items-center bg-transparent">
  <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700  text-white  m-2"  onClick={viewAllPhotos}>
     View all photos
   </Button>
       <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
+      
               {hostIsUser &&   <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setEditModal(true)}>Edit Info</Button>
 
 }
@@ -362,7 +367,7 @@ useEffect(()=>{
               {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
              <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt={`Retreat Image ${index + 1}`} />
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
       <Button className='bg-lime-700 hover:bg-lime-800' onClick={(e)=>delImg(imageUrl)}>Delete</Button>
       
     </Card>
@@ -410,11 +415,14 @@ useEffect(()=>{
 
             <div>
 
-            <p className='text-lg md:w-full sm:w-full font-semibold mt-4'>{hostFirstName} &nbsp;{hostLastName}</p>
+            <p className='text-lg md:w-full sm:w-full font-semibold mt-4'>{hostFirstName}</p>
             <p className='w-60 md:w-full sm:w-full p-10'>{kind}</p>
             <div className='border-2 rounded'>
-            <h1 className='text-2xl mb-4'>How to get there?</h1>
-                                    <h1>Nearest Airport</h1>
+                                    <h1 className='text-xl mb-4'>Nearest Airport:&nbsp;{nearestAirport}</h1>
+
+                                    <h1 className='text-xl mb-4'>Flight expenses included:&nbsp;{flightIncluded}</h1>
+
+                                    <h1 className='text-xl mb-4'>Airport Pick up services provided:&nbsp;{airportPickup}</h1>
                                   
 
                                     </div>
@@ -422,7 +430,7 @@ useEffect(()=>{
             <div>
                         <h1 className='text-2xl mb-4'>About the Host</h1>
 
-            <img src={hostPic}  className="w-60 h-60  rounded-full object-cover" />
+            <img src={hostPic} alt="Retreats Around The World"  className="w-60 h-60  rounded-full object-cover" />
             <br/>
             <br/>
                                     
@@ -460,6 +468,17 @@ useEffect(()=>{
                         
           </div>
           </center>
+            <center>      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
+          
+            {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
+                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index}>
+                <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
+                
+              </Card>
+              
+          ))}
+                    </div>
+                    </center>
           </div>
     </div>
   )

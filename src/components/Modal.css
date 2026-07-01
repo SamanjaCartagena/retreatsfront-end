@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    height:700px;
 }
 
 .modal-content {
@@ -20,7 +21,7 @@
     max-width: 500px;
     height: 700px;
     align-items: center;
-    width: 100%;
+    overflow-y: scroll;
 }
 
 .modal-close-button {

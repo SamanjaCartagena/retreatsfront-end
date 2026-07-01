@@ -29,6 +29,7 @@ export function RetreatCard() {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs());
   const [selectedPrice, setSelectedPrice] = useState(0.0)
   const[isApproved, setIsApproved] = useState(false)
+  const [flightIncluded, setFlightIncluded]= useState("")
   
   const valueSelected=(e)=>{
   const m=e.format('MMMM')
@@ -202,11 +203,14 @@ export function RetreatCard() {
 
           <span className="text-lg">${retreat.price}</span>
 
-          <span className="text-sm text-muted-foreground"> / person</span>
-          
-              <Link to={`/retreatdetails/${retreat.id}`} ><br/><br/>
-              <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">Find Out More</Button></Link>
-                             <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white ml-5" onClick={() => window.open('https://www.tripadvisor.com', '_blank')}>Trip Advisor</Button>
+          <span className="text-sm text-muted-foreground"> / person</span>&nbsp;
+                    <span className="text-sm text-muted-foreground"><strong>Flight included: {retreat.flightIncluded},</strong></span>&nbsp;
+                                        <span className="text-sm text-muted-foreground"><strong>Airport pickup: {retreat.airportPickup}</strong></span>
+
+
+{/**     <Button  size="sm" className="text-sm bg-lime-900 w-40 hover:bg-white hover:text-lime-700 text-white m-2" onClick={() => window.open('https://economybookings.tpk.ro/zZlVSWyQ', '_blank')}>Car Rentals</Button>
+**/}
+
 
         </div>
       </CardContent>

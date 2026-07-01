@@ -217,7 +217,7 @@ const [id,setId]=useState('');
             <Menu as="div" className="relative inline-block">
       <MenuButton className="inline-flex w-full justify-center border-0  px-3 py-2 text-sm font-semibold  " >
         <UserPen />
-              Account
+              Spiritual Community
       </MenuButton>
 
       <MenuItems
@@ -265,6 +265,16 @@ const [id,setId]=useState('');
             </a>
           </MenuItem>
           </Link>
+          <Link to='/'>
+            <MenuItem>
+            <a
+              href="#"
+              className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+            >
+              Ayurveda
+            </a>
+          </MenuItem>
+          </Link>
           <Link to='/retreatcenters'>
             <MenuItem>
             <a
@@ -275,6 +285,9 @@ const [id,setId]=useState('');
             </a>
           </MenuItem>
           </Link>
+          
+       
+          
         </div>
       </MenuItems>
     </Menu>

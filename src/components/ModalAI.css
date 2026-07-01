@@ -21,6 +21,7 @@
     max-width: 80%;
     height: auto;
     align-items: center;
+    overflow-y: scroll;
     width: 100%;
 }
 

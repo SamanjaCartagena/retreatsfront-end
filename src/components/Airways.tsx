@@ -9,17 +9,9 @@ function Airways() {
       
       <div className="w-full max-w-xs items-center justify-center">
         <h1 className="text-4xl md:text-5xl font-serif font-semibold text-white text-center mb-4">
-          Explore Flight Deals
+          Coming Soon!
         </h1>
-        <p className="text-lg text-white/80 text-center mb-6">
-          Find the best flight deals to your dream retreat destinations.
-        </p>
-        <div className="flex justify-center">
-          <input type="text" placeholder="Search for flight deals..." className="px-4 py-2 rounded-l-md border-none focus:ring-2 focus:ring-retreat-ocean focus:outline-none" />
-          <button className="px-4 py-2 bg-retreat-ocean text-white rounded-r-md hover:bg-retreat-forest transition-colors">
-            Search
-          </button>
-        </div>
+ 
       </div>
       </div>
     </div>

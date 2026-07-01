@@ -28,7 +28,8 @@ function ListARetreat() {
   const [value, setValue] = React.useState<Dayjs | null>();
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
    const [kind,setKind] = useState("")
-   const[isTerms, setIsTerms] = useState(false)
+   const [flightIncluded, setFlightIncluded] = useState("")
+    const[isTerms, setIsTerms] = useState(false)
    const [documentId,setDocumentId] = useState("")
    const [hostFirstName, setHostFirstName] = useState("")
    const [hostEmail, setHostEmail] = useState("")
@@ -36,6 +37,7 @@ function ListARetreat() {
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
    const [imageList, setImageList] = useState([]);
+   const [airportPickup, setAirportPickup] = useState("")
    const [nearestAirport, setNearestAirport] = useState("")
    const [notIncluded, setNotIncluded] = useState("")
    const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
@@ -113,6 +115,8 @@ const endAtDate=(e)=>{
                                          kind: kind,
                                          nearestAirport:nearestAirport,
                                          currency: currency,
+                                         flightIncluded:flightIncluded,
+                                         airportPickup:airportPickup,
                                          createdAt: serverTimestamp(),
                                          pic1: imageList[0],
                                         
@@ -120,14 +124,7 @@ const endAtDate=(e)=>{
 
          }).then(async ()=>{
           
-       await  fetch('https://retreatsaroundtheworld.net/send-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-
-      },
-      body:JSON.stringify({ name: hostFirstName, email: hostEmail, content: "Thank you for hosting your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
-    });
+   
           navigate('/')
 
   })
@@ -572,8 +569,32 @@ const endAtDate=(e)=>{
       <label>
         Nearest Airport
       </label>
-           1. <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Nearest Airport" onChange={(e)=>setNearestAirport(e.target.value)}/>
+           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Nearest Airport" onChange={(e)=>setNearestAirport(e.target.value)}/>
 
+    
+  </div>
+  <div className='mb-4'>
+      <label>
+        Flight Expense Included
+      </label>
+              <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setFlightIncluded(e.target.value)} value={flightIncluded}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+    
+  </div>
+  <div className='mb-4'>
+      <label>
+        Airport Pick up services
+      </label>
+              <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setAirportPickup(e.target.value)} value={airportPickup}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
     
   </div>
     <div className='mb-4'>

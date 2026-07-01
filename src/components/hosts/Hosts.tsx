@@ -145,13 +145,12 @@ export default function Hosts() {
                        <div className="mt-3 font-medium">
                
                
-                         <span className="text-sm text-muted-foreground">{guide.hostFirstName}&nbsp;&nbsp;&nbsp;{guide.hostLastName}</span><br/>
-                                                  <span className="text-sm text-muted-foreground">{guide.hostRetreatDetails}</span>
+                         <span className="text-sm text-muted-foreground"><strong>{guide.hostFirstName}&nbsp;&nbsp;&nbsp;{guide.hostLastName}</strong></span><br/>
+                                                  <span className="text-sm text-muted-foreground">{guide.hostRetreatDetails.slice(0,150)}....</span>
 
                          
-                             <Link to={`${guide.hostId}`} ><br/><br/>
-                             <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">Find Out More</Button></Link>
-                                            <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white ml-5" onClick={() => window.open('https://www.tripadvisor.com', '_blank')}>Trip Advisor</Button>
+                            
+                                            
                
                        </div>
                      </CardContent>

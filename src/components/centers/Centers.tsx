@@ -183,7 +183,7 @@ export default function Centers() {
           <span className="text-lg">${retreat.price}</span>
           <span className="text-sm text-muted-foreground"> / night</span>
           <br/>
-              <Button className='bg-lime-700 ml-50px  text-white font-bold py-2  px-2 mt-2rounded focus:outline-none focus:shadow-outline align-items-right text-center' onClick={() => window.open('https://www.tripadvisor.com', '_blank')}>Trip Advisor</Button>
+              <Button className='bg-lime-700 ml-50px  text-white font-bold py-2  px-2 mt-2rounded focus:outline-none focus:shadow-outline align-items-right text-center' onClick={() => window.open('https://klook.tpk.ro/DSkYi52Q', '_blank')}>Trip Advisor</Button>
 
         </div>
       </CardContent>

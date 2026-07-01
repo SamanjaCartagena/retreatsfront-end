@@ -207,7 +207,7 @@ onAuthStateChanged(auth, async (user) => {
      
           </div>
            <Modal isOpen={openEditor} onClose={()=>setOpenEditor(false)}>
-          <div style={{width:'100%',}} className="justify-center mt-20 items-center text-center p-4 bold text-sm">
+          <div style={{width:'100%', height:'700px', overflowY:'scroll'}} className="justify-center mt-20 items-center text-center p-4 bold text-sm">
               <h1 className="text-2xl font-bold mb-4">Edit Your Profile</h1>
              <input type="text" placeholder="First Name" value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
              <input type="text" placeholder="Last Name" value={lastName} onChange={(e)=>setLastName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
@@ -216,6 +216,7 @@ onAuthStateChanged(auth, async (user) => {
              <input type="text" placeholder="Username" value={hostUserName} onChange={(e)=>setHostUserName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
              <textarea placeholder="Host Introduction" value={hostIntroduction} onChange={(e)=>setHostIntroduction(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
               <textarea placeholder="Retreat Details" value={retreatDetails} onChange={(e)=>setRetreatDetails(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
+              
               <h1 className="text-xl font-bold mb-2">Retreat Types (Check all that apply)</h1>
               <div className="flex m-2 border-2 border-solid border-gray-300 rounded p-4">
               <input type="checkbox" checked={!!type1} onChange={(e)=>setType1(e.target.checked ? 'Meditation' : '')} />
@@ -256,6 +257,10 @@ onAuthStateChanged(auth, async (user) => {
               </div>
               <button onClick={saveChanges} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Save Changes</button>
 
+          
+              
+              
+      
                 </div>
                 </Modal>
       

@@ -4,9 +4,66 @@ import { Link } from 'react-router-dom';
 import ModalCancellation from './ModalCancellation';
 import { Newsletter } from './Newsletter';
 import Modal from './Modal';
+import { GoogleGenAI } from "@google/genai";
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import loadingGif from '../assets/loading.gif';
+
+
 export function Footer() {
   const [openCancellationModal, setOpenCancellationModal] = useState(false);
   const [openTypesModal, setOpenTypesModal] = useState(false);
+  const [openSafetyModal, setOpenSafetyModal] = useState(false);
+  const [safetyInfo, setSafetyInfo] = useState('');
+  const [inputSafety, setInputSafety] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const closeSafetyModal = () => {
+    setOpenSafetyModal(false);
+    setSafetyInfo('');
+  }
+   const openSafety=  async()=> {
+    setIsLoading(true);
+  const ai = new GoogleGenAI({
+  apiKey: "AIzaSyAMMNnVEv4RLa3S9SE5UVmub1Dfx5gS6ZY",}); 
+
+const response = await ai.models.generateContent({
+  model: "gemini-2.5-flash",
+  contents: `Explain in a few sentences if the following place is safe for women: ${inputSafety}`,
+});
+setIsLoading(false);
+console.log(response.text);
+setSafetyInfo(response.text);
+   
+  }
+     const travelSafety=  async()=> {
+    setIsLoading(true);
+  const ai = new GoogleGenAI({
+  apiKey: "AIzaSyAMMNnVEv4RLa3S9SE5UVmub1Dfx5gS6ZY",}); 
+
+const response = await ai.models.generateContent({
+  model: "gemini-2.5-flash",
+  contents: `Explain in a few sentences if the following place is safe for traveling with family and kids: ${inputSafety}`,
+});
+setIsLoading(false);
+console.log(response.text);
+setSafetyInfo(response.text);
+   
+  }
+   const foodSafety=  async()=> {
+    setIsLoading(true);
+  const ai = new GoogleGenAI({
+  apiKey: "AIzaSyAMMNnVEv4RLa3S9SE5UVmub1Dfx5gS6ZY",}); 
+
+const response = await ai.models.generateContent({
+  model: "gemini-2.5-flash",
+  contents: `Explain in a few sentences if the following place have good food safety and hygiene practices: ${inputSafety}`,
+});
+setIsLoading(false);
+console.log(response.text);
+setSafetyInfo(response.text);
+   
+  }
+
   const openCancel = () => {
     setOpenCancellationModal(true);
   };
@@ -19,6 +76,41 @@ export function Footer() {
     <footer className="bg-white border-t">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          
+          
+          
+            <Modal isOpen={openSafetyModal} onClose={closeSafetyModal}>
+              <div className="w-250 h-120 mt-22">
+                <br/>
+                <br/>
+                <h2 className="text-xl font-semibold mb-4">Safety Information</h2>
+                <p className="text-sm text-muted-foreground">
+                  <strong>We prioritize your safety and well-being during your retreat experience.</strong><br/><br/></p>
+                  <Input placeholder="Enter a location" className="w-60 mb-4" onChange={(e) => setInputSafety(e.target.value)} />
+
+                <Button className="bg-lime-700 hover:bg-lime-800 w-60 text-white rounded-md" onClick={openSafety}>
+                  Women's Safety
+                </Button>
+                <br/>
+                <br/>
+                <Button className="bg-lime-700 hover:bg-lime-800 w-60 text-white rounded-md" onClick={travelSafety}>Travel Safety</Button>
+                <br/>
+                <br/>
+                <Button className="bg-lime-700 hover:bg-lime-800 w-60 text-white rounded-md" onClick={foodSafety}>Food Safety</Button>
+                 <br/>
+                 <br/>
+            {isLoading && (
+            <img src={loadingGif} alt="Loading..." className="h-12 w-12 text-center justify-content-center" />
+            )}
+                       
+            <p className="text-sm text-muted-foreground w-100 font-bold text-center text-black">
+                 {safetyInfo}
+                  </p>
+                       
+                            </div>
+              </Modal>
+  
+
           
           <div>
             <ModalCancellation isOpen={openCancellationModal} onClose={() => {
@@ -90,7 +182,7 @@ export function Footer() {
             <h4 className="font-medium mb-4">Support</h4>
             <ul className="space-y-2">
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Help Center</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Safety Information</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm" onClick={()=> setOpenSafetyModal(true)}>Safety Information</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm" onClick={openCancel}>Cancellation Options</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Contact Us</a></li>
             </ul>

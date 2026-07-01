@@ -23,6 +23,8 @@ function RetreatCenterDetails() {
     const [airport, setAirport] = useState('')
     const [inquiryModal, setInquiryModal] = useState(false)
     const [centerId, setCenterId] = useState('')
+    const [price, setPrice] = useState(0.0)
+    const [airportPickup, setAirportPickup] = useState("")
    {/**Host information */}
     const [hostId, setHostId] = useState('')
     {/**image information */}
@@ -94,6 +96,8 @@ function RetreatCenterDetails() {
                 setAirport(doc.data().nearestAirport)
                 setHostId(doc.data().hostId)
                 setCenterId(doc.data().centerId)
+                setPrice(doc.data().price)
+                setAirportPickup(doc.data().airportService)
                 
               })
 
@@ -149,7 +153,7 @@ function RetreatCenterDetails() {
   {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
              <Card className="rounded-xl w-100 overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={viewAllPhotos} key={index}>
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt={`Retreat Image ${index + 1}`} />
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
       
     </Card>
 ))}
@@ -202,8 +206,10 @@ function RetreatCenterDetails() {
             <p className='w-60 md:w-full sm:w-full p-10'>{kind}</p>
             <div className='border-2 rounded w-full'>
             <h1 className='text-2xl mb-4'>How do you get there?</h1>
-                                    <h1><strong>Nearest Airport:</strong> {airport}</h1>
-                                    
+                                    <h1 className='text-xl m-2'><strong>Nearest Airport:</strong> {airport}</h1>
+                                                                        <h1 className='text-xl m-2'><strong>Airport Pickup Service:</strong> {airportPickup}</h1>
+
+                                    <h1 className='text-xl m-2'><strong>Average price per night:</strong>&nbsp;${price}</h1>
 
                                     </div>
             </div>
@@ -230,8 +236,19 @@ function RetreatCenterDetails() {
               **/}
             </div>
             </center>
-                        
+                          <center>      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
+
+  {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
+             <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-80 "  key={index}>
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
+      
+    </Card>
+    
+))}
           </div>
+          </center>
+          </div>
+      
         
 </div>
   )
