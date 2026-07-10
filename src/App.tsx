@@ -13,7 +13,7 @@ import NotFound from "./pages/NotFound";
 import SignUpAsHost from "@/components/hosts/SignUpAsHost";
 import Admin from "@/components/admin/Admin";
 import ProfileDetails from "./components/hosts/ProfileDetails";
-import ListARetreat from "./components/ListARetreat";
+import ListARetreat from "./components/retreats/ListARetreat";
 import RetreatDetails from "./components/retreats/RetreatDetails";
 import GuideDetails from "./components/guides/GuideDetails";
 import Guides from "@/components/guides/Guides";
@@ -54,16 +54,18 @@ const App = () => (
           <Route path="/adminpage/:userId/guideadmin" element={<GuideAdmin/>}/>
           <Route path="/adminpage/:id/hostdetails" element={<ProfileDetails/>}/>
           <Route path="/adminpage/:userId/signupashost" element={<SignUpAsHost/>}/>
-          <Route path="/adminpage/:userid/guests" element={<Guests/>}/>
-          <Route path="/adminpage/:userid/retreatcenters" element={<RetreatCenters/>}/>
+          <Route path="/adminpage/:userId/guests" element={<Guests/>}/>
+          <Route path="/adminpage/:userId/retreatcenters" element={<RetreatCenters/>}/>
                           {/**List a Retreat Center */}
-          <Route path="adminpage/:id/listacenter" element={<ListARetreatCenter/>}/>
+          <Route path="/adminpage/:userId/listacenter" element={<ListARetreatCenter/>}/>
           
 
           <Route path="/success" element={<Success/>}/>
+
           <Route path="/guides/:id" element={<GuideDetails/>}/>
-          <Route path="/guideadmin/:userId" element={<GuideAdmin/>}/>
-          <Route path="/list/:userId" element={<ListARetreat/>}/>
+          <Route path="/adminpage/:userId/guidesignup" element={<GuideSignUp/>}/>
+          <Route path="/adminpage/:userId/guideadmin" element={<GuideAdmin/>}/>
+          <Route path="/adminpage/:userId/listacenter" element={<ListARetreatCenter/>}/>
           <Route path="/retreatdetails/:id" element={<RetreatDetails/>}/>
           <Route path="/guides" element={<Guides/>}/>
           <Route path="/guidesignup" element={<GuideSignUp/>}/>

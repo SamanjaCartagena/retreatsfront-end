@@ -16,7 +16,7 @@ export default function Centers() {
       const [searchType, setSearchType] = useState("Select Type");
       const [searchLocation, setSearchLocation] = useState('');
         const [selectedLocation, setSelectedLocation] = useState("");
-      
+       const [currency, setCurrency]= useState("")
       const [selectedPrice, setSelectedPrice] = useState(0.0)
  
   useEffect(() => {
@@ -180,7 +180,7 @@ export default function Centers() {
         </p>
         </div>
         <div className="mt-3 font-medium">
-          <span className="text-lg">${retreat.price}</span>
+          <span className="text-lg">{retreat.currency}&nbsp;{retreat.price}</span>
           <span className="text-sm text-muted-foreground"> / night</span>
           <br/>
               <Button className='bg-lime-700 ml-50px  text-white font-bold py-2  px-2 mt-2rounded focus:outline-none focus:shadow-outline align-items-right text-center' onClick={() => window.open('https://klook.tpk.ro/DSkYi52Q', '_blank')}>Trip Advisor</Button>
@@ -451,10 +451,10 @@ const changePage= ({selected}) => {
     </select>
     <select className="bg-white p-2 rounded-md" onChange={searchPrice} value={selectedPrice}>
     <option value="0">Free</option>
-    <option value="1000">Less than $1000</option>
-    <option value="2000">Less than $2000</option>
-    <option value="5000">Less than $5000</option>
-    <option value="10000">Less than $1000</option>
+    <option value="100">Less than $100</option>
+    <option value="200">Less than $200</option>
+    <option value="300">Less than $300</option>
+    <option value="500">Less than $500</option>
     <option value="Unlimited">Unlimited</option>
    
     </select>

@@ -23,6 +23,7 @@ export function RetreatCard() {
     const [listOfRetreats, setListOfRetreats] = useState([]);
       const [selectedType, setSelectedType] = useState("")
       const [america, setAmerica] = useState(false)
+      const [state, setState] = useState("")
       const [searchType, setSearchType] = useState("");
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MMMM'));
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -30,7 +31,7 @@ export function RetreatCard() {
   const [selectedPrice, setSelectedPrice] = useState(0.0)
   const[isApproved, setIsApproved] = useState(false)
   const [flightIncluded, setFlightIncluded]= useState("")
-  
+  const [currency, setCurrency]= useState("")
   const valueSelected=(e)=>{
   const m=e.format('MMMM')
   setSelectedMonth(m)
@@ -107,7 +108,7 @@ export function RetreatCard() {
      else if (selectedLocation === "" && selectedPrice === 0.0 && selectedType !== "" ) {  
       setListOfRetreats([])
       const retreats2=[]
-          const q3 = await query(collection(db, "retreats"), where("type1", "==", selectedType), where("isDisplayed", "==", true));
+          const q3 = await query(collection(db, "retreats"), where("type1", "array-contains", selectedType), where("isDisplayed", "==", true));
         getDocs(q3).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
@@ -119,7 +120,7 @@ export function RetreatCard() {
     else if (selectedLocation !== "" && selectedPrice === 0.0 && selectedType !== "" ) {  
       setListOfRetreats([])
       const retreats2=[]
-          const q3 = await query(collection(db, "retreats"), where("type1", "==", selectedType), where("isDisplayed", "==", true), where("location","==",selectedLocation));
+          const q3 = await query(collection(db, "retreats"), where("type1","array-contains",selectedType), where("isDisplayed", "==", true), where("location","==",selectedLocation));
         getDocs(q3).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
@@ -131,7 +132,7 @@ export function RetreatCard() {
      else if (selectedLocation !== "" && selectedPrice !== 0.0 && selectedType !== "" ) {  
       setListOfRetreats([])
       const retreats2=[]
-          const q3 = await query(collection(db, "retreats"), where("type1", "==", selectedType), where("location","==",selectedLocation), where("price","<=",selectedPrice));
+          const q3 = await query(collection(db, "retreats"), where("type1", "in", selectedType), where("location","==",selectedLocation), where("price","<=",selectedPrice));
         getDocs(q3).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
@@ -140,10 +141,7 @@ export function RetreatCard() {
         setListOfRetreats(retreats2);
       });
     }
-      
-     
-
-   
+ 
       }
       catch (err) {
         console.error("Error fetching data: ", err);
@@ -166,7 +164,7 @@ export function RetreatCard() {
   }
   const [pageNumber, setPageNumber] = useState(0)
 
-  const usersPerPage = 50
+  const usersPerPage = 12
   const pagesVisited = pageNumber * usersPerPage
   const displayRetreats = listOfRetreats.slice(pagesVisited, pagesVisited + usersPerPage)
   .map(retreat => {
@@ -194,22 +192,21 @@ export function RetreatCard() {
             <span>{retreat.retreatCenterName}</span>
           </div>
         </div>
-        <p className="text-muted-foreground text-sm mb-2">{retreat.type1}</p>
+        <p className="text-muted-foreground text-sm mb-2">{Object.values(retreat.type1).join(", ")}</p>
                                       <span className="text-md">{retreat.address}, {retreat.location}</span>
 
 
        
         <div className="mt-3 font-medium">
 
-          <span className="text-lg">${retreat.price}</span>
+          <span className="text-lg">{retreat.currency}&nbsp;{retreat.price}</span>
 
           <span className="text-sm text-muted-foreground"> / person</span>&nbsp;
                     <span className="text-sm text-muted-foreground"><strong>Flight included: {retreat.flightIncluded},</strong></span>&nbsp;
                                         <span className="text-sm text-muted-foreground"><strong>Airport pickup: {retreat.airportPickup}</strong></span>
 
 
-{/**     <Button  size="sm" className="text-sm bg-lime-900 w-40 hover:bg-white hover:text-lime-700 text-white m-2" onClick={() => window.open('https://economybookings.tpk.ro/zZlVSWyQ', '_blank')}>Car Rentals</Button>
-**/}
+
 
 
         </div>
@@ -235,7 +232,50 @@ const changePage= ({selected}) => {
   return (
     <div>
       <div className=" py-16">
-        
+
+        <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 text-black" id="extraButtons">
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Mens Retreat")}>
+                 Men's retreats
+                </Button>
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Sound Healing")}>
+                 Sound Healing
+                </Button>
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Fasting Retreat")}>
+                 Fasting retreats
+                </Button>
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Vegan Retreats")}>
+                 Vegan retreats
+                </Button>
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Corporate Retreats")}>
+                 Corporate retreats
+                </Button>
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Eco Retreats")}>
+                 Eco Retreats
+                </Button>
+
+              </div>
+               <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 text-black" id="extraButtons" >
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md "  onClick={()=>setSelectedLocation("United States of America")}>
+                 USA
+                </Button>
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedLocation("Nepal")}>
+                 Nepal
+                </Button>
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedLocation("Indonesia")}>
+                 Bali
+                </Button>
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedLocation("Italy")}>
+                 Italy
+                </Button>
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedLocation("Morocco")}>
+                 Morocco
+                </Button>
+                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedLocation("Spain")}>
+                 Spain
+                </Button>
+
+              </div>
+
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4 text-center">
@@ -245,26 +285,39 @@ const changePage= ({selected}) => {
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
            
             <div>
-             <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
+             <select className="bg-white p-4 rounded border-2" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
     <option value="">Select Type</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
     <option value="Ayurveda">Ayurveda</option>
+    <option value="Breathwork">Breathwork</option>
+        <option value="Chakras">Chakras</option>
+        <option value="Corporate Retreats">Corporate Retreats</option>
+        <option value="Dance">Dance</option>
+
         <option value="Detox">Detox</option>
+        <option value="Eco Retreats">Eco Retreats</option>
+        <option value="Energy">Energy Healing</option>
+        <option value="Fasting Retreat">Fasting Retreat</option>
         <option value="Horse">Horse Retreat</option>
      <option value="Men">Men's Retreat</option>
     <option value="Meditation">Meditation</option>
+    <option value="Mens Retreat">Mens Retreat</option>
     <option value="Martial Arts">Martial Arts</option>
+    <option value="Plant Medicine">Plant Medicine</option>
+  <option value="Shamanic Journey">Shamanic Journey</option>
+  <option value="Sound Healing">Sound Healing</option>
     <option value="Spiritual">Spiritual</option>
         <option value="Surfing">Surfing</option>
+        <option value="Views">Views</option>
     <option value="Vegan">Vegan</option>
-    <option value="yoga">Yoga</option>
-    <option value="Womens">Women's Retreat</option>
+    <option value="Yoga">Yoga</option>
+    <option value="Womens Retreat">Women's Retreat</option>
     <option value="Writing">Writing</option>
     </select>
            </div>
            <div>
-  <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
+  <select className="bg-white p-4 rounded border-2" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
         <option value="">Select Location</option>
     <option value="Afghanistan">Afghanistan</option>
     <option value="Albania">Albania</option>
@@ -464,7 +517,7 @@ const changePage= ({selected}) => {
     </select>
     </div>
     <div>
-    <select className="bg-white p-2 rounded-md" onChange={searchPrice} value={selectedPrice}>
+    <select className="bg-white p-4 rounded border-2" onChange={searchPrice} value={selectedPrice}>
     <option value="0">Select Price</option>
     <option value="1000">Less than $1000</option>
     <option value="2000">Less than $2000</option>
@@ -486,6 +539,7 @@ const changePage= ({selected}) => {
           </div>
         </div>
       </div>
+          
     </div>
          
    <Separator />

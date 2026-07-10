@@ -47,6 +47,7 @@ export default function GuideAdmin() {
         guideIntroduction: guideIntroduction,
         guidePhone: phone,
         guideSpecialty: guideSpecialty,
+        guideProfilePicUrl: avatarUrl
       
        });
        setOpenEditor(false);
@@ -189,7 +190,7 @@ onAuthStateChanged(auth, async (user) => {
           <br/>
      
           </div>
-           <Modal isOpen={openEditor} onClose={()=>setOpenEditor(true)}>
+           <Modal isOpen={openEditor} onClose={()=>setOpenEditor(false)}>
           <div style={{width:'100%',}} className="justify-center mt-20 items-center text-center p-4 bold text-sm">
               <h1 className="text-2xl font-bold mb-4">Edit Your Profile</h1>
              <input type="text" placeholder="First Name" value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>

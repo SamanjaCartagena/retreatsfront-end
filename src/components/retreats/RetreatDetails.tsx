@@ -9,7 +9,8 @@ import Modal from '../Modal.js'
 import ImageSlider from '../ImageSlider.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import dayjs from 'dayjs';
-import { getDownloadURL, listAll, ref, StorageReference, deleteObject } from 'firebase/storage';
+import {v4} from 'uuid';
+import { getDownloadURL, listAll, ref, StorageReference, deleteObject, uploadBytes } from 'firebase/storage';
 import { Card } from '../ui/card.js';
 import emailjs from '@emailjs/browser';
 import { useToast } from "@/hooks/use-toast";
@@ -18,6 +19,8 @@ import stripe from 'stripe';
 import StripeCheckout from 'react-stripe-checkout';
 import { Link } from 'lucide-react';
 import { Input } from '../ui/input.js';
+import ModalAI from '../ModalAI.js';
+import ModalImage from '../ModalImage.js';
 
 function RetreatDetails() {
      const params = useParams()
@@ -30,6 +33,7 @@ function RetreatDetails() {
      })
 
     const [inquiryModal, setInquiryModal] = useState(false);
+    const [openSomething, setOpenSomething] = useState(false);
     const [retreatName, setRetreatName] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
     const [flightIncluded, setFlightIncluded] = useState("")
@@ -39,12 +43,18 @@ function RetreatDetails() {
     const [centerName, setCenterName] = useState("")
     const [hostIsUser, setHostIsUser] = useState(false)
     const [hostId, setHostId] = useState("");
+    const [imageUpload, setImageUpload] = useState(null);
+    const [message1, setMessage1] = useState("");
+    const [message2, setMessage2] = useState("");
+    const [message3, setMessage3] = useState("");
     const [retreatAddress, setRetreatAddress] = useState("");
     const [hostLastName, setHostLastName] = useState("");
     const [hostFirstName, setHostFirstName] = useState("");
+    const [nameOfCity, setNameOfCity] = useState("");
     const [month, setMonth] = useState("");
     const [editModal, setEditModal] = useState(false);
     const [country, setCountry] = useState("");
+    const [city, setCity] = useState("");
     const [hostPic, setHostPic] = useState(""); 
     const [openImageModal, setOpenImageModal] = useState(false);
     const [price, setPrice] = useState(0);
@@ -55,8 +65,11 @@ function RetreatDetails() {
     const [nearestAirport, setNearestAirport] = useState("")
     const [allRetreats, setAllRetreats] = useState([]);
     const [documentId, setDocumentId] = useState("");
+    const [retreatType, setRetreatType] = useState(""); 
     const [hostEmail, setHostEmail] = useState("");
+    const [cityPic, setCityPic] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [imageUrl, setImageUrl] = useState("")
     const [bookRetreat, setBookRetreat] = useState({
             name:"Retreat Name",
             email:"Customer Email",
@@ -71,14 +84,33 @@ function RetreatDetails() {
 
     const form = useRef();
     const [loggedIn, setLoggedIn] = useState(false)
-      const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
+      const [retreatId, setRetreatId] = useState(0);
       const [active, setActive] = useState(0);
     const [notLogged, setNotLogged] = useState(false)
     console.log("User id in retreat details is", hostId)
     console.log("Retreat id in retreat details is", retreatId)
 const navigate = useNavigate();
-
-
+const uploadImage=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       console.log("Upload Image");
+       if(imageUpload == null) return;
+       
+       
+       const imageRef = ref(storage, `/retreatimages/${retreatId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageRef, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageList((prev)=>[...prev, url]);
+         }
+         );
+       });
+       console.log("imageList", imageList);
+   
+     }
+const passImageUrl=(url)=>{
+  setImageUrl(url)
+  setOpenSomething(true)
+}
 const saveChanges=async(e)=>{
      e.preventDefault()
      alert(retreatName)
@@ -90,6 +122,7 @@ const saveChanges=async(e)=>{
       kind:kind,
       location:country,
       price:price,
+      city:city,
       retreatCenterName:centerName,
 
           
@@ -250,14 +283,21 @@ useEffect(()=>{
             setHostFirstName(doc.data().hostFirstName);
             setMonth(doc.data().month);
             setKind(doc.data().kind);
+            setMessage1(doc.data().message1);
+            setMessage2(doc.data().message2);
+            setMessage3(doc.data().message3);
             setCountry(doc.data().location);
             setStartAt(doc.data().startAt);
             setEndAt(doc.data().endAt);
             setHostEmail(doc.data().hostEmail);
+            setCityPic(doc.data().cityPic)
             setHostPic(doc.data().hostProfilePic);
             setPrice(doc.data().price)
+            setRetreatType(doc.data().type1)
             setFlightIncluded(doc.data().flightIncluded)
             setAirportPickup(doc.data().airportPickup)
+            setCity(doc.data().aboutCity)
+            setNameOfCity(doc.data().nameOfCity)
             setBookRetreat({
               email: guestEmail,
               name: doc.data().name,
@@ -286,7 +326,7 @@ useEffect(()=>{
           }).catch((error)=>{
             console.log("Error getting profile picture:", error);
           })
-            const imageListRef = ref(storage, `/retreatimages/${hostId}/${retreatId}/`);
+            const imageListRef = ref(storage, `/retreatimages/${retreatId}/`);
 
           listAll(imageListRef).then((res)=>{
                             res.items.forEach((item)=>{
@@ -349,7 +389,7 @@ useEffect(()=>{
 }
            </div>
            <Modal isOpen={editModal} onClose={()=>setEditModal(false)}>
-            <div className='mt-25'>
+            <div className='mt-25 w-full h-200 justify-center items-center bg-white p-4 rounded-lg overflow-y-scroll overflow-x-hidden'>
              <form>
               <label>Name of Retreat</label><br/>
               <input type="text" className='border-solid p-2 border-black border-2 m-2'  placeholder={retreatName}  onChange={(e)=>setRetreatName(e.target.value)}/><br/>
@@ -363,18 +403,29 @@ useEffect(()=>{
               <input type='number' className='border-solid p-2 border-black border-2 m-2' placeholder={price}/> <br/>
               <label>About The Retreat</label><br/>
               <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." aria-placeholder={kind}></textarea>
+              <label>City</label>
+              <input type="text" className='border-solid p-2 border-black border-2 m-2' placeholder={nameOfCity} onChange={(e)=>setNameOfCity(e.target.value)}/><br/>
+
+              <label>About The City</label><br/>
+
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." aria-placeholder={city}></textarea>
               <label>Delete image: </label>
-              {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
+              {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
              
              <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
-      <Button className='bg-lime-700 hover:bg-lime-800' onClick={(e)=>delImg(imageUrl)}>Delete</Button>
+      <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>delImg(imageUrl)}>Delete</Button>
       
     </Card>
     
 ))}
 
-         <Button className='bg-lime-700 hover:bg-lime-800' onClick={saveChanges}>Save</Button>
+<label>Add pics</label>
+ <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+    
+      <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+
+         <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={saveChanges}>Save</Button>
               
 
 
@@ -405,18 +456,54 @@ useEffect(()=>{
 
             **/}
           <h1 className='text-2xl font-bold'>{centerName}</h1>
-          <h1 className='text-xl'>{retreatAddress}&nbsp;{month}&nbsp;{country}</h1>
+          <h1 className='text-xl font-bold'>{retreatAddress}&nbsp;{month}&nbsp;{country}</h1>
+                    <h1 className='text-xl font-bold'>{Object.values(retreatType).join(", ")}</h1>
+                        
 
-                    <h3 className="font-serif font-medium m-2 text-lg line-clamp-1">{startAt?.toDate()?.toLocaleDateString('en-US')} -&nbsp;
-          {endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
-                   <h1 className='text-2xl'>${price} for&nbsp; {Math.abs(endAt?.toDate()?.getDate() - startAt?.toDate()?.getDate())}&nbsp;days in {retreatAddress}</h1>
+                   
+
+                               
+
+                   <h1 className='container text-xl font-bold'>{message1}</h1>
+                                      <h1 className=' container text-xl font-bold'>{message2}</h1>
+                                      <h1 className='container text-xl font-bold'>{message3}</h1>
+
+          <br/>
+          <br/>
                    <center>
           <div className="text-center w-3/4  lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
 
-            <div>
+            <div className="container w-full h-full justify-center items-center text-center">
 
-            <p className='text-lg md:w-full sm:w-full font-semibold mt-4'>{hostFirstName}</p>
-            <p className='w-60 md:w-full sm:w-full p-10'>{kind}</p>
+            <p className='text-lg md:w-full sm:w-full font-semibold mt-4'>Name of host:&nbsp;{hostFirstName}&nbsp;{hostLastName}</p>
+            <br/>
+            <br/>
+                         <p className='font-semibold text-lg mt-2 align-left'>Date</p>
+
+             <h1 className="container font-serif font-medium text-lg line-clamp-1 p-4 border-2 rounded">{startAt?.toDate()?.toLocaleDateString('en-US',  { 
+  year: 'numeric', 
+  month: 'long', 
+  day: 'numeric' 
+})} -&nbsp;
+          {endAt?.toDate()?.toLocaleDateString('en-US',  { 
+  year: 'numeric', 
+  month: 'long', 
+  day: 'numeric' 
+})}</h1><br/>
+             <p className='font-semibold text-lg  align-left'>Price</p>
+
+                   <h1 className='text-lg p-4 border-2 rounded'>${price} for&nbsp; {Math.abs(endAt?.toDate()?.getDate() - startAt?.toDate()?.getDate())}&nbsp;days in {retreatAddress}</h1>
+                   <br/>
+                                            <p className='font-semibold text-lg mt-2 align-left'>Kind of Retreat</p>
+
+            <p className='w-60 md:w-full sm:w-full p-4 border-2 rounded'>{kind}</p><br/>
+            <h1 className='text-xl font-bold'>{nameOfCity}</h1>
+            <center><img src={cityPic} alt="Retreats Around The World"  className="w-200 h-200 mt-5  justify-center object-cover" /></center>
+            <br/>
+            <p className='font-semibold text-lg m-2'>About the city</p>
+            <p className='w-60 md:w-full sm:w-full p-4 border-2 rounded'>{city}</p>
+                        <p className='font-semibold text-lg m-2'>Airport Information</p>
+
             <div className='border-2 rounded'>
                                     <h1 className='text-xl mb-4'>Nearest Airport:&nbsp;{nearestAirport}</h1>
 
@@ -437,7 +524,7 @@ useEffect(()=>{
 
             <div className=" grid justify-center items-center">
                        
-                        <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={()=>navigate(`/profile/${hostId}`)}>
+                        <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={()=>navigate(`/host/${hostId}`)}>
                           Check out {hostFirstName}
                           </Button>
                          
@@ -471,12 +558,22 @@ useEffect(()=>{
             <center>      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
           
             {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
-                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index}>
+              <div>
+                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(imageUrl)}>
                 <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
                 
               </Card>
               
+                  </div>
+              
           ))}
+                <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
+                <div className="w-90% h-full justify-center items-center bg-transparent">
+                  <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+
+                  </div>
+                  </ModalImage>
+
                     </div>
                     </center>
           </div>

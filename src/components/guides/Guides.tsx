@@ -82,7 +82,7 @@ export default function Guides() {
         const retreats = [];
         // Reference the collection
         if (selectedLocation === ""  && selectedPrice === 0.0 && selectedType === "" ) {
-          const q = query(collection(db, "guides"), where("isDisplayed", "==", true));
+          const q = query(collection(db, "guides"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
@@ -98,7 +98,7 @@ export default function Guides() {
         const retreats1 = [];
 
         if(selectedLocation=="United States of America"){
-          const q2 =  query(collection(db, "guides"), where("location", "==", selectedLocation), where("isDisplayed", "==", true));
+          const q2 =  query(collection(db, "guides"), where("location", "==", selectedLocation));
         getDocs(q2).then((querySnapshot) => {
        
 
@@ -113,7 +113,7 @@ export default function Guides() {
     }
     else{
         
-     const q12 = await query(collection(db, "guides"), where("location", "==", selectedLocation), where("isDisplayed", "==", true));
+     const q12 = await query(collection(db, "guides"), where("location", "==", selectedLocation));
 
       getDocs(q12).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -143,7 +143,7 @@ export default function Guides() {
      else if (selectedLocation === "" && selectedPrice === 0.0 && selectedType !== "" ) {  
       setListOfRetreats([])
       const retreats2=[]
-          const q3 = await query(collection(db, "guides"), where("type1", "==", selectedType), where("isDisplayed", "==", true));
+          const q3 = await query(collection(db, "guides"), where("type1", "==", selectedType));
         getDocs(q3).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
@@ -198,16 +198,16 @@ export default function Guides() {
   .map(guide => {
     return(
            
-          <div key={guide.id} >
+          <div key={guide.guideId} >
           
             <h2 className="text-xl font-bold mb-2">{guide.name}</h2>
 
-            <Link to={`/guides/${guide.id}`} >
+            <Link to={`/guides/${guide.guideId}`} >
              <Card className="rounded-xl overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
-          src={guide.pic1}
-          alt={guide.guideFirstName}
+          src={guide.guideProfilePicUrl}
+          alt="Retreats Around The World"
           className="w-full h-full object-cover transition-transform duration-500"
         />
       </div>
@@ -219,7 +219,7 @@ export default function Guides() {
             <Star size={16} fill="currentColor" className="text-retreat-forest" />
           </div>
         </div>
-        <p className="text-muted-foreground text-sm mb-2">{guide.type1}</p>
+        <p className="text-muted-foreground text-sm mb-2">{guide.guideSpecialty}</p>
                                       <span className="text-md">{guide.address}, {guide.location}</span>
 
 

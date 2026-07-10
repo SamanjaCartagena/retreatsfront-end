@@ -300,7 +300,7 @@ onAuthStateChanged(auth, async (user) => {
         </Link>
         )}
         {onlyUser && (
-        <Link to={`listacenter`} className="mb-2 mt-2" >
+        <Link to={`/adminpage/${userId}/listacenter`} className="mb-2 mt-2" >
           <Button className='bg-lime-700  text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat Center</Button>
 
         </Link>

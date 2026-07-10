@@ -271,10 +271,21 @@ const [id,setId]=useState('');
               href="#"
               className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
             >
-              Ayurveda
+              Blog
             </a>
           </MenuItem>
           </Link>
+          <Link to="/">
+          <MenuItem>
+            <a
+              href="#"
+              className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+            >
+              Eco Tourism
+            </a>
+          </MenuItem>
+          </Link>
+          
           <Link to='/retreatcenters'>
             <MenuItem>
             <a

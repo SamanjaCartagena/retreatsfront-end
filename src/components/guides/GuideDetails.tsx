@@ -27,13 +27,7 @@ function GuideDetails() {
             setUserId(uid);
             const guestEmail = user.email;
             setLoggedIn(true)
-            if(user.uid ==guideId){
-              setGuideIsUser(true)
-    
-            }
-            else{
-              setGuideIsUser(false)
-            }
+          
           } else {
             // User is signed out
             setLoggedIn(false)
@@ -61,13 +55,13 @@ function GuideDetails() {
                 });
             
             
-                    const profilePicRef = ref(storage, `/profilePic/${guideId}/profile.jpg`);
+                    const profilePicRef = ref(storage, `/guideProfilePic/${guideId}/profile.jpg`);
                   getDownloadURL(profilePicRef).then((url)=>{
                     setHostPic(url);
                   }).catch((error)=>{
                     console.log("Error getting profile picture:", error);
                   })
-                    const imageListRef = ref(storage, `/retreatimages/${userId}/${guideId}/`);
+                    const imageListRef = ref(storage, `/guideimages/${guideId}/`);
         
                   listAll(imageListRef).then((res)=>{
                                     res.items.forEach((item)=>{

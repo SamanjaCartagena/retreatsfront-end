@@ -1,8 +1,8 @@
 import React,{useState, useEffect} from 'react'
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
-import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serverTimestamp, Timestamp} from "firebase/firestore";
-import { db, auth,storage} from "../firebase.js";
+import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc, serverTimestamp, Timestamp } from "firebase/firestore";
+import { db, auth, storage } from "../../firebase";
 
 import { useParams, useNavigate } from 'react-router-dom';
 import {v4} from 'uuid';
@@ -10,21 +10,29 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import pic from '../assets/form.png';
-import { Button } from './ui/button.js';
-import Modal from './Modal.js';
+import pic from '../../assets/form.png';
+import { Button } from '../ui/button';
+import Modal from '../Modal.js';
 import nodemailer from 'nodemailer';
 function ListARetreat() {
    const [retreatName, setRetreatName] = useState("")
    const[retreatCenterName, setRetreatCenterName]= useState("")
    const[retreatType, setRetreatType] = useState("")
+   const [type1, setType1] = useState("")
+   const [type2, setType2] = useState("")
+   const [type3, setType3] = useState("")
    const[address,setAddress] = useState("")
    const[country,setCountry] = useState("")
+   const [message1, setMessage1] = useState("")
+   const [message2, setMessage2] = useState("")
+   const [message3, setMessage3] = useState("")
+   const [city,setCity] = useState("")
    const [startDate, setStartDate] = useState(null)
    const [endDate, setEndDate] = useState(null)
    const [state, setState] = useState("")
    const [currency, setCurrency] = useState("USD");
    const[price,setPrice] = useState(0.00)
+   const [nameOfCity, setNameOfCity] = useState("")
   const [value, setValue] = React.useState<Dayjs | null>();
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
    const [kind,setKind] = useState("")
@@ -37,14 +45,16 @@ function ListARetreat() {
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
    const [imageList, setImageList] = useState([]);
+   const [imageListCity, setImageListCity] = useState([]);
    const [airportPickup, setAirportPickup] = useState("")
    const [nearestAirport, setNearestAirport] = useState("")
    const [notIncluded, setNotIncluded] = useState("")
-   const [retreatId, setRetreatId] = useState(Math.floor(Math.random() * 1000000));
+      const [retreatKindId, setRetreatKindId] = useState(Math.floor(Math.random() * 1000000));
+   
    const params = useParams();
    const userId = params.userId;
    const navigate= useNavigate()
-    const imageListRef = ref(storage, `/retreatimages/${userId}/${retreatId}/`);
+    const imageListRef = ref(storage, `/retreatimages/${retreatKindId}/`);
     const deleteImage=(url)=>{
        alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
@@ -61,10 +71,26 @@ function ListARetreat() {
        if(imageUpload == null) return;
        
        
-       const imageRef = ref(storage, `/retreatimages/${userId}/${retreatId}/${imageUpload.name+v4()}`);
+       const imageRef = ref(storage, `/retreatimages/${retreatKindId}/${imageUpload.name+v4()}`);
        uploadBytes(imageRef, imageUpload).then((snapshot)=>{
          getDownloadURL(snapshot.ref).then((url)=>{
            setImageList((prev)=>[...prev, url]);
+         }
+         );
+       });
+       console.log("imageList", imageList);
+   
+     }
+       const uploadCityImage=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       if(imageUpload == null) return;
+       
+       
+       const imageCityRef = ref(storage, `/retreatimages/${retreatKindId}/${nameOfCity}/${imageUpload.name+v4()}`);
+       uploadBytes(imageCityRef, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageListCity((prev)=>[...prev, url]);
          }
          );
        });
@@ -92,19 +118,20 @@ const endAtDate=(e)=>{
  
 
 
-   const host =() => {
-
+   const host =async () => {
+    const type = [type1, type2, type3].concat(retreatType).filter(Boolean);
+     
       
          addDoc(collection(db, "retreats"), {
                                          name: retreatName,
-                                         type1: retreatType,
+                                         type1: type,
                                          retreatCenterName: retreatCenterName,
                                          address: address,
                                          location: country,
                                          state: state,
                                          price:price, 
-                                         retreatId: retreatId,
-                                         id:v4()+userId,
+                                         retreatId: retreatKindId,
+                                         id:v4()+retreatKindId,
                                          hostId:userId,
                                          hostFirstName:hostFirstName,
                                          hostEmail:hostEmail,
@@ -118,8 +145,13 @@ const endAtDate=(e)=>{
                                          flightIncluded:flightIncluded,
                                          airportPickup:airportPickup,
                                          createdAt: serverTimestamp(),
+                                         message1:message1,
+                                         message2:message2,
+                                         message3:message3,
                                          pic1: imageList[0],
-                                        
+                                         cityPic: imageListCity[0],
+                                         nameOfCity: nameOfCity, 
+                                         aboutCity:city,
                                          
 
          }).then(async ()=>{
@@ -154,6 +186,7 @@ const endAtDate=(e)=>{
          setHostEmail(doc.data().hostEmail)
          console.log(doc.data().hostFirstName)
                })
+                    
               }
                   listAll(imageListRef).then((res)=>{
                     res.items.forEach((item)=>{
@@ -163,9 +196,7 @@ const endAtDate=(e)=>{
                       });
                     });
                   });
-                  const retreatQuery = query(collection(db, "retreats"), where("hostId", "==", userId));
-                          const retreatQuerySnapshot = await getDocs(retreatQuery);
-                                    setRetreatId(retreatQuerySnapshot.size + 1);
+                 
 
  
          
@@ -185,7 +216,7 @@ const endAtDate=(e)=>{
             <p className="mb-4">
               This PDF includes sections dedicated to:<br/>
 
-<strong>Good Faith Agreements:</strong> Establishing a foundation of honesty, transparency, and fair dealing.<br/>
+         <strong>Good Faith Agreements:</strong> Establishing a foundation of honesty, transparency, and fair dealing.<br/>
 
 <strong>Host Responsibilities:</strong> Covering listing accuracy, operational delivery, and legal/safety compliance.<br/>
 
@@ -238,6 +269,108 @@ const endAtDate=(e)=>{
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstname" type="text" placeholder="Name of Retreat" onChange={(e)=>setRetreatName(e.target.value)}/>
     </div>
+      <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Type1 of Retreat
+      </label>
+            <select className="bg-white p-2 rounded-md" onChange={(e)=>setType1(e.target.value)} value={type1}>
+              <option value="">Select Type</option>
+    <option value="Adventure">Adventure</option>
+    <option value="Art">Art</option>
+    <option value="Ayurveda">Ayurveda</option>
+    <option value="Breathwork">Breathwork</option>
+        <option value="Chakras">Chakras</option>
+
+        <option value="Detox">Detox</option>
+        <option value="Energy">Energy Healing</option>
+        <option value="Horse">Horse Retreat</option>
+     <option value="Men">Men's Retreat</option>
+    <option value="Meditation">Meditation</option>
+    <option value="Mens Retreat">Mens Retreat</option>
+    <option value="Martial Arts">Martial Arts</option>
+    <option value="Plant Medicine">Plant Medicine</option>
+  <option value="Shamanic Journey">Shamanic Journey</option>
+  <option value="Sound Healing">Sound Healing</option>
+    <option value="Spiritual">Spiritual</option>
+        <option value="Surfing">Surfing</option>
+        <option value="Views">Views</option>
+    <option value="Vegan">Vegan</option>
+    <option value="Yoga">Yoga</option>
+    <option value="Womens Retreat">Women's Retreat</option>
+    <option value="Writing">Writing</option>
+               
+
+              </select>
+              </div>
+                    <div className="mb-4">
+
+ <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Type2 of Retreat
+      </label>
+            <select className="bg-white p-2 rounded-md" onChange={(e)=>setType2(e.target.value)} value={type2}>
+              <option value="">Select Type</option>
+    <option value="Adventure">Adventure</option>
+    <option value="Art">Art</option>
+    <option value="Ayurveda">Ayurveda</option>
+    <option value="Breathwork">Breathwork</option>
+        <option value="Chakras">Chakras</option>
+
+        <option value="Detox">Detox</option>
+        <option value="Energy">Energy Healing</option>
+        <option value="Horse">Horse Retreat</option>
+     <option value="Men">Men's Retreat</option>
+    <option value="Meditation">Meditation</option>
+    <option value="Mens Retreat">Mens Retreat</option>
+    <option value="Martial Arts">Martial Arts</option>
+    <option value="Plant Medicine">Plant Medicine</option>
+  <option value="Shamanic Journey">Shamanic Journey</option>
+  <option value="Sound Healing">Sound Healing</option>
+    <option value="Spiritual">Spiritual</option>
+        <option value="Surfing">Surfing</option>
+        <option value="Views">Views</option>
+    <option value="Vegan">Vegan</option>
+    <option value="Yoga">Yoga</option>
+    <option value="Womens Retreat">Women's Retreat</option>
+    <option value="Writing">Writing</option>
+               
+
+              </select>
+              </div>
+                    <div className="mb-4">
+
+               <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Type3 of Retreat
+      </label>
+            <select className="bg-white p-2 rounded-md" onChange={(e)=>setType3(e.target.value)} value={type3}>
+              <option value="">Select Type</option>
+    <option value="Adventure">Adventure</option>
+    <option value="Art">Art</option>
+    <option value="Ayurveda">Ayurveda</option>
+    <option value="Breathwork">Breathwork</option>
+        <option value="Chakras">Chakras</option>
+
+        <option value="Detox">Detox</option>
+        <option value="Energy">Energy Healing</option>
+        <option value="Horse">Horse Retreat</option>
+     <option value="Men">Men's Retreat</option>
+    <option value="Meditation">Meditation</option>
+    <option value="Mens Retreat">Mens Retreat</option>
+    <option value="Martial Arts">Martial Arts</option>
+    <option value="Plant Medicine">Plant Medicine</option>
+  <option value="Shamanic Journey">Shamanic Journey</option>
+  <option value="Sound Healing">Sound Healing</option>
+    <option value="Spiritual">Spiritual</option>
+        <option value="Surfing">Surfing</option>
+        <option value="Views">Views</option>
+    <option value="Vegan">Vegan</option>
+    <option value="Yoga">Yoga</option>
+    <option value="Womens Retreat">Women's Retreat</option>
+    <option value="Writing">Writing</option>
+               
+
+              </select>
+            
+          </div>
          <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type of Retreat
@@ -255,6 +388,36 @@ const endAtDate=(e)=>{
        Address of Retreat
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Address of Retreat" onChange={(e)=>setAddress(e.target.value)}/>
+    </div>
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Name of City
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="city" type="text" placeholder="Name of City" onChange={(e)=>setNameOfCity(e.target.value)}/>
+    </div>
+     <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       About the City
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setCity(e.target.value)}></textarea>
+    </div>
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Message for the Visitors
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setMessage1(e.target.value)}></textarea>
+    </div>
+     <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Message for the Visitors
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setMessage2(e.target.value)}></textarea>
+    </div>
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Message for the Visitors
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setMessage3(e.target.value)}></textarea>
     </div>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
@@ -605,7 +768,22 @@ const endAtDate=(e)=>{
 
     
   </div>
+ <div className="mb-4">
 
+<label for="profile-pic">Upload at least one image of the city of Retreat</label><br/>
+        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+    
+      <Button onClick={uploadCityImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload City Image</Button>
+    </div>
+     {imageListCity.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
     <div className="mb-4">
 
 <label for="profile-pic">Upload at least one image</label><br/>

@@ -39,21 +39,21 @@ const submitAI =() => {
   return (
     <div className="relative h-[90vh] min-h-[800px] w-full overflow-hidden">
       <Modal isOpen={isAIOpen} onClose={closeAI} >
-        <div className="flex flex-col items-center justify-center h-full">
+        <div className="flex flex-col w-120 h-100 items-center justify-center">
           <center>
             <h3 className="text-xl font-bold mb-4">Coming Soon! Our AI Retreat Match is in development and will be available shortly.</h3>
           </center>
           </div>
         </Modal> 
         <Modal isOpen={isHomeOpen} onClose={closeHomes} >
-        <div className="flex flex-col items-center justify-center h-full">
+        <div className="flex flex-col w-120 h-100 items-center justify-center">
           <center>
             <h3 className="text-xl font-bold mb-4">Coming Soon!</h3>
           </center>
           </div>
         </Modal> 
         <Modal isOpen={isShopOpen} onClose={() => setIsShopOpen(false)} >
-        <div className="flex flex-col items-center justify-center h-full">
+        <div className="flex flex-col w-120 h-100 items-center justify-center">
           <center>
             <h3 className="text-xl font-bold mb-4">Coming Soon!</h3>
           </center>

@@ -13,6 +13,7 @@ import { getDownloadURL, listAll, ref, StorageReference, deleteObject } from 'fi
 import Modal from '../Modal.js';
 import { Input } from '../ui/input.js';
 import { onAuthStateChanged } from 'firebase/auth';
+import ModalImage from '../ModalImage.js';
 
 function RetreatCenterDetails() {
   {  /***Retreat center information extraced from database */}
@@ -25,6 +26,8 @@ function RetreatCenterDetails() {
     const [centerId, setCenterId] = useState('')
     const [price, setPrice] = useState(0.0)
     const [airportPickup, setAirportPickup] = useState("")
+    const [openSomething, setOpenSomething] = useState(false)
+    const [imageUrl, setImageUrl] = useState('')
    {/**Host information */}
     const [hostId, setHostId] = useState('')
     {/**image information */}
@@ -76,6 +79,10 @@ function RetreatCenterDetails() {
     const viewAllPhotos=()=>{
   setOpenImageModal(true)
   
+}
+const passImageUrl=(url)=>{
+  setImageUrl(url)
+  setOpenSomething(true)
 }
      const params = useParams();
     const id = params.id;
@@ -239,7 +246,7 @@ function RetreatCenterDetails() {
                           <center>      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
 
   {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
-             <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-80 "  key={index}>
+             <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-80 "  key={index} onClick={()=>passImageUrl(imageUrl)}>
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
       
     </Card>
@@ -247,6 +254,12 @@ function RetreatCenterDetails() {
 ))}
           </div>
           </center>
+          <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
+                <div className="w-90% h-full justify-center items-center bg-transparent">
+                  <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+
+                  </div>
+                  </ModalImage>
           </div>
       
         

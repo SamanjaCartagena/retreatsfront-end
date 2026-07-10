@@ -20,6 +20,8 @@ export function Footer() {
   const closeSafetyModal = () => {
     setOpenSafetyModal(false);
     setSafetyInfo('');
+    setIsLoading(false);
+    setInputSafety('');
   }
    const openSafety=  async()=> {
     setIsLoading(true);
