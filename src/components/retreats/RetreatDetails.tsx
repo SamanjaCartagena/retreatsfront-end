@@ -473,7 +473,7 @@ useEffect(()=>{
                    <center>
           <div className="text-center w-3/4  lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
 
-            <div className="container w-full h-full justify-center items-center text-center">
+            <div className="container grid w-full h-full justify-center items-center text-center">
 
             <p className='text-lg md:w-full sm:w-full font-semibold mt-4'>Name of host:&nbsp;{hostFirstName}&nbsp;{hostLastName}</p>
             <br/>
@@ -491,8 +491,10 @@ useEffect(()=>{
   day: 'numeric' 
 })}</h1><br/>
              <p className='font-semibold text-lg  align-left'>Price</p>
-
+                
                    <h1 className='text-lg p-4 border-2 rounded'>${price} for&nbsp; {Math.abs(endAt?.toDate()?.getDate() - startAt?.toDate()?.getDate())}&nbsp;days in {retreatAddress}</h1>
+                   
+                 
                    <br/>
                                             <p className='font-semibold text-lg mt-2 align-left'>Kind of Retreat</p>
 
@@ -513,7 +515,13 @@ useEffect(()=>{
                                   
 
                                     </div>
+                                    <div className='border-2 rounded w-full'>
+                        <p className='font-semibold text-lg m-2'>Accommodation</p>
+                          
+
             </div>
+            </div>
+            
             <div>
                         <h1 className='text-2xl mb-4'>About the Host</h1>
 

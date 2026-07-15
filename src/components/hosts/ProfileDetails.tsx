@@ -13,6 +13,9 @@ import ImageModal from '../ImageModal.js';
 import ImageSlider from '../ImageSlider.js';
 import {v4} from 'uuid';
 import { Card } from '../ui/card.js';
+import ModalImage from '../ModalImage.js';
+
+
 export default function Profile() {
   const params = useParams();
   const userId = params.id;
@@ -25,6 +28,7 @@ export default function Profile() {
   const [email,setEmail]=useState('');  
   const [imageUpload, setImageUpload] = useState(null);
   const [imageList, setImageList] = useState([]);
+  const [url,setUrl] = useState("")
   const [avatarUrl, setAvatarUrl] = useState("");
   const [documentId, setDocumentId] = useState("")
   const [details, setDetails] = useState("")
@@ -36,6 +40,7 @@ export default function Profile() {
   const [instaLink, setInstaLink] = useState("")
   const [twitterLink, setTwitterLink] = useState("")
   const [twitLink, setTwitLink] = useState("")
+  const [openSomething, setOpenSomething] = useState(false)
   const [pinterestLink, setPinterestLink] = useState("")
   const [hostIntroduction, setHostIntroduction] = useState("")
   const [phone,setPhone] = useState("")
@@ -56,6 +61,7 @@ export default function Profile() {
     const imageListRef = ref(storage, `/images/${userId}/`);
     const profileRef = ref(storage, `/profilePic/${userId}/`);
     const deleteImageRef = ref(storage, `/images/${userId}/`);
+   
     const saveChanges =()=>{
       const docRef = doc(db, "hosts", documentId);
       updateDoc(docRef, { hostFirstName: firstName,
@@ -72,6 +78,10 @@ export default function Profile() {
        });
        setOpenEditor(false);
     }
+       const passImageUrl=(e)=>{
+          setUrl(e)
+          setOpenSomething(true)
+        }
 
    const profile=()=>{
     
@@ -294,7 +304,7 @@ onAuthStateChanged(auth, async (user) => {
         <div className="grid  items-center mt-1">
         
           {onlyUser && (
-       <Link to={`/list/${userId}`}className="mb-2 mt-2" >
+       <Link to={`/adminpage/${userId}/listaretreat`}className="mb-2 mt-2" >
           <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat</Button>
 
         </Link>
@@ -322,30 +332,28 @@ onAuthStateChanged(auth, async (user) => {
          <button onClick={uploadImage} className='bg-lime-700 w-60  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
          </div>
        )}
-         <div className="lg:grid-cols-2 gap-4 md:grid md:grid-cols-2 sm:grid-cols-1 mt-4">
-      {imageList.map((url)=>{
+            <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:flex  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
          
-      return <Card className="w-full h-auto bg-gray-100 p-4 rounded cursor-pointer" key={url} onClick={()=>setDisplayPic(true)}>
-        <img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
-                    {onlyUser && (
-                      <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
-                    )}
-                    </Card>
-                   
-    
-      
-      })
-    }
-    <ImageModal isOpen={displayPic} onClose={()=>setDisplayPic(false)} >
-          
-   <div className="w-full h-full justify-center items-center bg-transparent">
-     <ImageSlider slides={imageList} />
-    
-      </div>
-      
-     </ImageModal>
-    
-
+                                               {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
+                      
+                                         <Card className="rounded-xl w-60 bg-transparent overflow-hidden hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index} onClick={()=>passImageUrl(imageUrl)}>
+                                          <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+                                          {onlyUser &&
+                                       <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>deleteImage(imageUrl)}>Delete</Button>
+                                          }
+               
+                                               </Card>
+             
+                                                    ))}
+         
+                                           
+                                           </div>
+                                           <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
+                                                  <div className="w-90% h-full justify-center items-center bg-transparent">
+                                                    <img className="w-full h-full items-center rounded-lg" src={url} alt="Retreats Around The World" />
+                                  
+                                                    </div>
+                                                    </ModalImage>
 
   
 
@@ -371,7 +379,7 @@ onAuthStateChanged(auth, async (user) => {
         
         
       
-    </div>
+    
     
    
   

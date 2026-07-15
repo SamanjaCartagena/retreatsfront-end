@@ -167,7 +167,7 @@ setSafetyInfo(response.text);
             <ul className="space-y-2">
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm" onClick={() => setOpenTypesModal(true)}>Retreat Types</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Destinations</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Featured Retreats</a></li>
+              <Link to='/'><li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm" >Featured Retreats</a></li></Link>
               <li><a href="#" className="text-muted-foreground hover:text-retreat-forest transition-colors text-sm">Last Minute</a></li>
             </ul>
           </div>

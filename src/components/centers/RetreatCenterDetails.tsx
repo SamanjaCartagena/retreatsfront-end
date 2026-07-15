@@ -151,11 +151,11 @@ const passImageUrl=(url)=>{
      </ImageModal>
      
         <div className="max-w-full mx-auto text-center">
-         <h1 className='text-4xl bold mt-20'>{nameOfCenter}</h1>
+         <h1 className='text-4xl bold mt-20'> {nameOfCenter}</h1>
          <br/>
          
 <center>
-<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:flex  gap-2 w-full m-4 mt-10 justify-center align-center items-center justify-items-center">
+<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:flex gap-2 w-full m-4 mt-10 justify-center align-center items-center justify-items-center">
   
   {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
@@ -220,11 +220,7 @@ const passImageUrl=(url)=>{
 
                                     </div>
             </div>
-            <div>
-
-                          
-
-            </div>
+           
             <br/>
             {/** 
             {loggedIn && (

@@ -13,9 +13,14 @@ import tourist1 from '../../assets/guide1.jpg';
 import tourist2 from '../../assets/guide2.jpg';
 import tourist3 from '../../assets/guide3.jpg';
 import tourist4 from '../../assets/guide4.jpg';
-import { collection, addDoc } from "firebase/firestore"; 
+import { db, auth, storage } from "../../firebase";
+import {v4} from 'uuid';
 
-import { db } from '../../firebase.js';
+
+import { collection, addDoc } from "firebase/firestore"; 
+import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
+
+
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,signInWithPopup, signOut, onAuthStateChanged  } from "firebase/auth";
 function GuideSignUp() {
     const [modalOpen, setModalOpen]= useState(false);
@@ -25,11 +30,20 @@ function GuideSignUp() {
     const [firstName, setFirstName]= useState('');
     const [lastName, setLastName]= useState('');
     const [profession, setProfession]= useState('');
+    const [imageUpload, setImageUpload] = useState(null)
     const [specialty, setSpecialty]= useState('');
-    const [email, setEmail]= useState('');
+    const [guideEmail, setGuideEmail]= useState('');
     const [guideId, setGuideId] = useState('');
-    const [phone,setPhone] = useState('')
+    const [imageList, setImageList] = useState([])
+    const [guideIntroduction, setGuideIntroduction] = useState("")
+    const [guidePhone,setGuidePhone] = useState('')
+    const [guideLocation, setGuideLocation] = useState('')
+    const [guideCity, setGuideCity] = useState('')
     const [password, setPassword]= useState('');
+    const [type1, setType1] = useState('')
+    const [type2, setType2] = useState('')
+    const [type3, setType3] = useState('')
+    const [guideType, setGuideType] = useState('')
     const [confirmPassword, setConfirmPassword]= useState('');
     const [userName, setUserName]= useState('');
     const auth = getAuth();
@@ -39,6 +53,7 @@ onAuthStateChanged(auth, async (user) => {
   if(user){
     console.log(user.uid)
     const userId=user.uid
+    setGuideEmail(user.email)
     setGuideId(userId)
   }
 
@@ -47,7 +62,10 @@ onAuthStateChanged(auth, async (user) => {
 })
 
     },[])
+    
     const guideProfile = async() => {
+          const type = [type1, type2, type3].concat(guideType).filter(Boolean);
+
          try{
 
                                        addDoc(collection(db, "guides"), {
@@ -55,10 +73,13 @@ onAuthStateChanged(auth, async (user) => {
                                        guideFirstName: firstName,
                                        guideLastName: lastName,
                                        guideUserName: userName,
-                                       guidePhone:phone,
+                                       guidePhone:guidePhone,
                                        guideProfession: profession,
-                                       guideSpecialty: specialty,
-
+                                       guideSpecialty: type,
+                                       guideLocation:guideLocation,
+                                       guideCity:guideCity,
+                                       guideEmail:guideEmail,
+                                       guideIntroduction:guideIntroduction,
                                        createdAt: new Date()
                                      });
                                      navigate(`/adminpage/${guideId}/guideadmin`)
@@ -299,13 +320,332 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
  <label className="block text-gray-700 text-sm font-bold mb-2" >
         Phone
       </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="text" placeholder="Phone" onChange={(e) => setPhone(e.target.value)} />
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="text" placeholder="Phone" onChange={(e) => setGuidePhone(e.target.value)} />
       <br/><br/>
+       <div>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-        Specialty
+        What kind of Guide are you? Select Type1
       </label>
-                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="specialty" type="text" placeholder="What are you specialized in?" onChange={(e)=>setSpecialty(e.target.value)} />
+            <select className="bg-white p-2 rounded-md" onChange={(e)=>setType1(e.target.value)} value={type1}>
+              <option value="">Select Type</option>
+    <option value="Adventure">Adventure</option>
+    <option value="Art">Art</option>
+    <option value="Ayurveda">Ayurveda</option>
+    <option value="Breathwork">Breathwork</option>
+        <option value="Chakras">Chakras</option>
+
+        <option value="Detox">Detox</option>
+        <option value="Energy">Energy Healing</option>
+        <option value="Horse">Horse Retreat</option>
+     <option value="Men">Men's Retreat</option>
+    <option value="Meditation">Meditation</option>
+    <option value="Mens Retreat">Mens Retreat</option>
+    <option value="Martial Arts">Martial Arts</option>
+    <option value="Photography">Photography</option>
+    <option value="Plant Medicine">Plant Medicine</option>
+  <option value="Shamanic Journey">Shamanic Journey</option>
+  <option value="Sound Healing">Sound Healing</option>
+    <option value="Spiritual">Spiritual</option>
+        <option value="Surfing">Surfing</option>
+        <option value="Views">Views</option>
+    <option value="Vegan">Vegan</option>
+    <option value="Yoga">Yoga</option>
+    <option value="Womens Retreat">Women's Retreat</option>
+    <option value="Writing">Writing</option>
+               
+
+              </select>
+              </div>
+              <div>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        What kind of Guide are you? Select Type2
+      </label>
+            <select className="bg-white p-2 rounded-md" onChange={(e)=>setType2(e.target.value)} value={type2}>
+              <option value="">Select Type</option>
+    <option value="Adventure">Adventure</option>
+    <option value="Art">Art</option>
+    <option value="Ayurveda">Ayurveda</option>
+    <option value="Breathwork">Breathwork</option>
+        <option value="Chakras">Chakras</option>
+
+        <option value="Detox">Detox</option>
+        <option value="Energy">Energy Healing</option>
+        <option value="Horse">Horse Retreat</option>
+     <option value="Men">Men's Retreat</option>
+    <option value="Meditation">Meditation</option>
+    <option value="Mens Retreat">Mens Retreat</option>
+    <option value="Martial Arts">Martial Arts</option>
+    <option value="Photography">Photography</option>
+    <option value="Plant Medicine">Plant Medicine</option>
+  <option value="Shamanic Journey">Shamanic Journey</option>
+  <option value="Sound Healing">Sound Healing</option>
+    <option value="Spiritual">Spiritual</option>
+        <option value="Surfing">Surfing</option>
+        <option value="Views">Tourist Guide</option>
+    <option value="Vegan">Vegan</option>
+    <option value="Yoga">Yoga</option>
+    <option value="Womens Retreat">Women's Retreat</option>
+    <option value="Writing">Writing</option>
+               
+
+              </select>
+              </div>   
+                  <div>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        What kind of Guide are you? Select Type3
+      </label>
+            <select className="bg-white p-2 rounded-md" onChange={(e)=>setType3(e.target.value)} value={type3}>
+              <option value="">Select Type</option>
+    <option value="Adventure">Adventure</option>
+    <option value="Art">Art</option>
+    <option value="Ayurveda">Ayurveda</option>
+    <option value="Breathwork">Breathwork</option>
+        <option value="Chakras">Chakras</option>
+
+        <option value="Detox">Detox</option>
+        <option value="Energy">Energy Healing</option>
+        <option value="Horse">Horse Retreat</option>
+     <option value="Men">Men's Retreat</option>
+    <option value="Meditation">Meditation</option>
+    <option value="Mens Retreat">Mens Retreat</option>
+    <option value="Martial Arts">Martial Arts</option>
+    <option value="Photography">Photography</option>
+    <option value="Plant Medicine">Plant Medicine</option>
+  <option value="Shamanic Journey">Shamanic Journey</option>
+  <option value="Sound Healing">Sound Healing</option>
+    <option value="Spiritual">Spiritual</option>
+        <option value="Surfing">Surfing</option>
+        <option value="Views">Tourist Guide</option>
+    <option value="Vegan">Vegan</option>
+    <option value="Yoga">Yoga</option>
+    <option value="Womens Retreat">Women's Retreat</option>
+    <option value="Writing">Writing</option>
+               
+
+              </select>
+              </div> 
+              <br/>
+                <br/><br/>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        What type of help do you offer in a retreat?
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="type" type="text" placeholder="Type of help" onChange={(e) => setGuideType(e.target.value)} />
       <br/><br/>
+         
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Location
+      </label>
+            <select className="bg-white p-4 rounded border-2" onChange={(e)=>setGuideLocation(e.target.value)} value={guideLocation}>
+        <option value="">Select Location</option>
+    <option value="Afghanistan">Afghanistan</option>
+    <option value="Albania">Albania</option>
+    <option value="Algeria">Algeria</option>
+    <option value="Andorra">Andorra</option>
+    <option value="Angola">Angola</option>
+    <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+    <option value="Argentina">Argentina</option>
+    <option value="Armenia">Armenia</option>
+    <option value="Australia">Australia</option>
+    <option value="Austria">Austria</option>
+    <option value="Azerbaijan">Azerbaijan</option>
+    <option value="Bahamas">Bahamas</option>
+    <option value="Bahrain">Bahrain</option>
+    <option value="Bangladesh">Bangladesh</option>
+    <option value="Barbados">Barbados</option>
+    <option value="Belarus">Belarus</option>
+    <option value="Belgium">Belgium</option>
+    <option value="Belize">Belize</option>
+    <option value="Benin">Benin</option>
+    <option value="Bhutan">Bhutan</option>
+    <option value="Bolivia">Bolivia</option>
+    <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+    <option value="Botswana">Botswana</option>
+    <option value="Brazil">Brazil</option>
+    <option value="Brunei">Brunei</option>
+    <option value="Bulgaria">Bulgaria</option>
+    <option value="Burkina Faso">Burkina Faso</option>
+    <option value="Burundi">Burundi</option>
+    <option value="Cabo Verde">Cabo Verde</option>
+    <option value="Cambodia">Cambodia</option>
+    <option value="Cameroon">Cameroon</option>  
+    <option value="Canada">Canada</option>
+    <option value="Central African Republic">Central African Republic</option>
+    <option value="Chad">Chad</option>
+    <option value="Chile">Chile</option>
+    <option value="China">China</option>
+    <option value="Colombia">Colombia</option>
+    <option value="Comoros">Comoros</option>
+    <option value="Congo (Congo-Brazzaville)">Congo (Congo-Brazzaville)</option>
+    <option value="Costa Rica">Costa Rica</option>
+    <option value="Croatia">Croatia</option>
+    <option value="Cuba">Cuba</option>
+    <option value="Cyprus">Cyprus</option>
+    <option value="Czechia (Czech Republic)">Czechia (Czech Republic)</option>
+    <option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>  
+    <option value="Denmark">Denmark</option>
+    <option value="Djibouti">Djibouti</option>
+    <option value="Dominica">Dominica</option>
+    <option value="Dominican Republic">Dominican Republic</option>
+    <option value="Ecuador">Ecuador</option>
+    <option value="Egypt">Egypt</option>
+    <option value="El Salvador">El Salvador</option>
+    <option value="Equatorial Guinea">Equatorial Guinea</option>
+    <option value="Eritrea">Eritrea</option>
+    <option value="Estonia">Estonia</option>
+    <option value="Ethiopia">Ethiopia</option>
+    <option value="Fiji">Fiji</option>
+    <option value="Finland">Finland</option>
+    <option value="France">France</option>
+    <option value="Gabon">Gabon</option>
+    <option value="Gambia">Gambia</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Germany">Germany</option>
+    <option value="Ghana">Ghana</option>
+    <option value="Greece">Greece</option>
+    <option value="Grenada">Grenada</option>
+    <option value="Guatemala">Guatemala</option>
+    <option value="Guinea">Guinea</option>
+    <option value="Guinea-Bissau">Guinea-Bissau</option>
+    <option value="Guyana">Guyana</option>
+    <option value="Haiti">Haiti</option>
+    <option value="Holy See">Holy See</option>
+    <option value="Honduras">Honduras</option>
+    <option value="Hungary">Hungary</option>
+    <option value="Iceland">Iceland</option>
+    <option value="India">India</option>
+    <option value="Indonesia">Indonesia</option>
+    <option value="Iran">Iran</option>
+    <option value="Iraq">Iraq</option>
+    <option value="Ireland">Ireland</option>
+    <option value="Israel">Israel</option>
+    <option value="Italy">Italy</option>
+    <option value="Jamaica">Jamaica</option>
+    <option value="Japan">Japan</option>
+    <option value="Jordan">Jordan</option>
+    <option value="Kazakhstan">Kazakhstan</option>
+    <option value="Kenya">Kenya</option>
+    <option value="Kiribati">Kiribati</option>
+    <option value="Kuwait">Kuwait</option>
+    <option value="Kyrgyzstan">Kyrgyzstan</option>
+    <option value="Laos">Laos</option>
+    <option value="Latvia">Latvia</option>
+    <option value="Lebanon">Lebanon</option>
+    <option value="Lesotho">Lesotho</option>
+    <option value="Liberia">Liberia</option>
+    <option value="Libya">Libya</option>
+    <option value="Liechtenstein">Liechtenstein</option>
+    <option value="Lithuania">Lithuania</option>
+    <option value="Luxembourg">Luxembourg</option>
+    <option value="Madagascar">Madagascar</option>
+    <option value="Malawi">Malawi</option>
+    <option value="Malaysia">Malaysia</option>
+    <option value="Maldives">Maldives</option>
+    <option value="Mali">Mali</option>
+    <option value="Malta">Malta</option>
+    <option value="Marshall Islands">Marshall Islands</option>
+    <option value="Mauritania">Mauritania</option>
+    <option value="Mauritius">Mauritius</option>
+    <option value="Mexico">Mexico</option>
+    <option value="Micronesia">Micronesia</option>
+    <option value="Moldova">Moldova</option>
+    <option value="Monaco">Monaco</option>
+    <option value="Mongolia">Mongolia</option>
+    <option value="Montenegro">Montenegro</option>
+    <option value="Morocco">Morocco</option>
+    <option value="Mozambique">Mozambique</option>
+    <option value="Myanmar (Burma)">Myanmar (Burma)</option>
+    <option value="Namibia">Namibia</option>
+    <option value="Nauru">Nauru</option>
+    <option value="Nepal">Nepal</option>
+    <option value="Netherlands">Netherlands</option>
+    <option value="New Zealand">New Zealand</option>
+    <option value="Nicaragua">Nicaragua</option>
+    <option value="Niger">Niger</option>
+    <option value="Nigeria">Nigeria</option>
+    <option value="North Korea">North Korea</option>
+    <option value="North Macedonia">North Macedonia</option>
+    <option value="Norway">Norway</option>
+    <option value="Oman">Oman</option>
+    <option value="Pakistan">Pakistan</option>
+    <option value="Palau">Palau</option>
+    <option value="Palestine">Palestine</option>
+    <option value="Panama">Panama</option>
+    <option value="Papua New Guinea">Papua New Guinea</option>
+    <option value="Paraguay">Paraguay</option>
+    <option value="Peru">Peru</option>
+    <option value="Philippines">Philippines</option>
+    <option value="Poland">Poland</option>
+    <option value="Portugal">Portugal</option>
+    <option value="Qatar">Qatar</option>
+    <option value="Romania">Romania</option>
+    <option value="Russia">Russia</option>
+    <option value="Rwanda">Rwanda</option>
+    <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+    <option value="Saint Lucia">Saint Lucia</option>
+    <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>  
+    <option value="Samoa">Samoa</option>
+    <option value="San Marino">San Marino</option>
+    <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+    <option value="Saudi Arabia">Saudi Arabia</option>
+    <option value="Senegal">Senegal</option>
+    <option value="Serbia">Serbia</option>  
+    <option value="Seychelles">Seychelles</option>
+    <option value="Sierra Leone">Sierra Leone</option>
+    <option value="Singapore">Singapore</option>
+    <option value="Slovakia">Slovakia</option>
+    <option value="Slovenia">Slovenia</option>
+    <option value="Solomon Islands">Solomon Islands</option>
+    <option value="Somalia">Somalia</option>
+    <option value="South Africa">South Africa</option>
+    <option value="South Korea">South Korea</option>
+    <option value="South Sudan">South Sudan</option>
+    <option value="Spain">Spain</option>
+    <option value="Sri Lanka">Sri Lanka</option>
+    <option value="Sudan">Sudan</option>
+    <option value="Suriname">Suriname</option>  
+    <option value="Sweden">Sweden</option>
+    <option value="Switzerland">Switzerland</option>
+    <option value="Syria">Syria</option>
+    <option value="Taiwan">Taiwan</option>
+    <option value="Tajikistan">Tajikistan</option>
+    <option value="Tanzania">Tanzania</option>
+    <option value="Thailand">Thailand</option>
+    <option value="Timor-Leste">Timor-Leste</option>
+    <option value="Togo">Togo</option>
+    <option value="Tonga">Tonga</option>
+    <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+    <option value="Tunisia">Tunisia</option>
+    <option value="Turkey">Turkey</option>
+    <option value="Turkmenistan">Turkmenistan</option>
+    <option value="Tuvalu">Tuvalu</option>
+    <option value="Uganda">Uganda</option>
+    <option value="Ukraine">Ukraine</option>
+    <option value="United Arab Emirates">United Arab Emirates</option>
+    <option value="United Kingdom">United Kingdom</option>
+    <option value="United States of America">United States of America</option>
+    <option value="Uruguay">Uruguay</option>
+    <option value="Uzbekistan">Uzbekistan</option>
+    <option value="Vanuatu">Vanuatu</option>
+    <option value="Venezuela">Venezuela</option>
+    <option value="Vietnam">Vietnam</option>
+    <option value="Yemen">Yemen</option>
+    <option value="Zambia">Zambia</option>
+    <option value="Zimbabwe">Zimbabwe</option>
+
+    </select>
+    <br/>
+    <br/>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        City
+      </label>
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="specialty" type="text" placeholder="City" onChange={(e)=>setGuideCity(e.target.value)} />
+      <br/><br/>
+      
+       <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Introduce yourself
+      </label>
+                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="introduction" placeholder="Introduce yourself" onChange={(e)=>setGuideIntroduction(e.target.value)}></textarea>
+         <br/><br/>
      <label className="block text-gray-700 text-sm font-bold mb-2" >
         Tell us how you can benefit people attending retreats...
       </label>
@@ -318,48 +658,12 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
       <br/><br/>
      
      
-    <div className="mb-6">
-    
-       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       What kind of retreats can you help? Check all that apply.</label>
-      <br/>
-      <input type="checkbox" id="veganretreat" />
-      <label >&nbsp;Vegan Retreat</label>
-      <br/>
-      <input type="checkbox" id="hypnoretreat" />
-      <label  >&nbsp;Hypnotherapy</label>
-      <br/>
-      <input type="checkbox" id="meditationretreat" />
-      <label >&nbsp;Meditation Retreat</label><br/>
-      <input type="checkbox" id="corporateretreat" />
-      <label >&nbsp;Corporate Retreat</label><br/>
-      <input type="checkbox" id="healthretreat" />
-      
-      <label >&nbsp;Health Retreat</label>
-      <br/>
-         <input type="checkbox" id="yogaretreat" />
-      
-      <label >&nbsp;Yoga Retreat</label>
-      <br/>
-        <input type="checkbox" id="recreationretreat" />
-      
-      <label>&nbsp;Recreation Retreat</label>
-      <br/>
-      <input type="checkbox" id="others" />
-            <label >&nbsp;Others</label>
-            <br/>
-            <br/>
-                   <label className="block text-gray-700 text-sm font-bold mb-2" >
-            How can you help retreats...</label>
-                   <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="details" placeholder="Tell us in details what kind of retreats you would love to host....." ></textarea>
-       </div>
-
-    </div>
+   
     <div className="flex items-center justify-between">
       <Button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={guideProfile} >
         Create a Profile
       </Button>
-     
+     </div>
      </div>
       
       <br/>
@@ -370,6 +674,7 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
   </p>
   </div>
 </div>  
+
     
     </>
   )

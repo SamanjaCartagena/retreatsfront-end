@@ -97,34 +97,20 @@ export default function Guides() {
         setListOfRetreats([])
         const retreats1 = [];
 
-        if(selectedLocation=="United States of America"){
-          const q2 =  query(collection(db, "guides"), where("location", "==", selectedLocation));
-        getDocs(q2).then((querySnapshot) => {
-       
-
-        querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retreats1.push({ ...doc.data() });
-          
-          setListOfRetreats(retreats1);
-        })
       
-      });
-    }
-    else{
+
         
-     const q12 = await query(collection(db, "guides"), where("location", "==", selectedLocation));
+     const q12 = await query(collection(db, "guides"), where("guideLocation", "==", selectedLocation));
 
       getDocs(q12).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
           retreats1.push({ ...doc.data() });
     }
     );
     setListOfRetreats(retreats1);
   });
 
-  }
+  
 }
  
         else if (selectedLocation === ""  && selectedType === "" && selectedPrice !== 0.0) {  
@@ -203,7 +189,7 @@ export default function Guides() {
             <h2 className="text-xl font-bold mb-2">{guide.name}</h2>
 
             <Link to={`/guides/${guide.guideId}`} >
-             <Card className="rounded-xl overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer ">
+             <Card className="rounded-xl h-130 overflow-hidden border-none shadow-lg hover:shadow-md transition-all  cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
           src={guide.guideProfilePicUrl}
@@ -213,14 +199,15 @@ export default function Guides() {
       </div>
       <CardContent className="p-4">
         <div className="flex justify-between items-start">
-          <h3 className="font-serif font-medium text-lg line-clamp-1">{guide.startAt?.toDate()?.toLocaleDateString('en-US')}</h3> -
-          <h3 className="font-serif font-medium text-lg line-clamp-1">{guide.endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
+
+          <h3 className="font-serif font-medium text-lg line-clamp-1">{guide.guideFirstName}&nbsp;&nbsp;{guide.guideLastName}</h3> -
           <div className="flex items-center gap-1 text-sm">
             <Star size={16} fill="currentColor" className="text-retreat-forest" />
           </div>
         </div>
-        <p className="text-muted-foreground text-sm mb-2">{guide.guideSpecialty}</p>
-                                      <span className="text-md">{guide.address}, {guide.location}</span>
+        <p className="text-md mb-2">{guide.guideSpecialty}</p>
+
+                                      <span className="text-md">{guide.guideCity}, {guide.guideLocation}</span>
 
 
         <div className="flex justify-between items-center mt-1">
@@ -232,7 +219,7 @@ export default function Guides() {
 
           <span className="text-sm text-muted-foreground"> / person</span>
           
-              <Link to={`/retreatdetails/${guide.id}`} ><br/><br/>
+              <Link to={`/guides/${guide.guideId}`} ><br/><br/>
               <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">Find Out More</Button></Link>
                              <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white ml-5" onClick={() => window.open('https://www.tripadvisor.com', '_blank')}>Trip Advisor</Button>
 

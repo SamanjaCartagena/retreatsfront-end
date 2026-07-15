@@ -15,24 +15,41 @@ import { Button } from '../ui/button';
 import Modal from '../Modal.js';
 import nodemailer from 'nodemailer';
 function ListARetreat() {
+  /**Retreat Name, Center name, Type */
    const [retreatName, setRetreatName] = useState("")
    const[retreatCenterName, setRetreatCenterName]= useState("")
    const[retreatType, setRetreatType] = useState("")
    const [type1, setType1] = useState("")
    const [type2, setType2] = useState("")
    const [type3, setType3] = useState("")
+
+   /**Address of Retreat */
+   const [city,setCity] = useState("")
    const[address,setAddress] = useState("")
    const[country,setCountry] = useState("")
    const [message1, setMessage1] = useState("")
    const [message2, setMessage2] = useState("")
    const [message3, setMessage3] = useState("")
-   const [city,setCity] = useState("")
+   const [imageListCity, setImageListCity] = useState([]);
+   const [nameOfCity, setNameOfCity] = useState("")
+   const [airportPickup, setAirportPickup] = useState("")
+   const [nearestAirport, setNearestAirport] = useState("")
+
+
+   /**Accomodations */
+   const [accommodation1, setAccommodation1] = useState("")
+   const [accommodation2, setAccommodation2] = useState("")
+   const [accommodation3, setAccommodation3] = useState("")
+   const [priceRoom1, setPriceRoom1] = useState(0.0)
+   const [imageListRoom1, setImageListRoom1] = useState([])
+
+
    const [startDate, setStartDate] = useState(null)
    const [endDate, setEndDate] = useState(null)
    const [state, setState] = useState("")
    const [currency, setCurrency] = useState("USD");
    const[price,setPrice] = useState(0.00)
-   const [nameOfCity, setNameOfCity] = useState("")
+  
   const [value, setValue] = React.useState<Dayjs | null>();
       const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
    const [kind,setKind] = useState("")
@@ -45,9 +62,7 @@ function ListARetreat() {
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
    const [imageList, setImageList] = useState([]);
-   const [imageListCity, setImageListCity] = useState([]);
-   const [airportPickup, setAirportPickup] = useState("")
-   const [nearestAirport, setNearestAirport] = useState("")
+   
    const [notIncluded, setNotIncluded] = useState("")
       const [retreatKindId, setRetreatKindId] = useState(Math.floor(Math.random() * 1000000));
    
@@ -64,6 +79,24 @@ function ListARetreat() {
           console.error("Error deleting image: ", error);
         });
      }
+     const deleteImageRoom1=(url)=>{
+       alert("Are you sure you want to delete this image?"+url);
+        const imageRef1 = ref(storage, url);
+        deleteObject(imageRef1).then(() => {
+          setImageListRoom1((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+      const deleteImageCity=(url)=>{
+       alert("Are you sure you want to delete this image?"+url);
+        const imageRef2 = ref(storage, url);
+        deleteObject(imageRef2).then(() => {
+          setImageListCity((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
     const uploadImage=(e)=>{
         e.preventDefault();
        // Create a root reference
@@ -75,6 +108,23 @@ function ListARetreat() {
        uploadBytes(imageRef, imageUpload).then((snapshot)=>{
          getDownloadURL(snapshot.ref).then((url)=>{
            setImageList((prev)=>[...prev, url]);
+         }
+         );
+       });
+       console.log("imageList", imageList);
+   
+     }
+       const uploadImageRoom1=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       console.log("Upload Image");
+       if(imageUpload == null) return;
+       
+       
+       const imageRef1 = ref(storage, `/retreatimages/room1/${retreatKindId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageRef1, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageListRoom1((prev)=>[...prev, url]);
          }
          );
        });
@@ -100,6 +150,11 @@ function ListARetreat() {
    const pricing =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
     setPrice(doubleValueFloat)
+
+   }
+   const pricing1 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom1(doubleValueFloat)
 
    }
 
@@ -151,6 +206,8 @@ const endAtDate=(e)=>{
                                          pic1: imageList[0],
                                          cityPic: imageListCity[0],
                                          nameOfCity: nameOfCity, 
+                                         accommodation1: accommodation1,
+                                         priceRoom1:priceRoom1,
                                          aboutCity:city,
                                          
 
@@ -401,21 +458,37 @@ const endAtDate=(e)=>{
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setCity(e.target.value)}></textarea>
     </div>
+     <div className="mb-4">
+
+<label for="profile-pic">Upload at least one image of the city of Retreat</label><br/>
+        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+    
+      <Button onClick={uploadCityImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload City Image</Button>
+    </div>
+     {imageListCity.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageCity(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Message for the Visitors
+       Message1 for the Visitors
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setMessage1(e.target.value)}></textarea>
     </div>
      <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Message for the Visitors
+       Message2 for the Visitors
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setMessage2(e.target.value)}></textarea>
     </div>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Message for the Visitors
+       Message3 for the Visitors
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setMessage3(e.target.value)}></textarea>
     </div>
@@ -737,6 +810,41 @@ const endAtDate=(e)=>{
     
   </div>
   <div className='mb-4'>
+    <p className="block text-gray-700 text-lg font-bold mb-2">
+      Different kinds of accommodations available:
+    </p>
+  </div>
+  
+    <div className="mb-4">
+
+<label for="profile-pic">Upload at least one image for accomodation 1</label><br/>
+        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+    
+      <Button onClick={uploadImageRoom1} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+    </div>
+     
+     {imageListRoom1.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageRoom1(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
+     <div className='mb-4'>
+      <label>
+        Price per night for accommodation 1
+      </label>
+           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing1}/>
+           </div>
+  <div className='mb-4'>
+      <label>
+       About Accommodation 1
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation1(e.target.value)}></textarea>
+  </div>
+  <div className='mb-4'>
       <label>
         Flight Expense Included
       </label>
@@ -768,22 +876,7 @@ const endAtDate=(e)=>{
 
     
   </div>
- <div className="mb-4">
 
-<label for="profile-pic">Upload at least one image of the city of Retreat</label><br/>
-        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
-    
-      <Button onClick={uploadCityImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload City Image</Button>
-    </div>
-     {imageListCity.map((url)=>{
-      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
-                      <Button onClick={()=> deleteImage(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
-
-
-
-      </div>
-      
-     })}
     <div className="mb-4">
 
 <label for="profile-pic">Upload at least one image</label><br/>
