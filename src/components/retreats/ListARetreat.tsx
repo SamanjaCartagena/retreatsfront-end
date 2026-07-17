@@ -41,7 +41,11 @@ function ListARetreat() {
    const [accommodation2, setAccommodation2] = useState("")
    const [accommodation3, setAccommodation3] = useState("")
    const [priceRoom1, setPriceRoom1] = useState(0.0)
+   const [priceRoom2, setPriceRoom2] = useState(0.0)
+   const [priceRoom3, setPriceRoom3] = useState(0.0)
    const [imageListRoom1, setImageListRoom1] = useState([])
+   const [imageListRoom2, setImageListRoom2] = useState([])
+   const [imageListRoom3, setImageListRoom3] = useState([])
 
 
    const [startDate, setStartDate] = useState(null)
@@ -70,6 +74,7 @@ function ListARetreat() {
    const userId = params.userId;
    const navigate= useNavigate()
     const imageListRef = ref(storage, `/retreatimages/${retreatKindId}/`);
+    const imageListRefRoom1= ref(storage, `/retreatimages/room1/${retreatKindId}`)
     const deleteImage=(url)=>{
        alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
@@ -84,6 +89,24 @@ function ListARetreat() {
         const imageRef1 = ref(storage, url);
         deleteObject(imageRef1).then(() => {
           setImageListRoom1((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+     const deleteImageRoom2=(url)=>{
+       alert("Are you sure you want to delete this image?"+url);
+        const imageRef1 = ref(storage, url);
+        deleteObject(imageRef1).then(() => {
+          setImageListRoom2((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+      const deleteImageRoom3=(url)=>{
+       alert("Are you sure you want to delete this image?"+url);
+        const imageRef3 = ref(storage, url);
+        deleteObject(imageRef3).then(() => {
+          setImageListRoom2((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
         }).catch((error) => {
           console.error("Error deleting image: ", error);
         });
@@ -131,6 +154,38 @@ function ListARetreat() {
        console.log("imageList", imageList);
    
      }
+      const uploadImageRoom2=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       console.log("Upload Image");
+       if(imageUpload == null) return;
+       
+       
+       const imageRef2 = ref(storage, `/retreatimages/room2/${retreatKindId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageRef2, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageListRoom2((prev)=>[...prev, url]);
+         }
+         );
+       });
+   
+     }
+     const uploadImageRoom3=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       console.log("Upload Image");
+       if(imageUpload == null) return;
+       
+       
+       const imageRef3 = ref(storage, `/retreatimages/room3/${retreatKindId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageRef3, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageListRoom3((prev)=>[...prev, url]);
+         }
+         );
+       });
+   
+     }
        const uploadCityImage=(e)=>{
         e.preventDefault();
        // Create a root reference
@@ -157,7 +212,16 @@ function ListARetreat() {
     setPriceRoom1(doubleValueFloat)
 
    }
+   const pricing2 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom2(doubleValueFloat)
 
+   }
+const pricing3 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom3(doubleValueFloat)
+
+   }
      const startAtDate=(e)=>{
     const timestamp = Timestamp.fromDate(new Date(e));
     setStartDate(timestamp)
@@ -207,7 +271,13 @@ const endAtDate=(e)=>{
                                          cityPic: imageListCity[0],
                                          nameOfCity: nameOfCity, 
                                          accommodation1: accommodation1,
+                                         accommodation2:accommodation2,
+                                         accommodation3:accommodation3,
+                                  
+
                                          priceRoom1:priceRoom1,
+                                         priceRoom2:priceRoom2,
+                                         priceRoom3:priceRoom3,
                                          aboutCity:city,
                                          
 
@@ -253,7 +323,14 @@ const endAtDate=(e)=>{
                       });
                     });
                   });
-                 
+                  listAll(imageListRefRoom1).then((res)=>{
+                    res.items.forEach((item)=>{
+                      getDownloadURL(item).then((url)=>{
+                        setImageListRoom1((prev)=>[...prev, url]);
+              
+                      });
+                    });
+                  });
 
  
          
@@ -460,7 +537,7 @@ const endAtDate=(e)=>{
     </div>
      <div className="mb-4">
 
-<label for="profile-pic">Upload at least one image of the city of Retreat</label><br/>
+<label for="profile-pic">Upload at least one image of the city of Retreat.</label><br/>
         <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
     
       <Button onClick={uploadCityImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload City Image</Button>
@@ -817,7 +894,7 @@ const endAtDate=(e)=>{
   
     <div className="mb-4">
 
-<label for="profile-pic">Upload at least one image for accomodation 1</label><br/>
+<label for="profile-pic">Upload at least one image for accomodation 1, You can upload many</label><br/>
         <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
     
       <Button onClick={uploadImageRoom1} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
@@ -832,6 +909,7 @@ const endAtDate=(e)=>{
       </div>
       
      })}
+
      <div className='mb-4'>
       <label>
         Price per night for accommodation 1
@@ -844,6 +922,65 @@ const endAtDate=(e)=>{
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation1(e.target.value)}></textarea>
   </div>
+      <div className="mb-4">
+
+<label for="profile-pic">Upload at least one image for accomodation 2, You can upload many</label><br/>
+        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+    
+      <Button onClick={uploadImageRoom2} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+    </div>
+     
+     {imageListRoom2.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageRoom2(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
+       <div className='mb-4'>
+      <label>
+        Price per night for accommodation 2
+      </label>
+           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing2}/>
+           </div>
+  <div className='mb-4'>
+      <label>
+       About Accommodation 2
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation2(e.target.value)}></textarea>
+  </div>
+   <div className="mb-4">
+
+<label for="profile-pic">Upload at least one image for accomodation 3, You can upload many</label><br/>
+        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+    
+      <Button onClick={uploadImageRoom3} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+    </div>
+     
+     {imageListRoom3.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageRoom3(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
+       <div className='mb-4'>
+      <label>
+        Price per night for accommodation 3
+      </label>
+           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing3}/>
+           </div>
+  <div className='mb-4'>
+      <label>
+       About Accommodation 3
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation3(e.target.value)}></textarea>
+  </div>
+
   <div className='mb-4'>
       <label>
         Flight Expense Included

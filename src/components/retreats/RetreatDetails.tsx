@@ -1,6 +1,6 @@
 import React,{useEffect, useState, useRef} from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast, doc, documentId, updateDoc} from 'firebase/firestore';
+import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast, doc, documentId, updateDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 import ImageModal from '../ImageModal.js';
 import '../ImageModal.css';
 import {db,storage, } from '../../firebase.js';
@@ -8,13 +8,15 @@ import { Button } from '../ui/button.js';
 import Modal from '../Modal.js'
 import ImageSlider from '../ImageSlider.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import dayjs from 'dayjs';
 import {v4} from 'uuid';
 import { getDownloadURL, listAll, ref, StorageReference, deleteObject, uploadBytes } from 'firebase/storage';
 import { Card } from '../ui/card.js';
 import emailjs from '@emailjs/browser';
 import { useToast } from "@/hooks/use-toast";
-
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
 import stripe from 'stripe';
 import StripeCheckout from 'react-stripe-checkout';
 import { Link } from 'lucide-react';
@@ -43,7 +45,10 @@ function RetreatDetails() {
     const [centerName, setCenterName] = useState("")
     const [hostIsUser, setHostIsUser] = useState(false)
     const [hostId, setHostId] = useState("");
+    const [currency, setCurrency] = useState("")
     const [imageUpload, setImageUpload] = useState(null);
+    const [startDate, setStartDate] = useState(null)
+       const [endDate, setEndDate] = useState(null)
     const [message1, setMessage1] = useState("");
     const [message2, setMessage2] = useState("");
     const [message3, setMessage3] = useState("");
@@ -54,7 +59,10 @@ function RetreatDetails() {
     const [month, setMonth] = useState("");
     const [editModal, setEditModal] = useState(false);
     const [country, setCountry] = useState("");
+
     const [city, setCity] = useState("");
+      const [value, setValue] = React.useState<Dayjs | null>();
+    
     const [hostPic, setHostPic] = useState(""); 
     const [openImageModal, setOpenImageModal] = useState(false);
     const [price, setPrice] = useState(0);
@@ -70,6 +78,18 @@ function RetreatDetails() {
     const [cityPic, setCityPic] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0)
     const [imageUrl, setImageUrl] = useState("")
+                 /**Accomodations */
+    const [imageListRoom1, setImageListRoom1] = useState([])
+    const [accommodation1,setAccommodation1] = useState("")
+    const [priceRoom1, setPriceRoom1] = useState(0.0)
+    const [imageListRoom2, setImageListRoom2] = useState([])
+    const [accommodation2,setAccommodation2] = useState("")
+    const [priceRoom2, setPriceRoom2] = useState(0.0)
+    const [imageListRoom3, setImageListRoom3] = useState([])
+    const [accommodation3,setAccommodation3] = useState("")
+    const [priceRoom3, setPriceRoom3] = useState(0.0)
+
+
     const [bookRetreat, setBookRetreat] = useState({
             name:"Retreat Name",
             email:"Customer Email",
@@ -80,8 +100,22 @@ function RetreatDetails() {
            })
 
     const [emailHostModal, setEmailHostModal] = useState(false);
+   const startAtDate=(e)=>{
+     const timestamp = Timestamp.fromDate(new Date(e));
+     setStartDate(timestamp)
+   
  
+ 
+ }
+ const endAtDate=(e)=>{
+   const timestamp1 = Timestamp.fromDate(new Date(e));
+  setEndDate(timestamp1)
+ }
+ const newPrice =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPrice(doubleValueFloat)
 
+   }
     const form = useRef();
     const [loggedIn, setLoggedIn] = useState(false)
       const [retreatId, setRetreatId] = useState(0);
@@ -113,7 +147,6 @@ const passImageUrl=(url)=>{
 }
 const saveChanges=async(e)=>{
      e.preventDefault()
-     alert(retreatName)
       const docRef = doc(db, "retreats", documentId);
       console.log(documentId)
      await updateDoc(docRef, { 
@@ -123,6 +156,11 @@ const saveChanges=async(e)=>{
       location:country,
       price:price,
       city:city,
+      startAt:startDate,
+      endAt:endDate,
+      message1:message1,
+      message2:message2,
+      message3:message3,
       retreatCenterName:centerName,
 
           
@@ -292,12 +330,20 @@ useEffect(()=>{
             setHostEmail(doc.data().hostEmail);
             setCityPic(doc.data().cityPic)
             setHostPic(doc.data().hostProfilePic);
+            setCurrency(doc.data().currency)
             setPrice(doc.data().price)
             setRetreatType(doc.data().type1)
             setFlightIncluded(doc.data().flightIncluded)
             setAirportPickup(doc.data().airportPickup)
             setCity(doc.data().aboutCity)
             setNameOfCity(doc.data().nameOfCity)
+            setAccommodation1(doc.data().accommodation1)
+            setPriceRoom1(doc.data().priceRoom1)
+            setAccommodation2(doc.data().accommodation2)
+            setPriceRoom2(doc.data().priceRoom2)
+            setAccommodation3(doc.data().accommodation3)
+            setPriceRoom3(doc.data().priceRoom3)
+
             setBookRetreat({
               email: guestEmail,
               name: doc.data().name,
@@ -327,11 +373,38 @@ useEffect(()=>{
             console.log("Error getting profile picture:", error);
           })
             const imageListRef = ref(storage, `/retreatimages/${retreatId}/`);
+            const imageListRefRoom1 = ref(storage, `/retreatimages/room1/${retreatId}`)
+                        const imageListRefRoom2 = ref(storage, `/retreatimages/room2/${retreatId}`)
+            const imageListRefRoom3 = ref(storage, `/retreatimages/room3/${retreatId}`)
 
           listAll(imageListRef).then((res)=>{
                             res.items.forEach((item)=>{
                               getDownloadURL(item).then((url)=>{
                                 setImageList((prev)=>[...prev, url]);
+                                
+                              });
+                            });
+                          });
+                           listAll(imageListRefRoom1).then((res)=>{
+                            res.items.forEach((item)=>{
+                              getDownloadURL(item).then((url)=>{
+                                setImageListRoom1((prev)=>[...prev, url]);
+                                
+                              });
+                            });
+                          });
+                          listAll(imageListRefRoom2).then((res)=>{
+                            res.items.forEach((item)=>{
+                              getDownloadURL(item).then((url)=>{
+                                setImageListRoom2((prev)=>[...prev, url]);
+                                
+                              });
+                            });
+                          });
+                          listAll(imageListRefRoom3).then((res)=>{
+                            res.items.forEach((item)=>{
+                              getDownloadURL(item).then((url)=>{
+                                setImageListRoom3((prev)=>[...prev, url]);
                                 
                               });
                             });
@@ -392,23 +465,50 @@ useEffect(()=>{
             <div className='mt-25 w-full h-200 justify-center items-center bg-white p-4 rounded-lg overflow-y-scroll overflow-x-hidden'>
              <form>
               <label>Name of Retreat</label><br/>
-              <input type="text" className='border-solid p-2 border-black border-2 m-2'  placeholder={retreatName}  onChange={(e)=>setRetreatName(e.target.value)}/><br/>
+              <input type="text" className='border-solid p-2 border-black border-2 m-2'  value={retreatName}  onChange={(e)=>setRetreatName(e.target.value)}/><br/>
               <label>Address of Retreat</label><br/>
-              <input type="text" className='border-solid p-2 border-black border-2 m-2'  placeholder={retreatAddress}/><br/>
+              <input type="text" className='border-solid p-2 border-black border-2 m-2' value={retreatAddress}/><br/>
               <label>Country of Retreat</label><br/>
-              <input type="text" className='border-solid p-2 border-black border-2 m-2' placeholder={country}/><br/>
+              <input type="text" className='border-solid p-2 border-black border-2 m-2' value={country} /><br/>
               <label>Retreat Center Name</label><br/>
-              <input type="text" className='border-solid p-2 border-black border-2 m-2' placeholder={centerName} onChange={(e)=>setCenterName(e.target.value)}/><br/>
+              <input type="text" className='border-solid p-2 border-black border-2 m-2' value={centerName} onChange={(e)=>setCenterName(e.target.value)}/><br/>
               <label>Price of Retreat</label><br/>
-              <input type='number' className='border-solid p-2 border-black border-2 m-2' placeholder={price}/> <br/>
-              <label>About The Retreat</label><br/>
-              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." aria-placeholder={kind}></textarea>
+              <input type='number' className='border-solid p-2 border-black border-2 m-2' value={price} onChange={newPrice}/> <br/>
+              <label>Kind of Retreat</label><br/>
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." aria-placeholder={kind} onChange={(e)=> setKind(e.target.value)}>{kind}</textarea>
               <label>City</label>
-              <input type="text" className='border-solid p-2 border-black border-2 m-2' placeholder={nameOfCity} onChange={(e)=>setNameOfCity(e.target.value)}/><br/>
-
+              <input type="text" className='border-solid p-2 border-black border-2 m-2' value={nameOfCity} onChange={(e)=>setNameOfCity(e.target.value)}/><br/>
+              <label className="block text-gray-700 text-sm font-bold mb-2" >
+                          Start Date of Retreat
+                     </label>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+             <DatePicker value={value} onChange={(e)=>startAtDate(e)}/>
+               </LocalizationProvider>
+               <br/>
+               <div>
+                 <label className="block text-gray-700 text-sm font-bold mb-2" >
+                      End Date of Retreat
+                     </label>
+                       <LocalizationProvider dateAdapter={AdapterDayjs}>
+                     <DatePicker value={value} onChange={(e)=>endAtDate(e)}/>
+                       
+                   </LocalizationProvider>
+               
+                   
+                   </div><br/>
               <label>About The City</label><br/>
 
-              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." aria-placeholder={city}></textarea>
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setCity(e.target.value)}>{city}</textarea>
+              <label>Message 1</label><br/>
+
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setMessage1(e.target.value)}>{message1}</textarea>
+               <label>Message 2</label><br/>
+
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setMessage2(e.target.value)}>{message2}</textarea>
+               <label>Message 3</label><br/>
+
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setMessage3(e.target.value)}>{message3}</textarea>
+              
               <label>Delete image: </label>
               {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
              
@@ -517,9 +617,82 @@ useEffect(()=>{
                                     </div>
                                     <div className='border-2 rounded w-full'>
                         <p className='font-semibold text-lg m-2'>Accommodation</p>
+                                                                       <p className='font-semibold text-lg m-2'>{accommodation1}:{priceRoom1}&nbsp;{currency}</p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
+
+            {imageListRoom1.length > 0 &&  imageListRoom1.map((imageUrl, index) => (
+              <div>
+                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(imageUrl)}>
+                <img className="w-85 md:w-50 lg:w-full items-center m-2 rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
+                
+              </Card>
+              
+                  </div>
+              
+          ))}
+                <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
+                <div className="w-90% h-full justify-center items-center bg-transparent">
+                  <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+
+                  </div>
+                  </ModalImage>
+
+                    </div>
+                        
                           
 
             </div>
+             <div className='border-2 rounded w-full'>
+                        <p className='font-semibold text-lg m-2'>Accommodation</p>
+                                                                       <p className='font-semibold text-lg m-2'>{accommodation2}:{priceRoom2}&nbsp;{currency}</p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
+
+            {imageListRoom2.length > 0 &&  imageListRoom2.map((imageUrl, index) => (
+              <div>
+                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(imageUrl)}>
+                <img className="w-85 md:w-50 lg:w-full items-center m-2 rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
+                
+              </Card>
+              
+                  </div>
+              
+          ))}
+                <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
+                <div className="w-90% h-full justify-center items-center bg-transparent">
+                  <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+
+                  </div>
+                  </ModalImage>
+
+                    </div>
+                    </div>
+                     <div className='border-2 rounded w-full'>
+                        <p className='font-semibold text-lg m-2'>Accommodation</p>
+                                                                       <p className='font-semibold text-lg m-2'>{accommodation3}{priceRoom3}/night&nbsp;{currency}</p>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
+
+            {imageListRoom3.length > 0 &&  imageListRoom3.map((imageUrl, index) => (
+              <div>
+                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(imageUrl)}>
+                <img className="w-85 md:w-50 lg:w-full items-center m-2 rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
+                
+              </Card>
+              
+                  </div>
+              
+          ))}
+                <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
+                <div className="w-90% h-full justify-center items-center bg-transparent">
+                  <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+
+                  </div>
+                  </ModalImage>
+
+                    </div>
+                    </div>
             </div>
             
             <div>

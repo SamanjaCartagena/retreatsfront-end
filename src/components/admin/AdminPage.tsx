@@ -97,17 +97,9 @@ const userId = params.userId;
     </div>
     
     </div>
-    <center>
-      
-        
-      <p className='text-black font-bold text-2xl m-4 underline'>     <a href="https://www.awin1.com/cread.php?awinmid=24529&awinaffid=2968735&campaign=FamilySafarisSA&clickref=safari&clickref2=africa&clickref3=lion&ued=https%3A%2F%2Fwww.retreatsaroundtheworld.net"  target="_blank" rel="sponsored">
-Host a Retreat on African Safari</a></p></center>
+   
   
-    <div className='flex justify-center flex-wrap'>
-    <img src={pic2} className="m-4 rounded" style={{height:'400px'}} />
-    <img src={pic3} className="m-4 rounded" style={{height:'400px'}} />
-    <img src={pic4} className="m-4 rounded" style={{height:'400px'}} />
-    </div>
+   
 
     </div>
     
