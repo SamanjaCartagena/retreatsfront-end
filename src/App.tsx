@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {  Routes, Route,useParams} from "react-router-dom";
+import EcoTourism from "./components/ecotourism/EcoTourism";
 import Index from "./pages/Index";
 import {Header} from "@/components/Header"
 import Guest from "@/components/Guest"
@@ -70,6 +71,7 @@ const App = () => (
           <Route path="/guides" element={<Guides/>}/>
           <Route path="/guidesignup" element={<GuideSignUp/>}/>
           <Route path="/airlines" element={<Airways/>}/>
+          <Route path="/ecotourism" element={<EcoTourism/>}/>
             
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

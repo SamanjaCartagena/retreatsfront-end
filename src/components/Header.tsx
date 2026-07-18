@@ -275,7 +275,7 @@ const [id,setId]=useState('');
             </a>
           </MenuItem>
           </Link>
-          <Link to="/">
+          <Link to="/ecotourism">
           <MenuItem>
             <a
               href="#"
