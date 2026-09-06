@@ -5,7 +5,7 @@ import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serve
 import { db, auth,storage} from "../firebase.js";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 
-
+import waves from '../assets/waves.mp4'
 import Modal from "./Modal.js";
 
 import { useState, useEffect } from "react";
@@ -59,8 +59,17 @@ export function Newsletter() {
   };
 
   return (
-    <div className="py-16 flex flex-col justify-center " style={{ backgroundImage: `url(${pic})`, backgroundRepeat:'repeat', backgroundSize:'100%', color:'white' }}>
-      <div className="container">
+        <div className="relative h-[30vh] min-h-[250px] w-full overflow-hidden">
+
+      <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover">
+        <source src={waves} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div 
+        className="absolute inset-0 bg-cover bg-center" 
+        style={{ backgroundImage: `url(${waves})` }}
+      >
+      <div className="container py-12 mx-auto flex flex-col items-center justify-center">
         <div className="max-w-3xl mx-auto text-center flex flex-col justify-center">
           <Modal isOpen={isSignedInModal} onClose={() => setIsSignedInModal(false)}>
             <div className="p-4 mt-20 text-center">
@@ -101,6 +110,7 @@ export function Newsletter() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

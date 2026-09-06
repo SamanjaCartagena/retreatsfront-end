@@ -6,11 +6,12 @@ import React, { useEffect, useState } from "react";
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, or, endBefore, limitToLast} from 'firebase/firestore';
 import {db} from '../../firebase.js';
 import dayjs, { Dayjs } from 'dayjs';
-
+import sea from '../../assets/sea.png'
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "@/components/ui/button";
 import ReactPaginate from 'react-paginate';
 import {Link} from 'react-router-dom'
+import airline from '../../assets/h.png'
 import './RetreatCard.css'
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -170,12 +171,12 @@ export function RetreatCard() {
   .map(retreat => {
     return(
            
-          <div key={retreat.id} >
+          <div key={retreat.id} className="retreat-card-container animate-float ">
           
-            <h2 className="text-xl font-bold mb-2">{retreat.name}</h2>
+            <h2 className="text-xl font-bold mb-2 animate-float p-5" >{retreat.name}</h2>
 
             <Link to={`/retreatdetails/${retreat.id}`} >
-             <Card className="rounded-xl h-130 overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer ">
+             <Card className="rounded-xl h-130 overflow-hidden border-none shadow-lg hover:shadow-md transition-all text-black retreat-card cursor-pointer animate-float shadow-md shadow-white/40 ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
           src={retreat.pic1}
@@ -183,13 +184,13 @@ export function RetreatCard() {
           className="w-full h-full object-cover transition-transform duration-500"
         />
       </div>
-      <CardContent className="p-4">
-        <div className="flex justify-between items-start">
-          <h3 className="font-serif font-medium text-lg line-clamp-1">{retreat.startAt?.toDate()?.toLocaleDateString('en-US')}</h3> -
-          <h3 className="font-serif font-medium text-lg line-clamp-1">{retreat.endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
+      <CardContent className="p-4 text-black ">
+        <div className="flex justify-between items-start text-black">
+          <h3 className="font-serif font-medium text-lg line-clamp-1 text-black">{retreat.startAt?.toDate()?.toLocaleDateString('en-US')}</h3> -
+          <h3 className="font-serif font-medium text-lg line-clamp-1 text-black">{retreat.endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
           <div className="flex items-center gap-1 text-sm">
             <Star size={16} fill="currentColor" className="text-retreat-forest" />
-            <span>{retreat.retreatCenterName}</span>
+            <span className="text-black">{retreat.retreatCenterName}</span>
           </div>
         </div>
         <p className="text-muted-foreground text-sm mb-2">{Object.values(retreat.type1).join(", ")}</p>
@@ -230,62 +231,74 @@ const changePage= ({selected}) => {
 
 
   return (
-    <div>
-      <div className=" py-16">
+    <div >
+            
 
+      
+          <div 
+        className="bg-black  bg-center py-16 opacity-90" 
+       
+       
+      >
         <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 text-black" id="extraButtons">
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Mens Retreat")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Mens Retreat")}>
                  Men's retreats
                 </Button>
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Sound Healing")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Sound Healing")}>
                  Sound Healing
                 </Button>
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Fasting Retreat")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Fasting Retreat")}>
                  Fasting retreats
                 </Button>
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Vegan Retreats")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Vegan Retreats")}>
                  Vegan retreats
                 </Button>
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Corporate Retreats")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Corporate Retreats")}>
                  Corporate retreats
                 </Button>
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedType("Eco Retreats")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Eco Retreats")}>
                  Eco Retreats
                 </Button>
 
               </div>
                <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 text-black" id="extraButtons" >
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md "  onClick={()=>setSelectedLocation("United States of America")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm"  onClick={()=>setSelectedLocation("United States of America")}>
                  USA
                 </Button>
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedLocation("Nepal")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedLocation("Nepal")}>
                  Nepal
                 </Button>
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedLocation("Indonesia")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedLocation("Indonesia")}>
                  Bali
                 </Button>
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedLocation("Italy")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedLocation("Italy")}>
                  Italy
                 </Button>
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedLocation("Morocco")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedLocation("Morocco")}>
                  Morocco
                 </Button>
-                <Button className="bg-transparent w-60 text-lime-900 border border-lime-900 rounded-md " onClick={()=>setSelectedLocation("Spain")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedLocation("Spain")}>
                  Spain
                 </Button>
 
               </div>
 
-      <div className="container">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4 text-center">
-            Search for the perfect retreat!
+      <div className="">
+        <div className="max-w-3xl mx-auto text-center justify-center align-center">
+          <div className="w-32 h-32 border-4 border-background/20 bg-retreat-olive rounded-full opacity-90 flex items-center justify-center mb-6 mx-auto text-yellow-900	">
+                  <div className="w-14 h-14 bg-background/20 rounded-full animate-ripple animate-float" />
+                </div>
+                <center>
+          <h2 className="text-2xl md:text-3xl position-relative font-serif font-semibold mb-4 text-center text-shadow-sm text-white font-serif tracking-widest">
+            <center>Search for your perfect retreat!</center>
           </h2>
+
+          </center>
              
-          <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
+          <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto ">
            
-            <div>
-             <select className="bg-white p-4 rounded border-2" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto ">
+             <select className="bg-white p-4 text-black rounded border-2" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
     <option value="">Select Type</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
@@ -316,8 +329,8 @@ const changePage= ({selected}) => {
     <option value="Writing">Writing</option>
     </select>
            </div>
-           <div>
-  <select className="bg-white p-4 rounded border-2" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
+           <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto ">
+  <select className="bg-white p-4 rounded border-2 text-black" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
         <option value="">Select Location</option>
     <option value="Afghanistan">Afghanistan</option>
     <option value="Albania">Albania</option>
@@ -516,8 +529,8 @@ const changePage= ({selected}) => {
 
     </select>
     </div>
-    <div>
-    <select className="bg-white p-4 rounded border-2" onChange={searchPrice} value={selectedPrice}>
+    <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto ">
+    <select className="bg-white p-4 rounded border-2 text-black" onChange={searchPrice} value={selectedPrice}>
     <option value="0">Select Price</option>
     <option value="1000">Less than $1000</option>
     <option value="2000">Less than $2000</option>
@@ -541,15 +554,16 @@ const changePage= ({selected}) => {
       </div>
           
     </div>
-         
-   <Separator />
-   
-     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8" >
+    <div className="bg-black airline bg-center opacity-90">
+    <img src={airline} className="w-200px h-40 object-cover bg-black opacity-90 " alt="Sea" />
+    </div>
+     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8 bg-black opacity-90 text-white text-shadow-sm text-underline " >
        {displayRetreats}
        
     </div>                                           
-                                    <div className="flex justify-center items-center gap-4 mb-8 text-black">
+                                    <div className="flex justify-center items-center gap-4 pt-8 mb-8 text-white">
                                                     <ReactPaginate
+                                                         
                                                           previousLabel={"Previous"}
                                                           
                                                            nextLabel={"Next"}

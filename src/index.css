@@ -69,4 +69,8 @@
     transform: translateY(-2px);
     transition: transform 0.3s ease;
   }
+  .text-shadow-sm {
+    color: white;
+    text-shadow: 2px 2px 4px olive;
+  }
 }

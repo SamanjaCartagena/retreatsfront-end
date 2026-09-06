@@ -34,6 +34,10 @@ export default {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))'
         },
+        'spiritual-gold': {
+					DEFAULT: 'hsl(var(--spiritual-gold))',
+					light: 'hsl(var(--spiritual-gold-light))'
+				},
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))'
@@ -76,7 +80,16 @@ export default {
           'forest': '#3A5743',
           'cream': '#F7F3EB',
           'stone': '#A09A8F',
-        }
+          'olive': '#8fd10b',
+        },
+        			keyframes: {
+             'float': {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+
+              }
+
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -88,6 +101,12 @@ export default {
           from: { height: '0' },
           to: { height: 'var(--radix-accordion-content-height)' }
         },
+        'typing': {
+                            "from": { width: "0" },
+          "to": { width: "100%" }
+ 
+
+                  },
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' }
@@ -95,20 +114,35 @@ export default {
         'fade-in': {
           '0%': { opacity: '0', transform: 'translateY(10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' }
-        }
+        },
+        'float': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-5px)' }
+        },
+        'ripple': {
+					'0%': { transform: 'scale(1)', opacity: '1' },
+					'100%': { transform: 'scale(1.5)', opacity: '0' }
+				},
+         blink: {
+                    "50%": { borderColor: "transparent" }
+
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'fade-in': 'fade-in 0.5s ease-out'
+        'fade-in': 'fade-in 0.5s ease-out',
+        'ripple': 'ripple 1s infinite',
+        'typewriter': 'typing 3.5s steps(40, end) forwards, blink .75s step-end infinite',
+        'float': 'float 3s ease-in-out infinite',
+
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         serif: ['Playfair Display', 'serif'],
       },
-    }
+    },
+   
   },
-  plugins: [require("tailwindcss-animate",
-
-  )],
+	plugins: [require("tailwindcss-animate")],
 } satisfies Config;

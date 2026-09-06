@@ -217,12 +217,12 @@ const [id,setId]=useState('');
             <Menu as="div" className="relative inline-block">
       <MenuButton className="inline-flex w-full justify-center border-0  px-3 py-2 text-sm font-semibold  " >
         <UserPen />
-              Spiritual Community
+              Join The Community
       </MenuButton>
 
       <MenuItems
         transition
-        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-lime-800 data-focus:outline-hidden text-white outline-1 -outline-offset-1 data-focus:text-white transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-lime-800 opacity-90 data-focus:outline-hidden text-white outline-1 -outline-offset-1 data-focus:text-white transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
       >
         <div className="py-1">
           <MenuItem >

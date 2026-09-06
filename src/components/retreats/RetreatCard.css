@@ -10,9 +10,20 @@
   margin:8px;
   border-radius:5px;
   border:1px solid #4d7c0f;
-  color:#4d7c0f;
+  color:white;
   cursor:pointer;
   font-family:bold;
+}
+@keyframes moveLeftToRight {
+      0% {
+        transform: translateX(0); /* Starting position */
+      }
+      100% {
+        transform: translateX(90%); /* Target ending position */
+      }
+    }
+.airline {
+  animation: moveLeftToRight 5s linear infinite;
 }
 @media only screen and (max-width: 700px) {
 #extraButtons {
