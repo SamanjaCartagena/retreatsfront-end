@@ -7,7 +7,6 @@ import Modal from './Modal';
 import { GoogleGenAI } from "@google/genai";
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import loadingGif from '../assets/loading.gif';
 
 
 export function Footer() {
@@ -101,9 +100,7 @@ setSafetyInfo(response.text);
                 <Button className="bg-lime-700 hover:bg-lime-800 w-60 text-white rounded-md" onClick={foodSafety}>Food Safety</Button>
                  <br/>
                  <br/>
-            {isLoading && (
-            <img src={loadingGif} alt="Loading..." className="h-12 w-12 text-center justify-content-center" />
-            )}
+           
                        
             <p className="text-sm text-muted-foreground w-100 font-bold text-center text-black">
                  {safetyInfo}

@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import {useState} from 'react';
 import Modal from "./Modal";
 import logo from '../assets/logoretreat.png'
-import loading from '../assets/loading.gif';
 import { useNavigate } from "react-router-dom";
+import waves from '../assets/waves.mp4'
 import './Hero.css'
 export function Hero() {
   const [isAIOpen, setIsAIOpen]= useState(false);
@@ -13,11 +13,10 @@ export function Hero() {
   const [isShopOpen, setIsShopOpen]= useState(false);
   const navigate=useNavigate()
 
-  const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/download.gif?alt=media&token=535e9111-7cfb-492b-af8b-e128b41472e5"
   const askai =()=>{
     setIsAIOpen(true);
   }
-  const mentors =()=>{
+  const homes =()=>{
     setIsHomeOpen(true);
   }
  const closeAI =() => {
@@ -60,10 +59,13 @@ const submitAI =() => {
           </div>
         </Modal> 
 
-      
+      <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover">
+        <source src={waves} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
       <div 
         className="absolute inset-0 bg-cover bg-center" 
-        style={{ backgroundImage: `url(${pic})` }}
+        style={{ backgroundImage: `url(${waves})` }}
       >
       
         <div className="absolute inset-0 hero-gradient flex flex-col justify-center">
@@ -76,8 +78,8 @@ const submitAI =() => {
                 <center>
               <div className="flex flex-col justify-center mt-6 sm:flex-row gap-4">
                 <Button className=" bg-transparent text-white border-white border-2 border-radius hover:bg-white hover:text-lime-700
-                  font-medium text-base px-8 py-6" onClick={mentors}>
-                 Mentors
+                  font-medium text-base px-8 py-6" onClick={homes}>
+                Homes
                 </Button>
                 <Button className=" bg-transparent text-white border-white border-2 border-radius hover:bg-white hover:text-lime-700
                    font-medium text-base px-8 py-6" onClick={shop}>
