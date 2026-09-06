@@ -33,6 +33,7 @@ function RetreatCenterDetails() {
     {/**image information */}
     const [openImageModal, setOpenImageModal] = useState(false)
     const [imageList, setImageList] = useState([]);
+    const [photoIndex, setPhotoIndex] = useState(0);
     const [hostIsUser, setHostIsUser] = useState(false)
         const form = useRef();
     
@@ -76,7 +77,9 @@ function RetreatCenterDetails() {
     // Reset form
    
                     }
-    const viewAllPhotos=()=>{
+    const viewAllPhotos=(i)=>{
+      
+      setPhotoIndex(i)
   setOpenImageModal(true)
   
 }
@@ -141,10 +144,10 @@ const passImageUrl=(url)=>{
             </form>
             </Modal>
             
-        <ImageModal isOpen={openImageModal} onClose={()=>setOpenImageModal(false)} >
+        <ImageModal isOpen={openImageModal}  >
           
    <div className="w-full h-full justify-center items-center bg-transparent">
-     <ImageSlider slides={imageList} />
+     <ImageSlider slides={imageList} index={photoIndex} closeSlider={()=>setOpenImageModal(false)} />
     
       </div>
       
@@ -159,7 +162,7 @@ const passImageUrl=(url)=>{
   
   {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
-             <Card className="rounded-xl w-100 overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={viewAllPhotos} key={index}>
+             <Card className="rounded-xl w-100 overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={()=>viewAllPhotos(index)} key={index}>
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
       
     </Card>
@@ -169,7 +172,7 @@ const passImageUrl=(url)=>{
 </div>
 </center>
 <div className="w-full h-full flex lg:justify-center  md:justify-center sm:justify-center sm:grid-cols-1 items-center bg-transparent">
- <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700  text-white  m-2"  onClick={viewAllPhotos}>
+ <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700  text-white  m-2"  onClick={()=>viewAllPhotos(0)}>
     View all photos
   </Button>
          <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
