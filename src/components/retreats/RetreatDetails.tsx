@@ -88,6 +88,7 @@ function RetreatDetails() {
     const [imageListRoom3, setImageListRoom3] = useState([])
     const [accommodation3,setAccommodation3] = useState("")
     const [priceRoom3, setPriceRoom3] = useState(0.0)
+    const [imageIndex, setImageIndex] = useState(0)
 
 
     const [bookRetreat, setBookRetreat] = useState({
@@ -141,8 +142,8 @@ const uploadImage=(e)=>{
        console.log("imageList", imageList);
    
      }
-const passImageUrl=(url)=>{
-  setImageUrl(url)
+const passImageUrl=(i)=>{
+  setImageIndex(i)
   setOpenSomething(true)
 }
 const saveChanges=async(e)=>{
@@ -255,7 +256,8 @@ const sendEmail=()=>{
                               
                })
 }
-const viewAllPhotos=()=>{
+const viewAllPhotos=(i)=>{
+  setImageIndex(i)
   setOpenImageModal(true)
   
 }
@@ -424,10 +426,10 @@ useEffect(()=>{
               <input type="submit" value="Send Inquiry" className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer" />
             </form>
             </Modal>
-        <ImageModal isOpen={openImageModal} onClose={()=>setOpenImageModal(false)} >
+        <ImageModal isOpen={openImageModal} >
           
    <div className="w-full h-full justify-center items-center bg-transparent">
-     <ImageSlider slides={imageList} />
+     <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenImageModal(false)}/>
     
       </div>
       
@@ -442,7 +444,7 @@ useEffect(()=>{
   
   {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
-             <Card className="rounded-xl w-100 overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={viewAllPhotos} key={index}>
+             <Card className="rounded-xl w-100 overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={()=>viewAllPhotos(index)} key={index}>
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
       
     </Card>
@@ -452,7 +454,7 @@ useEffect(()=>{
 </div>
 </center>
 <div className="w-full h-full flex lg:justify-center  md:justify-center sm:justify-center sm:grid-cols-1 md:grid-cols-1 items-center bg-transparent">
- <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700  text-white  m-2"  onClick={viewAllPhotos}>
+ <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700  text-white  m-2"  onClick={()=>viewAllPhotos(0)}>
     View all photos
   </Button>
       <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
@@ -740,7 +742,7 @@ useEffect(()=>{
           
             {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
               <div>
-                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(imageUrl)}>
+                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(index)}>
                 <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
                 
               </Card>
@@ -748,12 +750,11 @@ useEffect(()=>{
                   </div>
               
           ))}
-                <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
-                <div className="w-90% h-full justify-center items-center bg-transparent">
-                  <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+                <ImageModal isOpen={openSomething} >
+                        <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
 
-                  </div>
-                  </ModalImage>
+
+                  </ImageModal>
 
                     </div>
                     </center>

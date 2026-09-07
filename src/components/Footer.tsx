@@ -75,7 +75,7 @@ setSafetyInfo(response.text);
   return (
     <div>
       <Newsletter/>
-    <footer className="bg-white border-t">
+    <footer className="bg-white text-black border-t">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           

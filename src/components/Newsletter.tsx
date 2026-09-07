@@ -60,6 +60,7 @@ export function Newsletter() {
 
   return (
         <div className="relative h-[30vh] min-h-[250px] w-full overflow-hidden">
+          
 
       <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover">
         <source src={waves} type="video/mp4" />

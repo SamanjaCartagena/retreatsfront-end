@@ -73,4 +73,8 @@
     color: white;
     text-shadow: 2px 2px 4px olive;
   }
+  .text-shadow-hero {
+    color: black;
+    text-shadow: 2px 2px 4px darkolivegreen;
+  }
 }

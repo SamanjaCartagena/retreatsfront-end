@@ -83,8 +83,8 @@ function RetreatCenterDetails() {
   setOpenImageModal(true)
   
 }
-const passImageUrl=(url)=>{
-  setImageUrl(url)
+const passImageUrl=(i)=>{
+  setPhotoIndex(i)
   setOpenSomething(true)
 }
      const params = useParams();
@@ -242,10 +242,12 @@ const passImageUrl=(url)=>{
               **/}
             </div>
             </center>
-                          <center>      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
+                          <center>   
+                            
+                              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
 
-  {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
-             <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-80 "  key={index} onClick={()=>passImageUrl(imageUrl)}>
+  {imageList.length > 0 &&  imageList.slice(0, 9).map((imageUrl, index) => (
+             <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-80 "  key={index} onClick={()=>passImageUrl(index)}>
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
       
     </Card>
@@ -253,12 +255,13 @@ const passImageUrl=(url)=>{
 ))}
           </div>
           </center>
-          <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
+          <ImageModal isOpen={openSomething} >
                 <div className="w-90% h-full justify-center items-center bg-transparent">
-                  <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+                     <ImageSlider slides={imageList} index={photoIndex} closeSlider={()=>setOpenSomething(false)} />
+
 
                   </div>
-                  </ModalImage>
+                  </ImageModal>
           </div>
       
         

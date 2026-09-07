@@ -11,7 +11,6 @@ import { Separator } from "@radix-ui/react-separator";
 import { Button } from "@/components/ui/button";
 import ReactPaginate from 'react-paginate';
 import {Link} from 'react-router-dom'
-import airline from '../../assets/h.png'
 import './RetreatCard.css'
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -171,12 +170,12 @@ export function RetreatCard() {
   .map(retreat => {
     return(
            
-          <div key={retreat.id} className="retreat-card-container animate-float ">
+          <div key={retreat.id} className="retreat-card-container border rounded-xl border-gray-2">
           
-            <h2 className="text-xl font-bold mb-2 animate-float p-5" >{retreat.name}</h2>
+            <h2 className="text-xl font-bold  p-5" >{retreat.name}</h2>
 
             <Link to={`/retreatdetails/${retreat.id}`} >
-             <Card className="rounded-xl h-130 overflow-hidden border-none shadow-lg hover:shadow-md transition-all text-black retreat-card cursor-pointer animate-float shadow-md shadow-white/40 ">
+             <Card className="rounded-xl h-130 overflow-hidden  shadow-lg hover:shadow-md transition-all text-black border border-gray-2 retreat-card cursor-pointer  shadow-md shadow-white/40 ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
           src={retreat.pic1}
@@ -236,48 +235,48 @@ const changePage= ({selected}) => {
 
       
           <div 
-        className="bg-black  bg-center py-16 opacity-90" 
+        className="bg-white text-black  bg-center py-12 opacity-90" 
        
        
       >
         <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 text-black" id="extraButtons">
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Mens Retreat")}>
+                <Button className="bg-transparent w-60 text-black hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Mens Retreat")}>
                  Men's retreats
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Sound Healing")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Sound Healing")}>
                  Sound Healing
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Fasting Retreat")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Fasting Retreat")}>
                  Fasting retreats
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Vegan Retreats")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Vegan Retreats")}>
                  Vegan retreats
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Corporate Retreats")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Corporate Retreats")}>
                  Corporate retreats
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedType("Eco Retreats")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Eco Retreats")}>
                  Eco Retreats
                 </Button>
 
               </div>
                <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 text-black" id="extraButtons" >
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm"  onClick={()=>setSelectedLocation("United States of America")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md "  onClick={()=>setSelectedLocation("United States of America")}>
                  USA
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedLocation("Nepal")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedLocation("Nepal")}>
                  Nepal
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedLocation("Indonesia")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedLocation("Indonesia")}>
                  Bali
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedLocation("Italy")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedLocation("Italy")}>
                  Italy
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedLocation("Morocco")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedLocation("Morocco")}>
                  Morocco
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-white border border-white rounded-md text-shadow-sm" onClick={()=>setSelectedLocation("Spain")}>
+                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedLocation("Spain")}>
                  Spain
                 </Button>
 
@@ -285,15 +284,12 @@ const changePage= ({selected}) => {
 
       <div className="">
         <div className="max-w-3xl mx-auto text-center justify-center align-center">
-          <div className="w-32 h-32 border-4 border-background/20 bg-retreat-olive rounded-full opacity-90 flex items-center justify-center mb-6 mx-auto text-yellow-900	">
-                  <div className="w-14 h-14 bg-background/20 rounded-full animate-ripple animate-float" />
-                </div>
-                <center>
-          <h2 className="text-2xl md:text-3xl position-relative font-serif font-semibold mb-4 text-center text-shadow-sm text-white font-serif tracking-widest">
+         
+                
+          <h2 className="text-2xl md:text-3xl position-relative font-serif font-semibold mb-4 text-center  text-black font-serif tracking-widest">
             <center>Search for your perfect retreat!</center>
           </h2>
 
-          </center>
              
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto ">
            
@@ -554,14 +550,12 @@ const changePage= ({selected}) => {
       </div>
           
     </div>
-    <div className="bg-black airline bg-center opacity-90">
-    <img src={airline} className="w-200px h-40 object-cover bg-black opacity-90 " alt="Sea" />
-    </div>
-     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8 bg-black opacity-90 text-white text-shadow-sm text-underline " >
+    
+     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8 bg-white text-black text-underline " >
        {displayRetreats}
        
     </div>                                           
-                                    <div className="flex justify-center items-center gap-4 pt-8 mb-8 text-white">
+                                    <div className="flex justify-center items-center gap-4 pt-8 mb-8">
                                                     <ReactPaginate
                                                          
                                                           previousLabel={"Previous"}

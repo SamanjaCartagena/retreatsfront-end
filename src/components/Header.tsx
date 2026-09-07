@@ -196,7 +196,7 @@ const [id,setId]=useState('');
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-2 cursor-pointer" onClick={home}>
           <div className="hidden md:block" onClick={home}>
-            <h1 className="text-xl font-serif font-bold">
+            <h1 className="text-xl font-serif font-bold  text-white tracking-widest">
               Retreats <span className=" text-xl  font-bold">Around The World</span>
             </h1>
           </div>
@@ -231,7 +231,7 @@ const [id,setId]=useState('');
               className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
               onClick={()=>setModalProfile(true)}
             >
-              Profile
+              Sign Up / Sign In
             </a>
           </MenuItem>
           <Link to='/host'>

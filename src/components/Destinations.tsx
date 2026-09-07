@@ -7,15 +7,14 @@ export function FeaturedDestinations() {
   return (
     <div className="py-12">
       <div className="container flex justify-between items-center mb-8">
-        <h2 className="text-2xl text-lime-900 justify-center align-center font-serif font-semibold">
+        <h2 className="text-2xl text-lime-white justify-center align-center font-serif font-semibold">
           Flight Deals
                   </h2>
         <a href="#" className="text-retreat-ocean hover:text-retreat-forest transition-colors font-medium" onClick={() => window.open("/airlines", "_blank")}>
           View all
         </a>
       </div>
-      <Marquee gradientWidth={300} gradientColor="white" direction="right">
-               <div className="w-full flex grid-cols-1 sm:grid-cols-1 lg:grid-cols-6 ">
+               <div className="w-full flex grid-cols-1 sm:grid-cols-1 lg:grid-cols-6 justify-center">
 
         {featuredDestinations.map((destination, index) => (
           <Card key={index} className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md m-2 transition-all cursor-pointer" onClick={()=>window.open(destination.url, "_blank")}>
@@ -35,7 +34,6 @@ export function FeaturedDestinations() {
           </Card>
         ))}
       </div>
-      </Marquee>
     </div>
   );
 }

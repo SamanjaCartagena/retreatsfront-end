@@ -64,7 +64,7 @@ const submitAI =() => {
         Your browser does not support the video tag.
       </video>
       <div 
-        className="absolute inset-0 bg-cover bg-center" 
+        className="absolute inset-0 bg-cover bg-center shadow-md shadow-white/4" 
         style={{ backgroundImage: `url(${waves})` }}
       >
       
@@ -72,21 +72,21 @@ const submitAI =() => {
           <div className="container mx-auto max-w-3xl px-4 md:px-6">
             <div className="animate-fade-in">
               <center><img id="logoImage" src={logo} className="justify-center" style={{width:'150px', height:'150px'}}/></center>
-              <center><h1 id="msg3" className="text-2xl md:text-2xl sm:text-2xl md:pt-6 lg:text-5xl font-serif font-bold tracking-tight text-white justify-center mb-6">
+              <center><h1 id="msg3" className="text-2xl md:text-2xl sm:text-2xl md:pt-6 lg:text-5xl font-serif  font-bold tracking-tight text-white justify-center mb-6">
                 Retreat. Reset. Restart.
               </h1></center>
                 <center>
               <div className="flex flex-col justify-center mt-6 sm:flex-row gap-4">
-                <Button className=" bg-transparent text-white border-white border-2 border-radius hover:bg-white hover:text-lime-700
+                <Button className=" bg-transparent text-white  border-white border-2 border-radius hover:bg-white hover:text-lime-700
                   font-medium text-base px-8 py-6" onClick={homes}>
                 Homes
                 </Button>
-                <Button className=" bg-transparent text-white border-white border-2 border-radius hover:bg-white hover:text-lime-700
+                <Button className=" bg-transparent text-white  border-white border-2 border-radius hover:bg-white hover:text-lime-700
                    font-medium text-base px-8 py-6" onClick={shop}>
                   Shop
                 </Button>
                 
-                <Button  className="bg-transparent text-white border-white border-2 border-radius
+                <Button  className="bg-transparent text-white  border-white border-2 border-radius
                   hover:bg-white hover:text-lime-700  font-medium text-base px-8 py-6" onClick={askai}>
                  AI Retreat Match
                 </Button>
