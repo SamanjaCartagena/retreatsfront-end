@@ -21,8 +21,6 @@ import stripe from 'stripe';
 import StripeCheckout from 'react-stripe-checkout';
 import { Link } from 'lucide-react';
 import { Input } from '../ui/input.js';
-import ModalAI from '../ModalAI.js';
-import ModalImage from '../ModalImage.js';
 
 function RetreatDetails() {
      const params = useParams()
@@ -625,7 +623,7 @@ useEffect(()=>{
 
             {imageListRoom1.length > 0 &&  imageListRoom1.map((imageUrl, index) => (
               <div>
-                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(imageUrl)}>
+                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(index)}>
                 <img className="w-85 md:w-50 lg:w-full items-center m-2 rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
                 
               </Card>
@@ -633,12 +631,10 @@ useEffect(()=>{
                   </div>
               
           ))}
-                <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
-                <div className="w-90% h-full justify-center items-center bg-transparent">
-                  <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+                <ImageModal isOpen={openSomething}  >
+                                         <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
 
-                  </div>
-                  </ModalImage>
+                  </ImageModal>
 
                     </div>
                         
@@ -661,12 +657,11 @@ useEffect(()=>{
                   </div>
               
           ))}
-                <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
-                <div className="w-90% h-full justify-center items-center bg-transparent">
-                  <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+               <ImageModal isOpen={openSomething}  >
+                                         <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
 
-                  </div>
-                  </ModalImage>
+                  </ImageModal>
+
 
                     </div>
                     </div>
@@ -686,12 +681,11 @@ useEffect(()=>{
                   </div>
               
           ))}
-                <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
-                <div className="w-90% h-full justify-center items-center bg-transparent">
-                  <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+                <ImageModal isOpen={openSomething}  >
+                                         <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
 
-                  </div>
-                  </ModalImage>
+                  </ImageModal>
+
 
                     </div>
                     </div>

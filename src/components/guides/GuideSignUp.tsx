@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { Button } from "@/components/ui/button";
 import pic from '../../assets/bozeman.jpg';
 import { useNavigate } from "react-router-dom"; 
-import ModalGuides from '../ModalGuides.js';
+import Modal from '../Modal';
 import chef1 from '../../assets/nic.jpg';
 import chef2 from '../../assets/vegan.jpg';
 import chef3 from '../../assets/ayurveda.jpg';
@@ -118,7 +118,7 @@ onAuthStateChanged(auth, async (user) => {
         className="absolute inset-0 bg-cover bg-center" 
         style={{ backgroundImage: `url(${pic})` }}
       >
-      <ModalGuides isOpen={modalOpen} onClose={closeModal} >
+      <Modal isOpen={modalOpen} onClose={closeModal} >
         <div className="p-6 justify-center items-center text-center  h-[700px]">
             <br/>
             <br/>
@@ -168,8 +168,8 @@ The Takeaway: The ultimate deliverable of a retreat chef is trust. When guests a
                 Sign Up as a Guide
             </Button>
             </div>
-        </ModalGuides>
-         <ModalGuides isOpen={yogaModalOpen} onClose={() => setYogaModalOpen(false)} >
+        </Modal>
+         <Modal isOpen={yogaModalOpen} onClose={() => setYogaModalOpen(false)} >
         <div className="p-6 justify-center items-center text-center  h-[700px]">
             <br/>
             <br/>
@@ -211,8 +211,8 @@ Thematic Weaving: Integrating the retreat’s core intention (e.g., a digital de
                 Sign Up as a Guide
             </Button>
             </div>
-        </ModalGuides>
-        <ModalGuides isOpen={toursistOpen} onClose={() => setToursistOpen(false)} >
+        </Modal>
+        <Modal isOpen={toursistOpen} onClose={() => setToursistOpen(false)} >
         <div className="p-6 justify-center items-center text-center  h-[700px]">
 
             <br/>
@@ -258,7 +258,7 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
                 Sign Up as a Guide
             </Button>
         </div>
-        </ModalGuides>
+        </Modal>
         <div className="absolute inset-0 hero-gradient flex flex-col justify-center">
           <div className="container mx-auto max-w-3xl px-4 md:px-6">
             <div className="animate-fade-in">

@@ -4,7 +4,7 @@ import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} fr
 import { db, auth,storage} from "../../firebase.js";
 import {v4} from 'uuid';
 import Modal from '../Modal'
-
+import ImageSlider from '../ImageSlider.js';
 import React,{useEffect, useState, useRef} from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button.js';
@@ -12,8 +12,7 @@ import { Input } from '../ui/input.js';
 import emailjs from '@emailjs/browser';
 import { useToast } from "@/hooks/use-toast";
 import { Card } from '../ui/card.js';
-import ModalImage from '../ModalImage.js';
-
+import ImageModal from '../ImageModal.js';
 
 function GuideDetails() {
     const params = useParams()
@@ -40,7 +39,7 @@ function GuideDetails() {
         const [avatarUrl, setAvatarUrl] = useState(null)
         const [guideFirstName, setGuideFirstName] = useState("")
         const [imageList, setImageList]=useState([])
-        const [imageUrl, setImageUrl] = useState("")
+        const [imageIndex, setImageIndex] = useState(0)
         const [openSomething, setOpenSomething] = useState(false)
         const [hostPic, setHostPic] = useState("")
         const [guideType, setGuideType] = useState("")
@@ -100,8 +99,8 @@ function GuideDetails() {
    
                     }
 
-        const passImageUrl=(e)=>{
-          setImageUrl(e)
+        const passImageUrl=(i)=>{
+          setImageIndex(i)
           setOpenSomething(true)
         }
        
@@ -418,7 +417,7 @@ function GuideDetails() {
 
                                       {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
              
-                                <Card className="rounded-xl w-60 bg-transparent overflow-hidden hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index} onClick={()=>passImageUrl(imageUrl)}>
+                                <Card className="rounded-xl w-60 bg-transparent overflow-hidden hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index} onClick={()=>passImageUrl(index)}>
                                  <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
                                  {currentUser &&
                               <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>deleteImage(imageUrl)}>Delete</Button>
@@ -430,12 +429,12 @@ function GuideDetails() {
 
                                   
                                   </div>
-                                   <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
+                                   <ImageModal isOpen={openSomething}  >
                                                   <div className="w-90% h-full justify-center items-center bg-transparent">
-                                                    <img className="w-full h-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+                                                                           <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
                                   
                                                     </div>
-                                                    </ModalImage>
+                                                    </ImageModal>
                               </div>
 
   )

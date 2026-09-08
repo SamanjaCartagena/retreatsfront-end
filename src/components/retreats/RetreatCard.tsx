@@ -41,7 +41,6 @@ export function RetreatCard() {
 }
   
   useEffect(() => {
-    window.scrollTo(0,0)
       const fetchData = async () => {
         
       try {
@@ -239,44 +238,44 @@ const changePage= ({selected}) => {
        
        
       >
-        <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 text-black" id="extraButtons">
-                <Button className="bg-transparent w-60 text-black hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Mens Retreat")}>
+        <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 " id="extraButtons">
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md " onClick={()=>setSelectedType("Mens Retreat")}>
                  Men's retreats
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Sound Healing")}>
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md" onClick={()=>setSelectedType("Sound Healing")}>
                  Sound Healing
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Fasting Retreat")}>
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md" onClick={()=>setSelectedType("Fasting Retreat")}>
                  Fasting retreats
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Vegan Retreats")}>
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md" onClick={()=>setSelectedType("Vegan Retreats")}>
                  Vegan retreats
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Corporate Retreats")}>
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md" onClick={()=>setSelectedType("Corporate Retreats")}>
                  Corporate retreats
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedType("Eco Retreats")}>
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md" onClick={()=>setSelectedType("Eco Retreats")}>
                  Eco Retreats
                 </Button>
 
               </div>
-               <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 text-black" id="extraButtons" >
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md "  onClick={()=>setSelectedLocation("United States of America")}>
+               <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 " id="extraButtons" >
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md "  onClick={()=>setSelectedLocation("United States of America")}>
                  USA
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedLocation("Nepal")}>
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md" onClick={()=>setSelectedLocation("Nepal")}>
                  Nepal
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedLocation("Indonesia")}>
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md" onClick={()=>setSelectedLocation("Indonesia")}>
                  Bali
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedLocation("Italy")}>
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md" onClick={()=>setSelectedLocation("Italy")}>
                  Italy
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedLocation("Morocco")}>
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md " onClick={()=>setSelectedLocation("Morocco")}>
                  Morocco
                 </Button>
-                <Button className="bg-transparent w-60 hover:bg-white hover:text-black text-black border border-black rounded-md " onClick={()=>setSelectedLocation("Spain")}>
+                <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md" onClick={()=>setSelectedLocation("Spain")}>
                  Spain
                 </Button>
 

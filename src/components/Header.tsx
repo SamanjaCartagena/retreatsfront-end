@@ -63,7 +63,7 @@ const [id,setId]=useState('');
   const [isScrolled, setIsScrolled] = useState(false);
   const[logout,setLogout]=useState(true);
     const [isOpen, setIsOpen] = useState(false)
-
+  const [firstName, setFirstName] = useState("")
   const [isModalOpen, setIsModalOpen]= useState(false);
   const [modalProfile, setModalProfile] = useState(false)
   const [email, setEmail] = useState('')
@@ -183,6 +183,37 @@ const [id,setId]=useState('');
       }
     });
   }
+  useEffect(()=>{
+    onAuthStateChanged(auth, async (user) => {
+          if  (user) {
+
+               const hostQuery=  query(collection(db, "hosts"), where("hostId", "==", user.uid))
+               const querySnapshot1 = await getDocs(hostQuery);
+               const guideQuery=  query(collection(db, "guides"), where("guideId", "==", user.uid))
+               const querySnapshot2 = await getDocs(guideQuery);
+               const guestQuery=  query(collection(db, "guests"), where("guestId", "==", user.uid))
+               const querySnapshot3 = await getDocs(guestQuery);
+                             if(!querySnapshot1.empty){
+                             querySnapshot1.forEach((doc) => {
+                             setFirstName(doc.data().hostFirstName)
+
+                             });
+                             }
+                             else if(!querySnapshot2.empty){
+                              querySnapshot2.forEach((doc) =>{
+                                setFirstName(doc.data().guideFirstName)
+                              })
+                             }
+                             else if(!querySnapshot3.empty){
+                              querySnapshot3.forEach((doc) =>{
+                                setFirstName(doc.data().guestFirstName)
+                              })
+                             }
+
+          }
+        })
+
+  },[])
 
   return (
     <div>
@@ -205,7 +236,7 @@ const [id,setId]=useState('');
            <div className="flex items-right">
           <div className="hidden md:flex items-center gap-2"></div>
            {logout &&  <Link to={`/adminpage/${id}`} className="text-sm  underline mt-2" >
-              Welcome 
+              Welcome {firstName}
             </Link>}
            {logout &&  <Button variant="ghost" size="sm" className="text-sm " onClick={loggedout}>
               Log Out
@@ -217,7 +248,7 @@ const [id,setId]=useState('');
             <Menu as="div" className="relative inline-block">
       <MenuButton className="inline-flex w-full justify-center border-0  px-3 py-2 text-sm font-semibold  " >
         <UserPen />
-              Join The Community
+              Add a Venue, Retreat or Service
       </MenuButton>
 
       <MenuItems

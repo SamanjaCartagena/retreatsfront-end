@@ -13,7 +13,6 @@ import ImageModal from '../ImageModal.js';
 import ImageSlider from '../ImageSlider.js';
 import {v4} from 'uuid';
 import { Card } from '../ui/card.js';
-import ModalImage from '../ModalImage.js';
 
 
 export default function Profile() {
@@ -44,6 +43,7 @@ export default function Profile() {
   const [pinterestLink, setPinterestLink] = useState("")
   const [hostIntroduction, setHostIntroduction] = useState("")
   const [phone,setPhone] = useState("")
+  const [imageIndex, setImageIndex] = useState(0)
   const [allRetreats, setAllRetreats] = useState([])
   const [retreatDetails, setRetreatDetails] = useState("")
   const [displayPic, setDisplayPic] = useState(false)
@@ -79,7 +79,7 @@ export default function Profile() {
        setOpenEditor(false);
     }
        const passImageUrl=(e)=>{
-          setUrl(e)
+          setImageIndex(e)
           setOpenSomething(true)
         }
 
@@ -336,7 +336,7 @@ onAuthStateChanged(auth, async (user) => {
          
                                                {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
                       
-                                         <Card className="rounded-xl w-60 bg-transparent overflow-hidden hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index} onClick={()=>passImageUrl(imageUrl)}>
+                                         <Card className="rounded-xl w-60 bg-transparent overflow-hidden hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index} onClick={()=>passImageUrl(index)}>
                                           <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
                                           {onlyUser &&
                                        <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>deleteImage(imageUrl)}>Delete</Button>
@@ -348,12 +348,10 @@ onAuthStateChanged(auth, async (user) => {
          
                                            
                                            </div>
-                                           <ModalImage isOpen={openSomething} onClose={()=>setOpenSomething(false)} >
-                                                  <div className="w-90% h-full justify-center items-center bg-transparent">
-                                                    <img className="w-full h-full items-center rounded-lg" src={url} alt="Retreats Around The World" />
-                                  
-                                                    </div>
-                                                    </ModalImage>
+                                           <ImageModal isOpen={openSomething}  >
+                        <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
+
+                                                    </ImageModal>
 
   
 

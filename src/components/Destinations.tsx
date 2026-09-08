@@ -22,7 +22,7 @@ export function FeaturedDestinations() {
               <img
                 src={destination.image}
                 alt={destination.name}
-                className="w-full h-full object-cover"
+                className="w-70 h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/30 flex items-end">
                 <CardContent className="p-4 text-white">
