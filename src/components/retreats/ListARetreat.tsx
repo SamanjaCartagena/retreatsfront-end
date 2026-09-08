@@ -50,6 +50,8 @@ function ListARetreat() {
 
    const [startDate, setStartDate] = useState(null)
    const [endDate, setEndDate] = useState(null)
+   const [month, setMonth] = useState("")
+   const [year, setYear] = useState("")
    const [state, setState] = useState("")
    const [currency, setCurrency] = useState("USD");
    const[price,setPrice] = useState(0.00)
@@ -224,7 +226,9 @@ const pricing3 =(event)=>{
    }
      const startAtDate=(e)=>{
     const timestamp = Timestamp.fromDate(new Date(e));
-    setStartDate(timestamp)
+        setMonth(e.format('MMMM'))
+        setYear(e.format('YYYY'))
+      setStartDate(timestamp)
   
 
 
@@ -258,6 +262,8 @@ const endAtDate=(e)=>{
                                          isDisplayed: true,
                                          startAt: startDate,
                                          endAt: endDate,
+                                         month:month,
+                                         year:year,
                                          kind: kind,
                                          nearestAirport:nearestAirport,
                                          currency: currency,
