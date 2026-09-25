@@ -23,7 +23,7 @@ import Airways from "@/components/Airways";
 import Success from "@/components/Success";
 import GuideAdmin from "./components/guides/GuideAdmin";
 import Guests from "./components/guests/Guests";
-
+import Jobs from './jobs/Job'
 import RetreatCenterDetails from "@/components/centers/RetreatCenterDetails";
 import AdminPage from "@/components/admin/AdminPage"
 import ListARetreatCenter from "./components/centers/ListARetreatCenter";
@@ -72,6 +72,7 @@ const App = () => (
           <Route path="/guidesignup" element={<GuideSignUp/>}/>
           <Route path="/airlines" element={<Airways/>}/>
           <Route path="/ecotourism" element={<EcoTourism/>}/>
+          <Route path='/jobs' element={<Jobs/>}/>
           
             
           

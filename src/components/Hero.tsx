@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import logo from '../assets/logoretreat.png'
 import { useNavigate } from "react-router-dom";
 import waves from '../assets/waves.mp4'
+import retreats from '../assets/retreats.png'
 import './Hero.css'
 export function Hero() {
   const [isAIOpen, setIsAIOpen]= useState(false);
@@ -12,6 +13,11 @@ export function Hero() {
   const [isHomeOpen, setIsHomeOpen]= useState(false);
   const [isShopOpen, setIsShopOpen]= useState(false);
   const navigate=useNavigate()
+
+  const jobs =() => {
+    navigate('jobs')
+    
+  }
 
   const askai =()=>{
     setIsAIOpen(true);
@@ -59,7 +65,7 @@ const submitAI =() => {
           </div>
         </Modal> 
 
-      <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover">
+      <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover" poster="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/poster.png?alt=media&token=cdfaab19-72ce-4859-96a4-583bef3935ec">
         <source src={waves} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -77,18 +83,18 @@ const submitAI =() => {
               </h1></center>
                 <center>
               <div className="flex flex-col justify-center mt-6 sm:flex-row gap-4">
-                <Button className=" bg-transparent text-white  border-white border-2 border-radius hover:bg-white hover:text-lime-700
+                <Button className=" bg-transparent text-white w-60  justify-center border-white border-2 border-radius hover:bg-white hover:text-lime-700
                   font-medium text-base px-8 py-6" onClick={homes}>
-                Homes
+                Sanctuaries
                 </Button>
-                <Button className=" bg-transparent text-white  border-white border-2 border-radius hover:bg-white hover:text-lime-700
+                <Button className=" bg-transparent text-white w-60 justify-center border-white border-2 border-radius hover:bg-white hover:text-lime-700
                    font-medium text-base px-8 py-6" onClick={shop}>
                   Shop
                 </Button>
                 
-                <Button  className="bg-transparent text-white  border-white border-2 border-radius
-                  hover:bg-white hover:text-lime-700  font-medium text-base px-8 py-6" onClick={askai}>
-                 AI Retreat Match
+                <Button  className="bg-transparent text-white w-60 justify-center border-white border-2 border-radius
+                  hover:bg-white hover:text-lime-700  font-medium text-base px-8 py-6" onClick={jobs}>
+                 Jobs
                 </Button>
                
               </div>
