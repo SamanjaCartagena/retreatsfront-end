@@ -234,6 +234,17 @@ function SignUpAsHost() {
                                 }).then(()=>{
                                   setSignedUp(true)
                                   navigate(`/host/${hostId}`)
+                                
+                  fetch('https://retreat-server-cc2646f08902.herokuapp.com/send-email-host', {
+                   method: 'POST',
+                  headers: {
+                  'Content-Type': 'application/json',
+
+              },
+               body:JSON.stringify({ name: firstName, email: hostEmail, content: "Thank you for signing up as a host. We are looking forward to working with you!" }), // Convert JS object to JSON string
+              });
+ 
+
                                   
                           
                      })

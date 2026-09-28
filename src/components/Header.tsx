@@ -110,6 +110,15 @@ const [id,setId]=useState('');
       const user = userCredential.user;
 
       sendEmailVerification(user)
+                    
+                  fetch('https://retreat-server-cc2646f08902.herokuapp.com/send-admin-email', {
+                   method: 'POST',
+                  headers: {
+                  'Content-Type': 'application/json',
+
+              },
+               body:JSON.stringify({name: firstName, email: email, content: "Thank you for joining Retreats Around The World!" }), // Convert JS object to JSON string
+              })
       .then(() => {
         console.log("Verification email sent successfully!");
       });

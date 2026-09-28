@@ -182,7 +182,7 @@ const closeNotLogged=()=>{
     const headers= {
       "Content-Type":"application/json"
     }
-    return fetch(`https://retreatsaroundtheworld.net/book-retreat`,{
+    return fetch(`https://retreat-server-cc2646f08902.herokuapp.com/book-retreat`,{
       method:"POST",
       headers,
       body:JSON.stringify(body)
@@ -191,7 +191,7 @@ const closeNotLogged=()=>{
           const {status} = response;
           console.log("STATUS ", status)
           if(status === 200){
-            navigate("/success")
+            navigate("https://retreat-server-cc2646f08902.herokuapp.com/success")
           }
             else{
               alert("There was an issue with your payment. Please try again.")
