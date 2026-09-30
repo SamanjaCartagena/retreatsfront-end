@@ -269,7 +269,7 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
              
 
               <p className="text-xl text-white/90 mb-8 max-w-2xl">
-               Set out on a journey to Heal, Renew and Transform someone. 
+              Guides are only charged 5% of the total booking price!
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">

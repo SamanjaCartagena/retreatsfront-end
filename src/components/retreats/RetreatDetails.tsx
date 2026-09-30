@@ -31,11 +31,13 @@ function RetreatDetails() {
       user_email:"",
       user_message:""
      })
+      const [message, setMessage] = useState("");
 
     const [inquiryModal, setInquiryModal] = useState(false);
     const [openSomething, setOpenSomething] = useState(false);
     const [retreatName, setRetreatName] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
+    const [imageFirst, setFirstImage] = useState("")
     const [flightIncluded, setFlightIncluded] = useState("")
     const [airportPickup, setAirportPickup] = useState("")
     const [imageList, setImageList] = useState([]);
@@ -46,7 +48,7 @@ function RetreatDetails() {
     const [currency, setCurrency] = useState("")
     const [imageUpload, setImageUpload] = useState(null);
     const [startDate, setStartDate] = useState(null)
-       const [endDate, setEndDate] = useState(null)
+    const [endDate, setEndDate] = useState(null)
     const [message1, setMessage1] = useState("");
     const [message2, setMessage2] = useState("");
     const [message3, setMessage3] = useState("");
@@ -87,8 +89,33 @@ function RetreatDetails() {
     const [accommodation3,setAccommodation3] = useState("")
     const [priceRoom3, setPriceRoom3] = useState(0.0)
     const [imageIndex, setImageIndex] = useState(0)
+   const Message = ({ message }) => (
+  <section>
+    <p>{message}</p>
+  </section>
+);
+ const makePayment=token=>{
+  const body ={
+    token, 
+    bookRetreat
+  }
+  const headers ={
+    "Content-Type": "application/json",
+    
+  }
+  return fetch(`https://retreat-server-cc2646f08902.herokuapp.com/book-retreat`,{
+    method:"POST",
+    headers: {
+    'Content-Type': 'application/json',
+  },
+    body:JSON.stringify(body)
+  }).then(response =>{
+    console.log("RESPONSE", response)
+    const {status} = response;
+    console.log('STATUS', status)
+  }).catch(error => console.log())
 
-
+ }
     const [bookRetreat, setBookRetreat] = useState({
             name:"Retreat Name",
             email:"Customer Email",
@@ -173,49 +200,6 @@ const closeNotLogged=()=>{
   setNotLogged(false)
 }
 
-   const makePayment= (token) =>{
-      if(loggedIn){
-    const body  ={
-      token, 
-      bookRetreat
-    }
-    const headers= {
-      "Content-Type":"application/json"
-    }
-    return fetch(`https://retreat-server-cc2646f08902.herokuapp.com/book-retreat`,{
-      method:"POST",
-      headers,
-      body:JSON.stringify(body)
-    }).then( response =>{
-          console.log("RESPONSE", response)
-          const {status} = response;
-          console.log("STATUS ", status)
-          if(status === 200){
-            navigate("https://retreat-server-cc2646f08902.herokuapp.com/success")
-          }
-            else{
-              alert("There was an issue with your payment. Please try again.")
-            }
-
-})
-      
-    .catch(error =>
-      {
-        console.log(error)
-        alert("There was an error processing your booking. Please try again later.") 
-    })
-
-  }
-  else{
-    setNotLogged(true)
-
-  }
-   
-   
-    
-    
-
-}
 
 
     const { toast } = useToast();
@@ -301,6 +285,19 @@ useEffect(()=>{
     console.log("User is logged out");
   }
 });
+// Check to see if this is a redirect back from Checkout
+    const queryStripe = new URLSearchParams(window.location.search);
+
+    if (queryStripe.get("success")) {
+      setMessage("Order placed! You will receive an email confirmation.");
+    }
+
+    if (queryStripe.get("canceled")) {
+      setMessage(
+        "Order canceled -- continue to shop around and checkout when you're ready."
+      );
+    }
+          const q3 = query(collection(db, "hosts"),where('hostId','==',id));
 
           const q2 = query(collection(db, "retreats"),where('id','==',id));
           getDocs(q2).then((querySnapshot) => {
@@ -322,8 +319,7 @@ useEffect(()=>{
             setMonth(doc.data().month);
             setKind(doc.data().kind);
             setMessage1(doc.data().message1);
-            setMessage2(doc.data().message2);
-            setMessage3(doc.data().message3);
+            
             setCountry(doc.data().location);
             setStartAt(doc.data().startAt);
             setEndAt(doc.data().endAt);
@@ -456,7 +452,18 @@ useEffect(()=>{
     View all photos
   </Button>
       <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
-      
+
+        <StripeCheckout 
+         stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
+         token={makePayment}
+         name='Retreats Around The World'
+         amount={price*100}
+        >
+        <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right">
+         Book this Retreat
+        </Button>
+
+          </StripeCheckout>
               {hostIsUser &&   <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setEditModal(true)}>Edit Info</Button>
 
 }
@@ -501,11 +508,7 @@ useEffect(()=>{
               <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setCity(e.target.value)}>{city}</textarea>
               <label>Message 1</label><br/>
 
-              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setMessage1(e.target.value)}>{message1}</textarea>
-               <label>Message 2</label><br/>
-
-              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setMessage2(e.target.value)}>{message2}</textarea>
-               <label>Message 3</label><br/>
+            
 
               <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setMessage3(e.target.value)}>{message3}</textarea>
               
@@ -602,29 +605,29 @@ useEffect(()=>{
             <h1 className='text-xl font-bold'>{nameOfCity}</h1>
             <center><img src={cityPic} alt="Retreats Around The World"  className="w-200 h-200 mt-5  justify-center object-cover" /></center>
             <br/>
-            <p className='font-semibold text-lg m-2'>About the city</p>
-            <p className='w-60 md:w-full sm:w-full p-4 border-2 rounded'>{city}</p>
-                        <p className='font-semibold text-lg m-2'>Airport Information</p>
+            <p className='font-semibold text-lg m-4'>About the city</p>
+            <p className='w-60 md:w-full sm:w-full p-4 border-2 text-md rounded'>{city}</p>
+                        <p className='font-semibold text-lg m-4'>Airport Information</p>
 
-            <div className='border-2 rounded'>
-                                    <h1 className='text-xl mb-4'>Nearest Airport:&nbsp;{nearestAirport}</h1>
+            <div className='border-2 rounded p-4'>
+                                    <h1 className='text-md mb-4'>Nearest Airport:&nbsp;{nearestAirport}</h1>
 
-                                    <h1 className='text-xl mb-4'>Flight expenses included:&nbsp;{flightIncluded}</h1>
+                                    <h1 className='text-md mb-4'>Flight expenses included:&nbsp;{flightIncluded}</h1>
 
-                                    <h1 className='text-xl mb-4'>Airport Pick up services provided:&nbsp;{airportPickup}</h1>
+                                    <h1 className='text-md mb-4'>Airport Pick up services provided:&nbsp;{airportPickup}</h1>
                                   
 
                                     </div>
-                                    <div className='border-2 rounded w-full'>
-                        <p className='font-semibold text-lg m-2'>Accommodation</p>
-                                                                       <p className='font-semibold text-lg m-2'>{accommodation1}:{priceRoom1}&nbsp;{currency}</p>
+                                    <div className=' rounded w-full'>
+                        <p className='font-semibold text-lg m-2'>Accommodation 1 :${priceRoom1}{currency}&nbsp;/night</p>
+                                                                       <p className='font-semibold text-md m-2 w-full h-auto border-2'>{accommodation1}</p>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
 
-            {imageListRoom1.length > 0 &&  imageListRoom1.map((imageUrl, index) => (
+            {imageListRoom1.length > 0 &&  imageListRoom1.slice(0,3).map((imageUrl, index) => (
               <div>
-                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(index)}>
-                <img className="w-85 md:w-50 lg:w-full items-center m-2 rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
+                       <Card className="rounded-xl w-70 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(index)}>
+      <img className="w-60 md:w-40 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
                 
               </Card>
               
@@ -641,7 +644,7 @@ useEffect(()=>{
                           
 
             </div>
-             <div className='border-2 rounded w-full'>
+             <div className=' rounded w-full'>
                         <p className='font-semibold text-lg m-2'>Accommodation</p>
                                                                        <p className='font-semibold text-lg m-2'>{accommodation2}:{priceRoom2}&nbsp;{currency}</p>
 
@@ -665,7 +668,7 @@ useEffect(()=>{
 
                     </div>
                     </div>
-                     <div className='border-2 rounded w-full'>
+                     <div className=' rounded w-full'>
                         <p className='font-semibold text-lg m-2'>Accommodation</p>
                                                                        <p className='font-semibold text-lg m-2'>{accommodation3}{priceRoom3}/night&nbsp;{currency}</p>
 
@@ -710,21 +713,30 @@ useEffect(()=>{
             <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 w-60 text-white" onClick={()=>setInquiryModal(true)}>Inquire </Button><br/>
             </div>
             <br/>
-            {/** 
-            {loggedIn && (
-              <StripeCheckout 
-                stripeKey = "pk_live_51TGWAfHFx7gkDqvcnUNJA0HfnDrgXWy8Uidb0sDoQU6fhmwuoLiqLYWozr6YquYP4soWimEAXtkUtzTJ9PbIW5nC00r4PDuwxU"
-                token={makePayment}
-                name="Book This Retreat"
-                amount={bookRetreat.price * 100}
-     >
-      <button className="btn-large pink">Book This Retreat ${bookRetreat.price}</button>
-      </StripeCheckout>
-            )}
+            
+              <section>
+    <div className="product">
+      <center>
+      <img
+        src={imageList[0]}
+        alt="The cover of Stubborn Attachments"
+        style={{width:'200px',height:'150px', borderRadius:'5px'}}
+      />
+      </center>
+      <div className="description">
+      <h3>Book This Now! ${price}</h3>
+      </div>
+    </div>
+    <form action="/create-checkout-session" method="POST">
+      <Button type="submit" className='bg-lime-700 text-white'>
+        Checkout
+      </Button>
+    </form>
+  </section>
             {!loggedIn && (
               <p>Please log in to book this retreat</p>
             )}
-              **/}
+              
             </div>
             {hostIsUser &&
             <h1>{allRetreats}</h1>

@@ -28,8 +28,7 @@ function ListARetreat() {
    const[address,setAddress] = useState("")
    const[country,setCountry] = useState("")
    const [message1, setMessage1] = useState("")
-   const [message2, setMessage2] = useState("")
-   const [message3, setMessage3] = useState("")
+
    const [imageListCity, setImageListCity] = useState([]);
    const [nameOfCity, setNameOfCity] = useState("")
    const [airportPickup, setAirportPickup] = useState("")
@@ -271,8 +270,6 @@ const endAtDate=(e)=>{
                                          airportPickup:airportPickup,
                                          createdAt: serverTimestamp(),
                                          message1:message1,
-                                         message2:message2,
-                                         message3:message3,
                                          pic1: imageList[0],
                                          cityPic: imageListCity[0],
                                          nameOfCity: nameOfCity, 
@@ -559,22 +556,12 @@ const endAtDate=(e)=>{
      })}
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Message1 for the Visitors
+       Message for the Visitors
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setMessage1(e.target.value)}></textarea>
     </div>
-     <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Message2 for the Visitors
-      </label>
-           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setMessage2(e.target.value)}></textarea>
-    </div>
-    <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Message3 for the Visitors
-      </label>
-           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setMessage3(e.target.value)}></textarea>
-    </div>
+
+   
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Country of Retreat
@@ -1022,7 +1009,7 @@ const endAtDate=(e)=>{
 
     <div className="mb-4">
 
-<label for="profile-pic">Upload at least one image</label><br/>
+<label for="profile-pic">Upload at least one image of your retreat or plans. Please do not upload flyers</label><br/>
         <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
     
       <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>

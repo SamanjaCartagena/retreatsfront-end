@@ -249,19 +249,7 @@ function SignUpAsHost() {
                           
                      })
                  
-                           signInWithEmailAndPassword(auth, hostEmail, confirmPassword)
-                  .then((userCredential)=>{
-                     setIsModalOpen(true);
-
-                    const user = userCredential.user;
-                    console.log('User signed in:', user.uid); 
-                    navigate(`/profile/${user.uid}`);
-                    window.location.reload();
-
-                  })  
-                  .catch((error)=>{
-                    console.error('Error creating user:', error);
-                  });
+                   
 
         }
                   
@@ -308,13 +296,10 @@ function SignUpAsHost() {
               </h1>
               <Modal isOpen={terms} onClose={()=> setTerms(false)}>
           <div style={{width:'100%', position:'relative', top:'50%', left:'50%', transform:'translate(-50%, -50%)'}} className="justify-center items-center text-center p-4 bold text-lg">
-            <br/><br/>
-            <br/><br/>
-            <br/><br/>
-            <br/><br/>
-            <br/><br/>
-                This document outlines the partnership structure, the minimum of 15% commission fee, and the specific payout trigger (immediately following the cancellation date) as requested. It is styled with an aesthetic suitable for a spiritual healing and travel brand.
-                <br/><br/>
+          
+                </div>
+                <br/>
+                <br/>
                 <strong>Partnership Structure:</strong><br/>
                 Retreats Around The World (RATW) operates as a platform connecting hosts with guests seeking transformative retreat experiences. Hosts list their retreats on the RATW platform, and guests book directly through the site. RATW provides marketing, customer support, and payment processing services to facilitate these connections.
                 <br/><br/>
@@ -322,7 +307,7 @@ function SignUpAsHost() {
                 Open Terms and Conditions
               </button>
 
-            </div>
+          
             
               </Modal>
               <ModalCancellation isOpen={modalCancellationOpen} onClose={()=> setModalCancellationOpen(false)}>
@@ -382,13 +367,16 @@ function SignUpAsHost() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={()=> setIsPurpose(true)}>
+               <Button className=" bg-transparent text-white w-60  justify-center border-white border-2 border-radius hover:bg-white hover:text-lime-700
+                  font-medium text-base px-8 py-6"onClick={()=> setIsPurpose(true)}>
                  Purpose
                 </Button>
-                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={()=> setTerms(true)}>
+                <Button className=" bg-transparent text-white w-60  justify-center border-white border-2 border-radius hover:bg-white hover:text-lime-700
+                  font-medium text-base px-8 py-6" onClick={()=> setTerms(true)}>
                  Terms and Conditions
                 </Button>
-                <Button variant="outline" className="bg-white text-retreat-forest hover:bg-retreat-cream hover:text-retreat-forest font-medium text-base px-8 py-6" onClick={()=>setModalCancellationOpen(true)}>
+                <Button className=" bg-transparent text-white w-60  justify-center border-white border-2 border-radius hover:bg-white hover:text-lime-700
+                  font-medium text-base px-8 py-6" onClick={()=>setModalCancellationOpen(true)}>
                  Cancellation Policy
                 </Button>
                

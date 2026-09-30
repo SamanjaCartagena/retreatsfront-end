@@ -7,27 +7,65 @@ import pic2 from '../../assets/luxury.jpg'
 import pic from '../../assets/logoretreat.png'
 import pic3 from '../../assets/africa.jpg'
 import pic4 from '../../assets/safari.jpg'
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import {auth, googleProvider, db} from '../../firebase.js';
+
 function AdminPage() {
   const pic1="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/waterfall.gif?alt=media&token=bd5aa5c6-3af8-422d-b5a9-7010cc9fbc85"
 const params=useParams()
 const auth=getAuth()
 const userId = params.userId;
+const [isHost, setIsHost] = useState(false)
+const [isGuide, setIsGuide] = useState(false)
+const [isGuest, setIsGuest] = useState(false)
+const [hasCenter, setHasCenter] = useState(false)
    useEffect(()=>{
                window.scroll(0,0)
 
-          onAuthStateChanged(auth, (user) => {
+          onAuthStateChanged(auth, async (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://google.com
       const uid = user.uid;
-  
+      const q =query(collection(db, "hosts"), where("hostId", "==", userId));
+      const querySnapshot = await getDocs(q);
+                       if(querySnapshot.size === 0){
+                          setIsHost(false)
+                       }
+                       else{
+                        setIsHost(true)
+                       }
+      const q1 =query(collection(db, "guides"), where("guideId", "==", userId));
+      const querySnapshot1 = await getDocs(q);
+                       if(querySnapshot1.size === 0){
+                          setIsGuide(false)
+                       }
+                       else{
+                        setIsGuide(true)
+                       }
+      const q2 =query(collection(db, "guests"), where("guestId", "==", userId));
+      const querySnapshot2 = await getDocs(q2);
+                       if(querySnapshot2.size === 0){
+                          setIsGuest(false)
+                       }
+                       else{
+                        setIsGuest(true)
+                       }
+      const q3 =query(collection(db, "centers"), where("hostId", "==", userId));
+      const querySnapshot3 = await getDocs(q3);
+                       if(querySnapshot3.size === 0){
+                          setHasCenter(false)
+                       }
+                       else{
+                        setHasCenter(true)
+                       }
       }
       else{
       }
     }) 
   
 
-   },[])
+   },[userId])
   return (
     <div>
     <div className="relative h-[100vh] min-h-[1400px] w-full overflow-hidden">
@@ -47,43 +85,53 @@ const userId = params.userId;
               <div className="flex flex-col justify-center mt-6 sm:flex-row gap-4">
                <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
               <center><h2 className='text-white font-bold'>Admin</h2></center>
+              {isHost &&
                         <Link to={`/adminpage/${userId}/hostdetails`}>
 
                  <Button className='w-40 bg-white text-lime-700 m-2'>Host Admin</Button>
-                 </Link>
+                 </Link> 
+             }
+             {!isHost &&
                 <Link to={`/adminpage/${userId}/signupashost`}>
                   <Button className='w-40 bg-white text-lime-700 m-2'>Sign Up As a Host</Button>
                   </Link>
-
+}
     </div>
      <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
           <center><h2 className='text-white font-bold'>Guide</h2></center>
-
+   {isGuide &&
     <Link to={`/adminpage/${userId}/guideadmin`}>
     <Button className='w-40 bg-white text-lime-700 m-2'>Guide Admin</Button>
     </Link>
+}
+{!isGuide &&
         <Link to={`/adminpage/${userId}/guidesignup`}>
 
         <Button className='w-40 bg-white text-lime-700 m-2'>Sign Up As a Guide</Button>
         </Link>
-    
+}
     
     </div>
       <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
           <center><h2 className='text-white font-bold'>Guest</h2></center>
+          {isGuest &&
         <Link to={`/adminpage/${userId}/guests`}>
      <Button className='w-40 bg-white text-lime-700 m-2'>Guest Admin</Button>
      </Link>
+}
+{!isGuest && 
      <Link to={`/adminpage/${userId}/guests`}>
         <Button className='w-40 bg-white text-lime-700 m-2'>Sign Up As a Guest</Button>
         </Link>
+}
     </div>
        <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
           <center><h2 className='text-white font-bold'>Retreat Centers</h2></center>
-
+     {hasCenter &&
     <Link to={`/adminpage/${userId}/retreatcenters`}>
      <Button className='w-40 bg-white text-lime-700 m-2'>Retreat Center</Button>
      </Link>
+}
      <Link to={`/adminpage/${userId}/listacenter`}>
         <Button className='w-40 bg-white text-lime-700 m-2'>Retreat Center Sign Up</Button>
         </Link>

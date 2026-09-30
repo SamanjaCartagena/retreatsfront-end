@@ -45,6 +45,7 @@ export default function Profile() {
   const [phone,setPhone] = useState("")
   const [imageIndex, setImageIndex] = useState(0)
   const [allRetreats, setAllRetreats] = useState([])
+  const [alsoGuide, setAlsoGuide] = useState(false)
   const [retreatDetails, setRetreatDetails] = useState("")
   const [displayPic, setDisplayPic] = useState(false)
   const [type1, setType1] = useState("")
@@ -87,16 +88,18 @@ export default function Profile() {
     
     const profilePicRef = ref(storage, `/profilePic/${userId}/profile.jpg`);
     uploadBytes(profilePicRef, imageUpload).then((snapshot)=>{
+      const docRef = doc(db, "hosts", documentId);
+
       getDownloadURL(snapshot.ref).then((url)=>{
         setAvatarUrl(url);
-          const docRef = doc(db, "hosts", documentId);
 
-           updateDoc(docRef, {
+          
+      }
+      );
+      updateDoc(docRef, {
              hostProfilePicUrl: avatarUrl,
             
                    });
-      }
-      );
     });
    }
    
@@ -130,6 +133,14 @@ export default function Profile() {
     useEffect(() => {
     window.scrollTo(0,0)
       const loadData = async () => {
+         const q5 =query(collection(db, "guides"), where("guideId", "==", userId));
+      const querySnapshot5 = await getDocs(q5);
+       if(querySnapshot5.size === 0){
+          setAlsoGuide(false)
+       }
+       else {
+        setAlsoGuide(true)
+       }
      const q =query(collection(db, "hosts"), where("hostId", "==", userId));
       const querySnapshot = await getDocs(q);
        if(querySnapshot.size === 0){
@@ -295,7 +306,7 @@ onAuthStateChanged(auth, async (user) => {
         <p className="mb-4"><span className="font-bold">Retreat Type 7:</span> {type7}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 8:</span> {type8}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 9:</span> {type9}</p>
-              {onlyUser &&  
+              {!alsoGuide &&  
        <Link to={`/guidesignup/${userId}`}className="mb-2 mt-2" >
           <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>Become a Guide</Button>
 
@@ -332,7 +343,7 @@ onAuthStateChanged(auth, async (user) => {
          <button onClick={uploadImage} className='bg-lime-700 w-60  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</button>
          </div>
        )}
-            <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:flex  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
+            <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
          
                                                {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
                       

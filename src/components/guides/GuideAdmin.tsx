@@ -33,7 +33,7 @@ export default function GuideAdmin() {
   const [guideIntroduction, setGuideIntroduction] = useState("")
   const [phone,setPhone] = useState("")
   const [allRetreats, setAllRetreats] = useState([])
- 
+  const [alsoHost, setAlsoHost] = useState(false)
   const [openEditor, setOpenEditor] = useState(false)
   const navigate = useNavigate()
     const imageListRef = ref(storage, `/guides/${userId}/`);
@@ -43,7 +43,7 @@ export default function GuideAdmin() {
       updateDoc(docRef, { guideFirstName: firstName,
         guideLastName: lastName,
         guideEmail: email, 
-        guideUsername:guideUserName,
+        guideUserName:guideUserName,
         guideIntroduction: guideIntroduction,
         guidePhone: phone,
         guideSpecialty: guideSpecialty,
@@ -105,6 +105,13 @@ export default function GuideAdmin() {
     useEffect(() => {
      window.scrollTo(0,0)
       const loadData = async () => {
+         const q3=query(collection(db, "hosts"), where("hostId", "==", userId))
+                      const querySnapshot1 = await getDocs(q3);
+                         if(querySnapshot1.size === 0){
+                          setAlsoHost(false)
+                         }else {
+                          setAlsoHost(true)
+                         }
      const q =query(collection(db, "guides"), where("guideId", "==", userId));
       const querySnapshot = await getDocs(q);
        if(querySnapshot.size === 0){
@@ -121,7 +128,7 @@ export default function GuideAdmin() {
     setGuideIntroduction(doc.data().guideIntroduction);
     setPhone(doc.data().guidePhone);
     setGuideSpecialty(doc.data().guideSpecialty);
-    setGuideUserName(doc.data().guideUsername);
+    setGuideUserName(doc.data().guideUserName);
    
   });
 }
@@ -227,7 +234,7 @@ onAuthStateChanged(auth, async (user) => {
         {onlyUser && (
           <Button className='bg-lime-700 w-full text-white mt-2  py-2 px-4 items-center align-middle w-60 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Edit Your Info</Button>
         )}
-        {onlyUser && (
+        {!alsoHost && (
           <Button className='bg-lime-700 w-full text-white mt-2  py-2 px-4 items-center align-middle w-60 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Sign Up As a Host</Button>
         )}
         <br/>

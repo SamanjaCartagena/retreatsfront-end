@@ -48,6 +48,9 @@ function GuideDetails() {
         const [guide1, setGuide1] = useState(guideSpecialty[0])
         const [guide2, setGuide2] = useState("")
         const [guide3, setGuide3] = useState("")
+        const [alsoHost, setAlsoHost] = useState(false)
+        const imageListRef = ref(storage, `/guideImages/${userId}/`);
+        
         const [inquiryModal, setInquiryModal] = useState(false)
         const [formData, setFormData] = useState({
               user_name:"",
@@ -107,6 +110,8 @@ function GuideDetails() {
         useEffect(()=>{
           window.scrollTo(0,0)
             const loadData = async () => {
+             
+
                const q =query(collection(db, "guides"), where("guideId", "==", userId));
                 const querySnapshot = await getDocs(q);
                  if(querySnapshot.size === 0){
@@ -184,16 +189,14 @@ function GuideDetails() {
                   }
                   );
                        
-                                const imageListRef = ref(storage, `/guideImage/${userId}/`);
+                        listAll(imageListRef).then((res)=>{
+                          res.items.forEach((item)=>{
+                            getDownloadURL(item).then((url)=>{
+                              setImageList((prev)=>[...prev, url]);
                     
-                              listAll(imageListRef).then((res)=>{
-                                                res.items.forEach((item)=>{
-                                                  getDownloadURL(item).then((url)=>{
-                                                    setImageList((prev)=>[...prev, url]);
-                                                    
-                                                  });
-                                                });
-                                              });
+                            });
+                          });
+                        });
                                 
         
                                 },[userId])
@@ -221,7 +224,7 @@ function GuideDetails() {
                   if(imageUpload == null) return;
                   
                   
-                  const imageRef = ref(storage, `/guideImage/${userId}/${imageUpload.name+v4()}`);
+                  const imageRef = ref(storage, `/guideImages/${userId}/${imageUpload.name+v4()}`);
                   uploadBytes(imageRef, imageUpload).then((snapshot)=>{
                     getDownloadURL(snapshot.ref).then((url)=>{
                       setImageList((prev)=>[...prev, url]);
@@ -413,7 +416,8 @@ function GuideDetails() {
                                     <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
                                   </div>
                                    }
-                                  <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:flex  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
+                                   
+                                  <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
 
                                       {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
              
