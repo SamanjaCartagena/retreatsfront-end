@@ -8,6 +8,7 @@ function Job() {
   return (
                          <div className="max-w-full pt-40 mx-auto p-4 grid place-items-center" style={{ backgroundColor:'lightGray', color:'black'}}>
                             <h1 className='text-2xl'>Find a job in the Retreat Industry</h1>
+                            
                             </div>
 
   )

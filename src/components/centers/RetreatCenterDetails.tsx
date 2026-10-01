@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { getDownloadURL, listAll, ref, StorageReference, deleteObject } from 'firebase/storage';
 import Modal from '../Modal.js';
 import { Input } from '../ui/input.js';
-import { onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import ModalImage from '../ModalImage.js';
 
 function RetreatCenterDetails() {
@@ -35,7 +35,14 @@ function RetreatCenterDetails() {
     const [imageList, setImageList] = useState([]);
     const [photoIndex, setPhotoIndex] = useState(0);
     const [hostIsUser, setHostIsUser] = useState(false)
+    /***Rooms available */
+    const [imageListRoom1, setImageListRoom1] = useState([])
+    
         const form = useRef();
+        const auth=getAuth()
+        const [centerId, setCenterId] = useState(Math.floor(Math.random() * 1000000));
+            
+        
     
     const [formData, setFormData] = useState({
           user_name:"",
@@ -91,7 +98,18 @@ const passImageUrl=(i)=>{
     const id = params.id;
     useEffect(() => {
      window.scrollTo(0,0)
-     
+     onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        if(uid === hostId){
+          setHostIsUser(true)
+        }
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+    
     const q1 =query(collection(db, "centers"), where ("id", "==", id));
               getDocs(q1).then((querySnapshot) => {
              
@@ -158,14 +176,12 @@ const passImageUrl=(i)=>{
          <br/>
          
 <center>
-<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:flex gap-2 w-full m-4 mt-10 justify-center align-center items-center justify-items-center">
+<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
   
   {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
-             <Card className="rounded-xl w-100 overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={()=>viewAllPhotos(index)} key={index}>
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+       <img className="w-60  md:w-50 h-70 lg:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
       
-    </Card>
 ))}
 
  

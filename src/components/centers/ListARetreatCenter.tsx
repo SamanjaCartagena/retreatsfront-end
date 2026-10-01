@@ -40,7 +40,18 @@ function ListARetreatCenter() {
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
    const [imageList, setImageList] = useState([]);
-         const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
+   const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
+   /**Add Rooms */
+      const [accommodation1, setAccommodation1] = useState("")
+      const [accommodation2, setAccommodation2] = useState("")
+      const [accommodation3, setAccommodation3] = useState("")
+      const [priceRoom1, setPriceRoom1] = useState(0.0)
+      const [priceRoom2, setPriceRoom2] = useState(0.0)
+      const [priceRoom3, setPriceRoom3] = useState(0.0)
+      const [imageListRoom1, setImageListRoom1] = useState([])
+      const [imageListRoom2, setImageListRoom2] = useState([])
+      const [imageListRoom3, setImageListRoom3] = useState([])
+      const [welcomeMessage, setWelcomeMessage] = useState("")
 
    const [notIncluded, setNotIncluded] = useState("")
    const [centerId, setCenterId] = useState(Math.floor(Math.random() * 1000000));
@@ -50,12 +61,42 @@ function ListARetreatCenter() {
    
 
 
-    const imageListRef = ref(storage, `/centerimages/${centerId}/`);
+    const imageListRef1 = ref(storage, `/centerimages/${centerId}/`);
+        const imageListRef2 = ref(storage, `/centerimages/${centerId}/`);
+        const imageListRef3 = ref(storage, `/centerimages/${centerId}/`);
+
     const deleteImage=(url)=>{
        alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
         deleteObject(imageRef).then(() => {
           setImageList((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+      const deleteImageRoom1=(url)=>{
+       alert("Are you sure you want to delete this image?"+url);
+        const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListRoom1((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+     const deleteImageRoom2=(url)=>{
+       alert("Are you sure you want to delete this image?"+url);
+        const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListRoom2((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+     const deleteImageRoom3=(url)=>{
+       alert("Are you sure you want to delete this image?"+url);
+        const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListRoom3((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
         }).catch((error) => {
           console.error("Error deleting image: ", error);
         });
@@ -77,12 +118,74 @@ function ListARetreatCenter() {
        console.log("imageList", imageList);
    
      }
+        const uploadImageRoom1=(e)=>{
+             e.preventDefault();
+            // Create a root reference
+            console.log("Upload Image");
+            if(imageUpload == null) return;
+            
+            
+            const imageRef1 = ref(storage, `/centerImages/room1/${centerId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef1, imageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                setImageListRoom1((prev)=>[...prev, url]);
+              }
+              );
+            });
+        
+          }
+              const uploadImageRoom2=(e)=>{
+             e.preventDefault();
+            // Create a root reference
+            console.log("Upload Image");
+            if(imageUpload == null) return;
+            
+            
+            const imageRef2 = ref(storage, `/centerImages/room2/${centerId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef2, imageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                setImageListRoom2((prev)=>[...prev, url]);
+              }
+              );
+            });
+        
+          }
+                  const uploadImageRoom3=(e)=>{
+             e.preventDefault();
+            // Create a root reference
+            console.log("Upload Image");
+            if(imageUpload == null) return;
+            
+            
+            const imageRef3 = ref(storage, `/centerImages/room3/${centerId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef3, imageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                setImageListRoom3((prev)=>[...prev, url]);
+              }
+              );
+            });
+        
+          }
    const pricing =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
     setPrice(doubleValueFloat)
 
    }
+   const pricing1 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPrice(doubleValueFloat)
 
+   }
+      const pricing2 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPrice(doubleValueFloat)
+
+   }
+      const pricing3 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPrice(doubleValueFloat)
+
+   }
      const startAtDate=(e)=>{
     const timestamp = Timestamp.fromDate(new Date(e));
     setStartDate(timestamp)
@@ -121,7 +224,14 @@ const endAtDate=(e)=>{
                                          airportService:pickupService,
                                          currency: currency,
                                          createdAt: serverTimestamp(),
+                                         accommodation1: accommodation1,
+                                         accommodation2:accommodation2,
+                                         accommodation3:accommodation3,
+                                         priceRoom1:priceRoom1,
+                                         priceRoom2:priceRoom2,
+                                         priceRoom3:priceRoom3,
                                          pic1: imageList[0],
+                                         welcomeMessage: welcomeMessage,
 
                                         
                                          
@@ -167,7 +277,7 @@ const endAtDate=(e)=>{
          setHostEmail(doc.data().hostEmail)
                })
               }
-                  listAll(imageListRef).then((res)=>{
+                  listAll(imageListRef1).then((res)=>{
                     res.items.forEach((item)=>{
                       getDownloadURL(item).then((url)=>{
                         setImageList((prev)=>[...prev, url]);
@@ -531,12 +641,7 @@ const endAtDate=(e)=>{
       <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
         <option value="">Select Currency</option>
         <option value="USD">USD</option>
-        <option value="EUR">EUR</option>
-        <option value="GBP">GBP</option>
-        <option value="AUD">AUD</option>
-        <option value="CAD">CAD</option>
-        <option value="RP">RP</option>
-        <option value="IDR">IDR</option>         
+             
       </select>
     </div>
                   <p>You can add the entire year here  we will add open to discussion</p><br/>
@@ -570,6 +675,114 @@ const endAtDate=(e)=>{
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setKind(e.target.value)}></textarea>
    
+    </div>
+     <div className='mb-4'>
+      <label>
+       About Room 1
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation1(e.target.value)}></textarea>
+  </div>
+     <div className="mb-4">
+  
+  <label for="profile-pic">Upload pics of Room 1</label><br/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      
+        <Button onClick={uploadImageRoom1} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+      </div>
+      {imageListRoom1.map((url)=>{
+            return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                            <Button onClick={()=> deleteImageRoom1(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+      
+      
+      
+            </div>
+            
+           })}
+           <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Price per night
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing1}/>
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="">Select Currency</option>
+        <option value="USD">USD</option>
+             
+      </select>
+    </div>
+             <div className='mb-4'>
+      <label>
+       About Room 2
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation2(e.target.value)}></textarea>
+  </div>
+           <div className="mb-4">
+  
+  <label for="profile-pic">Upload pics of Room 2</label><br/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      
+        <Button onClick={uploadImageRoom2} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+      </div>
+      {imageListRoom2.map((url)=>{
+            return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                            <Button onClick={()=> deleteImageRoom2(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+      
+      
+      
+            </div>
+            
+           })}
+                 <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Price per night
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing2}/>
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="">Select Currency</option>
+        <option value="USD">USD</option>
+             
+      </select>
+    </div>
+            <div className='mb-4'>
+      <label>
+       About Room 3
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation2(e.target.value)}></textarea>
+  </div>
+           <div className="mb-4">
+  
+  <label for="profile-pic">Upload pics of Room 3</label><br/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      
+        <Button onClick={uploadImageRoom3} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+      </div>
+      {imageListRoom3.map((url)=>{
+            return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                            <Button onClick={()=> deleteImageRoom3(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+      
+      
+      
+            </div>
+            
+           })}
+                         <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Price per night
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing3}/>
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="">Select Currency</option>
+        <option value="USD">USD</option>
+             
+      </select>
     </div>
           <div className='mb-4'>
       <label>
@@ -615,6 +828,12 @@ const endAtDate=(e)=>{
       </div>
       
      })}
+     <div className='mb-4'>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Welcome Message
+      </label>
+      <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="welcome-message" placeholder="Enter your welcome message here..." onChange={(e) => setWelcomeMessage(e.target.value)}></textarea>
+     </div>
         
     <Button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={host}>
         List your center
