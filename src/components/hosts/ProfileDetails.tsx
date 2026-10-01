@@ -327,6 +327,12 @@ onAuthStateChanged(auth, async (user) => {
         </Link>
         )}
         {onlyUser && (
+        <Link to={`/retreatcenters`} className="mb-2 mt-2" >
+          <Button className='bg-lime-700  text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>Book A Retreat Center</Button>
+
+        </Link>
+        )}
+        {onlyUser && (
           <Button className='bg-lime-700 w-full text-white mt-2 font-bold py-2 px-4 items-center align-middle w-60 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Edit Your Info</Button>
         )}
         
@@ -368,6 +374,10 @@ onAuthStateChanged(auth, async (user) => {
 
       </div>
       <br/>
+      <div className='container justify-center'>
+        <h1 className='text-2xl'>Your Past Retreats</h1>
+
+      </div>
        
      
 

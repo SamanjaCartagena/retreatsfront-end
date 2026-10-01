@@ -35,6 +35,10 @@ function RetreatDetails() {
 
     const [inquiryModal, setInquiryModal] = useState(false);
     const [openSomething, setOpenSomething] = useState(false);
+    const [openSomething1, setOpenSomething1] = useState(false);
+    const [openSomething2, setOpenSomething2] = useState(false);
+    const [openSomething3, setOpenSomething3] = useState(false);
+
     const [retreatName, setRetreatName] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
     const [imageFirst, setFirstImage] = useState("")
@@ -61,7 +65,7 @@ function RetreatDetails() {
     const [country, setCountry] = useState("");
 
     const [city, setCity] = useState("");
-      const [value, setValue] = React.useState<Dayjs | null>();
+  const [value, setValue] = React.useState<Dayjs | null>();
     
     const [hostPic, setHostPic] = useState(""); 
     const [openImageModal, setOpenImageModal] = useState(false);
@@ -170,6 +174,18 @@ const uploadImage=(e)=>{
 const passImageUrl=(i)=>{
   setImageIndex(i)
   setOpenSomething(true)
+}
+const passImageUrl1=(i)=>{
+  setImageIndex(i)
+  setOpenSomething1(true)
+}
+const passImageUrl2=(i)=>{
+  setImageIndex(i)
+  setOpenSomething2(true)
+}
+const passImageUrl3=(i)=>{
+  setImageIndex(i)
+  setOpenSomething3(true)
 }
 const saveChanges=async(e)=>{
      e.preventDefault()
@@ -297,7 +313,6 @@ useEffect(()=>{
         "Order canceled -- continue to shop around and checkout when you're ready."
       );
     }
-          const q3 = query(collection(db, "hosts"),where('hostId','==',id));
 
           const q2 = query(collection(db, "retreats"),where('id','==',id));
           getDocs(q2).then((querySnapshot) => {
@@ -407,7 +422,7 @@ useEffect(()=>{
                           });
                         },[hostId])
   return (
-       <div className="relative h-auto min-h-auto w-full overflow-hidden lg:flex md:grid-cols-1 justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
+       <div className="relative h-auto min-h-auto w-full overflow-hidden lg:flex sm-grid w-full md:grid-cols-1 justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
       <Modal isOpen={inquiryModal} onClose={()=>setInquiryModal(false)} >
             <form className="bg-white p-6 rounded shadow-md w-96 mt-20" onSubmit={handleSubmit} ref={form}>
               <h2 className="text-lg font-bold mb-4">Contact {hostFirstName}</h2>
@@ -434,24 +449,23 @@ useEffect(()=>{
          <br/>
          
 <center>
-<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:flex  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
+<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
   
   {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
-             <Card className="rounded-xl w-100 overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer " onClick={()=>viewAllPhotos(index)} key={index}>
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+      <img className="w-60  md:w-50 h-70 lg:w-full items-center cursor-pointer" src={imageUrl} onClick={()=>viewAllPhotos(index)} key={index} alt="Retreats Around The World" />
       
-    </Card>
+    
 ))}
 
  
 </div>
 </center>
-<div className="w-full h-full flex lg:justify-center  md:justify-center sm:justify-center sm:grid-cols-1 md:grid-cols-1 items-center bg-transparent">
- <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700  text-white  m-2"  onClick={()=>viewAllPhotos(0)}>
+<div className="flex flex-col justify-center mt-6 sm:flex-row gap-4">
+ <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2"  onClick={()=>viewAllPhotos(0)}>
     View all photos
   </Button>
-      <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
+      <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 md:w-40 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
 
         <StripeCheckout 
          stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
@@ -459,18 +473,18 @@ useEffect(()=>{
          name='Retreats Around The World'
          amount={price*100}
         >
-        <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right">
+        <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 md:w-40 text-center text-white m-2 justify-items: right">
          Book this Retreat
         </Button>
 
           </StripeCheckout>
-              {hostIsUser &&   <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setEditModal(true)}>Edit Info</Button>
+              {hostIsUser &&   <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center md:w-40 sm:w-full text-white m-2 justify-items: right" onClick={()=>setEditModal(true)}>Edit Info</Button>
 
 }
            </div>
            <Modal isOpen={editModal} onClose={()=>setEditModal(false)}>
             <div className='mt-25 w-full h-200 justify-center items-center bg-white p-4 rounded-lg overflow-y-scroll overflow-x-hidden'>
-             <form>
+             <form className='mt-20'>
               <label>Name of Retreat</label><br/>
               <input type="text" className='border-solid p-2 border-black border-2 m-2'  value={retreatName}  onChange={(e)=>setRetreatName(e.target.value)}/><br/>
               <label>Address of Retreat</label><br/>
@@ -486,10 +500,11 @@ useEffect(()=>{
               <label>City</label>
               <input type="text" className='border-solid p-2 border-black border-2 m-2' value={nameOfCity} onChange={(e)=>setNameOfCity(e.target.value)}/><br/>
               <label className="block text-gray-700 text-sm font-bold mb-2" >
-                          Start Date of Retreat
+                         Start Date
                      </label>
+
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-             <DatePicker value={value} onChange={(e)=>startAtDate(e)}/>
+             <DatePicker defaultValue={value} onChange={(e)=>startAtDate(e)}/>
                </LocalizationProvider>
                <br/>
                <div>
@@ -523,7 +538,7 @@ useEffect(()=>{
     
 ))}
 
-<label>Add pics</label>
+<label>Add Retreat pics</label>
  <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
     
       <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
@@ -619,23 +634,24 @@ useEffect(()=>{
 
                                     </div>
                                     <div className=' rounded w-full'>
-                        <p className='font-semibold text-lg m-2'>Accommodation 1 :${priceRoom1}{currency}&nbsp;/night</p>
+                                                              <p className='font-semibold text-lg m-2'>Room 1</p>
+
+                        <p className='font-semibold text-md m-2'>${priceRoom1}{currency}&nbsp;/night</p>
                                                                        <p className='font-semibold text-md m-2 w-full h-auto border-2'>{accommodation1}</p>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
 
             {imageListRoom1.length > 0 &&  imageListRoom1.slice(0,3).map((imageUrl, index) => (
               <div>
-                       <Card className="rounded-xl w-70 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(index)}>
-      <img className="w-60 md:w-40 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+      <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl1(index)} />
                 
-              </Card>
+              
               
                   </div>
               
           ))}
-                <ImageModal isOpen={openSomething}  >
-                                         <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
+                <ImageModal isOpen={openSomething1}  >
+                                         <ImageSlider slides={imageListRoom1} index={imageIndex} closeSlider={()=>setOpenSomething1(false)}/>
 
                   </ImageModal>
 
@@ -645,23 +661,24 @@ useEffect(()=>{
 
             </div>
              <div className=' rounded w-full'>
-                        <p className='font-semibold text-lg m-2'>Accommodation</p>
-                                                                       <p className='font-semibold text-lg m-2'>{accommodation2}:{priceRoom2}&nbsp;{currency}</p>
+                        <p className='font-semibold text-lg m-2'>Room 2</p>
+                                                                       <p className='font-semibold text-md m-2'>${priceRoom2}&nbsp;{currency}/night</p>
+                                                                     <p className='font-semibold text-md m-2 w-full h-auto border-2'>{accommodation2}</p>
+
 
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
 
-            {imageListRoom2.length > 0 &&  imageListRoom2.map((imageUrl, index) => (
+            {imageListRoom2.length > 0 &&  imageListRoom2.slice(0,3).map((imageUrl, index) => (
               <div>
-                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(imageUrl)}>
-                <img className="w-85 md:w-50 lg:w-full items-center m-2 rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
+                <img className="w-85 md:w-50 lg:w-full items-center m-2 rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl2(index)}/>
                 
-              </Card>
+     
               
                   </div>
               
           ))}
-               <ImageModal isOpen={openSomething}  >
-                                         <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
+               <ImageModal isOpen={openSomething2}  >
+                                         <ImageSlider slides={imageListRoom2} index={imageIndex} closeSlider={()=>setOpenSomething2(false)}/>
 
                   </ImageModal>
 
@@ -669,23 +686,24 @@ useEffect(()=>{
                     </div>
                     </div>
                      <div className=' rounded w-full'>
-                        <p className='font-semibold text-lg m-2'>Accommodation</p>
-                                                                       <p className='font-semibold text-lg m-2'>{accommodation3}{priceRoom3}/night&nbsp;{currency}</p>
+                        <p className='font-semibold text-lg m-2'>Room 3</p>
+                        <p className='font-semibold text-md m-2'>${priceRoom3}/night&nbsp;{currency}</p>
+                        <p className='font-semibold text-md m-2 w-full h-auto border-2'>{accommodation3}</p>
+
 
                       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
 
-            {imageListRoom3.length > 0 &&  imageListRoom3.map((imageUrl, index) => (
+            {imageListRoom3.length > 0 &&  imageListRoom3.slice(0,3).map((imageUrl, index) => (
               <div>
-                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(imageUrl)}>
-                <img className="w-85 md:w-50 lg:w-full items-center m-2 rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
+                <img className="w-85 md:w-50 lg:w-full items-center m-2 cursor-pointer rounded-lg h-70" src={imageUrl} key={index} onClick={()=>passImageUrl3(index)} alt="Retreats Around The World" />
                 
-              </Card>
+              
               
                   </div>
               
           ))}
-                <ImageModal isOpen={openSomething}  >
-                                         <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
+                <ImageModal isOpen={openSomething3}  >
+              <ImageSlider slides={imageListRoom3} index={imageIndex} closeSlider={()=>setOpenSomething3(false)}/>
 
                   </ImageModal>
 
@@ -715,23 +733,8 @@ useEffect(()=>{
             <br/>
             
               <section>
-    <div className="product">
-      <center>
-      <img
-        src={imageList[0]}
-        alt="The cover of Stubborn Attachments"
-        style={{width:'200px',height:'150px', borderRadius:'5px'}}
-      />
-      </center>
-      <div className="description">
-      <h3>Book This Now! ${price}</h3>
-      </div>
-    </div>
-    <form action="/create-checkout-session" method="POST">
-      <Button type="submit" className='bg-lime-700 text-white'>
-        Checkout
-      </Button>
-    </form>
+  
+   
   </section>
             {!loggedIn && (
               <p>Please log in to book this retreat</p>
@@ -748,10 +751,9 @@ useEffect(()=>{
           
             {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
               <div>
-                       <Card className="rounded-xl w-100 flex overflow-hidden border-none m-4 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer h-100 "  key={index} onClick={()=>passImageUrl(index)}>
-                <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70" src={imageUrl} alt="Retreats Around The World" />
+                <img className="w-60 cursor-pointer md:w-50 lg:w-full items-center  h-70" src={imageUrl} key={index} onClick={()=>passImageUrl(index)} alt="Retreats Around The World" />
                 
-              </Card>
+              
               
                   </div>
               

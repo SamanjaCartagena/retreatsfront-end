@@ -23,7 +23,7 @@ export function Hero() {
     setIsAIOpen(true);
   }
   const homes =()=>{
-    setIsHomeOpen(true);
+    navigate('/retreatcenters')
   }
  const closeAI =() => {
     setIsAIOpen(false);

@@ -505,6 +505,7 @@ const endAtDate=(e)=>{
       <option value="Oklahoma">Oklahoma</option>
       <option value="Oregon">Oregon</option>
       <option value="Pennsylvania">Pennsylvania</option>
+      <option value="Puerto Rico">Puerto Rico</option>
       <option value="Rhode Island">Rhode Island</option>
       <option value="South Carolina">South Carolina</option>
       <option value="South Dakota">South Dakota</option>
@@ -538,8 +539,10 @@ const endAtDate=(e)=>{
         <option value="IDR">IDR</option>         
       </select>
     </div>
-    
+                  <p>You can add the entire year here  we will add open to discussion</p><br/>
+
     <div className="mb-4 flex gap-4">
+
       <div>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Start Date of Availability
@@ -577,12 +580,14 @@ const endAtDate=(e)=>{
     
   </div>
    <div className='mb-4'>
-      <label>
-        Provide Airport services:
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Provide Airport Pickup Services:
       </label>
-           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Airport pick up service" onChange={(e)=>setPickupService(e.target.value)}/>
-
-    
+      <select className="bg-white p-2 rounded-md" onChange={(e)=>setPickupService(e.target.value)}>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+      
   </div>
     <div className='mb-4'>
       <label>

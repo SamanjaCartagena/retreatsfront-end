@@ -216,7 +216,7 @@ const passImageUrl=(i)=>{
             <p className='w-60 md:w-full sm:w-full p-10'>{kind}</p>
             <div className='border-2 rounded w-full'>
             <h1 className='text-2xl mb-4'>How do you get there?</h1>
-                                    <h1 className='text-xl m-2'><strong>Nearest Airport:</strong> {airport}</h1>
+                                    <h1 className='text-xl m-2'><strong>Nearest Airport:</strong> {airport}</h1>                            
                                                                         <h1 className='text-xl m-2'><strong>Airport Pickup Service:</strong> {airportPickup}</h1>
 
                                     <h1 className='text-xl m-2'><strong>Average price per night:</strong>&nbsp;${price}</h1>
