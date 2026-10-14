@@ -78,9 +78,14 @@ const [id,setId]=useState('');
   const navigate = useNavigate();
   const retreatcenter=()=>{
      navigate('/retreatcenters');
+     setIsOpen(false)
      window.location.reload();
 
 
+  }
+  const homePage=()=> {
+    navigate('/')
+    setIsOpen(false)
   }
   const openSesame=()=>{
     setIsOpen(false)
@@ -315,6 +320,16 @@ const [id,setId]=useState('');
             </a>
           </MenuItem>
           </Link>
+          <Link to='/events'>
+            <MenuItem>
+            <a
+              href="#"
+              className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
+            >
+              Events
+            </a>
+          </MenuItem>
+          </Link>
           <Link to="/ecotourism">
           <MenuItem>
             <a
@@ -380,55 +395,45 @@ const [id,setId]=useState('');
             <SheetContent side="right">
               <div className="grid gap-4 py-4">
                 <div className="space-y-4">
-                  <div className="flex items-center gap-2 mb-6">
+                  <div className="grid items-center gap-2 mb-6">
                     <div className="  flex items-center justify-center">
-                      <img src={logo} style={{width:'60px', height:'60px'}}/>
+                      <img src={logo} style={{width:'60px', height:'60px'}} onClick={homePage}/>
                     </div>
+                    
                     <h2 className="font-serif text-lg font-semibold">Retreats Around The World</h2>
                   </div>
                           
 
-                  <Button variant="ghost" className="w-full justify-start" onClick={openSesame}>
-                    Profile
+                  <Button className="w-full justify-start p-2 border-2 hover:bg-lime-700 " onClick={openSesame}>
+                    Sign Up/Sign in
                   </Button>
                   
-                            <Link to='/host' className="mt-2">
+                            <Link to='/host' className="mt-2" >
 
-                  <Button variant="ghost" className="w-full justify-start" >
+                  <Button  className="w-full justify-start p-2 border-2 hover:bg-lime-700 " onClick={()=>setIsOpen(false)} >
                     Hosts
                   </Button>
                   </Link>
                                               <Link to='/guides' className="mt-2">
 
-                  <Button variant="ghost" className="w-full justify-start mt-2" >
+                  <Button  className="w-full justify-start p-2 border-2 hover:bg-lime-700 " onClick={()=>setIsOpen(false)} >
                     Guides
                   </Button>
                   </Link>
                                                                 <Link to='/guests' className="mt-2">
 
-                  <Button variant="ghost" className="w-full justify-start mt-2">
+                  <Button  className="w-full justify-start p-2 border-2 hover:bg-lime-700 "onClick={()=>setIsOpen(false)} >
                     Guests
                   </Button>
                   </Link>
                   <Link to='/retreatcenter' className="mt-2">
 
-                  <Button variant="ghost" className="w-full justify-start" onClick={retreatcenter}>
+                  <Button  className="w-full justify-start p-2 border-2 hover:bg-lime-700 " onClick={retreatcenter}>
                     Retreat Centers
                   </Button>
                   </Link>
 
-                  <Button variant="ghost" className="w-full justify-start" onClick={() => window.open('https://www.facebook.com/profile.php?id=61565593366494')}>
-                    Facebook
-                  </Button>
-                   <Button variant="ghost" className="w-full justify-start" onClick={() => window.open('https://x.com/Retreats_World')}>
-                    Twitter
-                  </Button>
-                  <Button variant="ghost" className="w-full justify-start" onClick={() => window.open('https://www.instagram.com/retreats_around_the_world/', '_blank')}>
-                    Instagram
-                  </Button>
-                  <Button variant="ghost" className="w-full justify-start" onClick={() => window.open('https://www.youtube.com/@retreatsaroundtheworld', '_blank')} >
-                    Youtube
-                  </Button>
+             
                 </div>
               </div>
             </SheetContent>

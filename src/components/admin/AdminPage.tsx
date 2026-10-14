@@ -36,7 +36,7 @@ const [hasCenter, setHasCenter] = useState(false)
                         setIsHost(true)
                        }
       const q1 =query(collection(db, "guides"), where("guideId", "==", userId));
-      const querySnapshot1 = await getDocs(q);
+      const querySnapshot1 = await getDocs(q1);
                        if(querySnapshot1.size === 0){
                           setIsGuide(false)
                        }
@@ -100,7 +100,7 @@ const [hasCenter, setHasCenter] = useState(false)
      <div className='grid m-5 p-5 border-2 border-solid border-gray rounded'>
           <center><h2 className='text-white font-bold'>Guide</h2></center>
    {isGuide &&
-    <Link to={`/adminpage/${userId}/guideadmin`}>
+    <Link to={`/guidedetails/${userId}/`}>
     <Button className='w-40 bg-white text-lime-700 m-2'>Guide Admin</Button>
     </Link>
 }

@@ -39,6 +39,12 @@ function ListARetreat() {
    const [accommodation1, setAccommodation1] = useState("")
    const [accommodation2, setAccommodation2] = useState("")
    const [accommodation3, setAccommodation3] = useState("")
+   const [includesRoom1Breakfast, setIncludesRoom1Breakfast] = useState("")
+   const [includesRoom2Breakfast, setIncludesRoom2Breakfast] = useState("")
+   const [includesRoom3Breakfast, setIncludesRoom3Breakfast] = useState("")
+   const [wifiIncludedRoom1, setWifiIncludedRoom1] = useState("")
+   const [wifiIncludedRoom2, setWifiIncludedRoom2] = useState("")
+   const [wifiIncludedRoom3, setWifiIncludedRoom3] = useState("")
    const [priceRoom1, setPriceRoom1] = useState(0.0)
    const [priceRoom2, setPriceRoom2] = useState(0.0)
    const [priceRoom3, setPriceRoom3] = useState(0.0)
@@ -125,7 +131,8 @@ function ListARetreat() {
         e.preventDefault();
        // Create a root reference
        console.log("Upload Image");
-       if(imageUpload == null) return;
+       if(imageUpload == null){ return;}
+       else{
        
        
        const imageRef = ref(storage, `/retreatimages/${retreatKindId}/${imageUpload.name+v4()}`);
@@ -135,6 +142,7 @@ function ListARetreat() {
          }
          );
        });
+      }
        console.log("imageList", imageList);
    
      }
@@ -142,8 +150,8 @@ function ListARetreat() {
         e.preventDefault();
        // Create a root reference
        console.log("Upload Image");
-       if(imageUpload == null) return;
-       
+       if(imageUpload == null){ return;}
+       else{  
        
        const imageRef1 = ref(storage, `/retreatimages/room1/${retreatKindId}/${imageUpload.name+v4()}`);
        uploadBytes(imageRef1, imageUpload).then((snapshot)=>{
@@ -155,12 +163,13 @@ function ListARetreat() {
        console.log("imageList", imageList);
    
      }
+    }
       const uploadImageRoom2=(e)=>{
         e.preventDefault();
        // Create a root reference
        console.log("Upload Image");
-       if(imageUpload == null) return;
-       
+       if(imageUpload == null){ return;}
+       else{
        
        const imageRef2 = ref(storage, `/retreatimages/room2/${retreatKindId}/${imageUpload.name+v4()}`);
        uploadBytes(imageRef2, imageUpload).then((snapshot)=>{
@@ -171,12 +180,13 @@ function ListARetreat() {
        });
    
      }
+    }
      const uploadImageRoom3=(e)=>{
         e.preventDefault();
        // Create a root reference
        console.log("Upload Image");
-       if(imageUpload == null) return;
-       
+       if(imageUpload == null){ return;}
+       else{  
        
        const imageRef3 = ref(storage, `/retreatimages/room3/${retreatKindId}/${imageUpload.name+v4()}`);
        uploadBytes(imageRef3, imageUpload).then((snapshot)=>{
@@ -187,11 +197,12 @@ function ListARetreat() {
        });
    
      }
+    }
        const uploadCityImage=(e)=>{
         e.preventDefault();
        // Create a root reference
-       if(imageUpload == null) return;
-       
+       if(imageUpload == null){ return;}
+       else{
        
        const imageCityRef = ref(storage, `/retreatimages/${retreatKindId}/${nameOfCity}/${imageUpload.name+v4()}`);
        uploadBytes(imageCityRef, imageUpload).then((snapshot)=>{
@@ -202,7 +213,8 @@ function ListARetreat() {
        });
        console.log("imageList", imageList);
    
-     }
+     }  
+    }
    const pricing =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
     setPrice(doubleValueFloat)
@@ -274,20 +286,34 @@ const endAtDate=(e)=>{
                                          cityPic: imageListCity[0],
                                          nameOfCity: nameOfCity, 
                                          accommodation1: accommodation1,
+                                         includesRoom1Breakfast:includesRoom1Breakfast,
+                                         includesRoom2Breakfast:includesRoom2Breakfast,
+                                         includesRoom3Breakfast:includesRoom3Breakfast,
+                                         includesWifiRoom1:wifiIncludedRoom1,
+                                         includesWifiRoom2:wifiIncludedRoom2,
+                                         includesWifiRoom3:wifiIncludedRoom3,
                                          accommodation2:accommodation2,
                                          accommodation3:accommodation3,
-                                  
-
                                          priceRoom1:priceRoom1,
                                          priceRoom2:priceRoom2,
                                          priceRoom3:priceRoom3,
                                          aboutCity:city,
                                          
 
-         }).then(async ()=>{
+         }).then(()=>{
+                                  navigate(`/`)
+                                
+                  fetch('https://retreat-server-cc2646f08902.herokuapp.com/send-email', {
+                   method: 'POST',
+                  headers: {
+                  'Content-Type': 'application/json',
+
+              },
+               body:JSON.stringify({ name: hostFirstName, email: hostEmail, content: "Thank you for listing your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
+              });
+ 
           
    
-          navigate('/')
 
   })
       
@@ -349,8 +375,8 @@ const endAtDate=(e)=>{
             <br/>
             <br/>
             <br/>
-            <h2 className="text-2xl font-bold mb-4">Please read the terms and conditions</h2>
-            <p className="mb-4">
+            <h2 className="text-2xl font-bold m-4">Please read the terms and conditions</h2>
+            <p className="m-4">
               This PDF includes sections dedicated to:<br/>
 
          <strong>Good Faith Agreements:</strong> Establishing a foundation of honesty, transparency, and fair dealing.<br/>
@@ -400,13 +426,13 @@ const endAtDate=(e)=>{
       </div>
       <div className="grid justify-center  items-center " >
       <form className="bg-white max-w-full min-w-xs shadow-md rounded px-8 pt-6 pb-8  mt-4" >
-        <div className="mb-4">
+        <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Name of Retreat
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstname" type="text" placeholder="Name of Retreat" onChange={(e)=>setRetreatName(e.target.value)}/>
     </div>
-      <div className="mb-4">
+      <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type1 of Retreat
       </label>
@@ -439,7 +465,7 @@ const endAtDate=(e)=>{
 
               </select>
               </div>
-                    <div className="mb-4">
+                    <div className="m-4">
 
  <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type2 of Retreat
@@ -473,7 +499,7 @@ const endAtDate=(e)=>{
 
               </select>
               </div>
-                    <div className="mb-4">
+                    <div className="m-4">
 
                <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type3 of Retreat
@@ -508,37 +534,41 @@ const endAtDate=(e)=>{
               </select>
             
           </div>
-         <div className="mb-4">
+         <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type of Retreat
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Type of Retreat" onChange={(e)=>setRetreatType(e.target.value)}/>
     </div>
-    <div className="mb-4">
+    <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Name of Retreat Center/Hotel/Place
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="center" type="text" placeholder="Name of Retreat Center/Hotel/Place" onChange={(e)=>setRetreatCenterName(e.target.value)}/>
     </div>
-     <div className="mb-4">
+     <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Address of Retreat
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Address of Retreat" onChange={(e)=>setAddress(e.target.value)}/>
     </div>
-    <div className="mb-4">
+    <div className='border-2 rounded border-solid border-lime-700 p-4'>
+      <label className="block text-gray-700 text-lg font-bold mb-2">
+        City/Region/Village Information
+      </label>
+    <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-        Name of City
+        Name of City/Region/Village
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="city" type="text" placeholder="Name of City" onChange={(e)=>setNameOfCity(e.target.value)}/>
     </div>
-     <div className="mb-4">
+     <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        About the City
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setCity(e.target.value)}></textarea>
     </div>
-     <div className="mb-4">
+     <div className="m-4">
 
 <label for="profile-pic">Upload at least one image of the city of Retreat.</label><br/>
         <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
@@ -554,7 +584,8 @@ const endAtDate=(e)=>{
       </div>
       
      })}
-    <div className="mb-4">
+     </div>
+    <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Message for the Visitors
       </label>
@@ -562,7 +593,7 @@ const endAtDate=(e)=>{
     </div>
 
    
-    <div className="mb-4">
+    <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Country of Retreat
       </label>
@@ -808,6 +839,8 @@ const endAtDate=(e)=>{
       <option value="Oklahoma">Oklahoma</option>
       <option value="Oregon">Oregon</option>
       <option value="Pennsylvania">Pennsylvania</option>
+            <option value="Puerto Rico">Puerto Rico</option>
+
       <option value="Rhode Island">Rhode Island</option>
       <option value="South Carolina">South Carolina</option>
       <option value="South Dakota">South Dakota</option>
@@ -822,7 +855,7 @@ const endAtDate=(e)=>{
       <option value="Wyoming">Wyoming</option>
     </select>
     </div>
-    <div className="mb-4">
+    <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Price of Retreat
       </label>
@@ -842,7 +875,7 @@ const endAtDate=(e)=>{
       </select>
     </div>
     
-    <div className="mb-4 flex gap-4">
+    <div className="m-4 flex gap-4">
       <div>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Start Date of Retreat
@@ -864,14 +897,14 @@ const endAtDate=(e)=>{
     </div><br/>
  </div>
     
-    <div className="mb-4">
+    <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Tell us something about the Retreat
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setKind(e.target.value)}></textarea>
    
     </div>
-          <div className='mb-4'>
+          <div className='m-4'>
       <label>
         Nearest Airport
       </label>
@@ -879,13 +912,16 @@ const endAtDate=(e)=>{
 
     
   </div>
-  <div className='mb-4'>
+  <div className='m-4'>
     <p className="block text-gray-700 text-lg font-bold mb-2">
       Different kinds of accommodations available:
     </p>
   </div>
-  
-    <div className="mb-4">
+  <div className='border-2 rounded border-solid border-lime-700 p-4'>
+      <label className="block text-gray-700 text-lg font-bold mb-2">
+        Room 1
+      </label>
+    <div className="m-4">
 
 <label for="profile-pic">Upload at least one image for accomodation 1, You can upload many</label><br/>
         <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
@@ -903,19 +939,46 @@ const endAtDate=(e)=>{
       
      })}
 
-     <div className='mb-4'>
+     <div className='m-4'>
       <label>
         Price per night for accommodation 1
       </label>
            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing1}/>
            </div>
-  <div className='mb-4'>
+  <div className='m-4'>
       <label>
        About Accommodation 1
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation1(e.target.value)}></textarea>
   </div>
-      <div className="mb-4">
+  <div className='m-4'>
+    Breakfast Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesRoom1Breakfast(e.target.value)} value={includesRoom1Breakfast}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+
+
+    </div>
+    <div className='m-4'>
+    WiFi Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setWifiIncludedRoom1(e.target.value)} value={wifiIncludedRoom1}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+
+
+    </div>
+    </div>
+    <div className='border-2 rounded border-solid border-lime-700 p-4 '>
+      <label className="block text-gray-700 text-lg font-bold mb-2">
+        Room 2
+      </label>
+      <div className="m-4">
 
 <label for="profile-pic">Upload at least one image for accomodation 2, You can upload many</label><br/>
         <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
@@ -932,19 +995,46 @@ const endAtDate=(e)=>{
       </div>
       
      })}
-       <div className='mb-4'>
+       <div className='m-4'>
       <label>
         Price per night for accommodation 2
       </label>
            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing2}/>
            </div>
-  <div className='mb-4'>
+  <div className='m-4'>
       <label>
        About Accommodation 2
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation2(e.target.value)}></textarea>
   </div>
-   <div className="mb-4">
+  <div className='m-4'>
+    Breakfast Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesRoom2Breakfast(e.target.value)} value={includesRoom2Breakfast}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+
+
+    </div>
+     <div className='m-4'>
+    WiFi Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setWifiIncludedRoom2(e.target.value)} value={wifiIncludedRoom2}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+
+
+    </div>
+    </div>
+    <div className='border-2 rounded border-solid border-lime-700 p-4'>
+      <label className="block text-gray-700 text-lg font-bold mb-2">
+        Room 3
+      </label>
+   <div className="m-4">
 
 <label for="profile-pic">Upload at least one image for accomodation 3, You can upload many</label><br/>
         <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
@@ -961,20 +1051,43 @@ const endAtDate=(e)=>{
       </div>
       
      })}
-       <div className='mb-4'>
+       <div className='m-4'>
       <label>
         Price per night for accommodation 3
       </label>
            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing3}/>
            </div>
-  <div className='mb-4'>
+  <div className='m-4'>
       <label>
        About Accommodation 3
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation3(e.target.value)}></textarea>
   </div>
+  <div className='m-4'>
+    Breakfast Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesRoom3Breakfast(e.target.value)} value={includesRoom3Breakfast}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
 
-  <div className='mb-4'>
+
+    </div>
+     <div className='m-4'>
+    WiFi Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setWifiIncludedRoom3(e.target.value)} value={wifiIncludedRoom3}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+
+
+    </div>
+    </div>
+
+  <div className='m-4'>
       <label>
         Flight Expense Included
       </label>
@@ -986,7 +1099,7 @@ const endAtDate=(e)=>{
           </select>
     
   </div>
-  <div className='mb-4'>
+  <div className='m-4'>
       <label>
         Airport Pick up services
       </label>
@@ -998,7 +1111,7 @@ const endAtDate=(e)=>{
           </select>
     
   </div>
-    <div className='mb-4'>
+    <div className='m-4'>
       <label>
         What's not included?
       </label>
@@ -1007,7 +1120,7 @@ const endAtDate=(e)=>{
     
   </div>
 
-    <div className="mb-4">
+    <div className="m-4">
 
 <label for="profile-pic">Upload at least one image of your retreat or plans. Please do not upload flyers</label><br/>
         <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>

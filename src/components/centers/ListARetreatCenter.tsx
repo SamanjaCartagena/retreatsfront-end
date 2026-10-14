@@ -61,9 +61,9 @@ function ListARetreatCenter() {
    
 
 
-    const imageListRef1 = ref(storage, `/centerimages/${centerId}/`);
-        const imageListRef2 = ref(storage, `/centerimages/${centerId}/`);
-        const imageListRef3 = ref(storage, `/centerimages/${centerId}/`);
+    const imageListRef1 = ref(storage, `/centerImages/room1/${centerId}/`);
+        const imageListRef2 = ref(storage, `/centerImages/${centerId}/`);
+        const imageListRef3 = ref(storage, `/centerImages/room3/${centerId}/`);
 
     const deleteImage=(url)=>{
        alert("Are you sure you want to delete this image?"+url);
@@ -108,7 +108,7 @@ function ListARetreatCenter() {
        if(imageUpload == null) return;
        
        
-       const imageRef = ref(storage, `/centerimages/${centerId}/${imageUpload.name+v4()}`);
+       const imageRef = ref(storage, `/centerImages/${centerId}/${imageUpload.name+v4()}`);
        uploadBytes(imageRef, imageUpload).then((snapshot)=>{
          getDownloadURL(snapshot.ref).then((url)=>{
            setImageList((prev)=>[...prev, url]);
@@ -173,17 +173,17 @@ function ListARetreatCenter() {
    }
    const pricing1 =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
-    setPrice(doubleValueFloat)
+    setPriceRoom1(doubleValueFloat)
 
    }
       const pricing2 =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
-    setPrice(doubleValueFloat)
+    setPriceRoom2(doubleValueFloat)
 
    }
       const pricing3 =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
-    setPrice(doubleValueFloat)
+    setPriceRoom3(doubleValueFloat)
 
    }
      const startAtDate=(e)=>{
@@ -237,8 +237,8 @@ const endAtDate=(e)=>{
                                          
 
          }).then(async ()=>{
-         {/*** 
-       await  fetch('https://retreatsaroundtheworld.net/send-email', {
+         {
+       await  fetch('https://retreat-server-cc2646f08902.herokuapp.com/send-email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -247,7 +247,7 @@ const endAtDate=(e)=>{
       body:JSON.stringify({ name: hostFirstName, email: hostEmail, content: "Thank you for hosting your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
     });
 
-    ***/}
+    }
           navigate('/')
 
   })
@@ -260,7 +260,7 @@ const endAtDate=(e)=>{
 
           }
    useEffect(()=>{
-    window.scrollTo()
+    window.scrollTo(0,0)
     console.log(userId)
        onAuthStateChanged(auth, async (user) => {
          if (user)  {
@@ -700,7 +700,7 @@ const endAtDate=(e)=>{
            })}
            <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Price per night
+       Price per night for Room 1
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing1}/>
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
@@ -736,7 +736,7 @@ const endAtDate=(e)=>{
            })}
                  <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Price per night
+       Price per night for Room 2
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing2}/>
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
@@ -752,7 +752,7 @@ const endAtDate=(e)=>{
       <label>
        About Room 3
       </label>
-           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation2(e.target.value)}></textarea>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation3(e.target.value)}></textarea>
   </div>
            <div className="mb-4">
   
@@ -772,7 +772,7 @@ const endAtDate=(e)=>{
            })}
                          <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Price per night
+       Price per night for Room 3
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing3}/>
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
@@ -813,7 +813,7 @@ const endAtDate=(e)=>{
 
     <div className="mb-4">
 
-<label for="profile-pic">Upload at least one image</label><br/>
+<label for="profile-pic">Upload at least one image of your retreat center</label><br/>
         <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
     
       <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>

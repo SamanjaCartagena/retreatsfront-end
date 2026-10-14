@@ -89,8 +89,12 @@ function RetreatDetails() {
     const [imageListRoom2, setImageListRoom2] = useState([])
     const [accommodation2,setAccommodation2] = useState("")
     const [priceRoom2, setPriceRoom2] = useState(0.0)
+    const [includesRoom1Breakfast, setIncludesRoom1Breakfast] = useState("")
+    const [includesRoom2Breakfast, setIncludesRoom2Breakfast] = useState("")
+    const [includesRoom3Breakfast, setIncludesRoom3Breakfast] = useState("")
     const [imageListRoom3, setImageListRoom3] = useState([])
     const [accommodation3,setAccommodation3] = useState("")
+    const [read, setRead] = useState(false)
     const [priceRoom3, setPriceRoom3] = useState(0.0)
     const [imageIndex, setImageIndex] = useState(0)
    const Message = ({ message }) => (
@@ -186,6 +190,9 @@ const passImageUrl2=(i)=>{
 const passImageUrl3=(i)=>{
   setImageIndex(i)
   setOpenSomething3(true)
+}
+const readMore =()=>{
+  setRead(!setRead)
 }
 const saveChanges=async(e)=>{
      e.preventDefault()
@@ -334,6 +341,9 @@ useEffect(()=>{
             setMonth(doc.data().month);
             setKind(doc.data().kind);
             setMessage1(doc.data().message1);
+            setIncludesRoom1Breakfast(doc.data().includesRoom1Breakfast)
+            setIncludesRoom2Breakfast(doc.data().includesRoom2Breakfast)
+            setIncludesRoom3Breakfast(doc.data().includesRoom3Breakfast)
             
             setCountry(doc.data().location);
             setStartAt(doc.data().startAt);
@@ -518,7 +528,7 @@ useEffect(()=>{
                
                    
                    </div><br/>
-              <label>About The City</label><br/>
+              <label>About The City/Cities/Regions/Villages/Towns</label><br/>
 
               <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setCity(e.target.value)}>{city}</textarea>
               <label>Message 1</label><br/>
@@ -573,18 +583,21 @@ useEffect(()=>{
             </Modal>
 
             **/}
-          <h1 className='text-2xl font-bold'>{centerName}</h1>
-          <h1 className='text-xl font-bold'>{retreatAddress}&nbsp;{month}&nbsp;{country}</h1>
-                    <h1 className='text-xl font-bold'>{Object.values(retreatType).join(", ")}</h1>
+          <h1 className='text-2xl font-bold'>Retreat Name: {centerName}</h1>
+          <h1 className='text-md font-bold'>Retreat Address: {retreatAddress}</h1>
+          <h1 className='text-md font-bold'>Country: {country}</h1>
+        
+                    <h1 className='text-md font-bold'>Type of Retreat: {Object.values(retreatType).join(", ")}</h1>
                         
 
-                   
+                               <br/>
 
-                               
+                               <div className='container text-center w-full h-auto p-4 rounded-lg  bg-white'>
 
-                   <h1 className='container text-xl font-bold'>{message1}</h1>
-                                      <h1 className=' container text-xl font-bold'>{message2}</h1>
-                                      <h1 className='container text-xl font-bold'>{message3}</h1>
+                               <h1 className='container text-md font-bold'>{message1}</h1>
+                                      <h1 className=' container text-md font-bold '>{message2}</h1>
+                                      <h1 className='container text-md font-bold '>{message3}</h1>
+                                      </div>
 
           <br/>
           <br/>
@@ -616,11 +629,11 @@ useEffect(()=>{
                    <br/>
                                             <p className='font-semibold text-lg mt-2 align-left'>Kind of Retreat</p>
 
-            <p className='w-60 md:w-full sm:w-full p-4 border-2 rounded'>{kind}</p><br/>
+            <p className='w-60 md:w-full sm:w-full p-6 border-2 rounded'>{kind}</p><br/>
             <h1 className='text-xl font-bold'>{nameOfCity}</h1>
             <center><img src={cityPic} alt="Retreats Around The World"  className="w-200 h-200 mt-5  justify-center object-cover" /></center>
             <br/>
-            <p className='font-semibold text-lg m-4'>About the city</p>
+            <p className='font-semibold text-lg m-4'>About the city / cities / regions / villages / towns</p>
             <p className='w-60 md:w-full sm:w-full p-4 border-2 text-md rounded'>{city}</p>
                         <p className='font-semibold text-lg m-4'>Airport Information</p>
 
@@ -633,15 +646,13 @@ useEffect(()=>{
                                   
 
                                     </div>
-                                    <div className=' rounded w-full'>
-                                                              <p className='font-semibold text-lg m-2'>Room 1</p>
+                                      <p className='font-semibold text-lg m-2'>Accommodation Type 1</p>
 
-                        <p className='font-semibold text-md m-2'>${priceRoom1}{currency}&nbsp;/night</p>
-                                                                       <p className='font-semibold text-md m-2 w-full h-auto border-2'>{accommodation1}</p>
+                                    <div className='border-2 flex rounded w-full'>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
+                                            <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-4 p-4 h-auto">
 
-            {imageListRoom1.length > 0 &&  imageListRoom1.slice(0,3).map((imageUrl, index) => (
+            {imageListRoom1.length > 0 &&  imageListRoom1.slice(0,2).map((imageUrl, index) => (
               <div>
       <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl1(index)} />
                 
@@ -656,21 +667,25 @@ useEffect(()=>{
                   </ImageModal>
 
                     </div>
+                                      <div className='grid w-full gap-4 p-4 h-auto'>
+
+                        <p className='font-semibold text-md m-2'>${priceRoom1}{currency}&nbsp;/night</p>
+                                                                       <p className=' text-md m-2 w-full h-auto  p-4 text-md'>{accommodation1}</p>
+                                                                       <p className='text-md m-2 p-4'>Include breakfast: {includesRoom1Breakfast}</p>
+                          </div>
+                  
                         
                           
 
             </div>
-             <div className=' rounded w-full'>
-                        <p className='font-semibold text-lg m-2'>Room 2</p>
-                                                                       <p className='font-semibold text-md m-2'>${priceRoom2}&nbsp;{currency}/night</p>
-                                                                     <p className='font-semibold text-md m-2 w-full h-auto border-2'>{accommodation2}</p>
+                 <p className='font-semibold text-lg m-2'>Accommodation Type 2</p>
 
+                                    <div className='border-2 flex rounded w-full'>
+                                            <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-4 p-4 h-auto">
 
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
-
-            {imageListRoom2.length > 0 &&  imageListRoom2.slice(0,3).map((imageUrl, index) => (
+            {imageListRoom2.length > 0 &&  imageListRoom2.slice(0,2).map((imageUrl, index) => (
               <div>
-                <img className="w-85 md:w-50 lg:w-full items-center m-2 rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl2(index)}/>
+                <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer" src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl2(index)}/>
                 
      
               
@@ -684,18 +699,24 @@ useEffect(()=>{
 
 
                     </div>
+
+                                      <div className='grid w-full gap-4 p-4 h-auto'>
+
+                                                                       <p className='text-md m-2'>${priceRoom2}&nbsp;{currency}/night</p>
+                                                                     <p className='text-md m-2 w-full p-4'>{accommodation2}</p>
+                                                                      <p className=' text-md m-2 p-4'>Include breakfast: {includesRoom2Breakfast}</p>
+                                                                      </div>
+
+         
                     </div>
-                     <div className=' rounded w-full'>
-                        <p className='font-semibold text-lg m-2'>Room 3</p>
-                        <p className='font-semibold text-md m-2'>${priceRoom3}/night&nbsp;{currency}</p>
-                        <p className='font-semibold text-md m-2 w-full h-auto border-2'>{accommodation3}</p>
+                      <p className='font-semibold text-lg m-2'>Accommodation Type 3</p>
 
+                                    <div className='border-2 flex rounded w-full'>
+                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 p-4 h-auto">
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
-
-            {imageListRoom3.length > 0 &&  imageListRoom3.slice(0,3).map((imageUrl, index) => (
+            {imageListRoom3.length > 0 &&  imageListRoom3.slice(0,2).map((imageUrl, index) => (
               <div>
-                <img className="w-85 md:w-50 lg:w-full items-center m-2 cursor-pointer rounded-lg h-70" src={imageUrl} key={index} onClick={()=>passImageUrl3(index)} alt="Retreats Around The World" />
+                <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer" src={imageUrl} key={index} onClick={()=>passImageUrl3(index)} alt="Retreats Around The World" />
                 
               
               
@@ -709,6 +730,17 @@ useEffect(()=>{
 
 
                     </div>
+                                      <div className='grid w-full gap-4 p-4 h-auto'>
+
+                        <p className='font-semibold text-lg m-2'>Room 3</p>
+                        <p className='text-md m-2'>${priceRoom3}/night&nbsp;{currency}</p>
+                        {read &&  <p className='text-md m-2 w-full p-4'>{accommodation3}</p>
+                      }
+                      {!read &&  <p className='text-md m-2 w-full p-4'>{accommodation3}.slice(0,200)</p>}
+                        <Button className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={readMore}>Read More</Button>
+                        <p className='text-md m-2 p-4'>Include breakfast: {includesRoom3Breakfast}</p>
+
+                     </div>
                     </div>
             </div>
             

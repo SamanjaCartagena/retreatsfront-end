@@ -31,7 +31,6 @@ function GuideSignUp() {
     const [lastName, setLastName]= useState('');
     const [profession, setProfession]= useState('');
     const [imageUpload, setImageUpload] = useState(null)
-    const [specialty, setSpecialty]= useState('');
     const [guideEmail, setGuideEmail]= useState('');
     const [guideId, setGuideId] = useState('');
     const [imageList, setImageList] = useState([])
@@ -80,9 +79,13 @@ onAuthStateChanged(auth, async (user) => {
                                        guideCity:guideCity,
                                        guideEmail:guideEmail,
                                        guideIntroduction:guideIntroduction,
+                                       type1:type1,
+                                       type2:type2,
+                                       type3:type3,
+                                       guideProfilePicUrl:"https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40",
                                        createdAt: new Date()
                                      });
-                                     navigate(`/adminpage/${guideId}/guideadmin`)
+                                     navigate(`/adminpage/${guideId}`)
                       
                        
      

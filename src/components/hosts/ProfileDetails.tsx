@@ -33,11 +33,10 @@ export default function Profile() {
   const [details, setDetails] = useState("")
   const [hostUserName, setHostUserName] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [facebookLink, setFacebookLink] = useState("")
   const [faceLink, setFaceLink]= useState("")
   const [instagramLink, setInstagramLink] = useState("")
   const [instaLink, setInstaLink] = useState("")
-  const [twitterLink, setTwitterLink] = useState("")
+ 
   const [twitLink, setTwitLink] = useState("")
   const [openSomething, setOpenSomething] = useState(false)
   const [pinterestLink, setPinterestLink] = useState("")
@@ -93,13 +92,13 @@ export default function Profile() {
       getDownloadURL(snapshot.ref).then((url)=>{
         setAvatarUrl(url);
 
-          
-      }
-      );
-      updateDoc(docRef, {
+          updateDoc(docRef, {
              hostProfilePicUrl: avatarUrl,
             
                    });
+      }
+      );
+      
     });
    }
    
@@ -293,7 +292,7 @@ onAuthStateChanged(auth, async (user) => {
         
         <p className="mb-4"><span className="font-bold">Username:</span> {hostUserName}</p>
         {onlyUser && <p className="mb-4"><span className="font-bold">Email:</span> {email}</p>}
-        <p className="mb-4"><span className="font-bold">Phone:</span> {phone}</p>
+        {onlyUser && (<p className="mb-4"><span className="font-bold">Phone:</span> {phone}</p>)}
         <p className="mb-4"><span className="font-bold">Introduction:</span> {hostIntroduction}</p>
         <p className="mb-4"><span className="font-bold">Retreat Details:</span> {retreatDetails}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 1:</span> {type1}</p>
@@ -306,12 +305,7 @@ onAuthStateChanged(auth, async (user) => {
         <p className="mb-4"><span className="font-bold">Retreat Type 7:</span> {type7}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 8:</span> {type8}</p>
         <p className="mb-4"><span className="font-bold">Retreat Type 9:</span> {type9}</p>
-              {!alsoGuide &&  
-       <Link to={`/guidesignup/${userId}`}className="mb-2 mt-2" >
-          <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>Become a Guide</Button>
 
-        </Link>
-}
         <div className="grid  items-center mt-1">
         
           {onlyUser && (
@@ -375,11 +369,16 @@ onAuthStateChanged(auth, async (user) => {
       </div>
       <br/>
       <div className='container justify-center'>
-        <h1 className='text-2xl'>Your Past Retreats</h1>
+        <h1 className='text-2xl'>Past Retreats</h1>
+        <h1>Coming Soon!</h1>
 
       </div>
        
-     
+      <div className='container justify-center'>
+        <h1 className='text-2xl'>Review Past Retreats</h1>
+        <h1>Coming Soon!</h1>
+
+      </div>
 
       
 

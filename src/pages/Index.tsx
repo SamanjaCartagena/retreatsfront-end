@@ -8,6 +8,7 @@ import { FeaturedDestinations } from "@/components/Destinations";
 import { FeaturedCenters} from "@/components/centers/CenterDisplay";
 import { Separator } from "@/components/ui/separator";
 import RightNow from '@/components/retreats/RightNow'
+import Contact from "@/components/contact/Contact";
 const Index = () => {
  
 
@@ -23,6 +24,7 @@ const Index = () => {
         <RightNow/>
        <FeaturedCenters/>
         <FeaturedDestinations />
+        <Contact/>
       </main>
     </div>
   );

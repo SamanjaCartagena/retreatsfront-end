@@ -58,16 +58,16 @@ export default function Guides() {
     setSelectedPrice(valueDoubleFloat)
   }
  
-          const profilePicRef = ref(storage, `retreatTestPic`);
+          const profilePicRef = ref(storage, `guideProfilePic/${userId}/profile.jpg`);
 
     const profile=()=>{
                 uploadBytes(profilePicRef, imageUpload).then((snapshot)=>{
                   getDownloadURL(snapshot.ref).then((url)=>{
                     setAvatarUrl(url);
-                      const docRef = doc(db, "hosts", documentId);
+                      const docRef = doc(db, "guides", documentId);
             
                        updateDoc(docRef, {
-                         profileRetreatUrl: avatarUrl,
+                         guideProfilePicUrl: avatarUrl,
                         
                                });
                   }
@@ -186,16 +186,18 @@ export default function Guides() {
            
           <div key={guide.guideId} >
           
-            <h2 className="text-xl font-bold mb-2">{guide.name}</h2>
+            <h2 className="text-xl font-bold mb-2" key={guide.guideId}>
+              {guide.guideFirstName}
+            </h2>
 
             <Link to={`/guides/${guide.guideId}`} >
-             <Card className="rounded-xl h-130 overflow-hidden border-none shadow-lg hover:shadow-md transition-all  cursor-pointer ">
+             <Card className="rounded-xl h-130 overflow-hidden border-none shadow-lg hover:shadow-md transition-all  cursor-pointer " key={guide.guideId}>
       <div className="aspect-[5/3] overflow-hidden">
-        <img
-          src={guide.guideProfilePicUrl}
-          alt="Retreats Around The World"
-          className="w-full h-full object-cover transition-transform duration-500"
-        />
+      <img
+                         src={guide.guideProfilePicUrl}
+                         alt={guide.guideFirstName}
+                         className="w-full h-full object-cover transition-transform duration-500" key={guide.guideId}
+                       />
       </div>
       <CardContent className="p-4">
         <div className="flex justify-between items-start">
@@ -221,7 +223,6 @@ export default function Guides() {
           
               <Link to={`/guides/${guide.guideId}`} ><br/><br/>
               <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">Find Out More</Button></Link>
-                             <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white ml-5" onClick={() => window.open('https://www.tripadvisor.com', '_blank')}>Trip Advisor</Button>
 
         </div>
       </CardContent>

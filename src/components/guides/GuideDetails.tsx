@@ -16,11 +16,12 @@ import ImageModal from '../ImageModal.js';
 
 function GuideDetails() {
     const params = useParams()
-              const userId= params.id
+    const userId= params.id
             const form = useRef();
         const edit=()=>{
           setOpenEditor(true)
         }
+        const navigate=useNavigate()
         
         const [loggedIn, setLoggedIn] = useState(false)
         const [guideId, setGuideId] = useState("")
@@ -33,15 +34,13 @@ function GuideDetails() {
         const [currentUser, setCurrentUser] = useState(false)
         const [guideUsername, setGuideUsername] = useState("")
         const [guideLocation, setGuideLocation] = useState("")
-        const [firstName, setFirstName] = useState("")
-        const [lastName, setLastName] = useState("")
-        const [documentId, setDocumentId] = useState("")
-        const [avatarUrl, setAvatarUrl] = useState(null)
         const [guideFirstName, setGuideFirstName] = useState("")
+        const [guideLastName, setGuideLastName] = useState("")
+        const [documentId, setDocumentId] = useState("")
+        const [avatarUrl, setAvatarUrl] = useState("https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40");
         const [imageList, setImageList]=useState([])
         const [imageIndex, setImageIndex] = useState(0)
         const [openSomething, setOpenSomething] = useState(false)
-        const [hostPic, setHostPic] = useState("")
         const [guideType, setGuideType] = useState("")
         const [openEditor, setOpenEditor] = useState(false)
         const [guideSpecialty, setGuideSpecialty] = useState("")
@@ -52,6 +51,9 @@ function GuideDetails() {
         const imageListRef = ref(storage, `/guideImages/${userId}/`);
         
         const [inquiryModal, setInquiryModal] = useState(false)
+        const listEvent=()=>{
+          navigate(`/listEvent/${userId}`)
+        }
         const [formData, setFormData] = useState({
               user_name:"",
               user_email:"",
@@ -59,12 +61,14 @@ function GuideDetails() {
              })
           const saveChanges =()=>{
               const docRef = doc(db, "guides", documentId);
-              updateDoc(docRef, { guideFirstName: firstName,
-                guideLastName: lastName,
+              updateDoc(docRef, { guideFirstName: guideFirstName,
+                guideLastName: guideLastName,
                 guideEmail: guideEmail, 
                 guideUserName:guideUsername,
                 guideIntroduction: guideIntroduction,
                 guidePhone:guidePhone,
+                guideCity: guideCity,
+                guideLocation: guideLocation,
                 guideProfession: guideProfession,
                 guideSpecialty:[guide1, guide2, guide3].concat(guideType).filter(Boolean),
                 
@@ -109,21 +113,18 @@ function GuideDetails() {
        
         useEffect(()=>{
           window.scrollTo(0,0)
-            const loadData = async () => {
+      const loadData = async () => {
              
 
                const q =query(collection(db, "guides"), where("guideId", "==", userId));
                 const querySnapshot = await getDocs(q);
-                 if(querySnapshot.size === 0){
-                    return;
-                  }
-                  else{
+                
                   querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
               setDocumentId(doc.id)
               setAvatarUrl(doc.data().guideProfilePicUrl)
-              setFirstName(doc.data().guideFirstName);
-              setLastName(doc.data().guideLastName);
+              setGuideFirstName(doc.data().guideFirstName);
+              setGuideLastName(doc.data().guideLastName);
               setGuideUsername(doc.data().guideUserName)
               setGuideEmail(doc.data().guideEmail);
               setGuideId(doc.data().guideId);
@@ -134,21 +135,26 @@ function GuideDetails() {
               setGuideIntroduction(doc.data().guideIntroduction);
               setGuidePhone(doc.data().guidePhone);
             });
-          }
+          
         }
+        loadData();
           
         
-              loadData()
-              console.log("Document id is"+documentId)
+            
+              console.log("User Id"+userId)
+              console.log("Guide Id"+guideId)
           const auth=getAuth()
                   onAuthStateChanged(auth, (user) => {
           if (user) {
             // User is signed in, see docs for a list of available properties
             // https://google.com
-            const uid = user.uid;
+            const userId = user.uid;
+            console.log(userId)
 
-            if(user.uid === userId){
+            if(guideId === userId){
               setCurrentUser(true)
+              console.log("Guide id is "+guideId)
+              console.log("User Id is "+userId)
               console.log("Current user is the guide")
             }
             else{
@@ -173,8 +179,8 @@ function GuideDetails() {
         
                     retreats.push({ ...doc.data() });
                     setDocumentId(doc.id);
-                    setGuideFirstName(doc.data().name);
-                    
+                    setGuideFirstName(doc.data().guideFirstName);
+                    setGuideLastName(doc.data().guideLastName);
                 
                     console.log("Retreat id is", doc.data().retreatId)
                     
@@ -187,6 +193,7 @@ function GuideDetails() {
                   getDownloadURL(profilePic).then((url)=>{
                     setAvatarUrl(url);
                   }
+
                   );
                        
                         listAll(imageListRef).then((res)=>{
@@ -199,22 +206,24 @@ function GuideDetails() {
                         });
                                 
         
-                                },[userId])
+                                },[guideId])
 
                               const profile=()=>{
             
             const profilePicRef = ref(storage, `/guideProfilePic/${userId}/profile.jpg`);
             uploadBytes(profilePicRef, imageUpload).then((snapshot)=>{
+              const docRef = doc(db, "guides", documentId);
+
               getDownloadURL(snapshot.ref).then((url)=>{
                 setAvatarUrl(url);
-                  const docRef = doc(db, "guides", documentId);
-        
-                   updateDoc(docRef, {
+                 updateDoc(docRef, {
                      guideProfilePicUrl: avatarUrl,
                     
                            });
-              }
+        
+                   }
               );
+             
             });
            }
             const uploadImage=(e)=>{
@@ -263,17 +272,22 @@ function GuideDetails() {
                                            <Button onClick={edit} className='bg-lime-700  w-60 text-white font-bold py-2 px-4 m-2 rounded focus:outline-none focus:shadow-outline'>Edit Info</Button>
                                            </div>
                                                 }
+                                                 {currentUser &&
+                                               <div>
+                                           
+                                           <Button onClick={listEvent} className='bg-lime-700  w-60 text-white font-bold py-2 px-4 m-2 rounded focus:outline-none focus:shadow-outline'>List an Event</Button>
+                                           </div>
+                                                }
                                            </div>
                                               <Modal isOpen={openEditor} onClose={()=>setOpenEditor(false)}>
           <div style={{width:'100%', height:'700px', overflowY:'scroll'}} className="justify-center mt-20 items-center text-center p-4 bold text-sm">
               <h1 className="text-2xl font-bold mb-4">Edit Your Profile</h1>
-             <input type="text" placeholder="First Name" value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
-             <input type="text" placeholder="Last Name" value={lastName} onChange={(e)=>setLastName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
+             <input type="text" placeholder="First Name" value={guideFirstName} onChange={(e)=>setGuideFirstName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
+             <input type="text" placeholder="Last Name" value={guideLastName} onChange={(e)=>setGuideLastName(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
              <input type="email" placeholder="Email" value={guideEmail} onChange={(e)=>setGuideEmail(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
              <input type="text" placeholder="Username" value={guideUsername} onChange={(e)=>setGuideUsername(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
              <textarea placeholder="Guide Profession" value={guideProfession} onChange={(e)=>setGuideProfession(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
                            <textarea placeholder="Guide Profession" value={guideIntroduction} onChange={(e)=>setGuideIntroduction(e.target.value)} className="mb-2 p-2 border border-gray-300 h-40 rounded w-full"/>
-
               
               <h1 className="text-xl font-bold mb-2">Specialty</h1>
                  <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide1(e.target.value)} value={guide1}>
@@ -389,22 +403,23 @@ function GuideDetails() {
               </textarea>
               <input type="submit" value="Send Inquiry" className="bg-lime-700 hover:bg-white hover:text-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer" />
             </form>
-            </Modal>
-                                     <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Contact&nbsp;{firstName}</Button>
+            </Modal>                   <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-1  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
+                                     <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Contact&nbsp;{guideFirstName}</Button>
                                
-                              <h2 className='text-2xl font-bold m-2'>{firstName}&nbsp;{lastName}</h2>
+                                         <h2 className='text-2xl font-bold m-2'>{guideFirstName}&nbsp;{guideLastName}</h2>
                               
                                                             <h2 className='text-xl font-bold m-2'>{guideCity},&nbsp;{guideLocation}</h2>
                                                                                                                         <h2 className='text-xl font-bold m-2'>Username:&nbsp;{guideUsername}</h2>
 
 
                                                           <h2 className='text-xl font-bold m-2'>Profession:&nbsp;{guideProfession}</h2>
-                                                          <h2 className='text-xl font-bold m-2'>{guideSpecialty[0]},&nbsp;{guideSpecialty[1]},&nbsp;{guideSpecialty[2]},&nbsp;{guideSpecialty[3]}</h2>
+                                                          <h2 className='text-xl font-bold m-2'>{guideSpecialty[0]+' '},&nbsp;{guideSpecialty[1]+' '},&nbsp;{guideSpecialty[2]+' '},&nbsp;{guideSpecialty[3]+' '}, &nbsp;{guideSpecialty[4]}</h2>
 
                                                           
                                                           
 
-                                                            <p className='container mt-10 text-lg font-bold'>{guideIntroduction}</p>
+                                                            <h2 className='text-xl font-bold m-2'>{guideIntroduction}</h2>
+                                                            </div>
                                                             
 
                               {currentUser &&
@@ -417,19 +432,19 @@ function GuideDetails() {
                                   </div>
                                    }
                                    
-                                  <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
+                       <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
 
-                                      {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
-             
-                                <Card className="rounded-xl w-60 bg-transparent overflow-hidden hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index} onClick={()=>passImageUrl(index)}>
-                                 <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+                                {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
+                                    <div>
+                                 <img className="w-85 md:w-50 lg:w-full items-center rounded-lg cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl(index)}/>
+                                 
                                  {currentUser &&
-                              <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>deleteImage(imageUrl)}>Delete</Button>
-                                 }
-      
-                                      </Card>
+                                 <Button onClick={()=>deleteImage(imageUrl)} className='bg-red-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Delete Image</Button>
+                                        } 
+                                 </div>
     
-                                           ))}
+                                ))}
+                                
 
                                   
                                   </div>

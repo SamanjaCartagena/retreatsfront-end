@@ -21,12 +21,14 @@ import Guides from "@/components/guides/Guides";
 import GuideSignUp from "@/components/guides/GuideSignUp";
 import Airways from "@/components/Airways";
 import Success from "@/components/Success";
-import GuideAdmin from "./components/guides/GuideAdmin";
 import Guests from "./components/guests/Guests";
 import Jobs from './jobs/Job'
+import ListAnEvent from './components/events/ListAnEvent'
 import RetreatCenterDetails from "@/components/centers/RetreatCenterDetails";
 import AdminPage from "@/components/admin/AdminPage"
 import ListARetreatCenter from "./components/centers/ListARetreatCenter";
+import Hosts from "./components/hosts/Hosts";
+import Events from "./components/events/Events";
 
 const queryClient = new QueryClient();
 const App = () => (
@@ -44,15 +46,22 @@ const App = () => (
           <Route path="/guests" element={<Guests/>}/>
           {/***Host Account */}
           <Route path="/host" element={<Host/>}/>
+          <Route path="/hosts" element={<Hosts/>}/>
           <Route path="/host/:id" element={<ProfileDetails/>}/>
+
+          {/**Guide Account */}
+          <Route path="/guides" element={<Guides/>}/>
+          <Route path="/guidedetails/:id" element={<GuideDetails/>}/>
+          <Route path="/guidesignup" element={<GuideSignUp/>}/>
+          {/**List An Event */}
+          <Route path="/listEvent/:userId" element={<ListAnEvent/>}/>
 
                             {/**Admin Page */}
           <Route path="/adminpage/:userId/signupasHost" element={<SignUpAsHost/>}/>
-          <Route path="/admin" element={<Admin/>}/>
+          <Route path="/adminpage" element={<AdminPage/>}/>
           <Route path="/adminpage/:userId" element={<AdminPage/>}/>
-          <Route path="/adminpage/:userId/guidedetails" element={<GuideDetails/>}/>
+          <Route path="/guidedetails/:userId" element={<GuideDetails/>}/>
           <Route path="/adminpage/:userId/guidesignup" element={<GuideSignUp/>}/>
-          <Route path="/adminpage/:userId/guideadmin" element={<GuideAdmin/>}/>
           <Route path="/adminpage/:id/hostdetails" element={<ProfileDetails/>}/>
           <Route path="/adminpage/:userId/signupashost" element={<SignUpAsHost/>}/>
           <Route path="/adminpage/:userId/guests" element={<Guests/>}/>
@@ -66,13 +75,13 @@ const App = () => (
 
           <Route path="/guides/:id" element={<GuideDetails/>}/>
           <Route path="/adminpage/:userId/guidesignup" element={<GuideSignUp/>}/>
-          <Route path="/adminpage/:userId/guideadmin" element={<GuideAdmin/>}/>
           <Route path="/retreatdetails/:id" element={<RetreatDetails/>}/>
           <Route path="/guides" element={<Guides/>}/>
           <Route path="/guidesignup" element={<GuideSignUp/>}/>
           <Route path="/airlines" element={<Airways/>}/>
           <Route path="/ecotourism" element={<EcoTourism/>}/>
           <Route path='/jobs' element={<Jobs/>}/>
+          <Route path='/events' element={<Events/>}/>
           
             
           

@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serverTimestamp } from "firebase/firestore";
 import { db, auth,storage} from "../firebase.js";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-
 import waves from '../assets/waves.mp4'
 import Modal from "./Modal.js";
 
@@ -60,7 +59,6 @@ export function Newsletter() {
 
   return (
         <div className="relative h-[30vh] min-h-[250px] w-full overflow-hidden">
-          
 
       <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover">
         <source src={waves} type="video/mp4" />

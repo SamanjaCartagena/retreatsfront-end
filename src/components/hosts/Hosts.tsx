@@ -132,7 +132,7 @@ export default function Hosts() {
                             <Card className="rounded-xl overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer " >
                      <div className="aspect-[5/3] overflow-hidden">
                        <img
-                         src={`${guide.hostProfilePicUrl}`}
+                         src={guide.hostProfilePicUrl}
                          alt={guide.hostFirstname}
                          className="w-full h-full object-cover transition-transform duration-500"
                        />
@@ -145,8 +145,8 @@ export default function Hosts() {
                        <div className="mt-3 font-medium">
                
                
-                         <span className="text-sm text-muted-foreground"><strong>{guide.hostFirstName}&nbsp;&nbsp;&nbsp;{guide.hostLastName}</strong></span><br/>
-                                                  <span className="text-sm text-muted-foreground">{guide.hostRetreatDetails.slice(0,150)}....</span>
+                         <span className="text-md"><strong>{guide.hostFirstName}&nbsp;&nbsp;&nbsp;{guide.hostLastName}</strong></span><br/>
+                                                  <span className="text-sm text-muted-foreground">{guide.hostRetreatDetails.slice(0,120)}...</span>
 
                          
                             

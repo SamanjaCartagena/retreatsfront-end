@@ -188,7 +188,6 @@ export function RetreatCard() {
           <h3 className="font-serif font-medium text-lg line-clamp-1 text-black">{retreat.endAt?.toDate()?.toLocaleDateString('en-US')}</h3>
           <div className="flex items-center gap-1 text-sm">
             <Star size={16} fill="currentColor" className="text-retreat-forest" />
-            <span className="text-black">{retreat.retreatCenterName}</span>
           </div>
         </div>
         <p className="text-muted-foreground text-sm mb-2">{Object.values(retreat.type1).join(", ")}</p>
