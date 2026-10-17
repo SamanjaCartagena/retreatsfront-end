@@ -83,9 +83,13 @@ function RetreatDetails() {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [imageUrl, setImageUrl] = useState("")
                  /**Accomodations */
+                 /**Room 1 */
     const [imageListRoom1, setImageListRoom1] = useState([])
     const [accommodation1,setAccommodation1] = useState("")
     const [priceRoom1, setPriceRoom1] = useState(0.0)
+    const [totalPriceRoom1, setTotalPriceRoom1] = useState(0.0)
+    const [room1Exists, setRoom1Exists] = useState(false)
+
     const [imageListRoom2, setImageListRoom2] = useState([])
     const [accommodation2,setAccommodation2] = useState("")
     const [priceRoom2, setPriceRoom2] = useState(0.0)
@@ -344,7 +348,7 @@ useEffect(()=>{
             setIncludesRoom1Breakfast(doc.data().includesRoom1Breakfast)
             setIncludesRoom2Breakfast(doc.data().includesRoom2Breakfast)
             setIncludesRoom3Breakfast(doc.data().includesRoom3Breakfast)
-            
+            setTotalPriceRoom1(doc.data().totalPriceRoom1)
             setCountry(doc.data().location);
             setStartAt(doc.data().startAt);
             setEndAt(doc.data().endAt);
@@ -593,7 +597,7 @@ useEffect(()=>{
                                <br/>
 
                                <div className='container text-center w-full h-auto p-4 rounded-lg  bg-white'>
-
+                                   <h1 className='text-lg font-bold'>Highlights</h1>
                                <h1 className='container text-md font-bold'>{message1}</h1>
                                       <h1 className=' container text-md font-bold '>{message2}</h1>
                                       <h1 className='container text-md font-bold '>{message3}</h1>
@@ -621,11 +625,12 @@ useEffect(()=>{
   month: 'long', 
   day: 'numeric' 
 })}</h1><br/>
+            
              <p className='font-semibold text-lg  align-left'>Price</p>
-                
-                   <h1 className='text-lg p-4 border-2 rounded'>${price} for&nbsp; {Math.abs(endAt?.toDate()?.getDate() - startAt?.toDate()?.getDate())}&nbsp;days in {retreatAddress}</h1>
-                   
-                 
+                <div className='p-4 border-2 rounded'>
+                   <h1 className='text-md '><strong>${price}</strong> for&nbsp; {Math.abs(endAt?.toDate()?.getDate() - startAt?.toDate()?.getDate())}&nbsp;days in {retreatAddress}</h1>
+                   <h1>Total price of Retreat if you select Room 1 - <strong>${totalPriceRoom1}</strong></h1>
+                 </div>
                    <br/>
                                             <p className='font-semibold text-lg mt-2 align-left'>Kind of Retreat</p>
 
@@ -633,7 +638,7 @@ useEffect(()=>{
             <h1 className='text-xl font-bold'>{nameOfCity}</h1>
             <center><img src={cityPic} alt="Retreats Around The World"  className="w-200 h-200 mt-5  justify-center object-cover" /></center>
             <br/>
-            <p className='font-semibold text-lg m-4'>About the city / cities / regions / villages / towns</p>
+            <p className='font-semibold text-lg m-4'>About the city /region / village / town</p>
             <p className='w-60 md:w-full sm:w-full p-4 border-2 text-md rounded'>{city}</p>
                         <p className='font-semibold text-lg m-4'>Airport Information</p>
 

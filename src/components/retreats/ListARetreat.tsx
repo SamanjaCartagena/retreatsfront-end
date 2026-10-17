@@ -19,9 +19,12 @@ function ListARetreat() {
    const [retreatName, setRetreatName] = useState("")
    const[retreatCenterName, setRetreatCenterName]= useState("")
    const[retreatType, setRetreatType] = useState("")
+   const [noOfRooms, setNoOfRooms] = useState(0)
    const [type1, setType1] = useState("")
    const [type2, setType2] = useState("")
    const [type3, setType3] = useState("")
+
+   const [rooms,setRooms] = useState("")
 
    /**Address of Retreat */
    const [city,setCity] = useState("")
@@ -36,6 +39,7 @@ function ListARetreat() {
 
 
    /**Accomodations */
+   const[room1Exists, setRoom1Exists] = useState(false)
    const [accommodation1, setAccommodation1] = useState("")
    const [accommodation2, setAccommodation2] = useState("")
    const [accommodation3, setAccommodation3] = useState("")
@@ -46,6 +50,7 @@ function ListARetreat() {
    const [wifiIncludedRoom2, setWifiIncludedRoom2] = useState("")
    const [wifiIncludedRoom3, setWifiIncludedRoom3] = useState("")
    const [priceRoom1, setPriceRoom1] = useState(0.0)
+   const [totalPriceRoom1, setTotalPriceRoom1] = useState(0.0)
    const [priceRoom2, setPriceRoom2] = useState(0.0)
    const [priceRoom3, setPriceRoom3] = useState(0.0)
    const [imageListRoom1, setImageListRoom1] = useState([])
@@ -83,7 +88,7 @@ function ListARetreat() {
     const imageListRef = ref(storage, `/retreatimages/${retreatKindId}/`);
     const imageListRefRoom1= ref(storage, `/retreatimages/room1/${retreatKindId}`)
     const deleteImage=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
+      event.preventDefault()
         const imageRef = ref(storage, url);
         deleteObject(imageRef).then(() => {
           setImageList((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -92,7 +97,7 @@ function ListARetreat() {
         });
      }
      const deleteImageRoom1=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
+         event.preventDefault()
         const imageRef1 = ref(storage, url);
         deleteObject(imageRef1).then(() => {
           setImageListRoom1((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -101,7 +106,7 @@ function ListARetreat() {
         });
      }
      const deleteImageRoom2=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
+      event.preventDefault()
         const imageRef1 = ref(storage, url);
         deleteObject(imageRef1).then(() => {
           setImageListRoom2((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -110,7 +115,7 @@ function ListARetreat() {
         });
      }
       const deleteImageRoom3=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
+        event.preventDefault()
         const imageRef3 = ref(storage, url);
         deleteObject(imageRef3).then(() => {
           setImageListRoom2((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -119,7 +124,7 @@ function ListARetreat() {
         });
      }
       const deleteImageCity=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
+        event.preventDefault()
         const imageRef2 = ref(storage, url);
         deleteObject(imageRef2).then(() => {
           setImageListCity((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -225,6 +230,11 @@ function ListARetreat() {
     setPriceRoom1(doubleValueFloat)
 
    }
+   const priceRoom1Total = (event) =>{
+    const doubleValueFloat = parseFloat(event.target.value)
+    setTotalPriceRoom1(doubleValueFloat)
+
+   }
    const pricing2 =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
     setPriceRoom2(doubleValueFloat)
@@ -248,9 +258,17 @@ const endAtDate=(e)=>{
   const timestamp1 = Timestamp.fromDate(new Date(e));
  setEndDate(timestamp1)
 }
-
- 
-
+const doesRoom1Exist=(e)=>{
+  if(e.target.value=="Yes"){
+    setRoom1Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setRoom1Exists(false)
+  }
+  else{
+    setRoom1Exists(false)
+  }
+}
 
    const host =async () => {
     const type = [type1, type2, type3].concat(retreatType).filter(Boolean);
@@ -286,6 +304,8 @@ const endAtDate=(e)=>{
                                          cityPic: imageListCity[0],
                                          nameOfCity: nameOfCity, 
                                          accommodation1: accommodation1,
+                                         totalPriceRoom1:totalPriceRoom1,
+                                         room1Exists:room1Exists,
                                          includesRoom1Breakfast:includesRoom1Breakfast,
                                          includesRoom2Breakfast:includesRoom2Breakfast,
                                          includesRoom3Breakfast:includesRoom3Breakfast,
@@ -325,7 +345,7 @@ const endAtDate=(e)=>{
 
           }
    useEffect(()=>{
-    window.scrollTo()
+    window.scrollTo(0,0)
     console.log(userId)
        onAuthStateChanged(auth, async (user) => {
          if (user)  {
@@ -425,7 +445,7 @@ const endAtDate=(e)=>{
                </div>
       </div>
       <div className="grid justify-center  items-center " >
-      <form className="bg-white max-w-full min-w-xs shadow-md rounded px-8 pt-6 pb-8  mt-4" >
+      <form className="bg-white max-w-full min-w-xs shadow-md rounded px-8 pt-6 pb-8  mt-4" onSubmit={host}>
         <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Name of Retreat
@@ -917,7 +937,17 @@ const endAtDate=(e)=>{
       Different kinds of accommodations available:
     </p>
   </div>
+  <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Room 1</label>&nbsp; &nbsp;
+  <select onChange={doesRoom1Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+  {room1Exists &&
   <div className='border-2 rounded border-solid border-lime-700 p-4'>
+    
       <label className="block text-gray-700 text-lg font-bold mb-2">
         Room 1
       </label>
@@ -944,6 +974,13 @@ const endAtDate=(e)=>{
         Price per night for accommodation 1
       </label>
            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing1}/>
+           </div>
+           
+     <div className='m-4'>
+      <label>
+        Total price for retreat if customer selects this room
+      </label>
+           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={priceRoom1Total}/>
            </div>
   <div className='m-4'>
       <label>
@@ -973,7 +1010,9 @@ const endAtDate=(e)=>{
 
 
     </div>
+    
     </div>
+}
     <div className='border-2 rounded border-solid border-lime-700 p-4 '>
       <label className="block text-gray-700 text-lg font-bold mb-2">
         Room 2
@@ -1138,7 +1177,7 @@ const endAtDate=(e)=>{
       
      })}
         
-    <Button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={host}>
+    <Button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
         Host a Retreat
       </Button>
       </form>
