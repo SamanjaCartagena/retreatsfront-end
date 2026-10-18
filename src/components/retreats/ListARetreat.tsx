@@ -39,7 +39,10 @@ function ListARetreat() {
 
 
    /**Accomodations */
+   /**Room 1 */
    const[room1Exists, setRoom1Exists] = useState(false)
+   const[room2Exists, setRoom2Exists] = useState(false)
+   const [room3Exists, setRoom3Exists] = useState(false)
    const [accommodation1, setAccommodation1] = useState("")
    const [accommodation2, setAccommodation2] = useState("")
    const [accommodation3, setAccommodation3] = useState("")
@@ -51,6 +54,11 @@ function ListARetreat() {
    const [wifiIncludedRoom3, setWifiIncludedRoom3] = useState("")
    const [priceRoom1, setPriceRoom1] = useState(0.0)
    const [totalPriceRoom1, setTotalPriceRoom1] = useState(0.0)
+   const [totalPriceRoom2, setTotalPriceRoom2] = useState(0.0)
+   const [totalPriceRoom3, setTotalPriceRoom3] = useState(0.0)
+
+  
+
    const [priceRoom2, setPriceRoom2] = useState(0.0)
    const [priceRoom3, setPriceRoom3] = useState(0.0)
    const [imageListRoom1, setImageListRoom1] = useState([])
@@ -87,6 +95,7 @@ function ListARetreat() {
    const navigate= useNavigate()
     const imageListRef = ref(storage, `/retreatimages/${retreatKindId}/`);
     const imageListRefRoom1= ref(storage, `/retreatimages/room1/${retreatKindId}`)
+    const pic1="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40"
     const deleteImage=(url)=>{
       event.preventDefault()
         const imageRef = ref(storage, url);
@@ -235,6 +244,16 @@ function ListARetreat() {
     setTotalPriceRoom1(doubleValueFloat)
 
    }
+    const priceRoom2Total = (event) =>{
+    const doubleValueFloat = parseFloat(event.target.value)
+    setTotalPriceRoom2(doubleValueFloat)
+
+   }
+    const priceRoom3Total = (event) =>{
+    const doubleValueFloat = parseFloat(event.target.value)
+    setTotalPriceRoom3(doubleValueFloat)
+
+   }
    const pricing2 =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
     setPriceRoom2(doubleValueFloat)
@@ -269,8 +288,32 @@ const doesRoom1Exist=(e)=>{
     setRoom1Exists(false)
   }
 }
+const doesRoom2Exist=(e)=>{
+  if(e.target.value=="Yes"){
+    setRoom2Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setRoom2Exists(false)
+  }
+  else{
+    setRoom2Exists(false)
+  }
+}
+const doesRoom3Exist=(e)=>{
+  if(e.target.value=="Yes"){
+    setRoom3Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setRoom3Exists(false)
+  }
+  else{
+    setRoom3Exists(false)
+  }
+}
+
 
    const host =async () => {
+    
     const type = [type1, type2, type3].concat(retreatType).filter(Boolean);
      
       
@@ -305,7 +348,11 @@ const doesRoom1Exist=(e)=>{
                                          nameOfCity: nameOfCity, 
                                          accommodation1: accommodation1,
                                          totalPriceRoom1:totalPriceRoom1,
+                                         totalPriceRoom2:totalPriceRoom2,
+                                         totalPriceRoom3:totalPriceRoom3,
                                          room1Exists:room1Exists,
+                                         room2Exists:room2Exists,
+                                         room3Exists:room3Exists,
                                          includesRoom1Breakfast:includesRoom1Breakfast,
                                          includesRoom2Breakfast:includesRoom2Breakfast,
                                          includesRoom3Breakfast:includesRoom3Breakfast,
@@ -1013,6 +1060,15 @@ const doesRoom1Exist=(e)=>{
     
     </div>
 }
+  <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Room 2</label>&nbsp; &nbsp;
+  <select onChange={doesRoom2Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+  {room2Exists &&
     <div className='border-2 rounded border-solid border-lime-700 p-4 '>
       <label className="block text-gray-700 text-lg font-bold mb-2">
         Room 2
@@ -1039,6 +1095,12 @@ const doesRoom1Exist=(e)=>{
         Price per night for accommodation 2
       </label>
            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing2}/>
+           </div>
+           <div className='m-4'>
+      <label>
+        Total price for retreat if customer selects this room
+      </label>
+           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={priceRoom2Total}/>
            </div>
   <div className='m-4'>
       <label>
@@ -1069,6 +1131,16 @@ const doesRoom1Exist=(e)=>{
 
     </div>
     </div>
+}
+  <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Room 3</label>&nbsp; &nbsp;
+  <select onChange={doesRoom3Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+  {room3Exists &&
     <div className='border-2 rounded border-solid border-lime-700 p-4'>
       <label className="block text-gray-700 text-lg font-bold mb-2">
         Room 3
@@ -1095,6 +1167,12 @@ const doesRoom1Exist=(e)=>{
         Price per night for accommodation 3
       </label>
            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing3}/>
+           </div>
+            <div className='m-4'>
+      <label>
+        Total price for retreat if customer selects this room
+      </label>
+           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={priceRoom3Total}/>
            </div>
   <div className='m-4'>
       <label>
@@ -1125,7 +1203,7 @@ const doesRoom1Exist=(e)=>{
 
     </div>
     </div>
-
+}
   <div className='m-4'>
       <label>
         Flight Expense Included

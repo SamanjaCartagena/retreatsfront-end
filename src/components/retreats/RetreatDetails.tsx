@@ -88,7 +88,11 @@ function RetreatDetails() {
     const [accommodation1,setAccommodation1] = useState("")
     const [priceRoom1, setPriceRoom1] = useState(0.0)
     const [totalPriceRoom1, setTotalPriceRoom1] = useState(0.0)
+    const [totalPriceRoom2, setTotalPriceRoom2] = useState(0.0)
+    const [totalPriceRoom3, setTotalPriceRoom3] = useState(0.0)
     const [room1Exists, setRoom1Exists] = useState(false)
+    const [room2Exists, setRoom2Exists]= useState(false)
+    const [room3Exists, setRoom3Exists] = useState(false)
 
     const [imageListRoom2, setImageListRoom2] = useState([])
     const [accommodation2,setAccommodation2] = useState("")
@@ -342,6 +346,9 @@ useEffect(()=>{
             setRetreatAddress(doc.data().address);
             setHostLastName(doc.data().hostLastName);
             setHostFirstName(doc.data().hostFirstName);
+            setRoom1Exists(doc.data().room1Exists);
+            setRoom2Exists(doc.data().room2Exists);
+            setRoom3Exists(doc.data().room3Exists);
             setMonth(doc.data().month);
             setKind(doc.data().kind);
             setMessage1(doc.data().message1);
@@ -349,6 +356,8 @@ useEffect(()=>{
             setIncludesRoom2Breakfast(doc.data().includesRoom2Breakfast)
             setIncludesRoom3Breakfast(doc.data().includesRoom3Breakfast)
             setTotalPriceRoom1(doc.data().totalPriceRoom1)
+            setTotalPriceRoom2(doc.data().totalPriceRoom2)
+            setTotalPriceRoom3(doc.data().totalPriceRoom3)
             setCountry(doc.data().location);
             setStartAt(doc.data().startAt);
             setEndAt(doc.data().endAt);
@@ -651,6 +660,8 @@ useEffect(()=>{
                                   
 
                                     </div>
+                                    {room1Exists &&
+                                    <div>
                                       <p className='font-semibold text-lg m-2'>Accommodation Type 1</p>
 
                                     <div className='border-2 flex rounded w-full'>
@@ -672,9 +683,12 @@ useEffect(()=>{
                   </ImageModal>
 
                     </div>
+
                                       <div className='grid w-full gap-4 p-4 h-auto'>
 
                         <p className='font-semibold text-md m-2'>${priceRoom1}{currency}&nbsp;/night</p>
+                                                <p className='font-semibold text-md m-2'>Total price you pay if you select Room 1: ${totalPriceRoom1}&nbsp;{currency}</p>
+
                                                                        <p className=' text-md m-2 w-full h-auto  p-4 text-md'>{accommodation1}</p>
                                                                        <p className='text-md m-2 p-4'>Include breakfast: {includesRoom1Breakfast}</p>
                           </div>
@@ -683,6 +697,10 @@ useEffect(()=>{
                           
 
             </div>
+            </div>
+            }
+            {room2Exists &&
+            <div>
                  <p className='font-semibold text-lg m-2'>Accommodation Type 2</p>
 
                                     <div className='border-2 flex rounded w-full'>
@@ -708,12 +726,17 @@ useEffect(()=>{
                                       <div className='grid w-full gap-4 p-4 h-auto'>
 
                                                                        <p className='text-md m-2'>${priceRoom2}&nbsp;{currency}/night</p>
+                                                                    <p className='font-semibold text-md m-2'>Total price you pay if you select Room 2: ${totalPriceRoom2}&nbsp;{currency}</p>
+
                                                                      <p className='text-md m-2 w-full p-4'>{accommodation2}</p>
                                                                       <p className=' text-md m-2 p-4'>Include breakfast: {includesRoom2Breakfast}</p>
                                                                       </div>
 
          
                     </div>
+                    </div>}
+                    {room3Exists &&
+                    <div>
                       <p className='font-semibold text-lg m-2'>Accommodation Type 3</p>
 
                                     <div className='border-2 flex rounded w-full'>
@@ -739,6 +762,8 @@ useEffect(()=>{
 
                         <p className='font-semibold text-lg m-2'>Room 3</p>
                         <p className='text-md m-2'>${priceRoom3}/night&nbsp;{currency}</p>
+                                                <p className='font-semibold text-md m-2'>Total Price you pay if you select Room 3: ${totalPriceRoom3}&nbsp;{currency}</p>
+
                         {read &&  <p className='text-md m-2 w-full p-4'>{accommodation3}</p>
                       }
                       {!read &&  <p className='text-md m-2 w-full p-4'>{accommodation3}.slice(0,200)</p>}
@@ -747,6 +772,7 @@ useEffect(()=>{
 
                      </div>
                     </div>
+                    </div>}
             </div>
             
             <div>
