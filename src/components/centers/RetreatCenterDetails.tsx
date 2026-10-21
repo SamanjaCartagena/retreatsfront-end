@@ -47,6 +47,7 @@ function RetreatCenterDetails() {
         const [priceRoom2, setPriceRoom2] = useState(0.0)
         const [imageListRoom3, setImageListRoom3] = useState([])
         const [accommodation3,setAccommodation3] = useState("")
+        const [facilites, setFacilities] = useState("")
         const [priceRoom3, setPriceRoom3] = useState(0.0)
         const [imageIndex, setImageIndex] = useState(0)
         
@@ -157,6 +158,7 @@ const passImageUrl3=(i)=>{
                 setPriceRoom2(doc.data().priceRoom2)
                 setAccommodation3(doc.data().accommodation3)
                 setPriceRoom3(doc.data().priceRoom3)
+                setFacilities(doc.data().facilities)
                 
               })
 
@@ -228,11 +230,11 @@ const passImageUrl3=(i)=>{
          <br/>
          
 <center>
-<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3 w-3/4 gap-2  m-4 mt-6 justify-center align-center items-center justify-items-center" >
+<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
   
   {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
-       <img className="w-60  md:w-50 h-70 lg:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
+       <img className="w-60  md:w-50 h-70 lg:w-1/2 sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
       
 ))}
  <ImageModal isOpen={openList}  >
@@ -275,29 +277,34 @@ const passImageUrl3=(i)=>{
 
             **/}
           <h1 className='text-lg font-bold'>{nameOfCenter}</h1>
-          <h1 className='text-md'>{address}</h1>
-                    <h1 className='text-md'>{location}</h1>
+          <h1 className='text-lg h-auto'>{address}</h1>
+                    <h1 className='text-lg h-auto'>{location}</h1>
 
                
                    <center>
           <div className="text-center w-3/4  lg:grid md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
                                                 <p className='w-60 md:w-full sm:w-full p-10'>{kind}</p>
 
-                                    <h1 className='text-md m-2'><strong>Average price per night:</strong>&nbsp;${price}</h1>
+                                    <h1 className='text-lg m-2'><strong>Average price per night:</strong>&nbsp;${price}</h1>
 
             <div>
+                        <div className='border-2 rounded w-full m-4'>   
+                          <h1 className='text-lg h-auto font-semibold'>Facilities Provided</h1>
+                          <h1 className='text-lg h-auto'>{facilites}</h1>
 
+                      </div>
+                      
             <div className='border-2 rounded w-full'>
             <h1 className='text-lg font-bold mb-4'>How do you get there?</h1>
-                                    <h1 className='text-md m-2'><strong>Nearest Airport:</strong> {airport}</h1>                            
-                                                                        <h1 className='text-md m-2'><strong>Airport Pickup Service:</strong> {airportPickup}</h1>
+                                    <h1 className='text-lg m-2'><strong>Nearest Airport:</strong> {airport}</h1>                            
+                                                                        <h1 className='text-lg m-2'><strong>Airport Pickup Service:</strong> {airportPickup}</h1>
 
 
                                     </div>
             </div>
-                                <h1>Room 1</h1>
-                                  <h1>{accommodation1}</h1>
-                                  <h1>Price: ${priceRoom1}</h1>
+                                <h1 className='text-lg h-auto font-semibold'>Room 1</h1>
+                                  <h1 className='text-lg h-auto'>{accommodation1}</h1>
+                                  <h1 className='text-lg h-auto'>Price: ${priceRoom1}</h1>
                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
 
             {imageListRoom1.length > 0 &&  imageListRoom1.slice(0,3).map((imageUrl, index) => (
@@ -317,9 +324,9 @@ const passImageUrl3=(i)=>{
                     </div>
             <br/>
          <div>
-                   <h1>Room 2</h1>
-                                  <h1>{accommodation2}</h1>
-                                  <h1>Price: ${priceRoom2}</h1>
+                   <h1 className='text-lg h-auto font-semibold'>Room 2</h1>
+                                  <h1 className='text-lg h-auto'>{accommodation2}</h1>
+                                  <h1 className='text-lg h-auto'>Price: ${priceRoom2}/night</h1>
                               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
 
   {imageListRoom2.length > 0 &&  imageListRoom2.slice(0, 3).map((imageUrl, index) => (
@@ -341,9 +348,9 @@ const passImageUrl3=(i)=>{
                   </div>
 
              <div>
-                   <h1>Room 3</h1>
-                                  <h1>{accommodation3}</h1>
-                                  <h1>Price: ${priceRoom3}</h1>
+                   <h1 className='text-lg h-auto font-semibold'>Room 3</h1>
+                                  <h1 className='text-lg h-auto'>{accommodation3}</h1>
+                                  <h1 className='text-lg h-auto'>Price: ${priceRoom3}/night</h1>
                               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
 
   {imageListRoom3.length > 0 &&  imageListRoom3.slice(0, 3).map((imageUrl, index) => (

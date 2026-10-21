@@ -1,8 +1,8 @@
 import React,{useState, useEffect} from 'react'
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
-import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc, serverTimestamp, Timestamp } from "firebase/firestore";
-import { db, auth, storage } from "../../firebase";
+import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serverTimestamp, Timestamp} from "firebase/firestore";
+import { db, auth,storage} from "../../firebase.js";
 
 import { useParams, useNavigate } from 'react-router-dom';
 import {v4} from 'uuid';
@@ -11,128 +11,102 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import pic from '../../assets/form.png';
-import { Button } from '../ui/button';
+import { Button } from '../ui/button.js';
 import Modal from '../Modal.js';
 import nodemailer from 'nodemailer';
 function ListARetreat() {
-  /**Retreat Name, Center name, Type */
-   const [retreatName, setRetreatName] = useState("")
+  {/**Retreat Center Information */}
    const[retreatCenterName, setRetreatCenterName]= useState("")
+   const [name, setName] = useState("")
    const[retreatType, setRetreatType] = useState("")
-   const [noOfRooms, setNoOfRooms] = useState(0)
+   const[address,setAddress] = useState("")
+   const[country,setCountry] = useState("")
+   const [startDate, setStartDate] = useState(null)
+   const [endDate, setEndDate] = useState(null)
+   const [state, setState] = useState("")
+   const [currency, setCurrency] = useState("USD");
+   const[price,setPrice] = useState(0.00)
+   const [value, setValue] = React.useState<Dayjs | null>();
+   const [kind,setKind] = useState("")
+   const[isTerms, setIsTerms] = useState(false)
+   const [hostId, setHostId] = useState("")
+   const [documentId,setDocumentId] = useState("")
+   const [nearestAirport, setNearestAirport] = useState("")
+   const [pickupService, setPickupService] = useState("")
+   const [year, setYear] = useState("")
+   const [month, setMonth] = useState("")
+   const [highlights, setHighlights] = useState("")
+   /***Schedule */
+   const [aboutFood, setAboutFood] = useState("")
+  
+
+
+
+
    const [type1, setType1] = useState("")
    const [type2, setType2] = useState("")
    const [type3, setType3] = useState("")
 
-   const [rooms,setRooms] = useState("")
 
-   /**Address of Retreat */
-   const [city,setCity] = useState("")
-   const[address,setAddress] = useState("")
-   const[country,setCountry] = useState("")
-   const [message1, setMessage1] = useState("")
-
-   const [imageListCity, setImageListCity] = useState([]);
-   const [nameOfCity, setNameOfCity] = useState("")
-   const [airportPickup, setAirportPickup] = useState("")
-   const [nearestAirport, setNearestAirport] = useState("")
-
-
-   /**Accomodations */
-   /**Room 1 */
-   const[room1Exists, setRoom1Exists] = useState(false)
-   const[room2Exists, setRoom2Exists] = useState(false)
-   const [room3Exists, setRoom3Exists] = useState(false)
-   const [accommodation1, setAccommodation1] = useState("")
-   const [accommodation2, setAccommodation2] = useState("")
-   const [accommodation3, setAccommodation3] = useState("")
-   const [includesRoom1Breakfast, setIncludesRoom1Breakfast] = useState("")
-   const [includesRoom2Breakfast, setIncludesRoom2Breakfast] = useState("")
-   const [includesRoom3Breakfast, setIncludesRoom3Breakfast] = useState("")
-   const [wifiIncludedRoom1, setWifiIncludedRoom1] = useState("")
-   const [wifiIncludedRoom2, setWifiIncludedRoom2] = useState("")
-   const [wifiIncludedRoom3, setWifiIncludedRoom3] = useState("")
-   const [priceRoom1, setPriceRoom1] = useState(0.0)
-   const [totalPriceRoom1, setTotalPriceRoom1] = useState(0.0)
-   const [totalPriceRoom2, setTotalPriceRoom2] = useState(0.0)
-   const [totalPriceRoom3, setTotalPriceRoom3] = useState(0.0)
-
-  
-
-   const [priceRoom2, setPriceRoom2] = useState(0.0)
-   const [priceRoom3, setPriceRoom3] = useState(0.0)
-   const [imageListRoom1, setImageListRoom1] = useState([])
-   const [imageListRoom2, setImageListRoom2] = useState([])
-   const [imageListRoom3, setImageListRoom3] = useState([])
-
-
-   const [startDate, setStartDate] = useState(null)
-   const [endDate, setEndDate] = useState(null)
-   const [month, setMonth] = useState("")
-   const [year, setYear] = useState("")
-   const [state, setState] = useState("")
-   const [currency, setCurrency] = useState("USD");
-   const[price,setPrice] = useState(0.00)
-  
-  const [value, setValue] = React.useState<Dayjs | null>();
-      const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
-   const [kind,setKind] = useState("")
-   const [flightIncluded, setFlightIncluded] = useState("")
-    const[isTerms, setIsTerms] = useState(false)
-   const [documentId,setDocumentId] = useState("")
    const [hostFirstName, setHostFirstName] = useState("")
    const [hostEmail, setHostEmail] = useState("")
    const [hostLastName, setHostLastName] = useState("")
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
    const [imageList, setImageList] = useState([]);
-   
+   const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
+   /**Add Rooms */
+      const [accommodation1, setAccommodation1] = useState("")
+      const [accommodation2, setAccommodation2] = useState("")
+      const [accommodation3, setAccommodation3] = useState("")
+      const [accommodation4, setAccommodation4] = useState("")
+      const [priceRoom1, setPriceRoom1] = useState(0.0)
+      const [priceRoom2, setPriceRoom2] = useState(0.0)
+      const [priceRoom3, setPriceRoom3] = useState(0.0)
+      const [priceRoom4, setPriceRoom4] = useState(0.0)
+      const [imageListRoom1, setImageListRoom1] = useState([])
+      const [imageListRoom2, setImageListRoom2] = useState([])
+      const [imageListRoom3, setImageListRoom3] = useState([])
+      const [imageListRoom4, setImageListRoom4] = useState([])
+      const [welcomeMessage, setWelcomeMessage] = useState("")
+      const [totalPriceRoom1, setTotalPriceRoom1] = useState(0.0)
+      const [totalPriceRoom2, setTotalPriceRoom2]= useState(0.0)
+      const [totalPriceRoom3, setTotalPriceRoom3] = useState(0.0)
+      const [totalPriceRoom4, setTotalPriceRoom4] = useState(0.0)
+      const [room1Exists, setRoom1Exists] =useState(false)
+      const [room2Exists, setRoom2Exists] = useState(false)
+      const [room3Exists, setRoom3Exists] = useState(false)
+      const [room4Exists, setRoom4Exists] = useState(false)
+   const [includesRoom1Breakfast, setIncludesRoom1Breakfast] = useState("")
+   const [includesRoom2Breakfast, setIncludesRoom2Breakfast] = useState("")
+   const [includesRoom3Breakfast, setIncludesRoom3Breakfast] = useState("")
+   const [includesRoom4Breakfast, setIncludesRoom4Breakfast] = useState("")
+   const [includesWifiRoom1, setIncludesWifiRoom1] = useState("")
+   const [includesWifiRoom2, setIncludesWifiRoom2] = useState("")
+   const [includesWifiRoom3, setIncludesWifiRoom3] = useState("")
+   const [includesWifiRoom4, setIncludesWifiRoom4] = useState("")
+      const [nameOfCity, setNameOfCity] = useState("")
+      const [imageListCity, setImageListCity] = useState([]);
+      const [imageListFood, setImageListFood] = useState([])
+         const [city,setCity] = useState("")
+
+
+
    const [notIncluded, setNotIncluded] = useState("")
+      const [flightIncluded, setFlightIncluded] = useState("")
+
       const [retreatKindId, setRetreatKindId] = useState(Math.floor(Math.random() * 1000000));
-   
    const params = useParams();
-   const userId = params.userId;
+   const userId = params.id;
    const navigate= useNavigate()
-    const imageListRef = ref(storage, `/retreatimages/${retreatKindId}/`);
-    const imageListRefRoom1= ref(storage, `/retreatimages/room1/${retreatKindId}`)
-    const pic1="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40"
-    const deleteImage=(url)=>{
-      event.preventDefault()
-        const imageRef = ref(storage, url);
-        deleteObject(imageRef).then(() => {
-          setImageList((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
-        }).catch((error) => {
-          console.error("Error deleting image: ", error);
-        });
-     }
-     const deleteImageRoom1=(url)=>{
-         event.preventDefault()
-        const imageRef1 = ref(storage, url);
-        deleteObject(imageRef1).then(() => {
-          setImageListRoom1((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
-        }).catch((error) => {
-          console.error("Error deleting image: ", error);
-        });
-     }
-     const deleteImageRoom2=(url)=>{
-      event.preventDefault()
-        const imageRef1 = ref(storage, url);
-        deleteObject(imageRef1).then(() => {
-          setImageListRoom2((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
-        }).catch((error) => {
-          console.error("Error deleting image: ", error);
-        });
-     }
-      const deleteImageRoom3=(url)=>{
-        event.preventDefault()
-        const imageRef3 = ref(storage, url);
-        deleteObject(imageRef3).then(() => {
-          setImageListRoom2((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
-        }).catch((error) => {
-          console.error("Error deleting image: ", error);
-        });
-     }
-      const deleteImageCity=(url)=>{
+   
+
+
+    const imageListRef1 = ref(storage, `/retreatimages/room1/${retreatKindId}/`);
+        const imageListRef2 = ref(storage, `/retreatimages/room2/${retreatKindId}/`);
+        const imageListRef3 = ref(storage, `/retreatimages/room3/${retreatKindId}/`);
+        const imageListRef4 = ref(storage, `/retreatimages/room3/${retreatKindId}/`)
+     const deleteImageCity=(url)=>{
         event.preventDefault()
         const imageRef2 = ref(storage, url);
         deleteObject(imageRef2).then(() => {
@@ -141,78 +115,65 @@ function ListARetreat() {
           console.error("Error deleting image: ", error);
         });
      }
-    const uploadImage=(e)=>{
-        e.preventDefault();
-       // Create a root reference
-       console.log("Upload Image");
-       if(imageUpload == null){ return;}
-       else{
-       
-       
-       const imageRef = ref(storage, `/retreatimages/${retreatKindId}/${imageUpload.name+v4()}`);
-       uploadBytes(imageRef, imageUpload).then((snapshot)=>{
-         getDownloadURL(snapshot.ref).then((url)=>{
-           setImageList((prev)=>[...prev, url]);
-         }
-         );
-       });
-      }
-       console.log("imageList", imageList);
-   
+    const deleteImage=(url)=>{
+            event.preventDefault()
+        const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageList((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
      }
-       const uploadImageRoom1=(e)=>{
-        e.preventDefault();
-       // Create a root reference
-       console.log("Upload Image");
-       if(imageUpload == null){ return;}
-       else{  
-       
-       const imageRef1 = ref(storage, `/retreatimages/room1/${retreatKindId}/${imageUpload.name+v4()}`);
-       uploadBytes(imageRef1, imageUpload).then((snapshot)=>{
-         getDownloadURL(snapshot.ref).then((url)=>{
-           setImageListRoom1((prev)=>[...prev, url]);
-         }
-         );
-       });
-       console.log("imageList", imageList);
-   
+     const deleteImageFood=(url)=>{
+              event.preventDefault()
+        const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListFood((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
      }
-    }
-      const uploadImageRoom2=(e)=>{
-        e.preventDefault();
-       // Create a root reference
-       console.log("Upload Image");
-       if(imageUpload == null){ return;}
-       else{
-       
-       const imageRef2 = ref(storage, `/retreatimages/room2/${retreatKindId}/${imageUpload.name+v4()}`);
-       uploadBytes(imageRef2, imageUpload).then((snapshot)=>{
-         getDownloadURL(snapshot.ref).then((url)=>{
-           setImageListRoom2((prev)=>[...prev, url]);
-         }
-         );
-       });
-   
+      const deleteImageRoom1=(url)=>{
+              event.preventDefault()
+        const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListRoom1((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
      }
-    }
-     const uploadImageRoom3=(e)=>{
-        e.preventDefault();
-       // Create a root reference
-       console.log("Upload Image");
-       if(imageUpload == null){ return;}
-       else{  
-       
-       const imageRef3 = ref(storage, `/retreatimages/room3/${retreatKindId}/${imageUpload.name+v4()}`);
-       uploadBytes(imageRef3, imageUpload).then((snapshot)=>{
-         getDownloadURL(snapshot.ref).then((url)=>{
-           setImageListRoom3((prev)=>[...prev, url]);
-         }
-         );
-       });
-   
+     const deleteImageRoom2=(url)=>{
+             event.preventDefault()
+
+      const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListRoom2((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
      }
-    }
-       const uploadCityImage=(e)=>{
+     const deleteImageRoom3=(url)=>{
+              event.preventDefault()
+
+      const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListRoom3((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+      const deleteImageRoom4=(url)=>{
+              event.preventDefault()
+
+      const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListRoom4((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+          const uploadCityImage=(e)=>{
         e.preventDefault();
        // Create a root reference
        if(imageUpload == null){ return;}
@@ -229,56 +190,106 @@ function ListARetreat() {
    
      }  
     }
-   const pricing =(event)=>{
-    const doubleValueFloat = parseFloat(event.target.value);
-    setPrice(doubleValueFloat)
-
-   }
-   const pricing1 =(event)=>{
-    const doubleValueFloat = parseFloat(event.target.value);
-    setPriceRoom1(doubleValueFloat)
-
-   }
-   const priceRoom1Total = (event) =>{
-    const doubleValueFloat = parseFloat(event.target.value)
-    setTotalPriceRoom1(doubleValueFloat)
-
-   }
-    const priceRoom2Total = (event) =>{
-    const doubleValueFloat = parseFloat(event.target.value)
-    setTotalPriceRoom2(doubleValueFloat)
-
-   }
-    const priceRoom3Total = (event) =>{
-    const doubleValueFloat = parseFloat(event.target.value)
-    setTotalPriceRoom3(doubleValueFloat)
-
-   }
-   const pricing2 =(event)=>{
-    const doubleValueFloat = parseFloat(event.target.value);
-    setPriceRoom2(doubleValueFloat)
-
-   }
-const pricing3 =(event)=>{
-    const doubleValueFloat = parseFloat(event.target.value);
-    setPriceRoom3(doubleValueFloat)
-
-   }
-     const startAtDate=(e)=>{
-    const timestamp = Timestamp.fromDate(new Date(e));
-        setMonth(e.format('MMMM'))
-        setYear(e.format('YYYY'))
-      setStartDate(timestamp)
-  
-
-
-}
-const endAtDate=(e)=>{
-  const timestamp1 = Timestamp.fromDate(new Date(e));
- setEndDate(timestamp1)
-}
-const doesRoom1Exist=(e)=>{
-  if(e.target.value=="Yes"){
+    const uploadImage=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       console.log("Upload Image");
+       if(imageUpload == null) return;
+       
+       
+       const imageRef = ref(storage, `/retreatimages/${retreatKindId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageRef, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageList((prev)=>[...prev, url]);
+         }
+         );
+       });
+       console.log("imageList", imageList);
+   
+      }
+       const uploadFoodImage=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       console.log("Upload Image");
+       if(imageUpload == null) return;
+       
+       
+       const imageRef = ref(storage, `/retreatimages/food/${retreatKindId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageRef, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageListFood((prev)=>[...prev, url]);
+         }
+         );
+       });
+       console.log("imageList", imageList);
+   
+     }
+        const uploadImageRoom1=(e)=>{
+             e.preventDefault();
+            // Create a root reference
+            console.log("Upload Image");
+            if(imageUpload == null) return;
+            
+            
+            const imageRef1 = ref(storage, `/retreatimages/room1/${retreatKindId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef1, imageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                setImageListRoom1((prev)=>[...prev, url]);
+              }
+              );
+            });
+        
+          }
+              const uploadImageRoom2=(e)=>{
+             e.preventDefault();
+            // Create a root reference
+            console.log("Upload Image");
+            if(imageUpload == null) return;
+            
+            
+            const imageRef2 = ref(storage, `/retreatimages/room2/${retreatKindId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef2, imageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                setImageListRoom2((prev)=>[...prev, url]);
+              }
+              );
+            });
+        
+          }
+                  const uploadImageRoom3=(e)=>{
+             e.preventDefault();
+            // Create a root reference
+            console.log("Upload Image");
+            if(imageUpload == null) return;
+            
+            
+            const imageRef3 = ref(storage, `/retreatimages/room3/${retreatKindId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef3, imageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                setImageListRoom3((prev)=>[...prev, url]);
+              }
+              );
+            });
+        
+          }
+            const uploadImageRoom4=(e)=>{
+             e.preventDefault();
+            // Create a root reference
+            console.log("Upload Image");
+            if(imageUpload == null) return;
+            
+            
+            const imageRef3 = ref(storage, `/retreatimages/room4/${retreatKindId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef3, imageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                setImageListRoom4((prev)=>[...prev, url]);
+              }
+              );
+            });
+        
+          }
+      const doesRoom1Exist=(e)=>{
+    if(e.target.value=="Yes"){
     setRoom1Exists(true)
   }
   else if(e.target.value =="No"){
@@ -288,8 +299,8 @@ const doesRoom1Exist=(e)=>{
     setRoom1Exists(false)
   }
 }
-const doesRoom2Exist=(e)=>{
-  if(e.target.value=="Yes"){
+    const doesRoom2Exist=(e)=>{
+    if(e.target.value=="Yes"){
     setRoom2Exists(true)
   }
   else if(e.target.value =="No"){
@@ -299,8 +310,8 @@ const doesRoom2Exist=(e)=>{
     setRoom2Exists(false)
   }
 }
-const doesRoom3Exist=(e)=>{
-  if(e.target.value=="Yes"){
+    const doesRoom3Exist=(e)=>{
+    if(e.target.value=="Yes"){
     setRoom3Exists(true)
   }
   else if(e.target.value =="No"){
@@ -310,77 +321,155 @@ const doesRoom3Exist=(e)=>{
     setRoom3Exists(false)
   }
 }
+const doesRoom4Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setRoom4Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setRoom4Exists(false)
+  }
+  else{
+    setRoom4Exists(false)
+  }
+}
+   const pricing =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPrice(doubleValueFloat)
+
+   }
+  
+   const pricing1 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom1(doubleValueFloat)
+
+   }
+      const pricing2 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom2(doubleValueFloat)
+
+   }
+      const pricing3 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom3(doubleValueFloat)
+
+   }
+     const pricing4 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom4(doubleValueFloat)
+
+   }
+   const priceTotalRoom1=(event) =>{
+     const doubleValueFloat = parseFloat(event.target.value);
+    setTotalPriceRoom1(doubleValueFloat)
+   }
+   const priceTotalRoom2=(event) =>{
+     const doubleValueFloat = parseFloat(event.target.value);
+    setTotalPriceRoom2(doubleValueFloat)
+   }
+   const priceTotalRoom3=(event) =>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setTotalPriceRoom3(doubleValueFloat)
+   }
+   const priceTotalRoom4=(event) =>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setTotalPriceRoom4(doubleValueFloat)
+   }
+     const startAtDate=(e)=>{
+    const timestamp = Timestamp.fromDate(new Date(e));
+    setMonth(e.format('MMMM'))
+
+    setYear(e.format('YYYY'))
+          
+    setStartDate(timestamp)
+  
 
 
-   const host =async () => {
-    
-    const type = [type1, type2, type3].concat(retreatType).filter(Boolean);
-     
+}
+const endAtDate=(e)=>{
+  const timestamp1 = Timestamp.fromDate(new Date(e));
+ setEndDate(timestamp1)
+}
+
+ 
+
+
+   const host =() => {
+       const type = [type1, type2, type3].concat(retreatType).filter(Boolean);
+
       
          addDoc(collection(db, "retreats"), {
-                                         name: retreatName,
                                          type1: type,
+                                         name:name,
                                          retreatCenterName: retreatCenterName,
                                          address: address,
                                          location: country,
-                                         state: state,
                                          price:price, 
+                                         id:v4()+userId,
                                          retreatId: retreatKindId,
-                                         id:v4()+retreatKindId,
-                                         hostId:userId,
+                                         hostId:hostId,
                                          hostFirstName:hostFirstName,
                                          hostEmail:hostEmail,
                                          hostLastName:hostLastName,
                                          isDisplayed: true,
                                          startAt: startDate,
                                          endAt: endDate,
+                                         kind: kind,
                                          month:month,
                                          year:year,
-                                         kind: kind,
                                          nearestAirport:nearestAirport,
-                                         currency: currency,
+                                         airportPickup:pickupService,
                                          flightIncluded:flightIncluded,
-                                         airportPickup:airportPickup,
+                                         currency: currency,
                                          createdAt: serverTimestamp(),
-                                         message1:message1,
-                                         pic1: imageList[0],
-                                         cityPic: imageListCity[0],
-                                         nameOfCity: nameOfCity, 
                                          accommodation1: accommodation1,
-                                         totalPriceRoom1:totalPriceRoom1,
-                                         totalPriceRoom2:totalPriceRoom2,
-                                         totalPriceRoom3:totalPriceRoom3,
-                                         room1Exists:room1Exists,
-                                         room2Exists:room2Exists,
-                                         room3Exists:room3Exists,
-                                         includesRoom1Breakfast:includesRoom1Breakfast,
-                                         includesRoom2Breakfast:includesRoom2Breakfast,
-                                         includesRoom3Breakfast:includesRoom3Breakfast,
-                                         includesWifiRoom1:wifiIncludedRoom1,
-                                         includesWifiRoom2:wifiIncludedRoom2,
-                                         includesWifiRoom3:wifiIncludedRoom3,
                                          accommodation2:accommodation2,
                                          accommodation3:accommodation3,
+                                         accommodation4:accommodation4,
                                          priceRoom1:priceRoom1,
                                          priceRoom2:priceRoom2,
                                          priceRoom3:priceRoom3,
+                                         priceRoom4:priceRoom4,
+                                         room1Exists:room1Exists,
+                                         room2Exists:room2Exists,
+                                         room3Exists:room3Exists,
+                                         room4Exists:room4Exists,
+                                         totalPriceRoom1: totalPriceRoom1,
+                                         totalPriceRoom2: totalPriceRoom2,
+                                         totalPriceRoom3:totalPriceRoom3,
+                                         totalPriceRoom4:totalPriceRoom4,
+                                         includesRoom1Breakfast:includesRoom1Breakfast,
+                                         includesRoom2Breakfast:includesRoom2Breakfast,
+                                         includesRoom3Breakfast:includesRoom3Breakfast,
+                                         includesRoom4Breakfast:includesRoom4Breakfast,
+                                         includesWifiRoom1:includesWifiRoom1,
+                                         includesWifiRoom2:includesWifiRoom2,
+                                         includesWifiRoom3:includesWifiRoom3,
+                                         includesWifiRoom4:includesWifiRoom4,
+                                         foodPic:imageListFood[0],
+                                         aboutFood:aboutFood,
+                                         message1:highlights,
+                                         nameOfCity:nameOfCity,
                                          aboutCity:city,
+                                         pic1: imageList[0],
+                                         cityPic: imageListCity[0],
+                                         welcomeMessage: welcomeMessage,
+
+                                        
                                          
 
-         }).then(()=>{
-                                  navigate(`/`)
-                                
-                  fetch('https://retreat-server-cc2646f08902.herokuapp.com/send-email', {
-                   method: 'POST',
-                  headers: {
-                  'Content-Type': 'application/json',
+         }).then(async ()=>{
+         {
+       await  fetch('https://retreat-server-cc2646f08902.herokuapp.com/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
 
-              },
-               body:JSON.stringify({ name: hostFirstName, email: hostEmail, content: "Thank you for listing your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
-              });
- 
-          
-   
+      },
+      body:JSON.stringify({ name: hostFirstName, email: hostEmail, content: "Thank you for hosting your retreat with us! We will review your submission and get back to you soon." }), // Convert JS object to JSON string
+    });
+
+    }
+          navigate('/')
 
   })
       
@@ -397,21 +486,20 @@ const doesRoom3Exist=(e)=>{
        onAuthStateChanged(auth, async (user) => {
          if (user)  {
            // User is signed in
-           console.log("host Id is: ", userId)
-     
-          const q =query(collection(db, "hosts"), where("hostId", "==", userId));
+           console.log("host Id is: ", user.uid)
+           console.log("userId is"+userId)
+           setHostId(user.uid)
+          const q =query(collection(db, "hosts"), where("hostId", "==", hostId));
            const querySnapshot = await getDocs(q);
                querySnapshot.forEach((doc) => {
-
          setDocumentId(doc.id)
          setHostFirstName(doc.data().hostFirstName)
          setHostLastName(doc.data().hostLastName)
          setHostEmail(doc.data().hostEmail)
-         console.log(doc.data().hostFirstName)
+         console.log("Host first name is "+doc.data().hostFirstName)
                })
-                    
               }
-                  listAll(imageListRef).then((res)=>{
+                  listAll(imageListRef1).then((res)=>{
                     res.items.forEach((item)=>{
                       getDownloadURL(item).then((url)=>{
                         setImageList((prev)=>[...prev, url]);
@@ -419,16 +507,30 @@ const doesRoom3Exist=(e)=>{
                       });
                     });
                   });
-                  listAll(imageListRefRoom1).then((res)=>{
+                listAll(imageListRef2).then((res)=>{
                     res.items.forEach((item)=>{
                       getDownloadURL(item).then((url)=>{
-                        setImageListRoom1((prev)=>[...prev, url]);
+                        setImageList((prev)=>[...prev, url]);
               
                       });
                     });
                   });
-
- 
+                  listAll(imageListRef3).then((res)=>{
+                    res.items.forEach((item)=>{
+                      getDownloadURL(item).then((url)=>{
+                        setImageList((prev)=>[...prev, url]);
+              
+                      });
+                    });
+                  });
+                     listAll(imageListRef4).then((res)=>{
+                    res.items.forEach((item)=>{
+                      getDownloadURL(item).then((url)=>{
+                        setImageList((prev)=>[...prev, url]);
+              
+                      });
+                    });
+                  });
          
             })
   
@@ -442,11 +544,11 @@ const doesRoom3Exist=(e)=>{
             <br/>
             <br/>
             <br/>
-            <h2 className="text-2xl font-bold m-4">Please read the terms and conditions</h2>
-            <p className="m-4">
+            <h2 className="text-2xl font-bold mb-4">Please read the terms and conditions</h2>
+            <p className="mb-4">
               This PDF includes sections dedicated to:<br/>
 
-         <strong>Good Faith Agreements:</strong> Establishing a foundation of honesty, transparency, and fair dealing.<br/>
+<strong>Good Faith Agreements:</strong> Establishing a foundation of honesty, transparency, and fair dealing.<br/>
 
 <strong>Host Responsibilities:</strong> Covering listing accuracy, operational delivery, and legal/safety compliance.<br/>
 
@@ -492,14 +594,32 @@ const doesRoom3Exist=(e)=>{
                </div>
       </div>
       <div className="grid justify-center  items-center " >
-      <form className="bg-white max-w-full min-w-xs shadow-md rounded px-8 pt-6 pb-8  mt-4" onSubmit={host}>
-        <div className="m-4">
+      <form className="bg-white max-w-full min-w-xs shadow-md rounded px-8 pt-6 pb-8  mt-4" >
+          <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       First Name of Host
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text"  value={hostFirstName} onChange={(e)=>setHostFirstName(e.target.value)}/>
+    </div>
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Last Name of Host
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text"  value={hostLastName} onChange={(e)=>setHostLastName(e.target.value)}/>
+    </div>
+        <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Name of Retreat
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstname" type="text" placeholder="Name of Retreat" onChange={(e)=>setRetreatName(e.target.value)}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Name of Retreat" onChange={(e)=>setName(e.target.value)}/>
     </div>
-      <div className="m-4">
+        <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Name of Retreat Center
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="retreatcenter" type="text" placeholder="Name of Retreat" onChange={(e)=>setRetreatCenterName(e.target.value)}/>
+    </div>
+          <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type1 of Retreat
       </label>
@@ -532,7 +652,7 @@ const doesRoom3Exist=(e)=>{
 
               </select>
               </div>
-                    <div className="m-4">
+               <div className="m-4">
 
  <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type2 of Retreat
@@ -566,7 +686,7 @@ const doesRoom3Exist=(e)=>{
 
               </select>
               </div>
-                    <div className="m-4">
+                     <div className="m-4">
 
                <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type3 of Retreat
@@ -601,68 +721,21 @@ const doesRoom3Exist=(e)=>{
               </select>
             
           </div>
-         <div className="m-4">
+   <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type of Retreat
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Type of Retreat" onChange={(e)=>setRetreatType(e.target.value)}/>
     </div>
-    <div className="m-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-        Name of Retreat Center/Hotel/Place
-      </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="center" type="text" placeholder="Name of Retreat Center/Hotel/Place" onChange={(e)=>setRetreatCenterName(e.target.value)}/>
-    </div>
-     <div className="m-4">
+     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Address of Retreat
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Address of Retreat" onChange={(e)=>setAddress(e.target.value)}/>
     </div>
-    <div className='border-2 rounded border-solid border-lime-700 p-4'>
-      <label className="block text-gray-700 text-lg font-bold mb-2">
-        City/Region/Village Information
-      </label>
-    <div className="m-4">
+    <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-        Name of City/Region/Village
-      </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="city" type="text" placeholder="Name of City" onChange={(e)=>setNameOfCity(e.target.value)}/>
-    </div>
-     <div className="m-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-       About the City
-      </label>
-           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setCity(e.target.value)}></textarea>
-    </div>
-     <div className="m-4">
-
-<label for="profile-pic">Upload at least one image of the city of Retreat.</label><br/>
-        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
-    
-      <Button onClick={uploadCityImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload City Image</Button>
-    </div>
-     {imageListCity.map((url)=>{
-      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
-                      <Button onClick={()=> deleteImageCity(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
-
-
-
-      </div>
-      
-     })}
-     </div>
-    <div className="m-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Message for the Visitors
-      </label>
-           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setMessage1(e.target.value)}></textarea>
-    </div>
-
-   
-    <div className="m-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Country of Retreat
+       Country
       </label>
       <select className="bg-white p-2 rounded-md" onChange={(e)=>setCountry(e.target.value)} value={country}>
         <option value="">Select Location</option>
@@ -906,8 +979,7 @@ const doesRoom3Exist=(e)=>{
       <option value="Oklahoma">Oklahoma</option>
       <option value="Oregon">Oregon</option>
       <option value="Pennsylvania">Pennsylvania</option>
-            <option value="Puerto Rico">Puerto Rico</option>
-
+      <option value="Puerto Rico">Puerto Rico</option>
       <option value="Rhode Island">Rhode Island</option>
       <option value="South Carolina">South Carolina</option>
       <option value="South Dakota">South Dakota</option>
@@ -922,30 +994,34 @@ const doesRoom3Exist=(e)=>{
       <option value="Wyoming">Wyoming</option>
     </select>
     </div>
-    <div className="m-4">
+    <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Price of Retreat
+       Highlights
+      </label>
+      <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="Highlights of Retreat" onChange={(e)=>setHighlights(e.target.value)}></textarea>
+    </div>
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Total Price of Retreat Cheapest Package
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing}/>
+   
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
        Currency
       </label>
       <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
         <option value="">Select Currency</option>
         <option value="USD">USD</option>
-        <option value="EUR">EUR</option>
-        <option value="GBP">GBP</option>
-        <option value="AUD">AUD</option>
-        <option value="CAD">CAD</option>
-        <option value="RP">RP</option>
-        <option value="IDR">IDR</option>         
+             
       </select>
     </div>
-    
-    <div className="m-4 flex gap-4">
+                  <p>You can add the entire year here  we will add open to discussion</p><br/>
+
+    <div className="mb-4 flex gap-4">
+
       <div>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Start Date of Retreat
+       Start Date of Availability
       </label>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker value={value} onChange={(e)=>startAtDate(e)}/>
@@ -953,7 +1029,7 @@ const doesRoom3Exist=(e)=>{
     </div>
     <div>
     <label className="block text-gray-700 text-sm font-bold mb-2" >
-       End Date of Retreat
+       End Date of Availability
       </label>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker value={value} onChange={(e)=>endAtDate(e)}/>
@@ -964,27 +1040,70 @@ const doesRoom3Exist=(e)=>{
     </div><br/>
  </div>
     
-    <div className="m-4">
+    <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Tell us something about the Retreat
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setKind(e.target.value)}></textarea>
    
     </div>
-          <div className='m-4'>
-      <label>
-        Nearest Airport
+       <div className='border-2 rounded border-solid border-lime-700 p-4'>
+      <label className="block text-gray-700 text-lg font-bold mb-2">
+        City/Region/Village Information
       </label>
-           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Nearest Airport" onChange={(e)=>setNearestAirport(e.target.value)}/>
+    <div className="m-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Name of City/Region/Village
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="city" type="text" placeholder="Name of City" onChange={(e)=>setNameOfCity(e.target.value)}/>
+    </div>
+     <div className="m-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       About the City
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setCity(e.target.value)}></textarea>
+    </div>
+      <div className="m-4">
 
+<label for="profile-pic">Upload at least one image of the city of Retreat.(Required)</label><br/>
+        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
     
-  </div>
-  <div className='m-4'>
-    <p className="block text-gray-700 text-lg font-bold mb-2">
-      Different kinds of accommodations available:
-    </p>
-  </div>
-  <div className='m-4 border-2'>
+      <Button onClick={uploadCityImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload City Image</Button>
+    </div>
+     {imageListCity.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageCity(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
+     </div>
+            <div className='border-2 rounded border-solid border-lime-700 p-4'>
+              <div className='m-4'>
+                <label className="block text-gray-700 text-lg font-bold mb-2">
+         Food Information
+      </label>
+            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" type="text" placeholder="Describe the food options" onChange={(e)=>setAboutFood(e.target.value)}></textarea>
+        </div>
+        <label for="profile-pic">Upload at least one image of the food.(Required)</label><br/>
+        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+    
+      <Button onClick={uploadFoodImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload City Image</Button>
+    </div>
+     {imageListFood.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageFood(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
+              
+
+        <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Room 1</label>&nbsp; &nbsp;
   <select onChange={doesRoom1Exist}>
@@ -992,50 +1111,49 @@ const doesRoom3Exist=(e)=>{
     <option className='border-2' value="Yes">Yes</option>
   </select>
   </div>
-  {room1Exists &&
-  <div className='border-2 rounded border-solid border-lime-700 p-4'>
-    
-      <label className="block text-gray-700 text-lg font-bold mb-2">
-        Room 1
-      </label>
-    <div className="m-4">
+    {room1Exists &&
+      <div className='border-2 rounded border-solid border-lime-700 p-4'>
 
-<label for="profile-pic">Upload at least one image for accomodation 1, You can upload many</label><br/>
-        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
-    
-      <Button onClick={uploadImageRoom1} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
-    </div>
-     
-     {imageListRoom1.map((url)=>{
-      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
-                      <Button onClick={()=> deleteImageRoom1(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
-
-
-
-      </div>
-      
-     })}
-
-     <div className='m-4'>
+     <div className='mb-4'>
       <label>
-        Price per night for accommodation 1
-      </label>
-           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing1}/>
-           </div>
-           
-     <div className='m-4'>
-      <label>
-        Total price for retreat if customer selects this room
-      </label>
-           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={priceRoom1Total}/>
-           </div>
-  <div className='m-4'>
-      <label>
-       About Accommodation 1
+       About Room 1
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation1(e.target.value)}></textarea>
   </div>
-  <div className='m-4'>
+     <div className="mb-4">
+  
+  <label for="profile-pic">Upload pics of Room 1</label><br/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      
+        <Button onClick={uploadImageRoom1} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+      </div>
+      {imageListRoom1.map((url)=>{
+            return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                            <Button onClick={()=> deleteImageRoom1(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+      
+      
+      
+            </div>
+            
+           })}
+           <div className="m-4">
+      <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+       Price per night for Room 1
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing1}/>
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="">Select Currency</option>
+        <option value="USD">USD</option>
+             
+      </select>
+            <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+                 Total Price of Retreat if customer chooses Room 1</label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" onChange={priceTotalRoom1}/>
+    </div>
+    <div className='m-4'>
     Breakfast Included
     <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesRoom1Breakfast(e.target.value)} value={includesRoom1Breakfast}>
             <option value="">Select Value
@@ -1046,9 +1164,9 @@ const doesRoom3Exist=(e)=>{
 
 
     </div>
-    <div className='m-4'>
-    WiFi Included
-    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setWifiIncludedRoom1(e.target.value)} value={wifiIncludedRoom1}>
+       <div className='m-4'>
+    Wifi Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesWifiRoom1(e.target.value)} value={includesWifiRoom1}>
             <option value="">Select Value
             </option>
             <option value="No">No</option>
@@ -1057,10 +1175,9 @@ const doesRoom3Exist=(e)=>{
 
 
     </div>
-    
     </div>
 }
-  <div className='m-4 border-2'>
+<div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Room 2</label>&nbsp; &nbsp;
   <select onChange={doesRoom2Exist}>
@@ -1069,46 +1186,48 @@ const doesRoom3Exist=(e)=>{
   </select>
   </div>
   {room2Exists &&
-    <div className='border-2 rounded border-solid border-lime-700 p-4 '>
-      <label className="block text-gray-700 text-lg font-bold mb-2">
-        Room 2
-      </label>
-      <div className="m-4">
+      <div className='border-2 rounded border-solid border-lime-700 p-4'>
 
-<label for="profile-pic">Upload at least one image for accomodation 2, You can upload many</label><br/>
-        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
-    
-      <Button onClick={uploadImageRoom2} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
-    </div>
-     
-     {imageListRoom2.map((url)=>{
-      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
-                      <Button onClick={()=> deleteImageRoom2(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
-
-
-
-      </div>
-      
-     })}
-       <div className='m-4'>
+             <div className='mb-4'>
       <label>
-        Price per night for accommodation 2
-      </label>
-           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing2}/>
-           </div>
-           <div className='m-4'>
-      <label>
-        Total price for retreat if customer selects this room
-      </label>
-           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={priceRoom2Total}/>
-           </div>
-  <div className='m-4'>
-      <label>
-       About Accommodation 2
+       About Room 2
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation2(e.target.value)}></textarea>
   </div>
-  <div className='m-4'>
+           <div className="mb-4">
+  
+  <label for="profile-pic">Upload pics of Room 2</label><br/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      
+        <Button onClick={uploadImageRoom2} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+      </div>
+      {imageListRoom2.map((url)=>{
+            return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                            <Button onClick={()=> deleteImageRoom2(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+      
+      
+      
+            </div>
+            
+           })}
+                 <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Price per night for Room 2
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing2}/>
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="">Select Currency</option>
+        <option value="USD">USD</option>
+             
+      </select>
+              <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+          Total Price of Retreat if customer chooses Room 2</label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={priceTotalRoom2}/>
+    </div>
+    <div className='m-4'>
     Breakfast Included
     <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesRoom2Breakfast(e.target.value)} value={includesRoom2Breakfast}>
             <option value="">Select Value
@@ -1119,9 +1238,9 @@ const doesRoom3Exist=(e)=>{
 
 
     </div>
-     <div className='m-4'>
-    WiFi Included
-    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setWifiIncludedRoom2(e.target.value)} value={wifiIncludedRoom2}>
+      <div className='m-4'>
+    Wifi Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesWifiRoom2(e.target.value)} value={includesWifiRoom2}>
             <option value="">Select Value
             </option>
             <option value="No">No</option>
@@ -1132,7 +1251,7 @@ const doesRoom3Exist=(e)=>{
     </div>
     </div>
 }
-  <div className='m-4 border-2'>
+<div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Room 3</label>&nbsp; &nbsp;
   <select onChange={doesRoom3Exist}>
@@ -1141,46 +1260,49 @@ const doesRoom3Exist=(e)=>{
   </select>
   </div>
   {room3Exists &&
-    <div className='border-2 rounded border-solid border-lime-700 p-4'>
-      <label className="block text-gray-700 text-lg font-bold mb-2">
-        Room 3
-      </label>
-   <div className="m-4">
+      <div className='border-2 rounded border-solid border-lime-700 p-4'>
 
-<label for="profile-pic">Upload at least one image for accomodation 3, You can upload many</label><br/>
-        <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
-    
-      <Button onClick={uploadImageRoom3} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
-    </div>
-     
-     {imageListRoom3.map((url)=>{
-      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
-                      <Button onClick={()=> deleteImageRoom3(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
-
-
-
-      </div>
-      
-     })}
-       <div className='m-4'>
+            <div className='mb-4'>
       <label>
-        Price per night for accommodation 3
-      </label>
-           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={pricing3}/>
-           </div>
-            <div className='m-4'>
-      <label>
-        Total price for retreat if customer selects this room
-      </label>
-           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="price per night" onChange={priceRoom3Total}/>
-           </div>
-  <div className='m-4'>
-      <label>
-       About Accommodation 3
+       About Room 3
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation3(e.target.value)}></textarea>
   </div>
-  <div className='m-4'>
+           <div className="mb-4">
+  
+  <label for="profile-pic">Upload pics of Room 3</label><br/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      
+        <Button onClick={uploadImageRoom3} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+      </div>
+      {imageListRoom3.map((url)=>{
+            return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                            <Button onClick={()=> deleteImageRoom4(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+      
+      
+      
+            </div>
+            
+           })}
+                         <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Price per night for Room 3
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing3}/>
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="">Select Currency</option>
+        <option value="USD">USD</option>
+             
+      </select>
+       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+          Total Price of Retreat if customer chooses Room 3</label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={priceTotalRoom3}/>
+      
+    </div>
+      <div className='m-4'>
     Breakfast Included
     <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesRoom3Breakfast(e.target.value)} value={includesRoom3Breakfast}>
             <option value="">Select Value
@@ -1191,9 +1313,9 @@ const doesRoom3Exist=(e)=>{
 
 
     </div>
-     <div className='m-4'>
-    WiFi Included
-    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setWifiIncludedRoom3(e.target.value)} value={wifiIncludedRoom3}>
+      <div className='m-4'>
+    Wifi Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesWifiRoom3(e.target.value)} value={includesWifiRoom3}>
             <option value="">Select Value
             </option>
             <option value="No">No</option>
@@ -1204,6 +1326,89 @@ const doesRoom3Exist=(e)=>{
     </div>
     </div>
 }
+<div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Room 4</label>&nbsp; &nbsp;
+  <select onChange={doesRoom4Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+  {room4Exists &&
+      <div className='border-2 rounded border-solid border-lime-700 p-4'>
+
+            <div className='mb-4'>
+      <label>
+       About Room 4
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation4(e.target.value)}></textarea>
+  </div>
+           <div className="mb-4">
+  
+  <label for="profile-pic">Upload pics of Room 4</label><br/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      
+        <Button onClick={uploadImageRoom4} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+      </div>
+      {imageListRoom4.map((url)=>{
+            return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                            <Button onClick={()=> deleteImageRoom3(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+      
+      
+      
+            </div>
+            
+           })}
+                         <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Price per night for Room 4
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing4}/>
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="">Select Currency</option>
+        <option value="USD">USD</option>
+             
+      </select>
+       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+          Total Price of Retreat if customer chooses Room 3</label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={priceTotalRoom4}/>
+      
+    </div>
+      <div className='m-4'>
+    Breakfast Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesRoom4Breakfast(e.target.value)} value={includesRoom4Breakfast}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+
+
+    </div>
+      <div className='m-4'>
+    Wifi Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesWifiRoom4(e.target.value)} value={includesWifiRoom4}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+
+
+    </div>
+    </div>
+}
+          <div className='m-4'>
+      <label>
+        Nearest Airport
+      </label>
+           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Nearest Airport" onChange={(e)=>setNearestAirport(e.target.value)}/>
+
+    
+  </div>
   <div className='m-4'>
       <label>
         Flight Expense Included
@@ -1216,19 +1421,17 @@ const doesRoom3Exist=(e)=>{
           </select>
     
   </div>
-  <div className='m-4'>
-      <label>
-        Airport Pick up services
+   <div className='mb-4'>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Provide Airport Pickup Services:
       </label>
-              <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setAirportPickup(e.target.value)} value={airportPickup}>
-            <option value="">Select Value
-            </option>
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-          </select>
-    
+      <select className="bg-white p-2 rounded-md" onChange={(e)=>setPickupService(e.target.value)}>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+      
   </div>
-    <div className='m-4'>
+    <div className='mb-4'>
       <label>
         What's not included?
       </label>
@@ -1237,9 +1440,9 @@ const doesRoom3Exist=(e)=>{
     
   </div>
 
-    <div className="m-4">
+    <div className="mb-4">
 
-<label for="profile-pic">Upload at least one image of your retreat or plans. Please do not upload flyers</label><br/>
+<label for="profile-pic">Upload at least one image of your retreat center</label><br/>
         <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
     
       <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
@@ -1254,9 +1457,15 @@ const doesRoom3Exist=(e)=>{
       </div>
       
      })}
+     <div className='mb-4'>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Welcome Message
+      </label>
+      <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="welcome-message" placeholder="Enter your welcome message here..." onChange={(e) => setWelcomeMessage(e.target.value)}></textarea>
+     </div>
         
-    <Button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-        Host a Retreat
+    <Button className="bg-lime-700 hover:bg-lime-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={host}>
+        List your center
       </Button>
       </form>
       </div>

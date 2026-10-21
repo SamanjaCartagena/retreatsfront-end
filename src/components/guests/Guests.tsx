@@ -16,6 +16,8 @@ export default function Guests() {
   const [guestEmail, setGuestEmail] = useState('')
   const [country, setCountry] = useState('')
   const [message, setMessage] = useState(true)
+  const [allergies, setAllergies] = useState("")
+  const [medicalConditions, setMedicalConditions] = useState("")
   const navigate= useNavigate()
   const createProfile= async(e)=>{
                  e.preventDefault()
@@ -32,7 +34,9 @@ export default function Guests() {
               guestFirstName:firstName, 
               guestLastName: lastName,
               kind:kind,
-              country:country
+              country:country, 
+              medicalConditions:medicalConditions,
+              allergies:allergies
 
 
             })
@@ -92,7 +96,7 @@ export default function Guests() {
                 <Input type="text" placeholder="First Name" onChange={(e)=> setFirstName(e.target.value)}/><br/>
                  <label className="text-align-left m-2 text-sm" >Last Name</label>
                 <Input type="text" className='mb-2' placeholder="Last Name" onChange={(e)=>setLastName(e.target.value)}/><br/>
-                <label className="text-align-left m-2 text-sm">Country</label><br/>
+                <label className="text-align-left m-2 text-sm">Your current location:</label><br/>
                 <select className="bg-white p-2 rounded-md border-1 border-solid" onChange={(e)=>setCountry(e.target.value)} >
     <option value="">Select Location</option>
     <option value="Afghanistan">Afghanistan</option>
@@ -293,7 +297,10 @@ export default function Guests() {
     </select><br/><br/>
                <label className="text-align-left text-sm" >What kind of retreats would you like to attend?</label>
                 <Textarea className="border-2 border-solid border-gray w-full mb-5"  placeholder="Tell us your thoughts" onChange={(e)=>setKind(e.target.value)}></Textarea>
-
+                <label className="text-align-left text-sm" >Medical Conditions if any</label>
+                <Textarea className="border-2 border-solid border-gray w-full mb-5"  placeholder="Tell us your thoughts" onChange={(e)=>setMedicalConditions(e.target.value)}></Textarea>
+                  <label className="text-align-left text-sm" >Food Allergies if any</label>
+                <Textarea className="border-2 border-solid border-gray w-full mb-5"  placeholder="Tell us your thoughts" onChange={(e)=>setAllergies(e.target.value)}></Textarea>
 
                 <br/>
                 <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={createProfile}>Create</Button>

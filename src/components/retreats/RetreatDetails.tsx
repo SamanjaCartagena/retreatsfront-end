@@ -38,6 +38,7 @@ function RetreatDetails() {
     const [openSomething1, setOpenSomething1] = useState(false);
     const [openSomething2, setOpenSomething2] = useState(false);
     const [openSomething3, setOpenSomething3] = useState(false);
+    const [openSomething4, setOpenSomething4] = useState(false)
 
     const [retreatName, setRetreatName] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
@@ -63,6 +64,8 @@ function RetreatDetails() {
     const [month, setMonth] = useState("");
     const [editModal, setEditModal] = useState(false);
     const [country, setCountry] = useState("");
+    const [aboutFood, setAboutFood] = useState("")
+    const [foodPic, setFoodPic] = useState("")
 
     const [city, setCity] = useState("");
   const [value, setValue] = React.useState<Dayjs | null>();
@@ -90,9 +93,11 @@ function RetreatDetails() {
     const [totalPriceRoom1, setTotalPriceRoom1] = useState(0.0)
     const [totalPriceRoom2, setTotalPriceRoom2] = useState(0.0)
     const [totalPriceRoom3, setTotalPriceRoom3] = useState(0.0)
+    const [totalPriceRoom4, setTotalPriceRoom4] = useState(0.0)
     const [room1Exists, setRoom1Exists] = useState(false)
     const [room2Exists, setRoom2Exists]= useState(false)
     const [room3Exists, setRoom3Exists] = useState(false)
+    const [room4Exists, setRoom4Exists] = useState(false)
 
     const [imageListRoom2, setImageListRoom2] = useState([])
     const [accommodation2,setAccommodation2] = useState("")
@@ -100,10 +105,14 @@ function RetreatDetails() {
     const [includesRoom1Breakfast, setIncludesRoom1Breakfast] = useState("")
     const [includesRoom2Breakfast, setIncludesRoom2Breakfast] = useState("")
     const [includesRoom3Breakfast, setIncludesRoom3Breakfast] = useState("")
+    const [includesRoom4Breakfast, setIncludesRoom4Breakfast] = useState("")
+    const [imageListRoom4, setImageListRoom4] = useState([])
     const [imageListRoom3, setImageListRoom3] = useState([])
     const [accommodation3,setAccommodation3] = useState("")
+    const [accommodation4, setAccommodation4] = useState("")
     const [read, setRead] = useState(false)
     const [priceRoom3, setPriceRoom3] = useState(0.0)
+    const [priceRoom4, setPriceRoom4] = useState(0.0)
     const [imageIndex, setImageIndex] = useState(0)
    const Message = ({ message }) => (
   <section>
@@ -198,6 +207,10 @@ const passImageUrl2=(i)=>{
 const passImageUrl3=(i)=>{
   setImageIndex(i)
   setOpenSomething3(true)
+}
+const passImageUrl4=(i)=>{
+  setImageIndex(i)
+  setOpenSomething4(true)
 }
 const readMore =()=>{
   setRead(!setRead)
@@ -349,15 +362,18 @@ useEffect(()=>{
             setRoom1Exists(doc.data().room1Exists);
             setRoom2Exists(doc.data().room2Exists);
             setRoom3Exists(doc.data().room3Exists);
+            setRoom4Exists(doc.data().room4Exists)
             setMonth(doc.data().month);
             setKind(doc.data().kind);
             setMessage1(doc.data().message1);
             setIncludesRoom1Breakfast(doc.data().includesRoom1Breakfast)
             setIncludesRoom2Breakfast(doc.data().includesRoom2Breakfast)
             setIncludesRoom3Breakfast(doc.data().includesRoom3Breakfast)
+            setIncludesRoom4Breakfast(doc.data().includesRoom4Breakfast)
             setTotalPriceRoom1(doc.data().totalPriceRoom1)
             setTotalPriceRoom2(doc.data().totalPriceRoom2)
             setTotalPriceRoom3(doc.data().totalPriceRoom3)
+            setTotalPriceRoom4(doc.data().totalPriceRoom4)
             setCountry(doc.data().location);
             setStartAt(doc.data().startAt);
             setEndAt(doc.data().endAt);
@@ -370,13 +386,18 @@ useEffect(()=>{
             setFlightIncluded(doc.data().flightIncluded)
             setAirportPickup(doc.data().airportPickup)
             setCity(doc.data().aboutCity)
+            setFoodPic(doc.data().foodPic)
+            setAboutFood(doc.data().aboutFood)
             setNameOfCity(doc.data().nameOfCity)
             setAccommodation1(doc.data().accommodation1)
             setPriceRoom1(doc.data().priceRoom1)
             setAccommodation2(doc.data().accommodation2)
             setPriceRoom2(doc.data().priceRoom2)
             setAccommodation3(doc.data().accommodation3)
+            setAccommodation4(doc.data().accommodation4)
             setPriceRoom3(doc.data().priceRoom3)
+            setPriceRoom4(doc.data().priceRoom4)
+
 
             setBookRetreat({
               email: guestEmail,
@@ -410,6 +431,7 @@ useEffect(()=>{
             const imageListRefRoom1 = ref(storage, `/retreatimages/room1/${retreatId}`)
                         const imageListRefRoom2 = ref(storage, `/retreatimages/room2/${retreatId}`)
             const imageListRefRoom3 = ref(storage, `/retreatimages/room3/${retreatId}`)
+            const imageListRefRoom4 = ref(storage, `/retreatimages/room4/${retreatId}`)
 
           listAll(imageListRef).then((res)=>{
                             res.items.forEach((item)=>{
@@ -443,6 +465,14 @@ useEffect(()=>{
                               });
                             });
                           });
+                           listAll(imageListRefRoom4).then((res)=>{
+                            res.items.forEach((item)=>{
+                              getDownloadURL(item).then((url)=>{
+                                setImageListRoom4((prev)=>[...prev, url]);
+                                
+                              });
+                            });
+                          });
                         },[hostId])
   return (
        <div className="relative h-auto min-h-auto w-full overflow-hidden lg:flex sm-grid w-full md:grid-cols-1 justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
@@ -472,11 +502,11 @@ useEffect(()=>{
          <br/>
          
 <center>
-<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
+<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
   
   {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
              
-      <img className="w-60  md:w-50 h-70 lg:w-full items-center cursor-pointer" src={imageUrl} onClick={()=>viewAllPhotos(index)} key={index} alt="Retreats Around The World" />
+      <img className="w-60  md:w-50 h-70 lg:w-1/2 sm:w-full items-center cursor-pointer" src={imageUrl} onClick={()=>viewAllPhotos(index)} key={index} alt="Retreats Around The World" />
       
     
 ))}
@@ -489,18 +519,18 @@ useEffect(()=>{
     View all photos
   </Button>
       <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 md:w-40 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
-
-        <StripeCheckout 
+ <StripeCheckout 
          stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
          token={makePayment}
-         name='Retreats Around The World'
+         name='Cheapest Package'
          amount={price*100}
         >
-        <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 md:w-40 text-center text-white m-2 justify-items: right">
-         Book this Retreat
+        <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">
+        Starts At ${price}
         </Button>
 
           </StripeCheckout>
+       
               {hostIsUser &&   <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center md:w-40 sm:w-full text-white m-2 justify-items: right" onClick={()=>setEditModal(true)}>Edit Info</Button>
 
 }
@@ -596,20 +626,20 @@ useEffect(()=>{
             </Modal>
 
             **/}
-          <h1 className='text-2xl font-bold'>Retreat Name: {centerName}</h1>
-          <h1 className='text-md font-bold'>Retreat Address: {retreatAddress}</h1>
-          <h1 className='text-md font-bold'>Country: {country}</h1>
+          <h1 className='text-lg font-bold p-4'>Retreat Center Name/Hotel/Airbnb: {centerName}</h1>
+          <h1 className='text-lg font-bold p-4'>Retreat Address: {retreatAddress}</h1>
+          <h1 className='text-lg font-bold p-4'>Country: {country}</h1>
         
-                    <h1 className='text-md font-bold'>Type of Retreat: {Object.values(retreatType).join(", ")}</h1>
+                    <h1 className='font-semibold text-lg m-2 p-4'>Type of Retreat: {Object.values(retreatType).join(", ")}</h1>
                         
 
                                <br/>
 
                                <div className='container text-center w-full h-auto p-4 rounded-lg  bg-white'>
                                    <h1 className='text-lg font-bold'>Highlights</h1>
-                               <h1 className='container text-md font-bold'>{message1}</h1>
-                                      <h1 className=' container text-md font-bold '>{message2}</h1>
-                                      <h1 className='container text-md font-bold '>{message3}</h1>
+                               <h1 className='container text-lg font-bold'>{message1}</h1>
+                                      <h1 className=' container text-lg font-bold '>{message2}</h1>
+                                      <h1 className='container text-lg font-bold '>{message3}</h1>
                                       </div>
 
           <br/>
@@ -617,14 +647,14 @@ useEffect(()=>{
                    <center>
           <div className="text-center w-3/4  lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
 
-            <div className="container grid w-full h-full justify-center items-center text-center">
+            <div className=" lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 w-full h-full justify-center items-center text-center">
 
-            <p className='text-lg md:w-full sm:w-full font-semibold mt-4'>Name of host:&nbsp;{hostFirstName}&nbsp;{hostLastName}</p>
+            <h1 className='font-semibold text-lg m-2'>Name of Host:&nbsp;{hostFirstName}&nbsp;{hostLastName}</h1>
             <br/>
             <br/>
-                         <p className='font-semibold text-lg mt-2 align-left'>Date</p>
+                          <h1 className='font-semibold text-lg m-2'>Date</h1>
 
-             <h1 className="container font-serif font-medium text-lg line-clamp-1 p-4 border-2 rounded">{startAt?.toDate()?.toLocaleDateString('en-US',  { 
+              <h1 className='text-lg h-auto p-4 border-2 rounded'>{startAt?.toDate()?.toLocaleDateString('en-US',  { 
   year: 'numeric', 
   month: 'long', 
   day: 'numeric' 
@@ -635,38 +665,51 @@ useEffect(()=>{
   day: 'numeric' 
 })}</h1><br/>
             
-             <p className='font-semibold text-lg  align-left'>Price</p>
-                <div className='p-4 border-2 rounded'>
-                   <h1 className='text-md '><strong>${price}</strong> for&nbsp; {Math.abs(endAt?.toDate()?.getDate() - startAt?.toDate()?.getDate())}&nbsp;days in {retreatAddress}</h1>
-                   <h1>Total price of Retreat if you select Room 1 - <strong>${totalPriceRoom1}</strong></h1>
-                 </div>
-                   <br/>
-                                            <p className='font-semibold text-lg mt-2 align-left'>Kind of Retreat</p>
+             <h1 className='font-semibold text-lg m-2'>Price</h1>
+                <div className='p-4 border-2 rounded h-auto'>
+                   <h1 className='text-lg h-auto'><strong>${price}</strong> for&nbsp; {Math.abs(endAt?.toDate()?.getDate() - startAt?.toDate()?.getDate())}&nbsp;days in {retreatAddress}</h1>
+                   <h1>Total price of Retreat if you select Room 1 or Package1 - <strong>${totalPriceRoom1}</strong></h1>
+                                      <h1>Total price of Retreat if you select Room 2 or Package2 - <strong>${totalPriceRoom2}</strong></h1>
+                                                         <h1>Total price of Retreat if you select Room 3 or Package3 - <strong>${totalPriceRoom3}</strong></h1>
 
-            <p className='w-60 md:w-full sm:w-full p-6 border-2 rounded'>{kind}</p><br/>
-            <h1 className='text-xl font-bold'>{nameOfCity}</h1>
-            <center><img src={cityPic} alt="Retreats Around The World"  className="w-200 h-200 mt-5  justify-center object-cover" /></center>
+
+                 </div>
+                    
+                   <br/>
+                                            <h1 className='font-semibold text-lg m-2'>Kind of Retreat</h1>
+                             <div className='p-4 border-2 rounded  h-auto justify-center'>
+
+            <h1 className='text-lg h-auto'>{kind}</h1><br/>
+            <h1 className='text-lg font-semibold'>{nameOfCity}</h1>
+            <center><img src={cityPic} alt="Retreats Around The World"  className="w-150 h-150 mt-5  justify-center object-cover" /></center>
+            </div>
             <br/>
-            <p className='font-semibold text-lg m-4'>About the city /region / village / town</p>
-            <p className='w-60 md:w-full sm:w-full p-4 border-2 text-md rounded'>{city}</p>
-                        <p className='font-semibold text-lg m-4'>Airport Information</p>
+            <h1 className='font-semibold text-lg m-2'>About the city /region / village / town</h1>
+            <h1 className='text-lg h-auto p-4 border-2 rounded'>{city}</h1>
+            <br/>
+            <h1 className='font-semibold text-lg m-2'>Food That will be Provided</h1>
+
+             <h1 className='text-lg h-auto p-4 border-2 rounded'>{aboutFood} </h1>
+                        <center><img src={foodPic} alt="Retreats Around The World"  className="w-150 h-150 mt-5  justify-center object-cover" /></center>
+
+                        <h1 className='font-semibold text-lg m-2'>Airport Information</h1>
 
             <div className='border-2 rounded p-4'>
-                                    <h1 className='text-md mb-4'>Nearest Airport:&nbsp;{nearestAirport}</h1>
+                                    <h1 className='text-lg mb-4'>Nearest Airport:&nbsp;{nearestAirport}</h1>
 
-                                    <h1 className='text-md mb-4'>Flight expenses included:&nbsp;{flightIncluded}</h1>
+                                    <h1 className='text-lg mb-4'>Flight expenses included:&nbsp;{flightIncluded}</h1>
 
-                                    <h1 className='text-md mb-4'>Airport Pick up services provided:&nbsp;{airportPickup}</h1>
+                                    <h1 className='text-lg mb-4'>Airport Pick up services provided:&nbsp;{airportPickup}</h1>
                                   
 
                                     </div>
                                     {room1Exists &&
                                     <div>
-                                      <p className='font-semibold text-lg m-2'>Accommodation Type 1</p>
+                                      <h1 className='font-semibold text-lg m-2'>Accommodation Type 1/Package 1</h1>
 
-                                    <div className='border-2 flex rounded w-full'>
+                                    <div className='border-2 lg:flex sm:grid rounded w-full'>
 
-                                            <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-4 p-4 h-auto">
+                                            <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  gap-4 p-4 h-auto">
 
             {imageListRoom1.length > 0 &&  imageListRoom1.slice(0,2).map((imageUrl, index) => (
               <div>
@@ -684,13 +727,27 @@ useEffect(()=>{
 
                     </div>
 
-                                      <div className='grid w-full gap-4 p-4 h-auto'>
+                                      <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto'>
 
-                        <p className='font-semibold text-md m-2'>${priceRoom1}{currency}&nbsp;/night</p>
-                                                <p className='font-semibold text-md m-2'>Total price you pay if you select Room 1: ${totalPriceRoom1}&nbsp;{currency}</p>
+                        <h1 className='text-lg h-auto'>${priceRoom1}{currency}&nbsp;/night</h1>
+                                                <h1 className='text-lg h-auto'>Total price you pay if you select Room 1: ${totalPriceRoom1}&nbsp;{currency}</h1>
+                                                
+                                                  <StripeCheckout 
+         stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
+         token={makePayment}
+         name='Retreats Around The World'
+         amount={totalPriceRoom1*100}
+        >
+        <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">
+         Book this Package
+        </Button>
 
-                                                                       <p className=' text-md m-2 w-full h-auto  p-4 text-md'>{accommodation1}</p>
-                                                                       <p className='text-md m-2 p-4'>Include breakfast: {includesRoom1Breakfast}</p>
+          </StripeCheckout>
+          
+
+                                                                       <h1 className='text-lg h-auto'>{accommodation1}</h1>
+                                                                       <h1 className='text-lg h-auto'>Include breakfast: {includesRoom1Breakfast}</h1>
+                                                                      
                           </div>
                   
                         
@@ -701,10 +758,10 @@ useEffect(()=>{
             }
             {room2Exists &&
             <div>
-                 <p className='font-semibold text-lg m-2'>Accommodation Type 2</p>
+                 <h1 className='font-semibold text-lg m-2'>Accommodation Type 2/Package 2</h1>
 
-                                    <div className='border-2 flex rounded w-full'>
-                                            <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-4 p-4 h-auto">
+                                    <div className='border-2 lg:flex sm:grid rounded w-full'>
+                                            <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  gap-4 p-4 h-auto">
 
             {imageListRoom2.length > 0 &&  imageListRoom2.slice(0,2).map((imageUrl, index) => (
               <div>
@@ -723,13 +780,24 @@ useEffect(()=>{
 
                     </div>
 
-                                      <div className='grid w-full gap-4 p-4 h-auto'>
+                                      <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto'>
 
-                                                                       <p className='text-md m-2'>${priceRoom2}&nbsp;{currency}/night</p>
-                                                                    <p className='font-semibold text-md m-2'>Total price you pay if you select Room 2: ${totalPriceRoom2}&nbsp;{currency}</p>
+                                                                       <h1 className='text-lg h-auto'>${priceRoom2}&nbsp;{currency}/night</h1>
+                                                                    <h1 className='text-lg h-auto'>Total price of Retreat you pay if you select Room 2: ${totalPriceRoom2}&nbsp;{currency}</h1>
+ <StripeCheckout 
+         stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
+         token={makePayment}
+         name='Retreats Around The World'
+         amount={totalPriceRoom2*100}
+        >
+        <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">
+         Book this Package
+        </Button>
 
-                                                                     <p className='text-md m-2 w-full p-4'>{accommodation2}</p>
-                                                                      <p className=' text-md m-2 p-4'>Include breakfast: {includesRoom2Breakfast}</p>
+          </StripeCheckout>
+          
+                                                                     <h1 className='text-lg h-auto'>{accommodation2}</h1>
+                                                                      <h1 className='text-lg h-auto'>Include breakfast: {includesRoom2Breakfast}</h1>
                                                                       </div>
 
          
@@ -737,10 +805,10 @@ useEffect(()=>{
                     </div>}
                     {room3Exists &&
                     <div>
-                      <p className='font-semibold text-lg m-2'>Accommodation Type 3</p>
+                      <h1 className='font-semibold text-lg m-2'>Accommodation Type 3/Package 3</h1>
 
-                                    <div className='border-2 flex rounded w-full'>
-                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 p-4 h-auto">
+                                    <div className='border-2 lg:flex sm:grid  rounded w-full'>
+                       <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-4 p-4 h-auto">
 
             {imageListRoom3.length > 0 &&  imageListRoom3.slice(0,2).map((imageUrl, index) => (
               <div>
@@ -758,17 +826,73 @@ useEffect(()=>{
 
 
                     </div>
-                                      <div className='grid w-full gap-4 p-4 h-auto'>
+                                      <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto'>
 
-                        <p className='font-semibold text-lg m-2'>Room 3</p>
-                        <p className='text-md m-2'>${priceRoom3}/night&nbsp;{currency}</p>
-                                                <p className='font-semibold text-md m-2'>Total Price you pay if you select Room 3: ${totalPriceRoom3}&nbsp;{currency}</p>
+                        <h1 className='text-lg h-auto'>${priceRoom3}/night&nbsp;{currency}</h1>
+                                                <h1 className='text-lg h-auto'>Total Price of Retreat you pay if you select Room 3: ${totalPriceRoom3}&nbsp;{currency}</h1>
 
-                        {read &&  <p className='text-md m-2 w-full p-4'>{accommodation3}</p>
-                      }
-                      {!read &&  <p className='text-md m-2 w-full p-4'>{accommodation3}.slice(0,200)</p>}
-                        <Button className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={readMore}>Read More</Button>
-                        <p className='text-md m-2 p-4'>Include breakfast: {includesRoom3Breakfast}</p>
+                          <StripeCheckout 
+         stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
+         token={makePayment}
+         name='Retreats Around The World'
+         amount={totalPriceRoom3*100}
+        >
+        <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">
+         Book this Package
+        </Button>
+
+          </StripeCheckout>
+                        <h1 className='text-lg h-auto'>{accommodation3}</h1>
+                      
+                      
+                        <h1 className='text-lg h-auto'>Include breakfast: {includesRoom3Breakfast}</h1>
+
+                     </div>
+                    </div>
+                    </div>}
+                       {room4Exists &&
+                    <div>
+                      <h1 className='font-semibold text-lg m-2'>Accommodation Type 4/Package 4</h1>
+
+                                    <div className='border-2 lg:flex sm:grid  rounded w-full'>
+                       <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-4 p-4 h-auto">
+
+            {imageListRoom4.length > 0 &&  imageListRoom4.slice(0,2).map((imageUrl, index) => (
+              <div>
+                <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer" src={imageUrl} key={index} onClick={()=>passImageUrl4(index)} alt="Retreats Around The World" />
+                
+              
+              
+                  </div>
+              
+          ))}
+                <ImageModal isOpen={openSomething4}  >
+              <ImageSlider slides={imageListRoom4} index={imageIndex} closeSlider={()=>setOpenSomething4(false)}/>
+
+                  </ImageModal>
+
+
+                    </div>
+                                      <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto'>
+
+                        <h1 className='text-lg h-auto'>${priceRoom4}/night&nbsp;{currency}</h1>
+                                                <h1 className='text-lg h-auto'>Total Price of Retreat you pay if you select Room 3: ${totalPriceRoom4}&nbsp;{currency}</h1>
+
+                          <StripeCheckout 
+         stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
+         token={makePayment}
+         name='Retreats Around The World'
+         amount={totalPriceRoom4*100}
+        >
+        <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">
+         Book this Package
+        </Button>
+
+          </StripeCheckout>
+                        <h1 className='text-lg h-auto'>{accommodation4}</h1>
+                      
+                      
+                        <h1 className='text-lg h-auto'>Include breakfast: {includesRoom4Breakfast}</h1>
 
                      </div>
                     </div>
@@ -776,7 +900,7 @@ useEffect(()=>{
             </div>
             
             <div>
-                        <h1 className='text-2xl mb-4'>About the Host</h1>
+                        <h1 className='font-semibold text-lg m-2'>About the Host</h1>
 
             <img src={hostPic} alt="Retreats Around The World"  className="w-60 h-60  rounded-full object-cover" />
             <br/>

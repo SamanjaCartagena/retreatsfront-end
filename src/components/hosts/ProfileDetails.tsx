@@ -337,6 +337,7 @@ onAuthStateChanged(auth, async (user) => {
     <input type="file" className="bg-lime-700 cursor-pointer text-white font-bold py-2 px-4 w-60 rounded focus:outline-none focus:shadow-outline" onChange={(event)=>{setImageUpload(event.target.files[0])}} name="pic" id="pic"/>
        </div>
        )}
+       
        {onlyUser && (
         <div>
     <br/>

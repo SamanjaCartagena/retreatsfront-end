@@ -51,6 +51,7 @@ function ListARetreatCenter() {
       const [imageListRoom1, setImageListRoom1] = useState([])
       const [imageListRoom2, setImageListRoom2] = useState([])
       const [imageListRoom3, setImageListRoom3] = useState([])
+      const [facilities, setFacilities] = useState("")
       const [welcomeMessage, setWelcomeMessage] = useState("")
 
    const [notIncluded, setNotIncluded] = useState("")
@@ -230,6 +231,7 @@ const endAtDate=(e)=>{
                                          priceRoom1:priceRoom1,
                                          priceRoom2:priceRoom2,
                                          priceRoom3:priceRoom3,
+                                         facilities:facilities,
                                          pic1: imageList[0],
                                          welcomeMessage: welcomeMessage,
 
@@ -676,6 +678,12 @@ const endAtDate=(e)=>{
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setKind(e.target.value)}></textarea>
    
     </div>
+     <div className='mb-4'>
+      <label>
+       Facilities Provided
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Spa, Gym, Tourguide..." onChange={(e)=>setFacilities(e.target.value)}></textarea>
+  </div>
      <div className='mb-4'>
       <label>
        About Room 1
