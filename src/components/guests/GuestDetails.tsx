@@ -213,7 +213,7 @@ onAuthStateChanged(auth, async (user) => {
               <div>
           <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
           <br/><br/>
-          <Button onClick={profile} className='bg-lime-700  w-60 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Profile Picture</Button>
+          <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2" onClick={profile} >Upload Profile Picture</Button>
           </div>
             )}
           <br/>
@@ -276,7 +276,7 @@ onAuthStateChanged(auth, async (user) => {
                 </div>
                 </Modal>
       
-    <div className="w-full p-8 h-auto flex justify-center items-center ">
+    <div className="container p-8 h-auto lg:flex sm:grid md:grid-cols-2 justify-center items-center ">
       
       <div className="bg-white  px-8  pb-8 mb-4">      
         <p className="mb-4"><span className="font-bold">First Name:</span> {guideFirstName}</p>
@@ -298,7 +298,7 @@ onAuthStateChanged(auth, async (user) => {
         <p className="mb-4"><span className="font-bold">Retreat Type 9:</span> {type9}</p>
               {!alsoGuide &&  
        <Link to={`/guidesignup/${userId}`}className="mb-2 mt-2" >
-          <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>Become a Guide</Button>
+          <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">Become a Guide</Button>
 
         </Link>
 }
@@ -306,31 +306,31 @@ onAuthStateChanged(auth, async (user) => {
         
           {onlyUser && (
        <Link to={`/adminpage/${userId}/listaretreat`}className="mb-2 mt-2" >
-          <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat</Button>
+          <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">List A Retreat</Button>
 
         </Link>
         )}
         {onlyUser && (
         <Link to={`/adminpage/${userId}/listacenter`} className="mb-2 mt-2" >
-          <Button className='bg-lime-700  text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat Center</Button>
+          <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">List A Retreat Center</Button>
 
         </Link>
         )}
         {onlyUser && (
         <Link to={`/retreatcenters`} className="mb-2 mt-2" >
-          <Button className='bg-lime-700  text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>Book A Retreat Center</Button>
+          <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">Book A Retreat Center</Button>
 
         </Link>
         )}
         {onlyUser && (
-          <Button className='bg-lime-700 w-full text-white mt-2 font-bold py-2 px-4 items-center align-middle w-60 rounded focus:outline-none focus:shadow-outline' onClick={()=>setOpenEditor(true)}>Edit Your Info</Button>
+          <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2" onClick={()=>setOpenEditor(true)}>Edit Your Info</Button>
         )}
         
         <br/>
        {onlyUser && (
-        <div>
-         <label for="pic">Upload pics for display </label><br/>
-    <input type="file" className="bg-lime-700 cursor-pointer text-white font-bold py-2 px-4 w-60 rounded focus:outline-none focus:shadow-outline" onChange={(event)=>{setImageUpload(event.target.files[0])}} name="pic" id="pic"/>
+        <div className='container'>
+         <label for="pic">Upload pics</label><br/>
+    <input type="file" className=" bg-lime-700 hover:bg-white w-40 text-center sm:w-full sm:justify-center lg:w-40 hover:text-lime-700 sm:w-30 md:w-40  text-white  m-2" onChange={(event)=>{setImageUpload(event.target.files[0])}} name="pic" id="pic"/>
        </div>
        )}
        {onlyUser && (

@@ -296,7 +296,7 @@ const [id,setId]=useState('');
               href="#"
               className="block px-4 py-2 text-sm  data-focus:bg-white/5 data-focus:text-white data-focus:outline-hidden"
             >
-              Guides
+              Guides/Mentors/Healers
             </a>
           </MenuItem>
           </Link>

@@ -255,7 +255,7 @@ function GuideDetails() {
               
               
   return (
-                             <div className="max-w-full pt-40 mx-auto p-4 grid place-items-center" style={{ backgroundColor:'lightGray', color:'black'}}>
+                             <div className="relative h-auto min-h-auto w-full overflow-hidden lg:grid sm-grid w-full md:grid justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
                                   <div className="flexbox gap-4">
                                             <img src={avatarUrl} alt="Avatar" className="w-60 h-60 mt-2 rounded-full mb-4 justify-center items-center mx-auto object-cover"/>
                                              {currentUser &&
@@ -394,7 +394,7 @@ function GuideDetails() {
                 </Modal>
                                            <Modal isOpen={inquiryModal} onClose={()=>setInquiryModal(false)} >
             <form className="bg-white p-6 rounded shadow-md w-96 mt-20" onSubmit={handleSubmit} ref={form}>
-              <h2 className="text-lg font-bold mb-4">Contact {guideFirstName}</h2>
+              <h1 className="text-lg h-auto m-4">Contact {guideFirstName}</h1>
               <label className="block text-gray-700 text-sm font-bold mb-2" >
                 Your Email
               </label>
@@ -406,19 +406,19 @@ function GuideDetails() {
             </Modal>                   <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-1  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
                                      <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Contact&nbsp;{guideFirstName}</Button>
                                
-                                         <h2 className='text-2xl font-bold m-2'>{guideFirstName}&nbsp;{guideLastName}</h2>
+                                         <h1 className='text-lg h-auto m-2'>{guideFirstName}&nbsp;{guideLastName}</h1>
                               
-                                                            <h2 className='text-xl font-bold m-2'>{guideCity},&nbsp;{guideLocation}</h2>
-                                                                                                                        <h2 className='text-xl font-bold m-2'>Username:&nbsp;{guideUsername}</h2>
+                                          <h1 className='text-lg h-auto m-2'>{guideCity},&nbsp;{guideLocation}</h1>
+                                          <h1 className='text-lg h-auto m-2'>Username:&nbsp;{guideUsername}</h1>
 
 
-                                                          <h2 className='text-xl font-bold m-2'>Profession:&nbsp;{guideProfession}</h2>
-                                                          <h2 className='text-xl font-bold m-2'>{guideSpecialty[0]+' '},&nbsp;{guideSpecialty[1]+' '},&nbsp;{guideSpecialty[2]+' '},&nbsp;{guideSpecialty[3]+' '}, &nbsp;{guideSpecialty[4]}</h2>
+                                                          <h1 className='text-lg h-auto m-2'>Profession:&nbsp;{guideProfession}</h1>
+                                                          <h1 className='text-lg h-auto m-2'>{guideSpecialty[0]+' '},&nbsp;{guideSpecialty[1]+' '},&nbsp;{guideSpecialty[2]+' '},&nbsp;{guideSpecialty[3]+' '}, &nbsp;{guideSpecialty[4]}</h1>
 
                                                           
                                                           
 
-                                                            <h2 className='text-xl font-bold m-2'>{guideIntroduction}</h2>
+                                                            <h1 className='text-lg h-auto m-2'>{guideIntroduction}</h1>
                                                             </div>
                                                             
 
@@ -432,11 +432,10 @@ function GuideDetails() {
                                   </div>
                                    }
                                    
-                       <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
-
+                             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
                                 {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
                                     <div>
-                                 <img className="w-85 md:w-50 lg:w-full items-center rounded-lg cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl(index)}/>
+                                 <img className="w-60 cursor-pointer md:w-50 lg:w-full items-center  h-70"  src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl(index)}/>
                                  
                                  {currentUser &&
                                  <Button onClick={()=>deleteImage(imageUrl)} className='bg-red-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Delete Image</Button>

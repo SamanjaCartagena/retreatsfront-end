@@ -162,6 +162,21 @@ function RetreatDetails() {
    const timestamp1 = Timestamp.fromDate(new Date(e));
   setEndDate(timestamp1)
  }
+ const pricing1 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom1(doubleValueFloat)
+
+   }
+    const pricing2 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom2(doubleValueFloat)
+
+   }
+      const pricing3 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom2(doubleValueFloat)
+
+   }
  const newPrice =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
     setPrice(doubleValueFloat)
@@ -192,6 +207,66 @@ const uploadImage=(e)=>{
        console.log("imageList", imageList);
    
      }
+      const uploadImageRoom1=(e)=>{
+                  e.preventDefault();
+                 // Create a root reference
+                 console.log("Upload Image");
+                 if(imageUpload == null) return;
+                 
+                 
+                 const imageRef1 = ref(storage, `/retreatimages/room1/${retreatId}/${imageUpload.name+v4()}`);
+                 uploadBytes(imageRef1, imageUpload).then((snapshot)=>{
+                   getDownloadURL(snapshot.ref).then((url)=>{
+                     setImageListRoom1((prev)=>[...prev, url]);
+                   }
+                   );
+                 });
+             
+               }
+        const uploadImageRoom2=(e)=>{
+                  e.preventDefault();
+                 // Create a root reference
+                 console.log("Upload Image");
+                 if(imageUpload == null) return;
+                 
+                 
+                 const imageRef1 = ref(storage, `/retreatimages/room2/${retreatId}/${imageUpload.name+v4()}`);
+                 uploadBytes(imageRef1, imageUpload).then((snapshot)=>{
+                   getDownloadURL(snapshot.ref).then((url)=>{
+                     setImageListRoom2((prev)=>[...prev, url]);
+                   }
+                   );
+                 });
+             
+               }
+                  const uploadImageRoom3=(e)=>{
+                  e.preventDefault();
+                 // Create a root reference
+                 console.log("Upload Image");
+                 if(imageUpload == null) return;
+                 
+                 
+                 const imageRef1 = ref(storage, `/retreatimages/room3/${retreatId}/${imageUpload.name+v4()}`);
+                 uploadBytes(imageRef1, imageUpload).then((snapshot)=>{
+                   getDownloadURL(snapshot.ref).then((url)=>{
+                     setImageListRoom2((prev)=>[...prev, url]);
+                   }
+                   );
+                 });
+             
+               }
+  const priceTotalRoom1=(event) =>{
+     const doubleValueFloat = parseFloat(event.target.value);
+    setTotalPriceRoom1(doubleValueFloat)
+   }
+   const priceTotalRoom2=(event) =>{
+     const doubleValueFloat = parseFloat(event.target.value);
+    setTotalPriceRoom2(doubleValueFloat)
+   }
+    const priceTotalRoom3=(event) =>{
+     const doubleValueFloat = parseFloat(event.target.value);
+    setTotalPriceRoom3(doubleValueFloat)
+   }
 const passImageUrl=(i)=>{
   setImageIndex(i)
   setOpenSomething(true)
@@ -231,6 +306,7 @@ const saveChanges=async(e)=>{
       message1:message1,
       message2:message2,
       message3:message3,
+      accommodation1:accommodation1,
       retreatCenterName:centerName,
 
           
@@ -319,6 +395,9 @@ useEffect(()=>{
     setLoggedIn(true)
     setGuestEmail(user.email)
     if(user.uid ==hostId){
+      setHostIsUser(true)
+    }
+    else if(user.uid=="YWdPgFJPDHNzTlqZbhqupE4D9j62"){
       setHostIsUser(true)
     }
     else{
@@ -502,11 +581,11 @@ useEffect(()=>{
          <br/>
          
 <center>
-<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
+<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
   
-  {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
+  {imageList.length > 0 &&  imageList.slice(0, 4).map((imageUrl, index) => (
              
-      <img className="w-60  md:w-50 h-70 lg:w-1/2 sm:w-full items-center cursor-pointer" src={imageUrl} onClick={()=>viewAllPhotos(index)} key={index} alt="Retreats Around The World" />
+      <center><img className="w-80  md:w-50 h-70 lg:w-90 sm:w-full items-center justify-center cursor-pointer" src={imageUrl} onClick={()=>viewAllPhotos(index)} key={index} alt="Retreats Around The World" /></center>
       
     
 ))}
@@ -530,10 +609,10 @@ useEffect(()=>{
         </Button>
 
           </StripeCheckout>
-       
-              {hostIsUser &&   <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center md:w-40 sm:w-full text-white m-2 justify-items: right" onClick={()=>setEditModal(true)}>Edit Info</Button>
+       {hostIsUser &&
+             <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center md:w-40 sm:w-full text-white m-2 justify-items: right" onClick={()=>setEditModal(true)}>Edit Info</Button>
+       }
 
-}
            </div>
            <Modal isOpen={editModal} onClose={()=>setEditModal(false)}>
             <div className='mt-25 w-full h-200 justify-center items-center bg-white p-4 rounded-lg overflow-y-scroll overflow-x-hidden'>
@@ -546,10 +625,13 @@ useEffect(()=>{
               <input type="text" className='border-solid p-2 border-black border-2 m-2' value={country} /><br/>
               <label>Retreat Center Name</label><br/>
               <input type="text" className='border-solid p-2 border-black border-2 m-2' value={centerName} onChange={(e)=>setCenterName(e.target.value)}/><br/>
-              <label>Price of Retreat</label><br/>
+              <label>Price of Retreat (cheapest package)</label><br/>
               <input type='number' className='border-solid p-2 border-black border-2 m-2' value={price} onChange={newPrice}/> <br/>
+                <label>Highlights</label><br/>
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=> setMessage1(e.target.value)}>{message1}</textarea>
               <label>Kind of Retreat</label><br/>
-              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." aria-placeholder={kind} onChange={(e)=> setKind(e.target.value)}>{kind}</textarea>
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=> setKind(e.target.value)}>{kind}</textarea>
+              
               <label>City</label>
               <input type="text" className='border-solid p-2 border-black border-2 m-2' value={nameOfCity} onChange={(e)=>setNameOfCity(e.target.value)}/><br/>
               <label className="block text-gray-700 text-sm font-bold mb-2" >
@@ -571,14 +653,90 @@ useEffect(()=>{
                
                    
                    </div><br/>
-              <label>About The City/Cities/Regions/Villages/Towns</label><br/>
+                    <label>About The City/Cities/Regions/Villages/Towns</label><br/>
 
               <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setCity(e.target.value)}>{city}</textarea>
-              <label>Message 1</label><br/>
+                    <br/>
+                   <label>Accommodation 1/Package 1</label><br/>
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write about accommodation 1/package 1" aria-placeholder={kind} onChange={(e)=> setAccommodation1(e.target.value)}>{accommodation1}</textarea>
+                <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+       Price per night for Room 1 or package 1, please do not post $ or pound sign (only accepts numbers)
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" value={priceRoom1} onChange={pricing1}/>
+               <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+                 Total Price of Retreat if customer chooses Room 1 or package 1, please do not post $ or pound sign <strong>(only accepts numbers)</strong></label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" value={totalPriceRoom1} onChange={priceTotalRoom1}/>
+              
+              {imageListRoom1.length > 0 &&  imageListRoom1.map((imageUrl, index) => (
+             
+             <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+      <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>delImg(imageUrl)}>Delete</Button>
+      
+    </Card>)
+              )}
+              <br/>
+              
+              <label>Add Accommodation1/Package 1 pics</label>
+ <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+          <Button onClick={uploadImageRoom1} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
 
-            
+             <br/><br/>
+             
+                 <label>Accommodation 2/Package 2</label><br/>
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write about accommodation 2/package 1"  onChange={(e)=> setAccommodation2(e.target.value)}>{accommodation2}</textarea>
+                <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+       Price per night for Room 2 or package 2, please do not post $ or pound sign (only accepts numbers)
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" value={priceRoom2} onChange={pricing2}/>
+               <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+                 Total Price of Retreat if customer chooses Room 1 or package 1, please do not post $ or pound sign <strong>(only accepts numbers)</strong></label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" onChange={priceTotalRoom2}/>
+              
+              {imageListRoom2.length > 0 &&  imageListRoom2.map((imageUrl, index) => (
+             
+             <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+      <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>delImg(imageUrl)}>Delete</Button>
+      
+    </Card>)
+              )}
+              <br/>
+              <label>Add Accommodation2 /Package 2 pics</label>
+ <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+          <Button onClick={uploadImageRoom2} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
 
-              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add information about the city..." onChange={(e)=>setMessage3(e.target.value)}>{message3}</textarea>
+             <br/><br/>
+                  <br/><br/>
+             
+                 <label>Accommodation 3/Package 3</label><br/>
+              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write about accommodation 3/package 3"  onChange={(e)=> setAccommodation3(e.target.value)}>{accommodation3}</textarea>
+                <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+       Price per night for Room 3 or package 3, please do not post $ or pound sign (only accepts numbers)
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" value={priceRoom3} onChange={pricing3}/>
+               <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+                 Total Price of Retreat if customer chooses Room 1 or package 1, please do not post $ or pound sign <strong>(only accepts numbers)</strong></label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" value={totalPriceRoom3} onChange={priceTotalRoom3}/>
+              
+              {imageListRoom3.length > 0 &&  imageListRoom3.map((imageUrl, index) => (
+             
+             <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+      <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>delImg(imageUrl)}>Delete</Button>
+      
+    </Card>)
+              )}
+              <br/>
+              <label>Add Accommodation3 /Package 3 pics</label>
+ <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+          <Button onClick={uploadImageRoom3} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+
+             <br/><br/>
+             
+
+              
+
               
               <label>Delete image: </label>
               {imageList.length > 0 &&  imageList.map((imageUrl, index) => (

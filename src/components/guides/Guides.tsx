@@ -253,7 +253,7 @@ const changePage= ({selected}) => {
   <div className='container'>
      <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-4 text-center">
-            Search for the perfect Guide!
+            Search for the perfect Guide/Healer/Mentor!
           </h2>
    <div className="flex flex-col lg:flex-row sm:flex-row gap-3 max-w-xl mx-auto">
            

@@ -58,7 +58,7 @@ export function Newsletter() {
   };
 
   return (
-        <div className="relative h-[30vh] min-h-[250px] w-full overflow-hidden">
+        <div className="relative h-[35vh] min-h-[255px] w-full overflow-hidden">
 
       <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover">
         <source src={waves} type="video/mp4" />
@@ -72,7 +72,7 @@ export function Newsletter() {
         <div className="max-w-3xl mx-auto text-center flex flex-col justify-center">
           <Modal isOpen={isSignedInModal} onClose={() => setIsSignedInModal(false)}>
             <div className="p-4 mt-20 text-center">
-              <h2 className="text-2xl md:text-2xl text-black sm:text-2xl font-serif font-semibold mb-4">
+              <h2 className="text-2xl md:text-2xl text-black sm:text-lg font-serif font-semibold mb-4">
                 Please sign in to subscribe to our newsletter!
               </h2>
               </div>
@@ -90,7 +90,7 @@ export function Newsletter() {
               </Button>
             </div>
           </Modal>
-          <h2 className="text-2xl md:text-2xl sm:text-2xl font-serif font-semibold mb-4 text-white">
+          <h2 className="text-lg md:text-lg sm:text-lg font-serif font-semibold mb-4 text-white">
             Get inspired for your next retreat
           </h2>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto text-white">

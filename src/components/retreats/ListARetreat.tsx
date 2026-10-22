@@ -49,7 +49,24 @@ function ListARetreat() {
 
 
    const [hostFirstName, setHostFirstName] = useState("")
-   const [hostEmail, setHostEmail] = useState("")
+   const [host2Exists, setHost2Exists] = useState(false)
+   const [aboutHost2, setAboutHost2] = useState("")
+   const [host2ProfilePicUrl, setHost2ProfilePicUrl] = useState("")
+   const [host3Exists, setHost3Exists] = useState(false)
+   const [host2FirstName, setHost2FirstName] = useState("")
+   const [host2LastName, setHost2LastName] = useState("")
+   const [host3FirstName, setHost3FirstName] = useState("")
+   const [host3LastName,setHost3LastName] = useState("")
+   const [aboutHost3, setAboutHost3] = useState("")
+   const [host4Exists, setHost4Exists] = useState(false)
+   const [host4FirstName, setHost4FirstName] = useState("")
+   const [host4LastName, setHost4LastName]  = useState("")
+   const [aboutHost4, setAboutHost4] = useState("")
+   const [chefExists, setChefExists] = useState(false)
+   const [chefFirstName, setChefFirstName] = useState("")
+   const [chefLastName, setChefLastName] = useState("")
+   const [aboutChef, setAboutChef] = useState("")
+   const [hostEmail, setHostEmail]  = useState("")
    const [hostLastName, setHostLastName] = useState("")
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
@@ -288,6 +305,69 @@ function ListARetreat() {
             });
         
           }
+          /**profile host 2 */
+     const profileHost2=()=>{
+        
+        const profilePicRef = ref(storage, `/profileHost2Pic/${retreatKindId}/profile.jpg`);
+        uploadBytes(profilePicRef, imageUpload).then((snapshot)=>{
+          const docRef = doc(db, "retreats", documentId);
+    
+          getDownloadURL(snapshot.ref).then((url)=>{
+            setAvatarUrl(url);
+    
+              updateDoc(docRef, {
+                 host2ProfilePicUrl: avatarUrl,
+                
+                       });
+          }
+          );
+          
+        });
+       }
+    const doesHost2Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setHost2Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setHost2Exists(false)
+  }
+  else{
+    setHost2Exists(false)
+  }
+}
+ const doesHost3Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setHost3Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setHost3Exists(false)
+  }
+  else{
+    setHost3Exists(false)
+  }
+}
+ const doesHost4Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setHost4Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setHost4Exists(false)
+  }
+  else{
+    setHost4Exists(false)
+  }
+}
+const doesChefExist=(e)=>{
+    if(e.target.value=="Yes"){
+    setChefExists(true)
+  }
+  else if(e.target.value =="No"){
+    setChefExists(false)
+  }
+  else{
+    setChefExists(false)
+  }
+}
       const doesRoom1Exist=(e)=>{
     if(e.target.value=="Yes"){
     setRoom1Exists(true)
@@ -408,6 +488,19 @@ const endAtDate=(e)=>{
                                          retreatId: retreatKindId,
                                          hostId:hostId,
                                          hostFirstName:hostFirstName,
+                                         host2FirstName:host2FirstName,
+                                         host2LastName:host2LastName,
+                                         host2Exists:host2Exists,
+                                         aboutHost2:aboutHost2,
+                                         host3Exists:host3Exists,
+                                         aboutHost3:aboutHost3,
+                                         host3FirstName:host3FirstName,
+                                         host3LastName:host3LastName,
+                                         host4FirstName:host4FirstName,
+                                         host4LastName:host4LastName,
+                                         aboutHost4:aboutHost4,
+                                         host4Exists:host4Exists,
+                                         chefExists:chefExists,
                                          hostEmail:hostEmail,
                                          hostLastName:hostLastName,
                                          isDisplayed: true,
@@ -445,6 +538,7 @@ const endAtDate=(e)=>{
                                          includesWifiRoom2:includesWifiRoom2,
                                          includesWifiRoom3:includesWifiRoom3,
                                          includesWifiRoom4:includesWifiRoom4,
+                                         host2ProfilePic:host2ProfilePic,
                                          foodPic:imageListFood[0],
                                          aboutFood:aboutFood,
                                          message1:highlights,
@@ -597,16 +691,147 @@ const endAtDate=(e)=>{
       <form className="bg-white max-w-full min-w-xs shadow-md rounded px-8 pt-6 pb-8  mt-4" >
           <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       First Name of Host
+       First Name of Host1
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text"  value={hostFirstName} onChange={(e)=>setHostFirstName(e.target.value)}/>
     </div>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Last Name of Host
+       Last Name of Host1
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text"  value={hostLastName} onChange={(e)=>setHostLastName(e.target.value)}/>
     </div>
+      <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Is there any other host?</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Another Host? Host 2</label>&nbsp; &nbsp;
+  <select onChange={doesHost2Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+  {host2Exists &&
+  <div>
+   <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       First Name of Host2
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="First Name of Host 2" onChange={(e)=>setHost2FirstName(e.target.value)}/>
+    </div>
+     <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Last Name of Host2
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Last Name of Host 2" onChange={(e)=>setHost2LastName(e.target.value)}/>
+    </div>
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       About Host2
+      </label>
+        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="Highlights of Retreat" onChange={(e)=>setAboutHost2(e.target.value)}></textarea>
+
+    </div>
+     <div>
+              <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+              <br/><br/>
+              <Button onClick={profileHost2} className='bg-lime-700  w-60 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Profile Picture</Button>
+              </div>
+    </div>
+  
+    
+  }
+     <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Is there any other host?</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Another Host? Host 3</label>&nbsp; &nbsp;
+  <select onChange={doesHost3Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+  {host3Exists &&
+  <div>
+   <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       First Name of Host3
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="First Name of Host 2" onChange={(e)=>setHost3FirstName(e.target.value)}/>
+    </div>
+     <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Last Name of Host3
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="First Name of Host 2" onChange={(e)=>setHost3LastName(e.target.value)}/>
+    </div>
+      <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       About Host3
+      </label>
+        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="Highlights of Retreat" onChange={(e)=>setAboutHost3(e.target.value)}></textarea>
+
+    </div>
+  </div>
+  }
+  <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Is there any other host?</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Another Host? Host 4</label>&nbsp; &nbsp;
+  <select onChange={doesHost4Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+ {host4Exists &&
+  <div>
+   <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       First Name of Host4
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="First Name of Host 2" onChange={(e)=>setHost4FirstName(e.target.value)}/>
+    </div>
+     <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Last Name of Host4
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="First Name of Host 2" onChange={(e)=>setHost4LastName(e.target.value)}/>
+    </div>
+      <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       About Host4
+      </label>
+        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="Highlights of Retreat" onChange={(e)=>setAboutHost4(e.target.value)}></textarea>
+
+    </div>
+  </div>
+  }
+   <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Is there a chef?</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add a Chef</label>&nbsp; &nbsp;
+  <select onChange={doesChefExist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+  {chefExists &&
+  <div>
+   <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       First Name of Chef
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="First Name of Host 2" onChange={(e)=>setChefFirstName(e.target.value)}/>
+    </div>
+     <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Last Name of Chef
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="First Name of Host 2" onChange={(e)=>setChefLastName(e.target.value)}/>
+    </div>
+      <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       About Chef
+      </label>
+        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="Chef" onChange={(e)=>setAboutChef(e.target.value)}></textarea>
+
+    </div>
+  </div>
+  }
         <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Name of Retreat
@@ -723,9 +948,9 @@ const endAtDate=(e)=>{
           </div>
    <div className="m-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-        Type of Retreat
+        More about Retreat Type
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Type of Retreat" onChange={(e)=>setRetreatType(e.target.value)}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="More about Retreat Type" onChange={(e)=>setRetreatType(e.target.value)}/>
     </div>
      <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
@@ -1002,7 +1227,7 @@ const endAtDate=(e)=>{
     </div>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Total Price of Retreat Cheapest Package
+       Total Price of Retreat Cheapest Package, please do not post $ or pound sign (only accepts numbers)
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing}/>
    
@@ -1138,7 +1363,7 @@ const endAtDate=(e)=>{
            })}
            <div className="m-4">
       <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
-       Price per night for Room 1
+       Price per night for Room 1 or package 1, please do not post $ or pound sign (only accepts numbers)
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing1}/>
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
@@ -1150,7 +1375,7 @@ const endAtDate=(e)=>{
              
       </select>
             <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
-                 Total Price of Retreat if customer chooses Room 1</label>
+                 Total Price of Retreat if customer chooses Room 1, please do not post $ or pound sign <strong>(only accepts numbers)</strong></label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" onChange={priceTotalRoom1}/>
     </div>
     <div className='m-4'>

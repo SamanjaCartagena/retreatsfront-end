@@ -93,8 +93,8 @@ const submitAI =() => {
                 </Button>
                 
                 <Button  className="bg-transparent text-white w-60 justify-center border-white border-2 border-radius
-                  hover:bg-white hover:text-lime-700  font-medium text-base px-8 py-6" onClick={jobs}>
-                 Jobs
+                  hover:bg-white hover:text-lime-700  font-medium text-base px-8 py-6" >
+                 Mentors
                 </Button>
                
               </div>
