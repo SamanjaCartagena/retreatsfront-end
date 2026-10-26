@@ -197,9 +197,12 @@ onAuthStateChanged(auth, async (user) => {
     console.log('User authstate is signed in with UID:', user.uid);
     if (userId === user.uid) {
     setOnlyUser(true);
-       
 
-    } else {
+    } 
+    else if(user.uid=="YWdPgFJPDHNzTlqZbhqupE4D9j62"){
+      setOnlyUser(true)
+    }
+    else {
       setOnlyUser(false);
     }
     console.log(allRetreats)

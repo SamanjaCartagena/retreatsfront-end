@@ -39,7 +39,11 @@ function ListARetreat() {
    /***Schedule */
    const [aboutFood, setAboutFood] = useState("")
   
-
+  const [pricePerNightRoom1, setPricePerNightRoom1] = useState(false)
+  const [pricePerNightRoom2, setPricePerNightRoom2] = useState(false)
+  const [pricePerNightRoom3, setPricePerNightRoom3] = useState(false)
+  const [pricePerNightRoom4, setPricePerNightRoom4] = useState(false)
+  const [pricePerNightRoom5, setPricePerNightRoom5] = useState(false)
 
 
 
@@ -71,37 +75,52 @@ function ListARetreat() {
    const [imageUpload, setImageUpload] = useState(null);
    const [avatarUrl, setAvatarUrl] = useState("");
    const [imageList, setImageList] = useState([]);
+   const [imageListChef, setImageListChef] = useState([])
    const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
    /**Add Rooms */
       const [accommodation1, setAccommodation1] = useState("")
       const [accommodation2, setAccommodation2] = useState("")
       const [accommodation3, setAccommodation3] = useState("")
       const [accommodation4, setAccommodation4] = useState("")
+      const [accommodation5, setAccommodation5] = useState("")
       const [priceRoom1, setPriceRoom1] = useState(0.0)
       const [priceRoom2, setPriceRoom2] = useState(0.0)
       const [priceRoom3, setPriceRoom3] = useState(0.0)
       const [priceRoom4, setPriceRoom4] = useState(0.0)
+      const [priceRoom5, setPriceRoom5] = useState(0.0)
       const [imageListRoom1, setImageListRoom1] = useState([])
       const [imageListRoom2, setImageListRoom2] = useState([])
       const [imageListRoom3, setImageListRoom3] = useState([])
       const [imageListRoom4, setImageListRoom4] = useState([])
+      const [imageListRoom5, setImageListRoom5] = useState([])
+      /**Hosts Images */
+      const [imageListHost2, setImageListHost2] = useState([])
+      const [imageListHost3, setImageListHost3] = useState([])
+      const [imageListHost4, setImageListHost4] = useState([])
+    
+
+
       const [welcomeMessage, setWelcomeMessage] = useState("")
       const [totalPriceRoom1, setTotalPriceRoom1] = useState(0.0)
       const [totalPriceRoom2, setTotalPriceRoom2]= useState(0.0)
       const [totalPriceRoom3, setTotalPriceRoom3] = useState(0.0)
       const [totalPriceRoom4, setTotalPriceRoom4] = useState(0.0)
+      const [totalPriceRoom5, setTotalPriceRoom5] = useState(0.0)
       const [room1Exists, setRoom1Exists] =useState(false)
       const [room2Exists, setRoom2Exists] = useState(false)
       const [room3Exists, setRoom3Exists] = useState(false)
       const [room4Exists, setRoom4Exists] = useState(false)
+      const [room5Exists, setRoom5Exists] = useState(false)
    const [includesRoom1Breakfast, setIncludesRoom1Breakfast] = useState("")
    const [includesRoom2Breakfast, setIncludesRoom2Breakfast] = useState("")
    const [includesRoom3Breakfast, setIncludesRoom3Breakfast] = useState("")
    const [includesRoom4Breakfast, setIncludesRoom4Breakfast] = useState("")
+   const [includesRoom5Breakfast, setIncludesRoom5Breakfast] = useState("")
    const [includesWifiRoom1, setIncludesWifiRoom1] = useState("")
    const [includesWifiRoom2, setIncludesWifiRoom2] = useState("")
    const [includesWifiRoom3, setIncludesWifiRoom3] = useState("")
    const [includesWifiRoom4, setIncludesWifiRoom4] = useState("")
+   const [includesWifiRoom5, setIncludesWifiRoom5] = useState("")
       const [nameOfCity, setNameOfCity] = useState("")
       const [imageListCity, setImageListCity] = useState([]);
       const [imageListFood, setImageListFood] = useState([])
@@ -118,16 +137,46 @@ function ListARetreat() {
    const navigate= useNavigate()
    
 
+       const imageListRef = ref(storage, `/retreatimages/${retreatKindId}/`);
 
     const imageListRef1 = ref(storage, `/retreatimages/room1/${retreatKindId}/`);
         const imageListRef2 = ref(storage, `/retreatimages/room2/${retreatKindId}/`);
         const imageListRef3 = ref(storage, `/retreatimages/room3/${retreatKindId}/`);
-        const imageListRef4 = ref(storage, `/retreatimages/room3/${retreatKindId}/`)
+        const imageListRef4 = ref(storage, `/retreatimages/room3/${retreatKindId}/`);
+        const imageListRefChef = ref(storage,`/retreatimages/chef/${retreatKindId}/` )
+        
      const deleteImageCity=(url)=>{
         event.preventDefault()
         const imageRef2 = ref(storage, url);
         deleteObject(imageRef2).then(() => {
           setImageListCity((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+     const deleteImageHost2=(url)=>{
+        event.preventDefault()
+        const imageRef2 = ref(storage, url);
+        deleteObject(imageRef2).then(() => {
+          setImageListHost2((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+       const deleteImageHost3=(url)=>{
+        event.preventDefault()
+        const imageRef2 = ref(storage, url);
+        deleteObject(imageRef2).then(() => {
+          setImageListHost3((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+       const deleteImageHost4=(url)=>{
+        event.preventDefault()
+        const imageRef2 = ref(storage, url);
+        deleteObject(imageRef2).then(() => {
+          setImageListHost4((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
         }).catch((error) => {
           console.error("Error deleting image: ", error);
         });
@@ -189,6 +238,25 @@ function ListARetreat() {
         }).catch((error) => {
           console.error("Error deleting image: ", error);
         });
+     } 
+     const deleteImageRoom5=(url)=>{
+              event.preventDefault()
+
+      const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListRoom5((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+       const deleteImageChef=(url)=>{
+        event.preventDefault()
+        const imageRef2 = ref(storage, url);
+        deleteObject(imageRef2).then(() => {
+          setImageListChef((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
      }
           const uploadCityImage=(e)=>{
         e.preventDefault();
@@ -203,7 +271,70 @@ function ListARetreat() {
          }
          );
        });
-       console.log("imageList", imageList);
+   
+     }  
+    }
+       const uploadChefImage=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       if(imageUpload == null){ return;}
+       else{
+       
+       const imageCityRef = ref(storage, `/retreatimages/chef/${retreatKindId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageCityRef, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageListChef((prev)=>[...prev, url]);
+         }
+         );
+       });
+   
+     }  
+    }
+     const uploadHost2Image=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       if(imageUpload == null){ return;}
+       else{
+       
+       const imageHost2Ref = ref(storage, `/retreatimages/host2/${retreatKindId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageHost2Ref, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageListHost2((prev)=>[...prev, url]);
+         }
+         );
+       });
+   
+     }  
+    }
+      const uploadHost3Image=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       if(imageUpload == null){ return;}
+       else{
+       
+       const imageHost2Ref = ref(storage, `/retreatimages/host3/${retreatKindId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageHost2Ref, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageListHost3((prev)=>[...prev, url]);
+         }
+         );
+       });
+   
+     }  
+    }
+    const uploadHost4Image=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       if(imageUpload == null){ return;}
+       else{
+       
+       const imageHost2Ref = ref(storage, `/retreatimages/host4/${retreatKindId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageHost2Ref, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageListHost4((prev)=>[...prev, url]);
+         }
+         );
+       });
    
      }  
     }
@@ -221,7 +352,6 @@ function ListARetreat() {
          }
          );
        });
-       console.log("imageList", imageList);
    
       }
        const uploadFoodImage=(e)=>{
@@ -296,8 +426,8 @@ function ListARetreat() {
             if(imageUpload == null) return;
             
             
-            const imageRef3 = ref(storage, `/retreatimages/room4/${retreatKindId}/${imageUpload.name+v4()}`);
-            uploadBytes(imageRef3, imageUpload).then((snapshot)=>{
+            const imageRef4 = ref(storage, `/retreatimages/room4/${retreatKindId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef4, imageUpload).then((snapshot)=>{
               getDownloadURL(snapshot.ref).then((url)=>{
                 setImageListRoom4((prev)=>[...prev, url]);
               }
@@ -305,25 +435,24 @@ function ListARetreat() {
             });
         
           }
-          /**profile host 2 */
-     const profileHost2=()=>{
+          const uploadImageRoom5=(e)=>{
+             e.preventDefault();
+            // Create a root reference
+            console.log("Upload Image");
+            if(imageUpload == null) return;
+            
+            
+            const imageRef5 = ref(storage, `/retreatimages/room5/${retreatKindId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef5, imageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                setImageListRoom5((prev)=>[...prev, url]);
+              }
+              );
+            });
         
-        const profilePicRef = ref(storage, `/profileHost2Pic/${retreatKindId}/profile.jpg`);
-        uploadBytes(profilePicRef, imageUpload).then((snapshot)=>{
-          const docRef = doc(db, "retreats", documentId);
-    
-          getDownloadURL(snapshot.ref).then((url)=>{
-            setAvatarUrl(url);
-    
-              updateDoc(docRef, {
-                 host2ProfilePicUrl: avatarUrl,
-                
-                       });
           }
-          );
-          
-        });
-       }
+          /**profile host 2 */
+   
     const doesHost2Exist=(e)=>{
     if(e.target.value=="Yes"){
     setHost2Exists(true)
@@ -379,6 +508,61 @@ const doesChefExist=(e)=>{
     setRoom1Exists(false)
   }
 }
+const doesPricePerNightExist=(e) =>{
+  if(e.target.value=="Yes"){
+    setPricePerNightRoom1(true)
+  }
+  else if(e.target.value =="No"){
+    setPricePerNightRoom1(false)
+  }
+  else{
+    setPricePerNightRoom1(false)
+  }
+}
+const doesPricePerNightRoom2Exist=(e) =>{
+  if(e.target.value=="Yes"){
+    setPricePerNightRoom2(true)
+  }
+  else if(e.target.value =="No"){
+    setPricePerNightRoom2(false)
+  }
+  else{
+    setPricePerNightRoom2(false)
+  }
+}
+  const doesPricePerNightRoom3Exist=(e) =>{
+  if(e.target.value=="Yes"){
+    setPricePerNightRoom3(true)
+  }
+  else if(e.target.value =="No"){
+    setPricePerNightRoom3(false)
+  }
+  else{
+    setPricePerNightRoom3(false)
+  }
+}
+const doesPricePerNightRoom4Exist=(e) =>{
+  if(e.target.value=="Yes"){
+    setPricePerNightRoom4(true)
+  }
+  else if(e.target.value =="No"){
+    setPricePerNightRoom4(false)
+  }
+  else{
+    setPricePerNightRoom4(false)
+  }
+}
+const doesPricePerNightRoom5Exist=(e) =>{
+  if(e.target.value=="Yes"){
+    setPricePerNightRoom5(true)
+  }
+  else if(e.target.value =="No"){
+    setPricePerNightRoom5(false)
+  }
+  else{
+    setPricePerNightRoom5(false)
+  }
+}
     const doesRoom2Exist=(e)=>{
     if(e.target.value=="Yes"){
     setRoom2Exists(true)
@@ -412,6 +596,17 @@ const doesRoom4Exist=(e)=>{
     setRoom4Exists(false)
   }
 }
+const doesRoom5Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setRoom5Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setRoom5Exists(false)
+  }
+  else{
+    setRoom5Exists(false)
+  }
+}
    const pricing =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
     setPrice(doubleValueFloat)
@@ -438,6 +633,11 @@ const doesRoom4Exist=(e)=>{
     setPriceRoom4(doubleValueFloat)
 
    }
+    const pricing5 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom5(doubleValueFloat)
+
+   }
    const priceTotalRoom1=(event) =>{
      const doubleValueFloat = parseFloat(event.target.value);
     setTotalPriceRoom1(doubleValueFloat)
@@ -453,6 +653,10 @@ const doesRoom4Exist=(e)=>{
    const priceTotalRoom4=(event) =>{
     const doubleValueFloat = parseFloat(event.target.value);
     setTotalPriceRoom4(doubleValueFloat)
+   }
+    const priceTotalRoom5=(event) =>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setTotalPriceRoom5(doubleValueFloat)
    }
      const startAtDate=(e)=>{
     const timestamp = Timestamp.fromDate(new Date(e));
@@ -501,6 +705,9 @@ const endAtDate=(e)=>{
                                          aboutHost4:aboutHost4,
                                          host4Exists:host4Exists,
                                          chefExists:chefExists,
+                                         chefFirstName:chefFirstName,
+                                         chefLastName:chefLastName,
+                                         aboutChef:aboutChef,
                                          hostEmail:hostEmail,
                                          hostLastName:hostLastName,
                                          isDisplayed: true,
@@ -518,27 +725,37 @@ const endAtDate=(e)=>{
                                          accommodation2:accommodation2,
                                          accommodation3:accommodation3,
                                          accommodation4:accommodation4,
+                                         accommodation5:accommodation5,
                                          priceRoom1:priceRoom1,
                                          priceRoom2:priceRoom2,
                                          priceRoom3:priceRoom3,
                                          priceRoom4:priceRoom4,
+                                         priceRoom5:priceRoom5,
                                          room1Exists:room1Exists,
                                          room2Exists:room2Exists,
                                          room3Exists:room3Exists,
                                          room4Exists:room4Exists,
+                                         room5Exists:room5Exists,
                                          totalPriceRoom1: totalPriceRoom1,
                                          totalPriceRoom2: totalPriceRoom2,
                                          totalPriceRoom3:totalPriceRoom3,
                                          totalPriceRoom4:totalPriceRoom4,
+                                         totalPriceRoom5:totalPriceRoom5,
                                          includesRoom1Breakfast:includesRoom1Breakfast,
                                          includesRoom2Breakfast:includesRoom2Breakfast,
                                          includesRoom3Breakfast:includesRoom3Breakfast,
                                          includesRoom4Breakfast:includesRoom4Breakfast,
+                                         includesRoom5Breakfast:includesRoom5Breakfast,
                                          includesWifiRoom1:includesWifiRoom1,
                                          includesWifiRoom2:includesWifiRoom2,
                                          includesWifiRoom3:includesWifiRoom3,
                                          includesWifiRoom4:includesWifiRoom4,
-                                         host2ProfilePic:host2ProfilePic,
+                                         includesWifiRoom5:includesWifiRoom5,
+                                         pricePerNightRoom1:pricePerNightRoom1,
+                                         pricePerNightRoom2:pricePerNightRoom2,
+                                         pricePerNightRoom3:pricePerNightRoom3,
+                                         pricePerNightRoom4:pricePerNightRoom4,
+                                         pricePerNightRoom5:pricePerNightRoom5,
                                          foodPic:imageListFood[0],
                                          aboutFood:aboutFood,
                                          message1:highlights,
@@ -593,10 +810,18 @@ const endAtDate=(e)=>{
          console.log("Host first name is "+doc.data().hostFirstName)
                })
               }
-                  listAll(imageListRef1).then((res)=>{
+              listAll(imageListRef).then((res)=>{
                     res.items.forEach((item)=>{
                       getDownloadURL(item).then((url)=>{
                         setImageList((prev)=>[...prev, url]);
+              
+                      });
+                    });
+                  });
+                  listAll(imageListRef1).then((res)=>{
+                    res.items.forEach((item)=>{
+                      getDownloadURL(item).then((url)=>{
+                        setImageListRoom1((prev)=>[...prev, url]);
               
                       });
                     });
@@ -604,7 +829,7 @@ const endAtDate=(e)=>{
                 listAll(imageListRef2).then((res)=>{
                     res.items.forEach((item)=>{
                       getDownloadURL(item).then((url)=>{
-                        setImageList((prev)=>[...prev, url]);
+                        setImageListRoom2((prev)=>[...prev, url]);
               
                       });
                     });
@@ -612,7 +837,7 @@ const endAtDate=(e)=>{
                   listAll(imageListRef3).then((res)=>{
                     res.items.forEach((item)=>{
                       getDownloadURL(item).then((url)=>{
-                        setImageList((prev)=>[...prev, url]);
+                        setImageListRoom3((prev)=>[...prev, url]);
               
                       });
                     });
@@ -620,7 +845,7 @@ const endAtDate=(e)=>{
                      listAll(imageListRef4).then((res)=>{
                     res.items.forEach((item)=>{
                       getDownloadURL(item).then((url)=>{
-                        setImageList((prev)=>[...prev, url]);
+                        setImageListRoom4((prev)=>[...prev, url]);
               
                       });
                     });
@@ -710,7 +935,7 @@ const endAtDate=(e)=>{
   </select>
   </div>
   {host2Exists &&
-  <div>
+  <div className='border-2 p-4'>
    <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        First Name of Host2
@@ -727,13 +952,24 @@ const endAtDate=(e)=>{
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        About Host2
       </label>
-        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="Highlights of Retreat" onChange={(e)=>setAboutHost2(e.target.value)}></textarea>
+        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="About Host 2" onChange={(e)=>setAboutHost2(e.target.value)}></textarea>
 
     </div>
      <div>
-              <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      <label>Upload at least one pic of your host (required)</label>
+              <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+                    <Button onClick={uploadHost2Image} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2'>Upload Host Image</Button>
+
               <br/><br/>
-              <Button onClick={profileHost2} className='bg-lime-700  w-60 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Profile Picture</Button>
+                {imageListHost2.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageHost2(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
               </div>
     </div>
   
@@ -748,7 +984,7 @@ const endAtDate=(e)=>{
   </select>
   </div>
   {host3Exists &&
-  <div>
+  <div className='border-2 p-4'>
    <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        First Name of Host3
@@ -768,6 +1004,23 @@ const endAtDate=(e)=>{
         <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="Highlights of Retreat" onChange={(e)=>setAboutHost3(e.target.value)}></textarea>
 
     </div>
+    <div>
+            <label>Upload at least one pic of your host (required)</label>
+
+              <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+                    <Button onClick={uploadHost3Image} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2'>Upload Host Image</Button>
+
+              <br/><br/>
+                {imageListHost3.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageHost3(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
+              </div>
   </div>
   }
   <div className='m-4 border-2'>
@@ -779,7 +1032,7 @@ const endAtDate=(e)=>{
   </select>
   </div>
  {host4Exists &&
-  <div>
+  <div className='border-2 p-4'>
    <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        First Name of Host4
@@ -797,8 +1050,25 @@ const endAtDate=(e)=>{
        About Host4
       </label>
         <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="Highlights of Retreat" onChange={(e)=>setAboutHost4(e.target.value)}></textarea>
-
+          
     </div>
+     <div>
+            <label>Upload at least one pic of your host (required)</label>
+
+              <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+                    <Button onClick={uploadHost4Image} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2'>Upload Host Image</Button>
+
+              <br/><br/>
+                {imageListHost4.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageHost4(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
+              </div>
   </div>
   }
    <div className='m-4 border-2'>
@@ -810,7 +1080,7 @@ const endAtDate=(e)=>{
   </select>
   </div>
   {chefExists &&
-  <div>
+  <div className='border-2 p-4'>
    <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        First Name of Chef
@@ -830,6 +1100,23 @@ const endAtDate=(e)=>{
         <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="Chef" onChange={(e)=>setAboutChef(e.target.value)}></textarea>
 
     </div>
+     <div>
+            <label>Upload at least one pic of your host (required)</label>
+
+              <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+                    <Button onClick={uploadChefImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2'>Upload Host Image</Button>
+
+              <br/><br/>
+                {imageListChef.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageChef(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
+              </div>
   </div>
   }
         <div className="mb-4">
@@ -1229,7 +1516,7 @@ const endAtDate=(e)=>{
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Total Price of Retreat Cheapest Package, please do not post $ or pound sign (only accepts numbers)
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={pricing}/>
    
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
        Currency
@@ -1362,10 +1649,25 @@ const endAtDate=(e)=>{
             
            })}
            <div className="m-4">
+            <div>
+                    <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+                      Do you charge per night? Do you have price per night?
+       </label>
+       <select onChange={doesPricePerNightExist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  {pricePerNightRoom1 &&
+  <div>
       <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
        Price per night for Room 1 or package 1, please do not post $ or pound sign (only accepts numbers)
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing1}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={pricing1}/>
+        </div>
+        }
+
+      
+      </div>
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
        Currency
       </label>
@@ -1376,7 +1678,7 @@ const endAtDate=(e)=>{
       </select>
             <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
                  Total Price of Retreat if customer chooses Room 1, please do not post $ or pound sign <strong>(only accepts numbers)</strong></label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" onChange={priceTotalRoom1}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder='0.0' onChange={priceTotalRoom1}/>
     </div>
     <div className='m-4'>
     Breakfast Included
@@ -1435,11 +1737,24 @@ const endAtDate=(e)=>{
             </div>
             
            })}
-                 <div className="mb-4">
+                <div>
+                    <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+                      Do you charge per night? Do you have price per night?
+       </label>
+       <select onChange={doesPricePerNightRoom2Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+          {pricePerNightRoom2 &&
+          <div className="mb-4">
+
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Price per night for Room 2
+              Price per night for Room 2 or package 2, please do not post $ or pound sign (only accepts numbers)
+
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing2}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={pricing2}/>
+     </div>
+}
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
        Currency
       </label>
@@ -1450,7 +1765,7 @@ const endAtDate=(e)=>{
       </select>
               <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
           Total Price of Retreat if customer chooses Room 2</label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={priceTotalRoom2}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={priceTotalRoom2}/>
     </div>
     <div className='m-4'>
     Breakfast Included
@@ -1509,11 +1824,27 @@ const endAtDate=(e)=>{
             </div>
             
            })}
-                         <div className="mb-4">
+          <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+                      Do you charge per night? Do you have price per night?
+       </label>
+       <select onChange={doesPricePerNightRoom3Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+    </select>
+
+                
+
+                  {pricePerNightRoom3 &&
+                         <div >
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Price per night for Room 3
+             Price per night for Room 3 or package 3, please do not post $ or pound sign (only accepts numbers)
+
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing3}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={pricing3}/>
+
+      </div>
+}
+  
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
        Currency
       </label>
@@ -1524,9 +1855,9 @@ const endAtDate=(e)=>{
       </select>
        <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
           Total Price of Retreat if customer chooses Room 3</label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={priceTotalRoom3}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={priceTotalRoom3}/>
       
-    </div>
+    
       <div className='m-4'>
     Breakfast Included
     <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesRoom3Breakfast(e.target.value)} value={includesRoom3Breakfast}>
@@ -1548,6 +1879,7 @@ const endAtDate=(e)=>{
           </select>
 
 
+  
     </div>
     </div>
 }
@@ -1577,18 +1909,30 @@ const endAtDate=(e)=>{
       </div>
       {imageListRoom4.map((url)=>{
             return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
-                            <Button onClick={()=> deleteImageRoom3(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+                            <Button onClick={()=> deleteImageRoom4(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
       
       
       
             </div>
             
            })}
+             <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+                      Do you charge per night? Do you have price per night?
+       </label>
+       <select onChange={doesPricePerNightRoom4Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+    </select>
                          <div className="mb-4">
+      {pricePerNightRoom4 &&
+      <div>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Price per night for Room 4
+              Price per night for Room 4 or package 4, please do not post $ or pound sign (only accepts numbers)
+
       </label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing4}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={pricing4}/>
+      </div>
+}
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
        Currency
       </label>
@@ -1599,7 +1943,7 @@ const endAtDate=(e)=>{
       </select>
        <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
           Total Price of Retreat if customer chooses Room 3</label>
-      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={priceTotalRoom4}/>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={priceTotalRoom4}/>
       
     </div>
       <div className='m-4'>
@@ -1616,6 +1960,93 @@ const endAtDate=(e)=>{
       <div className='m-4'>
     Wifi Included
     <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesWifiRoom4(e.target.value)} value={includesWifiRoom4}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+
+
+    </div>
+    </div>
+}
+<div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Room 5</label>&nbsp; &nbsp;
+  <select onChange={doesRoom5Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+  {room5Exists &&
+      <div className='border-2 rounded border-solid border-lime-700 p-4'>
+
+            <div className='mb-4'>
+      <label>
+       About Room 5
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation5(e.target.value)}></textarea>
+  </div>
+           <div className="mb-4">
+  
+  <label for="profile-pic">Upload pics of Room 4</label><br/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      
+        <Button onClick={uploadImageRoom5} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+      </div>
+      {imageListRoom5.map((url)=>{
+            return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                            <Button onClick={()=> deleteImageRoom5(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+      
+      
+      
+            </div>
+            
+           })}
+             <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+                      Do you charge per night? Do you have price per night?
+       </label>
+       <select onChange={doesPricePerNightRoom5Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+    </select>
+                         <div className="mb-4">
+      {pricePerNightRoom5 &&
+      <div>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+              Price per night for Room 4 or package 4, please do not post $ or pound sign (only accepts numbers)
+
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={pricing5}/>
+      </div>
+}
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="">Select Currency</option>
+        <option value="USD">USD</option>
+             
+      </select>
+       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+          Total Price of Retreat if customer chooses Room 3</label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={priceTotalRoom5}/>
+      
+    </div>
+      <div className='m-4'>
+    Breakfast Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesRoom5Breakfast(e.target.value)} value={includesRoom5Breakfast}>
+            <option value="">Select Value
+            </option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+
+
+    </div>
+      <div className='m-4'>
+    Wifi Included
+    <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setIncludesWifiRoom5(e.target.value)} value={includesWifiRoom5}>
             <option value="">Select Value
             </option>
             <option value="No">No</option>
@@ -1693,10 +2124,11 @@ const endAtDate=(e)=>{
         List your center
       </Button>
       </form>
-      </div>
+     </div>
     </div>
    
   )
+
 }
 
 export default ListARetreat

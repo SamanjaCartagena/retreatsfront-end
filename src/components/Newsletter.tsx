@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serverTimestamp } from "firebase/firestore";
 import { db, auth,storage} from "../firebase.js";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-import waves from '../assets/waves.mp4'
 import Modal from "./Modal.js";
 
 import { useState, useEffect } from "react";
@@ -16,6 +15,7 @@ export function Newsletter() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [alreadySubscribed, setAlreadySubscribed] = useState(false);
     const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/download.gif?alt=media&token=535e9111-7cfb-492b-af8b-e128b41472e5"
+  const vid="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/background.mp4?alt=media&token=1f280b84-75d0-43cd-8c29-884fce13f8b6"
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -61,12 +61,12 @@ export function Newsletter() {
         <div className="relative h-[35vh] min-h-[255px] w-full overflow-hidden">
 
       <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover">
-        <source src={waves} type="video/mp4" />
+        <source src={vid} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div 
         className="absolute inset-0 bg-cover bg-center" 
-        style={{ backgroundImage: `url(${waves})` }}
+        style={{ backgroundImage: `url(${vid})` }}
       >
       <div className="container py-12 mx-auto flex flex-col items-center justify-center">
         <div className="max-w-3xl mx-auto text-center flex flex-col justify-center">

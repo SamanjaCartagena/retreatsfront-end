@@ -52,9 +52,8 @@ const Contact = () => {
     <div className="container mx-auto p-6 border rounded-lg shadow-md bg-white text-black m-4">
       <h1 className="text-2xl font-bold mb-4">Contact Me For Consultation</h1>
       <p>Hi My name is Samanja. I am the founder of Retreats Around The World! A company dedicated to providing unique retreat experiences and transformative event management around the globe.</p>
-      <p>For consultations, please feel free to reach out to me directly at samanja.cartagena@gmail.com or call me at (347) 856-8559.</p>
-        <p>For business inquiries, please contact me at:
-</p>
+      <p>For consultations and business inquiries fill out the form:</p>
+    
 <form className="contact-form grid grid-cols-1 gap-4 "  method="POST" onSubmit={handleSubmit} ref={form}>
     <input type="text" placeholder="Name" value={formData.user_name} onChange={handleInputChange} className="border rounded-lg p-2 mt-4" name="user_name" required />
     <input type="email" placeholder="Email" value={formData.user_email} onChange={handleInputChange} className="border rounded-lg p-2 m-2" name="user_email" required />

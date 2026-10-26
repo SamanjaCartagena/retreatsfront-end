@@ -4,8 +4,9 @@ import {useState} from 'react';
 import Modal from "./Modal";
 import logo from '../assets/logoretreat.png'
 import { useNavigate } from "react-router-dom";
-import waves from '../assets/waves.mp4'
+import poster from '../assets/poster.png'
 import retreats from '../assets/retreats.png'
+
 import './Hero.css'
 export function Hero() {
   const [isAIOpen, setIsAIOpen]= useState(false);
@@ -13,7 +14,7 @@ export function Hero() {
   const [isHomeOpen, setIsHomeOpen]= useState(false);
   const [isShopOpen, setIsShopOpen]= useState(false);
   const navigate=useNavigate()
-
+  const vid="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/background.mp4?alt=media&token=1f280b84-75d0-43cd-8c29-884fce13f8b6"
   const jobs =() => {
     navigate('jobs')
     
@@ -34,6 +35,9 @@ export function Hero() {
  }
  const shop =()=>{
   setIsShopOpen(true);
+ }
+ const mentor =() =>{
+  navigate('/mentor')
  }
 const submitAI =() => {
   // Handle AI submission logic here
@@ -65,13 +69,13 @@ const submitAI =() => {
           </div>
         </Modal> 
 
-      <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover" poster="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/poster.png?alt=media&token=cdfaab19-72ce-4859-96a4-583bef3935ec">
-        <source src={waves} type="video/mp4" />
+      <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover" poster={poster}>
+        <source src={vid} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div 
         className="absolute inset-0 bg-cover bg-center shadow-md shadow-white/4" 
-        style={{ backgroundImage: `url(${waves})` }}
+        style={{ backgroundImage: `url(${vid})` }}
       >
       
         <div className="absolute inset-0 hero-gradient flex flex-col justify-center">
@@ -93,7 +97,7 @@ const submitAI =() => {
                 </Button>
                 
                 <Button  className="bg-transparent text-white w-60 justify-center border-white border-2 border-radius
-                  hover:bg-white hover:text-lime-700  font-medium text-base px-8 py-6" >
+                  hover:bg-white hover:text-lime-700  font-medium text-base px-8 py-6" onClick={mentor}>
                  Mentors
                 </Button>
                

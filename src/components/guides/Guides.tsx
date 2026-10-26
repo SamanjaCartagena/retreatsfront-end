@@ -207,7 +207,7 @@ export default function Guides() {
             <Star size={16} fill="currentColor" className="text-retreat-forest" />
           </div>
         </div>
-        <p className="text-md mb-2">{guide.guideSpecialty}</p>
+        <p className="text-md mb-2">{guide.guideSpecialty}.slice(0,290)</p>
 
                                       <span className="text-md">{guide.guideCity}, {guide.guideLocation}</span>
 

@@ -29,6 +29,15 @@ function RetreatCenterDetails() {
     const [openList1, setOpenList1] = useState(false)
     const [openList2, setOpenList2] = useState(false)
     const [openList3, setOpenList3] = useState(false)
+    const [openList4, setOpenList4] = useState(false)
+    const [openList5, setOpenList5] = useState(false)
+    const [centerRoom1Exists, setCenterRoom1Exists] = useState(false)
+    const [centerRoom2Exists, setCenterRoom2Exists] = useState(false)
+    const [centerRoom3Exists, setCenterRoom3Exists] = useState(false)
+    const [centerRoom4Exists, setCenterRoom4Exists] = useState(false)
+    const [centerRoom5Exists, setCenterRoom5Exists] = useState(false)
+
+    const [groupRateRoom, setGroupRateRoom] = useState("")
     const [imageUrl, setImageUrl] = useState('')
    {/**Host information */}
     const [hostId, setHostId] = useState('')
@@ -39,9 +48,14 @@ function RetreatCenterDetails() {
     const [photoIndex1, setPhotoIndex1] = useState(0)
     const [hostIsUser, setHostIsUser] = useState(false)
    { /***Rooms available */} 
+   {/***Room 1 */}
         const [imageListRoom1, setImageListRoom1] = useState([])
         const [accommodation1,setAccommodation1] = useState("")
-        const [priceRoom1, setPriceRoom1] = useState(0.0)
+                const [priceRoom1, setPriceRoom1] = useState(0.0)
+
+
+
+
         const [imageListRoom2, setImageListRoom2] = useState([])
         const [accommodation2,setAccommodation2] = useState("")
         const [priceRoom2, setPriceRoom2] = useState(0.0)
@@ -51,7 +65,19 @@ function RetreatCenterDetails() {
         const [priceRoom3, setPriceRoom3] = useState(0.0)
         const [imageIndex, setImageIndex] = useState(0)
         
-    
+    {/**Room 4 */}
+    const [imageListRoom4, setImageListRoom4] = useState([])
+    const [accommodation4, setAccommodation4] = useState("")
+    const [priceRoom4, setPriceRoom4] = useState(0.0)
+
+  {/**Room 5 */}
+  const [imageListRoom5, setImageListRoom5] = useState([])
+  const [accommodation5, setAccommodation5] = useState("")
+  const [priceRoom5, setPriceRoom5] = useState(0.0)
+
+
+
+
         const form = useRef();
         const auth=getAuth()
     const [centerId, setCenterId] = useState('');
@@ -156,10 +182,19 @@ const passImageUrl3=(i)=>{
                 setPriceRoom1(doc.data().priceRoom1)
                 setAccommodation2(doc.data().accommodation2)
                 setPriceRoom2(doc.data().priceRoom2)
+                setPriceRoom4(doc.data().priceRoom4)
                 setAccommodation3(doc.data().accommodation3)
+                setAccommodation4(doc.data().accommodation4)
+                setAccommodation5(doc.data().accommodation5)
                 setPriceRoom3(doc.data().priceRoom3)
+                setPriceRoom5(doc.data().priceRoom5)
                 setFacilities(doc.data().facilities)
-                
+                setGroupRateRoom(doc.data().groupRateRoom)
+                setCenterRoom1Exists(doc.data().centerRoom1Exists)
+                setCenterRoom2Exists(doc.data().centerRoom2Exists)
+                setCenterRoom3Exists(doc.data().centerRoom3Exists)
+                setCenterRoom4Exists(doc.data().centerRoom4Exists)
+                setCenterRoom5Exists(doc.data().centerRoom5Exists)
               })
 
             })
@@ -205,6 +240,25 @@ const passImageUrl3=(i)=>{
                                           });
                                         });
                                       });
+                 const imageListRefRoom4 = ref(storage, `/centerImages/room4/${centerId}/`);
+                  listAll(imageListRefRoom4).then((res)=>{
+                                        res.items.forEach((item)=>{
+                                          getDownloadURL(item).then((url)=>{
+                                            setImageListRoom4((prev)=>[...prev, url]);
+                                            
+                                          });
+                                        });
+                                      });
+                const imageListRefRoom5 = ref(storage, `/centerImages/room4/${centerId}/`);
+                  listAll(imageListRefRoom5).then((res)=>{
+                                        res.items.forEach((item)=>{
+                                          getDownloadURL(item).then((url)=>{
+                                            setImageListRoom5((prev)=>[...prev, url]);
+                                            
+                                          });
+                                        });
+                                      });
+
 
 }, [id, centerId])
     
@@ -293,7 +347,11 @@ const passImageUrl3=(i)=>{
                           <h1 className='text-lg h-auto'>{facilites}</h1>
 
                       </div>
-                      
+                      <div className='border-2 rounded w-full m-4'>   
+                          <h1 className='text-lg h-auto font-semibold'>Group Rate</h1>
+                          <h1 className='text-lg h-auto'>{groupRateRoom}</h1>
+
+                      </div>
             <div className='border-2 rounded w-full'>
             <h1 className='text-lg font-bold mb-4'>How do you get there?</h1>
                                     <h1 className='text-lg m-2'><strong>Nearest Airport:</strong> {airport}</h1>                            
@@ -302,6 +360,9 @@ const passImageUrl3=(i)=>{
 
                                     </div>
             </div>
+
+            {centerRoom1Exists &&
+            <div>
                                 <h1 className='text-lg h-auto font-semibold'>Room 1</h1>
                                   <h1 className='text-lg h-auto'>{accommodation1}</h1>
                                   <h1 className='text-lg h-auto'>Price: ${priceRoom1}</h1>
@@ -322,7 +383,9 @@ const passImageUrl3=(i)=>{
                   </ImageModal>
 
                     </div>
+                    </div>}
             <br/>
+            {centerRoom2Exists &&
          <div>
                    <h1 className='text-lg h-auto font-semibold'>Room 2</h1>
                                   <h1 className='text-lg h-auto'>{accommodation2}</h1>
@@ -346,6 +409,8 @@ const passImageUrl3=(i)=>{
         
 
                   </div>
+}
+{centerRoom3Exists &&
 
              <div>
                    <h1 className='text-lg h-auto font-semibold'>Room 3</h1>
@@ -367,7 +432,52 @@ const passImageUrl3=(i)=>{
                   </div>
                   </ImageModal>
                   </div>
+}
             <br/>
+            {centerRoom4Exists &&
+                 <div>
+                   <h1 className='text-lg h-auto font-semibold'>Room 4</h1>
+                                  <h1 className='text-lg h-auto'>{accommodation4}</h1>
+                                  <h1 className='text-lg h-auto'>Price: ${priceRoom4}/night</h1>
+                              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+
+  {imageListRoom4.length > 0 &&  imageListRoom4.slice(0, 3).map((imageUrl, index) => (
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl3(index)}/>
+      
+    
+))}
+          </div>
+            <ImageModal isOpen={openList4} >
+                <div className="w-90% h-full justify-center items-center bg-transparent">
+                     <ImageSlider slides={imageListRoom4} index={photoIndex} closeSlider={()=>setOpenList4(false)} />
+
+
+                  </div>
+                  </ImageModal>
+                  </div>
+}
+               {centerRoom5Exists &&
+                  <div>
+                   <h1 className='text-lg h-auto font-semibold'>Room 5</h1>
+                                  <h1 className='text-lg h-auto'>{accommodation5}</h1>
+                                  <h1 className='text-lg h-auto'>Price: ${priceRoom5}/night</h1>
+                              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+
+  {imageListRoom5.length > 0 &&  imageListRoom5.slice(0, 3).map((imageUrl, index) => (
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl3(index)}/>
+      
+    
+))}
+          </div>
+            <ImageModal isOpen={openList5} >
+                <div className="w-90% h-full justify-center items-center bg-transparent">
+                     <ImageSlider slides={imageListRoom5} index={photoIndex} closeSlider={()=>setOpenList5(false)} />
+
+
+                  </div>
+                  </ImageModal>
+                  </div>
+}
             <div>
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
           

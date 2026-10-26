@@ -29,6 +29,7 @@ import AdminPage from "@/components/admin/AdminPage"
 import ListARetreatCenter from "./components/centers/ListARetreatCenter";
 import Hosts from "./components/hosts/Hosts";
 import Events from "./components/events/Events";
+import Mentor  from "./components/mentors/Mentor";
 
 const queryClient = new QueryClient();
 const App = () => (
@@ -82,6 +83,7 @@ const App = () => (
           <Route path="/ecotourism" element={<EcoTourism/>}/>
           <Route path='/jobs' element={<Jobs/>}/>
           <Route path='/events' element={<Events/>}/>
+          <Route path='/mentor' element={<Mentor/>}/>
           
             
           

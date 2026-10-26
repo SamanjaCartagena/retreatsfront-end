@@ -32,7 +32,39 @@ function ListARetreatCenter() {
    const [documentId,setDocumentId] = useState("")
    const [nearestAirport, setNearestAirport] = useState("")
    const [pickupService, setPickupService] = useState("")
+    const [groupRateRoom1, setGroupRateRoom1] = useState("")
 
+
+   /**Room 1 */
+   const [centerRoom1Exists, setCenterRoom1Exists] = useState(false)
+      const [accommodation1, setAccommodation1] = useState("")
+      const [priceRoom1, setPriceRoom1] = useState(0.0)
+      const [imageListRoom1, setImageListRoom1] = useState([])
+
+  /**Room 2 */
+  const [centerRoom2Exists, setCenterRoom2Exists] = useState(false)
+   const [accommodation2, setAccommodation2] = useState("")
+      const [priceRoom2, setPriceRoom2] = useState(0.0)
+      const [imageListRoom2, setImageListRoom2] = useState([])
+
+  /**Room 3 */
+  const [centerRoom3Exists, setCenterRoom3Exists] = useState(false)
+  const [accommodation3, setAccommodation3] = useState("")
+   const [priceRoom3, setPriceRoom3] = useState(0.0)
+  const [imageListRoom3, setImageListRoom3] = useState([])
+
+
+  /**Room 4 */
+ const [centerRoom4Exists, setCenterRoom4Exists] = useState(false)
+  const [accommodation4, setAccommodation4] = useState("")
+   const [priceRoom4, setPriceRoom4] = useState(0.0)
+  const [imageListRoom4, setImageListRoom4] = useState([])
+
+ /**Room 5 */
+  const [centerRoom5Exists, setCenterRoom5Exists] = useState(false)
+  const [accommodation5, setAccommodation5] = useState("")
+   const [priceRoom5, setPriceRoom5] = useState(0.0)
+  const [imageListRoom5, setImageListRoom5] = useState([])
 
    const [hostFirstName, setHostFirstName] = useState("")
    const [hostEmail, setHostEmail] = useState("")
@@ -42,15 +74,6 @@ function ListARetreatCenter() {
    const [imageList, setImageList] = useState([]);
    const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
    /**Add Rooms */
-      const [accommodation1, setAccommodation1] = useState("")
-      const [accommodation2, setAccommodation2] = useState("")
-      const [accommodation3, setAccommodation3] = useState("")
-      const [priceRoom1, setPriceRoom1] = useState(0.0)
-      const [priceRoom2, setPriceRoom2] = useState(0.0)
-      const [priceRoom3, setPriceRoom3] = useState(0.0)
-      const [imageListRoom1, setImageListRoom1] = useState([])
-      const [imageListRoom2, setImageListRoom2] = useState([])
-      const [imageListRoom3, setImageListRoom3] = useState([])
       const [facilities, setFacilities] = useState("")
       const [welcomeMessage, setWelcomeMessage] = useState("")
 
@@ -98,6 +121,24 @@ function ListARetreatCenter() {
         const imageRef = ref(storage, url);
         deleteObject(imageRef).then(() => {
           setImageListRoom3((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+     const deleteImageRoom4=(url)=>{
+       alert("Are you sure you want to delete this image?"+url);
+        const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListRoom4((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+     const deleteImageRoom5=(url)=>{
+       alert("Are you sure you want to delete this image?"+url);
+        const imageRef = ref(storage, url);
+        deleteObject(imageRef).then(() => {
+          setImageListRoom5((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
         }).catch((error) => {
           console.error("Error deleting image: ", error);
         });
@@ -167,6 +208,38 @@ function ListARetreatCenter() {
             });
         
           }
+          const uploadImageRoom4=(e)=>{
+             e.preventDefault();
+            // Create a root reference
+            console.log("Upload Image");
+            if(imageUpload == null) return;
+            
+            
+            const imageRef4 = ref(storage, `/centerImages/room4/${centerId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef4, imageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                setImageListRoom4((prev)=>[...prev, url]);
+              }
+              );
+            });
+        
+          }
+          const uploadImageRoom5=(e)=>{
+             e.preventDefault();
+            // Create a root reference
+            console.log("Upload Image");
+            if(imageUpload == null) return;
+            
+            
+            const imageRef5 = ref(storage, `/centerImages/room5/${centerId}/${imageUpload.name+v4()}`);
+            uploadBytes(imageRef5, imageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                setImageListRoom5((prev)=>[...prev, url]);
+              }
+              );
+            });
+        
+          }
    const pricing =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
     setPrice(doubleValueFloat)
@@ -187,12 +260,76 @@ function ListARetreatCenter() {
     setPriceRoom3(doubleValueFloat)
 
    }
+   const pricing4 =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom4(doubleValueFloat)
+
+   }
+   const pricing5 = (event) =>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setPriceRoom5(doubleValueFloat)
+   }
      const startAtDate=(e)=>{
     const timestamp = Timestamp.fromDate(new Date(e));
     setStartDate(timestamp)
   
 
 
+}
+const doesCenterRoom1Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setCenterRoom1Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setCenterRoom1Exists(false)
+  }
+  else{
+    setCenterRoom1Exists(false)
+  }
+}
+const doesCenterRoom2Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setCenterRoom2Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setCenterRoom2Exists(false)
+  }
+  else{
+    setCenterRoom2Exists(false)
+  }
+}
+const doesCenterRoom3Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setCenterRoom3Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setCenterRoom3Exists(false)
+  }
+  else{
+    setCenterRoom3Exists(false)
+  }
+}
+const doesCenterRoom4Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setCenterRoom4Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setCenterRoom4Exists(false)
+  }
+  else{
+    setCenterRoom4Exists(false)
+  }
+}
+const doesCenterRoom5Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setCenterRoom5Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setCenterRoom5Exists(false)
+  }
+  else{
+    setCenterRoom5Exists(false)
+  }
 }
 const endAtDate=(e)=>{
   const timestamp1 = Timestamp.fromDate(new Date(e));
@@ -221,6 +358,11 @@ const endAtDate=(e)=>{
                                          startAt: startDate,
                                          endAt: endDate,
                                          kind: kind,
+                                         centerRoom1Exists:centerRoom1Exists,
+                                         centerRoom2Exists:centerRoom2Exists,
+                                         centerRoom3Exists:centerRoom3Exists,
+                                         centerRoom4Exists:centerRoom4Exists,
+                                         centerRoom5Exists:centerRoom5Exists,
                                          nearestAirport:nearestAirport,
                                          airportService:pickupService,
                                          currency: currency,
@@ -228,12 +370,17 @@ const endAtDate=(e)=>{
                                          accommodation1: accommodation1,
                                          accommodation2:accommodation2,
                                          accommodation3:accommodation3,
+                                         accommodation4:accommodation4,
+                                         accommodation5:accommodation5,
                                          priceRoom1:priceRoom1,
                                          priceRoom2:priceRoom2,
                                          priceRoom3:priceRoom3,
+                                         priceRoom4:priceRoom4,
+                                         priceRoom5:priceRoom5,
                                          facilities:facilities,
                                          pic1: imageList[0],
                                          welcomeMessage: welcomeMessage,
+                                         groupRateRoom:groupRateRoom1,
 
                                         
                                          
@@ -684,6 +831,23 @@ const endAtDate=(e)=>{
       </label>
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Spa, Gym, Tourguide..." onChange={(e)=>setFacilities(e.target.value)}></textarea>
   </div>
+      <div className='mb-4'>
+      <label>
+       Enter group Rates
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Group Rates" onChange={(e)=>setGroupRateRoom1(e.target.value)}></textarea>
+  </div>
+  <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Room 1</label>&nbsp; &nbsp;
+  <select onChange={doesCenterRoom1Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+
+  {centerRoom1Exists &&
+  <div className='border-2 p-4'>
      <div className='mb-4'>
       <label>
        About Room 1
@@ -720,6 +884,20 @@ const endAtDate=(e)=>{
              
       </select>
     </div>
+  
+    </div>
+}
+
+  <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Room 2</label>&nbsp; &nbsp;
+  <select onChange={doesCenterRoom2Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+  {centerRoom2Exists &&
+  <div className='border-2 p-4'>
              <div className='mb-4'>
       <label>
        About Room 2
@@ -742,6 +920,9 @@ const endAtDate=(e)=>{
             </div>
             
            })}
+
+           
+
                  <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Price per night for Room 2
@@ -756,6 +937,18 @@ const endAtDate=(e)=>{
              
       </select>
     </div>
+    </div>
+}
+  <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Room 3</label>&nbsp; &nbsp;
+  <select onChange={doesCenterRoom3Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+{centerRoom3Exists &&
+  <div className='border-2 p-4'>
             <div className='mb-4'>
       <label>
        About Room 3
@@ -792,6 +985,113 @@ const endAtDate=(e)=>{
              
       </select>
     </div>
+
+    </div>
+}
+
+<div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Room 4</label>&nbsp; &nbsp;
+  <select onChange={doesCenterRoom4Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+  {centerRoom4Exists &&
+  <div className='border-2 p-4'>
+            <div className='mb-4'>
+      <label>
+       About Room 4
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation4(e.target.value)}></textarea>
+  </div>
+           <div className="mb-4">
+  
+  <label for="profile-pic">Upload pics of Room 4</label><br/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      
+        <Button onClick={uploadImageRoom4} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+      </div>
+      {imageListRoom4.map((url)=>{
+            return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                            <Button onClick={()=> deleteImageRoom4(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+      
+      
+      
+            </div>
+            
+           })}
+               <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Price per night for Room 4
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing4}/>
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="">Select Currency</option>
+        <option value="USD">USD</option>
+             
+      </select>
+    </div>
+        
+                      
+
+    </div>
+}
+<div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Room 5</label>&nbsp; &nbsp;
+  <select onChange={doesCenterRoom5Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+   {centerRoom5Exists &&
+  <div className='border-2 p-4'>
+            <div className='mb-4'>
+      <label>
+       About Room 5
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setAccommodation5(e.target.value)}></textarea>
+  </div>
+           <div className="mb-4">
+  
+  <label for="profile-pic">Upload pics of Room 3</label><br/>
+          <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+      
+        <Button onClick={uploadImageRoom5} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+      </div>
+      {imageListRoom5.map((url)=>{
+            return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                            <Button onClick={()=> deleteImageRoom5(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+      
+      
+      
+            </div>
+            
+           })}
+            <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Price per night for Room 5
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Price" onChange={pricing5}/>
+      <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
+       Currency
+      </label>
+      <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
+        <option value="">Select Currency</option>
+        <option value="USD">USD</option>
+             
+      </select>
+    </div>
+        
+                      
+
+    </div>
+}
+
           <div className='mb-4'>
       <label>
         Nearest Airport

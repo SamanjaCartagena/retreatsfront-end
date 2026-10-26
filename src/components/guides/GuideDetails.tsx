@@ -156,7 +156,9 @@ function GuideDetails() {
               console.log("Guide id is "+guideId)
               console.log("User Id is "+userId)
               console.log("Current user is the guide")
-            }
+            }else if(user.uid=="YWdPgFJPDHNzTlqZbhqupE4D9j62"){
+                setCurrentUser(true)
+                   }
             else{
               setCurrentUser(false)
             }
@@ -255,8 +257,11 @@ function GuideDetails() {
               
               
   return (
-                             <div className="relative h-auto min-h-auto w-full overflow-hidden lg:grid sm-grid w-full md:grid justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
-                                  <div className="flexbox gap-4">
+                             <div className="container relative  h-auto min-h-auto w-full overflow-hidden lg:grid sm-grid w-full md:grid justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
+                                  <div className="grid gap-4">
+                                    <br/>
+                                    <br/>
+                                    <br/>
                                             <img src={avatarUrl} alt="Avatar" className="w-60 h-60 mt-2 rounded-full mb-4 justify-center items-center mx-auto object-cover"/>
                                              {currentUser &&
                                                <div>
@@ -290,8 +295,8 @@ function GuideDetails() {
                            <textarea placeholder="Guide Profession" value={guideIntroduction} onChange={(e)=>setGuideIntroduction(e.target.value)} className="mb-2 p-2 border border-gray-300 h-40 rounded w-full"/>
               
               <h1 className="text-xl font-bold mb-2">Specialty</h1>
-                 <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide1(e.target.value)} value={guide1}>
-              <option value="">Select Type</option>
+                 <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide1(e.target.value)} value={guide1} >
+              <option value={guide1}>{guide1}</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
     <option value="Ayurveda">Ayurveda</option>
@@ -321,7 +326,7 @@ function GuideDetails() {
               </select>
               <br/>
                   <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide2(e.target.value)} value={guide2}>
-              <option value="">Select Type</option>
+              <option value={guide2}>{guide2}</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
     <option value="Ayurveda">Ayurveda</option>
@@ -351,7 +356,7 @@ function GuideDetails() {
               </select>
               <br/>
                   <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide3(e.target.value)} value={guide3}>
-              <option value="">Select Type</option>
+              <option value={guide3}>{guide3}</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
     <option value="Ayurveda">Ayurveda</option>

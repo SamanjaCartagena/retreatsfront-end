@@ -18,23 +18,24 @@ export function FeaturedCenters() {
           View all
         </a>
       </div>
-      <div className="w-full flex grid-cols-1 sm:grid-cols-1 lg:grid-cols-6 justify-center ">
+      <div className="w-full sm:grid-cols-1 lg:flex justify-center ">
         {featuredCenters.map((destination, index) => (
-          <Card key={index} className="rounded-xl m-2 overflow-hidden border-none shadow-sm hover:shadow-md transition-all cursor-pointer" onClick={()=>window.open(destination.url, "_blank")}>
+          <div>
+          <Card key={index} className="rounded-xl m-2 overflow-hidden border-none shadow-sm hover:shadow-md transition-all cursor-pointer" >
             <div className="relative h-60">
-              <img
-                src={destination.image}
-                alt={destination.name}
-                className="w-70 h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/30 flex items-end">
-                <CardContent className="p-4 text-white">
-                  <h3 className="font-serif text-xl font-medium mb-1">{destination.name}</h3>
-                  <p className="text-sm text-white/80">{destination.count} retreats</p>
-                </CardContent>
-              </div>
+              <h2>{destination.name}</h2>
+              <video src={destination.image} controls width="350" height="450" className="h-md w-full max-w-md mx-auto rounded-lg  mx-auto" autoPlay muted loop>
+                                                 Your browser does not support the video tag.
+                                                     </video>  
+
+            
+             
             </div>
+            
+
           </Card>
+          <a href="" className="underline text-md m-4">Check it out</a>
+          </div>
         ))}
       </div>
             <div className="container justify-center w-full">

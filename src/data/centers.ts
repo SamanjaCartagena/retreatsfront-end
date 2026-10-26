@@ -25,10 +25,8 @@ export interface Centers {
 
 
 export const featuredCenters = [
-  { name: 'Bali', image: 'https://deih43ym53wif.cloudfront.net/tanah-temple-bali-indonesia-shutterstock_507089302.jpg_d874b9cc06.jpg', count: 94, url:"https://retreatsaroundtheworld.net/retreatcenters" },
-  { name: 'Costa Rica', image: 'https://www.amatierra.com/wp-content/uploads/2018/03/amatierra-yoga-retreat-and-wellness-center-costa-rica.jpg', count: 67, url:"https://retreatsaroundtheworld.net/retreatcenters" },
-  { name: 'Andalusia', image: 'https://www.ramahdarom.org/wp-content/uploads/2017/03/campfire-ampitheater.jpg', count: 45, url:"https://retreatsaroundtheworld.net/retreatcenters" },
-  { name: 'Hawaii', image: 'https://www.retreatfinder.com/custom/domain_1/image_files/1660_photo_1047.jpg', count: 38, url:"https://retreatsaroundtheworld.net/retreatcenters" },
-    
-  
+  { name: 'Puerto Rico', image: 'https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/casatortuga.mp4?alt=media&token=f34f5f83-b765-427c-8bd2-6d5e71536273', url:"https://retreatsaroundtheworld.net/retreatcenters" },
+  {name:'Morocco', image:'https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/sahara.mp4?alt=media&token=3b42aede-03a3-4aa5-989a-76ab1ddf7467', url:"https://retreatsaroundtheworld.net/retreatcenters" },
+  {name:'Bali', image:'https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/bali.mp4?alt=media&token=5b0bc0fb-79c4-4576-a4e6-54386ce22a68', url:"https://retreatsaroundtheworld.net/retreatcenters"}
+
 ];
