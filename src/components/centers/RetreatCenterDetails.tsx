@@ -36,6 +36,11 @@ function RetreatCenterDetails() {
     const [centerRoom3Exists, setCenterRoom3Exists] = useState(false)
     const [centerRoom4Exists, setCenterRoom4Exists] = useState(false)
     const [centerRoom5Exists, setCenterRoom5Exists] = useState(false)
+    const [centerNightRoom1, setCenterNightRoom1] = useState(false)
+        const [centerNightRoom2, setCenterNightRoom2] = useState(false)
+        const [centerNightRoom3, setCenterNightRoom3] = useState(false)
+    const [centerNightRoom4, setCenterNightRoom4] = useState(false)
+        const [centerNightRoom5, setCenterNightRoom5] = useState(false)
 
     const [groupRateRoom, setGroupRateRoom] = useState("")
     const [imageUrl, setImageUrl] = useState('')
@@ -195,6 +200,14 @@ const passImageUrl3=(i)=>{
                 setCenterRoom3Exists(doc.data().centerRoom3Exists)
                 setCenterRoom4Exists(doc.data().centerRoom4Exists)
                 setCenterRoom5Exists(doc.data().centerRoom5Exists)
+                setCenterNightRoom1(doc.data().centerNightRoom1)
+                setCenterNightRoom2(doc.data().centerNightRoom2)
+                setCenterNightRoom3(doc.data().centerNightRoom3)
+                setCenterNightRoom4(doc.data().centerNightRoom4)
+                setCenterNightRoom5(doc.data().centerNightRoom5)
+
+              
+
               })
 
             })
@@ -249,7 +262,7 @@ const passImageUrl3=(i)=>{
                                           });
                                         });
                                       });
-                const imageListRefRoom5 = ref(storage, `/centerImages/room4/${centerId}/`);
+                const imageListRefRoom5 = ref(storage, `/centerImages/room5/${centerId}/`);
                   listAll(imageListRefRoom5).then((res)=>{
                                         res.items.forEach((item)=>{
                                           getDownloadURL(item).then((url)=>{
@@ -343,16 +356,16 @@ const passImageUrl3=(i)=>{
 
             <div>
                         <div className='border-2 rounded w-full m-4'>   
-                          <h1 className='text-lg h-auto font-semibold'>Facilities Provided</h1>
-                          <h1 className='text-lg h-auto'>{facilites}</h1>
+                          <h1 className='text-lg h-auto font-semibold p-4'>Facilities Provided</h1>
+                          <h1 className='text-lg h-auto p-4'>{facilites}</h1>
 
                       </div>
-                      <div className='border-2 rounded w-full m-4'>   
+                      <div className='border-2 rounded w-full m-4 p-4'>   
                           <h1 className='text-lg h-auto font-semibold'>Group Rate</h1>
                           <h1 className='text-lg h-auto'>{groupRateRoom}</h1>
 
                       </div>
-            <div className='border-2 rounded w-full'>
+            <div className='border-2 rounded w-full p-4'>
             <h1 className='text-lg font-bold mb-4'>How do you get there?</h1>
                                     <h1 className='text-lg m-2'><strong>Nearest Airport:</strong> {airport}</h1>                            
                                                                         <h1 className='text-lg m-2'><strong>Airport Pickup Service:</strong> {airportPickup}</h1>
@@ -363,34 +376,50 @@ const passImageUrl3=(i)=>{
 
             {centerRoom1Exists &&
             <div>
-                                <h1 className='text-lg h-auto font-semibold'>Room 1</h1>
-                                  <h1 className='text-lg h-auto'>{accommodation1}</h1>
-                                  <h1 className='text-lg h-auto'>Price: ${priceRoom1}</h1>
-                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto">
+                                                     <h1 className='text-lg h-auto font-semibold'>Room 1</h1>
+
+                              <div className='border-2 p-4 flex'>
+
+                   <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
 
             {imageListRoom1.length > 0 &&  imageListRoom1.slice(0,3).map((imageUrl, index) => (
-              <div>
-      <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl1(index)} />
+              
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl1(index)} />
                 
               
               
-                  </div>
+                  
               
           ))}
+          </div>
+          
+                
                 <ImageModal isOpen={openList1}  >
                 <ImageSlider slides={imageListRoom1} index={imageIndex} closeSlider={()=>setOpenList1(false)}/>
 
                   </ImageModal>
+                  <br/>
+                  <div className='w-full grid'>
+                                  <h1 className='text-lg h-auto'>{accommodation1}</h1>
+                                  {centerNightRoom1 &&
+                                  <h1 className='text-lg h-auto'>Price: ${priceRoom1}</h1>
+                                  }
 
+                                  </div>
+               
+
+                    
                     </div>
-                    </div>}
+                </div>          
+                
+          }
             <br/>
             {centerRoom2Exists &&
-         <div>
-                   <h1 className='text-lg h-auto font-semibold'>Room 2</h1>
-                                  <h1 className='text-lg h-auto'>{accommodation2}</h1>
-                                  <h1 className='text-lg h-auto'>Price: ${priceRoom2}/night</h1>
-                              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+            <div>
+                               <h1 className='text-lg h-auto font-semibold'>Room 2</h1>
+
+         <div className='border-2 p-4 flex '>
+                   <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
 
   {imageListRoom2.length > 0 &&  imageListRoom2.slice(0, 3).map((imageUrl, index) => (
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl2(index)}/>
@@ -398,7 +427,7 @@ const passImageUrl3=(i)=>{
     
 ))}
           </div>
-            <ImageModal isOpen={openList2} >
+           <ImageModal isOpen={openList2} >
                 <div className="w-90% h-full justify-center items-center bg-transparent">
                      <ImageSlider slides={imageListRoom2} index={photoIndex} closeSlider={()=>setOpenList2(false)} />
 
@@ -406,17 +435,24 @@ const passImageUrl3=(i)=>{
                   </div>
                   </ImageModal>
             <br/>
+             <div className='grid w-full'>
+                                  <h1 className='text-lg h-auto'>{accommodation2}</h1>
+                                  {centerNightRoom2 &&
+                                  <h1 className='text-lg h-auto'>Price: ${priceRoom2}/night</h1>
+}
+                                  </div>
+                    
+           
         
 
                   </div>
+                  </div>
 }
 {centerRoom3Exists &&
-
-             <div>
-                   <h1 className='text-lg h-auto font-semibold'>Room 3</h1>
-                                  <h1 className='text-lg h-auto'>{accommodation3}</h1>
-                                  <h1 className='text-lg h-auto'>Price: ${priceRoom3}/night</h1>
-                              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+<div>
+                                  <h1 className='text-lg h-auto font-semibold'>Room 3</h1>
+                                  <div className='border-2 p-4 flex'>
+                                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
 
   {imageListRoom3.length > 0 &&  imageListRoom3.slice(0, 3).map((imageUrl, index) => (
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl3(index)}/>
@@ -424,22 +460,32 @@ const passImageUrl3=(i)=>{
     
 ))}
           </div>
-            <ImageModal isOpen={openList3} >
+          <ImageModal isOpen={openList3} >
                 <div className="w-90% h-full justify-center items-center bg-transparent">
                      <ImageSlider slides={imageListRoom3} index={photoIndex} closeSlider={()=>setOpenList3(false)} />
 
 
                   </div>
                   </ImageModal>
+
+             <div className='grid w-full'>
+
+                                  <h1 className='text-lg h-auto'>{accommodation3}</h1>
+                                  {centerNightRoom3 &&
+                                  <h1 className='text-lg h-auto'>Price: ${priceRoom3}/night</h1>
+}
+                          
+            
+                  </div>
+                  </div>
                   </div>
 }
             <br/>
             {centerRoom4Exists &&
                  <div>
                    <h1 className='text-lg h-auto font-semibold'>Room 4</h1>
-                                  <h1 className='text-lg h-auto'>{accommodation4}</h1>
-                                  <h1 className='text-lg h-auto'>Price: ${priceRoom4}/night</h1>
-                              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+                   <div className='border-2 p-4 flex'>
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
 
   {imageListRoom4.length > 0 &&  imageListRoom4.slice(0, 3).map((imageUrl, index) => (
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl3(index)}/>
@@ -447,21 +493,30 @@ const passImageUrl3=(i)=>{
     
 ))}
           </div>
-            <ImageModal isOpen={openList4} >
+             <ImageModal isOpen={openList4} >
                 <div className="w-90% h-full justify-center items-center bg-transparent">
                      <ImageSlider slides={imageListRoom4} index={photoIndex} closeSlider={()=>setOpenList4(false)} />
 
 
                   </div>
                   </ImageModal>
+                  <div className='grid w-full'>
+                                  <h1 className='text-lg h-auto'>{accommodation4}</h1>
+                                  {centerNightRoom4 &&
+                                  <h1 className='text-lg h-auto'>Price: ${priceRoom4}/night</h1>
+                                  
+                      }
+              </div>
+             
+         
+                  </div>
                   </div>
 }
                {centerRoom5Exists &&
                   <div>
                    <h1 className='text-lg h-auto font-semibold'>Room 5</h1>
-                                  <h1 className='text-lg h-auto'>{accommodation5}</h1>
-                                  <h1 className='text-lg h-auto'>Price: ${priceRoom5}/night</h1>
-                              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+                   <div className='border-2 flex p-4'>
+                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
 
   {imageListRoom5.length > 0 &&  imageListRoom5.slice(0, 3).map((imageUrl, index) => (
       <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl3(index)}/>
@@ -469,36 +524,40 @@ const passImageUrl3=(i)=>{
     
 ))}
           </div>
-            <ImageModal isOpen={openList5} >
-                <div className="w-90% h-full justify-center items-center bg-transparent">
-                     <ImageSlider slides={imageListRoom5} index={photoIndex} closeSlider={()=>setOpenList5(false)} />
-
-
-                  </div>
-                  </ImageModal>
-                  </div>
-}
-            <div>
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
-          
-            {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
-              <div>
-                <img className="w-60 cursor-pointer md:w-50 lg:w-full items-center  h-70" src={imageUrl} key={index} onClick={()=>passImageUrl(index)} alt="Retreats Around The World" />
-                
-              
-              
-                  </div>
-              
-          ))}
-                <ImageModal isOpen={openSomething} >
+           <ImageModal isOpen={openSomething} >
                         <ImageSlider slides={imageList} index={photoIndex} closeSlider={()=>setOpenSomething(false)}/>
 
 
                   </ImageModal>
-
-                    </div>
-
+                              <div className='w-full grid'>
+                                  <h1 className='text-lg h-auto'>{accommodation5}</h1>
+                                  {centerNightRoom5 &&
+                                  <h1 className='text-lg h-auto'>Price: ${priceRoom5}/night</h1>
+}
+</div>
+                            
+            </div>
                   </div>
+}
+            
+             
+               <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
+  
+  {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
+             
+       <img className="w-60  md:w-50 h-70 lg:w-80 sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
+      
+))}
+ <ImageModal isOpen={openList}  >
+                <ImageSlider slides={imageList} index={photoIndex} closeSlider={()=>setOpenList(false)}/>
+
+                  </ImageModal>
+ 
+</div>
+
+                    
+
+                  
             </div>
             </center>
             

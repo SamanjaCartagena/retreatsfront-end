@@ -3,9 +3,7 @@ import { Button } from "@/components/ui/button";
 import pic from '../../assets/bozeman.jpg';
 import { useNavigate } from "react-router-dom"; 
 import Modal from '../Modal';
-import chef1 from '../../assets/nic.jpg';
 import chef2 from '../../assets/vegan.jpg';
-import chef3 from '../../assets/ayurveda.jpg';
 import yoga1 from '../../assets/yoga.jpg';
 import yoga2 from '../../assets/yoga1.jpg';
 import yoga3 from '../../assets/yoga2.jpg';
@@ -45,6 +43,8 @@ function GuideSignUp() {
     const [guideType, setGuideType] = useState('')
     const [confirmPassword, setConfirmPassword]= useState('');
     const [userName, setUserName]= useState('');
+    const chef1="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/nic.jpg?alt=media&token=aa4d4c4e-501c-44b6-aa56-e59f914ed85e"
+    const chef3="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/ayurveda.jpg?alt=media&token=0648e3ae-f8a9-4300-b4ed-ee1d05f36fd6"
     const auth = getAuth();
     useEffect(()=>{
       window.scrollTo(0,0)

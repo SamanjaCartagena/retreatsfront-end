@@ -6,6 +6,7 @@ import logo from '../assets/logoretreat.png'
 import { useNavigate } from "react-router-dom";
 import poster from '../assets/poster.png'
 import retreats from '../assets/retreats.png'
+import vid from '../assets/waves.mp4'
 
 import './Hero.css'
 export function Hero() {
@@ -14,7 +15,6 @@ export function Hero() {
   const [isHomeOpen, setIsHomeOpen]= useState(false);
   const [isShopOpen, setIsShopOpen]= useState(false);
   const navigate=useNavigate()
-  const vid="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/background.mp4?alt=media&token=1f280b84-75d0-43cd-8c29-884fce13f8b6"
   const jobs =() => {
     navigate('jobs')
     

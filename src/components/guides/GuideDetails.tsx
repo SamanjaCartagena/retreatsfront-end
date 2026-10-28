@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Card } from '../ui/card.js';
 import ImageModal from '../ImageModal.js';
 
+
 function GuideDetails() {
     const params = useParams()
     const userId= params.id
@@ -134,12 +135,13 @@ function GuideDetails() {
               setGuideSpecialty(doc.data().guideSpecialty)
               setGuideIntroduction(doc.data().guideIntroduction);
               setGuidePhone(doc.data().guidePhone);
+              
             });
           
         }
         loadData();
           
-        
+              console.log("Guide Specialty "+guideSpecialty)
             
               console.log("User Id"+userId)
               console.log("Guide Id"+guideId)
@@ -295,8 +297,8 @@ function GuideDetails() {
                            <textarea placeholder="Guide Profession" value={guideIntroduction} onChange={(e)=>setGuideIntroduction(e.target.value)} className="mb-2 p-2 border border-gray-300 h-40 rounded w-full"/>
               
               <h1 className="text-xl font-bold mb-2">Specialty</h1>
-                 <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide1(e.target.value)} value={guide1} >
-              <option value={guide1}>{guide1}</option>
+                 <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide1(e.target.value)} value={guideSpecialty[0]} >
+              <option value={guideSpecialty[0]}>{guideSpecialty[0]}</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
     <option value="Ayurveda">Ayurveda</option>
@@ -325,8 +327,8 @@ function GuideDetails() {
 
               </select>
               <br/>
-                  <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide2(e.target.value)} value={guide2}>
-              <option value={guide2}>{guide2}</option>
+                  <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide2(e.target.value)} >
+              <option value={guideSpecialty[1]}>{guideSpecialty[1]}</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
     <option value="Ayurveda">Ayurveda</option>
@@ -355,8 +357,8 @@ function GuideDetails() {
 
               </select>
               <br/>
-                  <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide3(e.target.value)} value={guide3}>
-              <option value={guide3}>{guide3}</option>
+                  <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide3(e.target.value)} value={guideSpecialty[2]}>
+              <option value={guideSpecialty[2]}>{guideSpecialty[2]}</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
     <option value="Ayurveda">Ayurveda</option>
@@ -385,7 +387,9 @@ function GuideDetails() {
 
               </select><br/>
               
-                                         <textarea placeholder="Types of Retreats" value={guideType} onChange={(e)=>setGuideType(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full"/>
+                                         <textarea placeholder="Types of Retreats"  onChange={(e)=>setGuideType(e.target.value)} className="mb-2 p-2 border border-gray-300 rounded w-full">
+                                          {guideSpecialty[3]}
+                                          </textarea>
 
              <br/>
              <button onClick={saveChanges} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Save Changes</button>

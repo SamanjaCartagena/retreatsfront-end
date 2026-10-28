@@ -40,18 +40,21 @@ function ListARetreatCenter() {
       const [accommodation1, setAccommodation1] = useState("")
       const [priceRoom1, setPriceRoom1] = useState(0.0)
       const [imageListRoom1, setImageListRoom1] = useState([])
+      const [centerNightRoom1,setCenterNightRoom1] = useState(false)
 
   /**Room 2 */
   const [centerRoom2Exists, setCenterRoom2Exists] = useState(false)
    const [accommodation2, setAccommodation2] = useState("")
       const [priceRoom2, setPriceRoom2] = useState(0.0)
       const [imageListRoom2, setImageListRoom2] = useState([])
+      const [centerNightRoom2, setCenterNightRoom2] = useState(false)
 
   /**Room 3 */
   const [centerRoom3Exists, setCenterRoom3Exists] = useState(false)
   const [accommodation3, setAccommodation3] = useState("")
    const [priceRoom3, setPriceRoom3] = useState(0.0)
   const [imageListRoom3, setImageListRoom3] = useState([])
+  const [centerNightRoom3, setCenterNightRoom3] = useState(false)
 
 
   /**Room 4 */
@@ -59,12 +62,16 @@ function ListARetreatCenter() {
   const [accommodation4, setAccommodation4] = useState("")
    const [priceRoom4, setPriceRoom4] = useState(0.0)
   const [imageListRoom4, setImageListRoom4] = useState([])
+  const [centerNightRoom4, setCenterNightRoom4] = useState(false)
 
  /**Room 5 */
   const [centerRoom5Exists, setCenterRoom5Exists] = useState(false)
   const [accommodation5, setAccommodation5] = useState("")
    const [priceRoom5, setPriceRoom5] = useState(0.0)
   const [imageListRoom5, setImageListRoom5] = useState([])
+  const [centerNightRoom5, setCenterNightRoom5] = useState(false)
+
+
 
    const [hostFirstName, setHostFirstName] = useState("")
    const [hostEmail, setHostEmail] = useState("")
@@ -74,8 +81,8 @@ function ListARetreatCenter() {
    const [imageList, setImageList] = useState([]);
    const [selectedMonth, setSelectedMonth] = useState(dayjs().format('MM/DD/YYYY'));
    /**Add Rooms */
-      const [facilities, setFacilities] = useState("")
-      const [welcomeMessage, setWelcomeMessage] = useState("")
+  const [facilities, setFacilities] = useState("")
+  const [welcomeMessage, setWelcomeMessage] = useState("")
 
    const [notIncluded, setNotIncluded] = useState("")
    const [centerId, setCenterId] = useState(Math.floor(Math.random() * 1000000));
@@ -90,7 +97,6 @@ function ListARetreatCenter() {
         const imageListRef3 = ref(storage, `/centerImages/room3/${centerId}/`);
 
     const deleteImage=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
         deleteObject(imageRef).then(() => {
           setImageList((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -99,7 +105,6 @@ function ListARetreatCenter() {
         });
      }
       const deleteImageRoom1=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
         deleteObject(imageRef).then(() => {
           setImageListRoom1((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -108,7 +113,6 @@ function ListARetreatCenter() {
         });
      }
      const deleteImageRoom2=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
         deleteObject(imageRef).then(() => {
           setImageListRoom2((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -117,7 +121,6 @@ function ListARetreatCenter() {
         });
      }
      const deleteImageRoom3=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
         deleteObject(imageRef).then(() => {
           setImageListRoom3((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -126,7 +129,6 @@ function ListARetreatCenter() {
         });
      }
      const deleteImageRoom4=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
         deleteObject(imageRef).then(() => {
           setImageListRoom4((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -135,7 +137,6 @@ function ListARetreatCenter() {
         });
      }
      const deleteImageRoom5=(url)=>{
-       alert("Are you sure you want to delete this image?"+url);
         const imageRef = ref(storage, url);
         deleteObject(imageRef).then(() => {
           setImageListRoom5((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
@@ -320,6 +321,62 @@ const doesCenterRoom4Exist=(e)=>{
     setCenterRoom4Exists(false)
   }
 }
+const doesCenterPerNightExist=(e) =>{
+  if(e.target.value=="Yes"){
+    setCenterNightRoom1(true)
+  }
+  else if(e.target.value =="No"){
+    setCenterNightRoom1(false)
+  }
+  else{
+    setCenterNightRoom1(false)
+  }
+}
+const doesCenterPerNightExist2=(e) =>{
+  if(e.target.value=="Yes"){
+    setCenterNightRoom2(true)
+  }
+  else if(e.target.value =="No"){
+    setCenterNightRoom2(false)
+  }
+  else{
+    setCenterNightRoom2(false)
+  }
+}
+const doesCenterPerNightExist3=(e) =>{
+  if(e.target.value=="Yes"){
+    setCenterNightRoom3(true)
+  }
+  else if(e.target.value =="No"){
+    setCenterNightRoom3(false)
+  }
+  else{
+    setCenterNightRoom3(false)
+  }
+}
+const doesCenterPerNightExist4=(e) =>{
+  if(e.target.value=="Yes"){
+    setCenterNightRoom4(true)
+  }
+  else if(e.target.value =="No"){
+    setCenterNightRoom4(false)
+  }
+  else{
+    setCenterNightRoom4(false)
+  }
+}
+const doesCenterPerNightExist5=(e) =>{
+  if(e.target.value=="Yes"){
+    setCenterNightRoom5(true)
+  }
+  else if(e.target.value =="No"){
+    setCenterNightRoom5(false)
+  }
+  else{
+    setCenterNightRoom5(false)
+  }
+}
+
 const doesCenterRoom5Exist=(e)=>{
     if(e.target.value=="Yes"){
     setCenterRoom5Exists(true)
@@ -358,6 +415,11 @@ const endAtDate=(e)=>{
                                          startAt: startDate,
                                          endAt: endDate,
                                          kind: kind,
+                                         centerNightRoom1:centerNightRoom1,
+                                         centerNightRoom2:centerNightRoom2,
+                                         centerNightRoom3: centerNightRoom3,
+                                         centerNightRoom4:centerNightRoom4,
+                                         centerNightRoom5:centerNightRoom5,
                                          centerRoom1Exists:centerRoom1Exists,
                                          centerRoom2Exists:centerRoom2Exists,
                                          centerRoom3Exists:centerRoom3Exists,
@@ -871,6 +933,15 @@ const endAtDate=(e)=>{
             
            })}
            <div className="mb-4">
+            <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+                      Do you charge per night? Do you have price per night?
+       </label>
+       <select onChange={doesCenterPerNightExist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  {centerNightRoom1 &&
+  <div>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Price per night for Room 1
       </label>
@@ -878,11 +949,14 @@ const endAtDate=(e)=>{
       <label className="block text-gray-700 text-sm font-bold mb-2 mt-4" >
        Currency
       </label>
+
       <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setCurrency(e.target.value)} value={currency}> 
         <option value="">Select Currency</option>
         <option value="USD">USD</option>
              
       </select>
+      </div>
+}
     </div>
   
     </div>
@@ -924,6 +998,15 @@ const endAtDate=(e)=>{
            
 
                  <div className="mb-4">
+                  <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+                      Do you charge per night? Do you have price per night?
+       </label>
+       <select onChange={doesCenterPerNightExist2}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  {centerNightRoom2 && 
+  <div>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Price per night for Room 2
       </label>
@@ -936,6 +1019,8 @@ const endAtDate=(e)=>{
         <option value="USD">USD</option>
              
       </select>
+      </div>
+}
     </div>
     </div>
 }
@@ -972,6 +1057,15 @@ const endAtDate=(e)=>{
             
            })}
                          <div className="mb-4">
+                          <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+                      Do you charge per night? Do you have price per night?
+       </label>
+       <select onChange={doesCenterPerNightExist3}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  {centerNightRoom3 &&
+  <div>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Price per night for Room 3
       </label>
@@ -984,6 +1078,9 @@ const endAtDate=(e)=>{
         <option value="USD">USD</option>
              
       </select>
+      </div>
+
+  }
     </div>
 
     </div>
@@ -1022,6 +1119,15 @@ const endAtDate=(e)=>{
             
            })}
                <div className="mb-4">
+                   <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+                      Do you charge per night? Do you have price per night?
+       </label>
+       <select onChange={doesCenterPerNightExist4}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  {centerNightRoom4 &&
+  <div>
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Price per night for Room 4
       </label>
@@ -1034,6 +1140,8 @@ const endAtDate=(e)=>{
         <option value="USD">USD</option>
              
       </select>
+      </div>
+}
     </div>
         
                       
@@ -1072,6 +1180,15 @@ const endAtDate=(e)=>{
             </div>
             
            })}
+           <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
+                      Do you charge per night? Do you have price per night?
+       </label>
+       <select onChange={doesCenterPerNightExist5}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  {centerNightRoom5 &&
+  
             <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Price per night for Room 5
@@ -1085,11 +1202,13 @@ const endAtDate=(e)=>{
         <option value="USD">USD</option>
              
       </select>
+      </div>
+  }
     </div>
         
                       
 
-    </div>
+    
 }
 
           <div className='mb-4'>
