@@ -355,29 +355,26 @@ onAuthStateChanged(auth, async (user) => {
          
                                            
                                            </div>
+                                          
                                            <ImageModal isOpen={openSomething}  >
                         <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
 
                                                     </ImageModal>
 
+
   
 
-      </div>
+      
       <br/>
-      <div className='container justify-center'>
-        <h1 className='text-2xl'>Your Past Retreats</h1>
-
-      </div>
+    
        
      
-
-      
+    </div>
+      <h2 className='text-lg h-auto'>Past Retreats</h2>
 
       </div>
       
 
-  
-      
 
       </div>
       

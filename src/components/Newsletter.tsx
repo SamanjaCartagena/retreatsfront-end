@@ -5,6 +5,7 @@ import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc,serve
 import { db, auth,storage} from "../firebase.js";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import Modal from "./Modal.js";
+import vid from '../assets/waves.mp4'
 
 import { useState, useEffect } from "react";
 export function Newsletter() {
@@ -15,7 +16,6 @@ export function Newsletter() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [alreadySubscribed, setAlreadySubscribed] = useState(false);
     const pic="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/download.gif?alt=media&token=535e9111-7cfb-492b-af8b-e128b41472e5"
-  const vid="https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/background.mp4?alt=media&token=1f280b84-75d0-43cd-8c29-884fce13f8b6"
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {

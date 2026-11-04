@@ -6,8 +6,8 @@ import { CategoryFilter } from "@/components/CategoryFilter";
 import { RetreatCard } from "@/components/retreats/RetreatCard";
 import { FeaturedDestinations } from "@/components/Destinations";
 import { FeaturedCenters} from "@/components/centers/CenterDisplay";
+import { FeaturedGuides } from "@/components/guides/FeaturedGuides";
 import { Separator } from "@/components/ui/separator";
-import RightNow from '@/components/retreats/RightNow'
 import Contact from "@/components/contact/Contact";
 const Index = () => {
  
@@ -21,8 +21,8 @@ const Index = () => {
        
           
         <RetreatCard />
-        <RightNow/>
        <FeaturedCenters/>
+       <FeaturedGuides/>
         <FeaturedDestinations />
         <Contact/>
       </main>

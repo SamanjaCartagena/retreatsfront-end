@@ -157,9 +157,9 @@ export default function Centers() {
            
           <div key={retreat.id} >
           
-            <h2>{retreat.name}</h2>
+          <h3 className="font-serif font-medium text-lg p-2 line-clamp-1 underline cursor-pointer">{retreat.retreatCenterName}</h3>
             <Link to={`/retreatcenterdetails/${retreat.id}`} >
-             <Card className="rounded-xl overflow-hidden border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
+             <Card className="rounded-xl overflow-hidden h-120 border-none shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
           src={retreat.pic1}
@@ -178,16 +178,10 @@ export default function Centers() {
         <p className="text-muted-foreground text-sm mb-2">{retreat.type1},{retreat.type2},{retreat.type3}
         </p>
         <div className="flex justify-between items-center mt-1">
-      <p className="text-muted-foreground text-sm mb-2">{retreat.location}
+      <p className="text-muted-foreground text-sm mb-2"><strong>Address:</strong> {retreat.address}|{retreat.location}
         </p>
         </div>
-        <div className="mt-3 font-medium">
-          <span className="text-lg">{retreat.currency}&nbsp;{retreat.price}</span>
-          <span className="text-sm text-muted-foreground"> / night</span>
-          <br/>
-              <Button className='bg-lime-700 ml-50px  text-white font-bold py-2  px-2 mt-2rounded focus:outline-none focus:shadow-outline align-items-right text-center' onClick={details}>Find More</Button>
-
-        </div>
+     
       </CardContent>
     </Card>
     </Link>

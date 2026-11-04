@@ -1,0 +1,50 @@
+import { featuredGuides } from "../../data/guides";
+import { Card, CardContent } from "@/components/ui/card";
+import {Button} from '../ui/button'
+import { useNavigate } from "react-router-dom";
+export function FeaturedGuides() {
+  const navigate=useNavigate()
+  const admin =()=>{
+    navigate('/adminpage')
+  }
+  return (
+    <div className=" py-12">
+      <div className="flex container justify-between items-center ">
+        <center>
+        <h2 className="text-xl mb-6 text-lime-900 justify-center align-center font-serif font-semibold">
+          Lightworkers and Guides Around The World
+                  </h2></center>
+        <a href="#" className="text-retreat-ocean  hover:text-retreat-forest transition-colors font-medium" onClick={() => window.open("https://retreatsaroundtheworld.net/retreatcenters", "_blank")}>
+          View all
+        </a>
+      </div>
+      <div className="w-full sm:grid-cols-1 lg:flex justify-center ">
+        {featuredGuides.map((guide, index) => (
+          <div>
+          <Card key={index} className="rounded-xl m-2 overflow-hidden border-none shadow-sm hover:shadow-md transition-all cursor-pointer" >
+            <div className="relative h-60">
+              <h2>{guide.name}</h2>
+              <video src={guide.image} controls width="350" height="450" className="h-md w-full max-w-md mx-auto rounded-lg  mx-auto" autoPlay muted loop>
+                                                 Your browser does not support the video tag.
+                                                     </video>  
+
+            
+             
+            </div>
+            
+
+          </Card>
+          
+          </div>
+        ))}
+      </div>
+            <div className="container justify-center w-full">
+
+      <h2 className="text-4xl mt-10 w-full">Select the right guide for your retreat</h2>
+      
+      <p className="mt-8 w-full">Do you need a mentor or a healer for your transformation? A compassionate massage therapist, a life coach or a plant based chef?</p>
+      <Button className="mt-4 justify-center align-center" onClick={admin}>Sign up as a Guest</Button>
+    </div>
+    </div>
+  );
+}

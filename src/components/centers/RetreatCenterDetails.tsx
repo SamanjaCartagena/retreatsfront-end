@@ -21,6 +21,12 @@ function RetreatCenterDetails() {
     const [address, setAddress] = useState('')
     const [kind, setKind] = useState('')
     const [airport, setAirport] = useState('')
+    const [readMore1, setReadMore1] = useState(false)
+        const [readMore3, setReadMore3] = useState(false)
+    const [readMore4, setReadMore4] = useState(false)
+    const [readMore5, setReadMore5] = useState(false)
+    const [readMore2, setReadMore2] = useState(false)
+
     const [inquiryModal, setInquiryModal] = useState(false)
     const [price, setPrice] = useState(0.0)
     const [airportPickup, setAirportPickup] = useState("")
@@ -41,6 +47,22 @@ function RetreatCenterDetails() {
         const [centerNightRoom3, setCenterNightRoom3] = useState(false)
     const [centerNightRoom4, setCenterNightRoom4] = useState(false)
         const [centerNightRoom5, setCenterNightRoom5] = useState(false)
+    /**Food Information */
+    const [foodInformation, setFoodInformation] = useState("")
+    const [dailySchedule, setDailySchedule] = useState("")
+    const [foodPicsList, setFoodPicsList] = useState([])
+
+    /**Packages */
+    const [package1Exists, setPackage1Exists] = useState(false)
+    const [package2Exists, setPackage2Exists] = useState(false)
+    const [package3Exists, setPackage3Exists] = useState(false)
+    const [package4Exists, setPackage4Exists] = useState(false)
+    const [package5Exists, setPackage5Exists] = useState(false)
+    const [pricePackage1, setPricePackage1] = useState(0.0)
+    const [pricePackage2, setPricePackage2] = useState(0.0)
+    const [pricePackage3, setPricePackage3] = useState(0.0)
+    const [pricePackage4, setPricePackage4] = useState(0.0)
+    const [pricePackage5, setPricePackage5] = useState(0.0)
 
     const [groupRateRoom, setGroupRateRoom] = useState("")
     const [imageUrl, setImageUrl] = useState('')
@@ -151,6 +173,14 @@ const passImageUrl3=(i)=>{
   setPhotoIndex(i)
   setOpenList3(true)
 }
+const passImageUrl4=(i)=>{
+  setPhotoIndex(i)
+  setOpenList4(true)
+}
+const passImageUrl5=(i)=>{
+  setPhotoIndex(i)
+  setOpenList5(true)
+}
      const params = useParams();
     const id = params.id;
     useEffect(() => {
@@ -205,6 +235,19 @@ const passImageUrl3=(i)=>{
                 setCenterNightRoom3(doc.data().centerNightRoom3)
                 setCenterNightRoom4(doc.data().centerNightRoom4)
                 setCenterNightRoom5(doc.data().centerNightRoom5)
+                setFoodInformation(doc.data().foodInformation)
+                setPackage1Exists(doc.data().package1Exists)
+                setPackage2Exists(doc.data().package2Exists)
+                setPackage3Exists(doc.data().package3Exists)
+                setPackage4Exists(doc.data().package4Exists)
+                setPackage5Exists(doc.data().package5Exists)
+                setPricePackage1(doc.data().pricePackage1)
+                setPricePackage2(doc.data().pricePackage2)
+                setPricePackage3(doc.data().pricePackage3)
+                setPricePackage4(doc.data().pricePackage4)
+                setPricePackage5(doc.data().pricePackage5)
+                setDailySchedule(doc.data().dailySchedule)
+
 
               
 
@@ -272,6 +315,16 @@ const passImageUrl3=(i)=>{
                                         });
                                       });
 
+                  const imageListFood = ref(storage, `/centerImages/food/${centerId}/`);
+                  listAll(imageListFood).then((res)=>{
+                                        res.items.forEach((item)=>{
+                                          getDownloadURL(item).then((url)=>{
+                                            setFoodPicsList((prev)=>[...prev, url]);
+                                            
+                                          });
+                                        });
+                                      });
+
 
 }, [id, centerId])
     
@@ -292,16 +345,16 @@ const passImageUrl3=(i)=>{
             
      
      
-        <div className="max-w-full mx-auto text-center">
+        <div className="container  mx-auto text-center">
          <h1 className='text-4xl bold mt-20'> {nameOfCenter}</h1>
          <br/>
          
 <center>
-<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
+      <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
   
-  {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
+  {imageList.length > 0 &&  imageList.slice(0,6).map((imageUrl, index) => (
              
-       <img className="w-60  md:w-50 h-70 lg:w-1/2 sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
+       <img className="w-60 rounded  md:w-50 h-75 lg:w-80 sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
       
 ))}
  <ImageModal isOpen={openList}  >
@@ -352,7 +405,7 @@ const passImageUrl3=(i)=>{
           <div className="text-center w-3/4  lg:grid md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
                                                 <p className='w-60 md:w-full sm:w-full p-10'>{kind}</p>
 
-                                    <h1 className='text-lg m-2'><strong>Average price per night:</strong>&nbsp;${price}</h1>
+                                    <h1 className='text-lg m-2'><strong>Inquire for Pricing and Availability</strong></h1>
 
             <div>
                         <div className='border-2 rounded w-full m-4'>   
@@ -365,6 +418,34 @@ const passImageUrl3=(i)=>{
                           <h1 className='text-lg h-auto'>{groupRateRoom}</h1>
 
                       </div>
+                      <div className='border-2 rounded w-full m-4 p-4'>   
+                          <h1 className='text-lg h-auto font-semibold'>Programs</h1>
+                          <h1 className='text-lg h-auto'>{dailySchedule}</h1>
+                      </div>
+                      <div className='border-2 rounded w-full m-4 p-4'>   
+                          <h1 className='text-lg h-auto font-semibold'>Food Information</h1>
+                          <h1 className='text-lg h-auto'>{foodInformation}</h1>
+
+                          
+                                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 h-auto w-100% justify-center items-center justify-items-center align-center m-4">
+
+            {foodPicsList.length > 0 &&  foodPicsList.slice(0,3).map((imageUrl, index) => (
+              
+      <img className=" lg:w-85 sm:w-full md:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl1(index)} />
+                
+              
+                  
+              
+          ))}
+
+                      </div>
+                      <ImageModal isOpen={openList1}  >
+                <ImageSlider slides={foodPicsList} index={imageIndex} closeSlider={()=>setOpenList1(false)}/>
+
+                  </ImageModal>
+                  <br/>
+                  
+                  </div>
             <div className='border-2 rounded w-full p-4'>
             <h1 className='text-lg font-bold mb-4'>How do you get there?</h1>
                                     <h1 className='text-lg m-2'><strong>Nearest Airport:</strong> {airport}</h1>                            
@@ -376,17 +457,16 @@ const passImageUrl3=(i)=>{
 
             {centerRoom1Exists &&
             <div>
-                                                     <h1 className='text-lg h-auto font-semibold'>Room 1</h1>
+                                                     <h1 className='text-lg h-auto font-semibold'>Room 1/Package 1</h1>
 
-                              <div className='border-2 p-4 flex'>
+                              <div className='border-2 p-4 lg:flex sm:grid-cols-1 md:grid-cols-2'>
 
-                   <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+                   <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 gap-4 h-auto w-100% justify-center items-center justify-items-center align-center m-4">
 
-            {imageListRoom1.length > 0 &&  imageListRoom1.slice(0,3).map((imageUrl, index) => (
+            {imageListRoom1.length > 0 &&  imageListRoom1.slice(0,2).map((imageUrl, index) => (
               
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl1(index)} />
+      <img className=" w-full h-70 sm:w-full md:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl1(index)} />
                 
-              
               
                   
               
@@ -400,14 +480,29 @@ const passImageUrl3=(i)=>{
                   </ImageModal>
                   <br/>
                   <div className='w-full grid'>
-                                  <h1 className='text-lg h-auto'>{accommodation1}</h1>
+                                  <h1 className='text-md h-auto'>{Object.values(accommodation1).slice(0,250)}</h1>
+                                  <span className='underline cursor-pointer' onClick={()=>setReadMore1(true)}>Read More</span>
                                   {centerNightRoom1 &&
                                   <h1 className='text-lg h-auto'>Price: ${priceRoom1}</h1>
                                   }
+                                   <Modal isOpen={readMore1} onClose={()=>setReadMore1(false)} >
+                                    <div className='relative top-30 h-75 w-70'>
+                                      <h1 className='text-lg font-semibold'>Room 1/Package 1</h1>
+                                          <h1>
+                                            {accommodation1}
+                                          </h1>
+                                    </div>
+                                          </Modal>
 
+                                            {package1Exists && (
+                                    <div className='mt-4'>
+                                      <h1 className='text-lg h-auto'>Package 1: ${pricePackage1}</h1>
+                                    </div>
+                                  )}
+                                  
                                   </div>
+                                
                
-
                     
                     </div>
                 </div>          
@@ -416,13 +511,13 @@ const passImageUrl3=(i)=>{
             <br/>
             {centerRoom2Exists &&
             <div>
-                               <h1 className='text-lg h-auto font-semibold'>Room 2</h1>
+                               <h1 className='text-lg h-auto font-semibold'>Room 2/Package 2</h1>
 
-         <div className='border-2 p-4 flex '>
-                   <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+                              <div className='border-2 p-4 lg:flex sm:grid-cols-1 md:grid-cols-2'>
+                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 h-auto w-100% justify-center items-center justify-items-center align-center m-4">
 
-  {imageListRoom2.length > 0 &&  imageListRoom2.slice(0, 3).map((imageUrl, index) => (
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl2(index)}/>
+  {imageListRoom2.length > 0 &&  imageListRoom2.slice(0, 2).map((imageUrl, index) => (
+      <img className=" lg:w-full sm:w-full md:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl2(index)}/>
       
     
 ))}
@@ -436,10 +531,25 @@ const passImageUrl3=(i)=>{
                   </ImageModal>
             <br/>
              <div className='grid w-full'>
-                                  <h1 className='text-lg h-auto'>{accommodation2}</h1>
+                                  <h1 className='text-md h-auto'>{Object.values(accommodation2).slice(0,250)}</h1>
+                                  <span className='underline cursor-pointer' onClick={()=>setReadMore2(true)}>Read More</span>
+
                                   {centerNightRoom2 &&
                                   <h1 className='text-lg h-auto'>Price: ${priceRoom2}/night</h1>
-}
+}                                  
+                         <Modal isOpen={readMore2} onClose={()=>setReadMore2(false)} >
+                                    <div className='relative top-30 h-75'>
+                                      <h1 className='text-lg font-semibold'>Room 2/Package 2</h1>
+                                          <h1>
+                                            {accommodation2}
+                                          </h1>
+                                    </div>
+                                          </Modal>
+                                            {package2Exists && (
+                                    <div className='mt-4'>
+                                      <h1 className='text-lg h-auto'>Package 2: ${pricePackage2}</h1>
+                                    </div>
+                                  )}
                                   </div>
                     
            
@@ -450,12 +560,12 @@ const passImageUrl3=(i)=>{
 }
 {centerRoom3Exists &&
 <div>
-                                  <h1 className='text-lg h-auto font-semibold'>Room 3</h1>
-                                  <div className='border-2 p-4 flex'>
-                                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+                                  <h1 className='text-lg h-auto font-semibold'>Room 3/Package 3</h1>
+                              <div className='border-2 p-4 lg:flex sm:grid-cols-1 md:grid-cols-2'>
+                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 h-auto w-100% justify-center items-center justify-items-center align-center m-4">
 
-  {imageListRoom3.length > 0 &&  imageListRoom3.slice(0, 3).map((imageUrl, index) => (
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl3(index)}/>
+  {imageListRoom3.length > 0 &&  imageListRoom3.slice(0, 2).map((imageUrl, index) => (
+      <img className="lg:w-full sm:w-full md:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl3(index)}/>
       
     
 ))}
@@ -470,11 +580,24 @@ const passImageUrl3=(i)=>{
 
              <div className='grid w-full'>
 
-                                  <h1 className='text-lg h-auto'>{accommodation3}</h1>
+                                  <h1 className='text-md h-auto'>{Object.values(accommodation3).slice(0,250)}</h1>
+                                  <span className='underline cursor-pointer' onClick={()=>setReadMore3(true)}>Read More</span>
+                                 <Modal isOpen={readMore3} onClose={()=>setReadMore3(false)} >
+                                    <div className='relative top-30 h-75'>
+                                      <h1 className='text-lg font-semibold'>Room 3/Package 3</h1>
+                                          <h1>
+                                            {accommodation3}
+                                          </h1>
+                                    </div>
+                                          </Modal>
                                   {centerNightRoom3 &&
                                   <h1 className='text-lg h-auto'>Price: ${priceRoom3}/night</h1>
 }
-                          
+                            {package3Exists && (
+                                    <div className='mt-4'>
+                                      <h1 className='text-lg h-auto'>Package 3: ${pricePackage3}</h1>
+                                    </div>
+                                  )}
             
                   </div>
                   </div>
@@ -483,12 +606,12 @@ const passImageUrl3=(i)=>{
             <br/>
             {centerRoom4Exists &&
                  <div>
-                   <h1 className='text-lg h-auto font-semibold'>Room 4</h1>
-                   <div className='border-2 p-4 flex'>
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+                   <h1 className='text-lg h-auto font-semibold'>Room 4/Package 4</h1>
+                              <div className='border-2 p-4 lg:flex sm:grid-cols-1 md:grid-cols-2'>
+                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 h-auto w-100% justify-center items-center justify-items-center align-center m-4">
 
-  {imageListRoom4.length > 0 &&  imageListRoom4.slice(0, 3).map((imageUrl, index) => (
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl3(index)}/>
+  {imageListRoom4.length > 0 &&  imageListRoom4.slice(0, 2).map((imageUrl, index) => (
+      <img className="lg:w-full sm:w-full md:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl4(index)}/>
       
     
 ))}
@@ -501,11 +624,26 @@ const passImageUrl3=(i)=>{
                   </div>
                   </ImageModal>
                   <div className='grid w-full'>
-                                  <h1 className='text-lg h-auto'>{accommodation4}</h1>
+                                  <h1 className='text-lg h-auto'>{Object.values(accommodation4).slice(0,250)}</h1>
+                                  <span className='underline cursor-pointer' onClick={()=>setReadMore4(true)}>Read More</span>
+                                 <Modal isOpen={readMore4} onClose={()=>setReadMore4(false)} >
+                                    <div className='relative top-30 h-75'>
+                                      <h1 className='text-lg font-semibold'>Room 4/Package 4</h1>
+                                          <h1>
+                                            {accommodation4}
+                                          </h1>
+                                    </div>
+                                          </Modal>
                                   {centerNightRoom4 &&
                                   <h1 className='text-lg h-auto'>Price: ${priceRoom4}/night</h1>
+
                                   
                       }
+                        {package4Exists && (
+                                    <div className='mt-4'>
+                                      <h1 className='text-lg h-auto'>Package 4: ${pricePackage4}</h1>
+                                    </div>
+                                  )}
               </div>
              
          
@@ -514,26 +652,42 @@ const passImageUrl3=(i)=>{
 }
                {centerRoom5Exists &&
                   <div>
-                   <h1 className='text-lg h-auto font-semibold'>Room 5</h1>
-                   <div className='border-2 flex p-4'>
-                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 h-auto w-80% justify-center items-center justify-items-center align-center m-4">
+                   <h1 className='text-lg h-auto font-semibold'>Room 5/Package 5</h1>
+                      <div className='border-2 p-4 lg:flex sm:grid-cols-1 md:grid-cols-2'>
+                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 h-auto w-100% justify-center items-center justify-items-center align-center m-4">
 
-  {imageListRoom5.length > 0 &&  imageListRoom5.slice(0, 3).map((imageUrl, index) => (
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl3(index)}/>
+
+  {imageListRoom5.length > 0 &&  imageListRoom5.slice(0, 2).map((imageUrl, index) => (
+      <img className="w-full md:w-50 lg:w-full items-center rounded-lg h-70 cursor-pointer" src={imageUrl} alt="Retreats Around The World"  key={index} onClick={()=>passImageUrl5(index)}/>
       
     
 ))}
           </div>
-           <ImageModal isOpen={openSomething} >
-                        <ImageSlider slides={imageList} index={photoIndex} closeSlider={()=>setOpenSomething(false)}/>
+           <ImageModal isOpen={openList5} >
+                        <ImageSlider slides={imageListRoom5} index={photoIndex} closeSlider={()=>setOpenList5(false)}/>
 
 
                   </ImageModal>
                               <div className='w-full grid'>
-                                  <h1 className='text-lg h-auto'>{accommodation5}</h1>
+                                  <h1 className='text-lg h-auto'>{Object.values(accommodation5).slice(0,250)}</h1>
+                                  <span className='underline cursor-pointer' onClick={()=>setReadMore5(true)}>Read More</span>
+                                  <Modal isOpen={readMore5} onClose={()=>setReadMore5(false)} >
+                                    <div className='relative top-30 h-75'>
+                                      <h1 className='text-lg font-semibold'>Room 5/Package 5</h1>
+                                          <h1>
+                                            {accommodation5}
+                                          </h1>
+                                    </div>
+                                          </Modal>
+
                                   {centerNightRoom5 &&
                                   <h1 className='text-lg h-auto'>Price: ${priceRoom5}/night</h1>
 }
+                             {package5Exists && (
+                                    <div className='mt-4'>
+                                      <h1 className='text-lg h-auto'>Package 5: ${pricePackage5}</h1>
+                                    </div>
+                                  )}
 </div>
                             
             </div>
@@ -545,7 +699,7 @@ const passImageUrl3=(i)=>{
   
   {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
              
-       <img className="w-60  md:w-50 h-70 lg:w-80 sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
+       <img className="w-60 rounded  md:w-50 h-70 lg:w-80 sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
       
 ))}
  <ImageModal isOpen={openList}  >

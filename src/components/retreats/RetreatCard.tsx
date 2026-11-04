@@ -171,27 +171,29 @@ export function RetreatCard() {
            
           <div key={retreat.id} className="retreat-card-container border rounded-xl border-black-2">
           
-            <h2 className="text-xl font-bold  p-5" >{retreat.name}</h2>
+            <h2 className="text-md font-bold  p-3" >{retreat.name}</h2>
 
             <Link to={`/retreatdetails/${retreat.id}`} >
-             <Card className="rounded-xl h-130 overflow-hidden  shadow-lg hover:shadow-md transition-all text-black border-black-2 border retreat-card cursor-pointer  shadow-md shadow-white/40 ">
+             <Card className="rounded-lg h-auto overflow-hidden  shadow-lg hover:shadow-md transition-all text-black border-black-2 border retreat-card cursor-pointer  shadow-md shadow-white/40 ">
       <div className="aspect-[5/3] overflow-hidden">
         <img
           src={retreat.pic1}
           alt={retreat.name}
-          className="w-full h-full object-cover transition-transform duration-500"
+          className="w-full h-70 object-cover transition-transform duration-500"
         />
       </div>
-      <CardContent className="p-4 text-black ">
+      <CardContent className=" text-black ">
         <div className="flex justify-between items-start text-black">
           <h2 className="font-serif font-medium text-lg line-clamp-1">{retreat.startAt?.toDate()?.toLocaleDateString('en-US')}</h2> -
           <h2 className="font-serif font-medium text-lg line-clamp-1">{retreat.endAt?.toDate()?.toLocaleDateString('en-US')}</h2>
           <div className="flex items-center gap-1 text-sm">
             <Star size={16} fill="currentColor" className="text-retreat-forest" />
+                                                  <span className="text-md">{retreat.location}</span>
+
           </div>
         </div>
         <p className="text-sm mb-2 underline">{Object.values(retreat.type1).join(", ")}</p>
-                                      <span className="text-md">{retreat.address}, {retreat.location}</span>
+                                      <span className="text-md">{retreat.address}&nbsp;|&nbsp;{retreat.location}</span>
 
 
        
@@ -200,9 +202,7 @@ export function RetreatCard() {
           <span className="text-lg">{retreat.currency}&nbsp;{retreat.price}</span>
 
           <span className="text-sm "> / person</span>&nbsp;
-                    <span className="text-sm "><strong>Flight included: {retreat.flightIncluded},</strong></span>&nbsp;
-                                        <span className="text-sm "><strong>Airport pickup: {retreat.airportPickup}</strong></span>
-
+                
 
 
 

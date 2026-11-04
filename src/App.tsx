@@ -29,7 +29,8 @@ import AdminPage from "@/components/admin/AdminPage"
 import ListARetreatCenter from "./components/centers/ListARetreatCenter";
 import Hosts from "./components/hosts/Hosts";
 import Events from "./components/events/Events";
-import Mentor  from "./components/mentors/Mentor";
+import Sanctuaries from "./components/sanctuaries/Sanctuaries";
+import Mentor  from "./components/courses/Courses";
 
 const queryClient = new QueryClient();
 const App = () => (
@@ -70,6 +71,8 @@ const App = () => (
                           {/**List a Retreat Center */}
           <Route path="/adminpage/:userId/listacenter" element={<ListARetreatCenter/>}/>
           <Route path="/adminpage/:userId/listaretreat" element={<ListARetreat/>}/>
+
+          <Route path="/sanctuaries" element={<Sanctuaries/>}/>
           
 
           <Route path="/success" element={<Success/>}/>

@@ -16,7 +16,6 @@ export default function Guides() {
     const [documentId, setDocumentId] = useState("")
     const [selectedType, setSelectedType] = useState("")
     const [selectedLocation, setSelectedLocation] = useState("")
-    const [selectedPrice, setSelectedPrice] = useState(0.0)
     const [listOfRetreats, setListOfRetreats] = useState([])
   const params = useParams();
      const userId = params.userId;
@@ -49,14 +48,7 @@ export default function Guides() {
   const create =() => {
     navigate('/guidesignup');
   }
-    const searchPrice =(v)=>{
-    if(v==""){
-      return
-    }
-      const valueDoubleFloat = parseFloat(v.target.value);
-
-    setSelectedPrice(valueDoubleFloat)
-  }
+   
  
           const profilePicRef = ref(storage, `guideProfilePic/${userId}/profile.jpg`);
 
@@ -81,7 +73,7 @@ export default function Guides() {
       try {
         const retreats = [];
         // Reference the collection
-        if (selectedLocation === ""  && selectedPrice === 0.0 && selectedType === "" ) {
+        if (selectedLocation === ""  && selectedType === "" ) {
           const q = query(collection(db, "guides"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -93,7 +85,7 @@ export default function Guides() {
 
         
         }
-        else if ( selectedPrice === 0.0 && selectedType === "" && selectedLocation !== "") {
+        else if ( selectedType === "" && selectedLocation !== "") {
         setListOfRetreats([])
         const retreats1 = [];
 
@@ -113,20 +105,8 @@ export default function Guides() {
   
 }
  
-        else if (selectedLocation === ""  && selectedType === "" && selectedPrice !== 0.0) {  
-          setListOfRetreats([])
-          const retreats3=[]
-          
-          const q3 = query(collection(db, "guides"), where("price", "<=", selectedPrice));
-        getDocs(q3).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data().name);
-          retreats3.push({ ...doc.data() }); 
-        });
-        setListOfRetreats(retreats3);
-      });
-    }
-     else if (selectedLocation === "" && selectedPrice === 0.0 && selectedType !== "" ) {  
+     
+     else if (selectedLocation === "" && selectedType !== "" ) {  
       setListOfRetreats([])
       const retreats2=[]
           const q3 = await query(collection(db, "guides"), where("type1", "==", selectedType));
@@ -138,7 +118,7 @@ export default function Guides() {
         setListOfRetreats(retreats2);
       });
     }
-    else if (selectedLocation !== "" && selectedPrice === 0.0 && selectedType !== "" ) {  
+    else if (selectedLocation !== ""  && selectedType !== "" ) {  
       setListOfRetreats([])
       const retreats2=[]
           const q3 = await query(collection(db, "guides"), where("type1", "==", selectedType), where("isDisplayed", "==", true), where("location","==",selectedLocation));
@@ -150,10 +130,10 @@ export default function Guides() {
         setListOfRetreats(retreats2);
       });
     }
-     else if (selectedLocation !== "" && selectedPrice !== 0.0 && selectedType !== "" ) {  
+     else if (selectedLocation !== "" && selectedType !== "" ) {  
       setListOfRetreats([])
       const retreats2=[]
-          const q3 = await query(collection(db, "guides"), where("type1", "==", selectedType), where("location","==",selectedLocation), where("price","<=",selectedPrice));
+          const q3 = await query(collection(db, "guides"), where("type1", "==", selectedType), where("location","==",selectedLocation));
         getDocs(q3).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data().name);
@@ -175,7 +155,7 @@ export default function Guides() {
     fetchData();
     
   
-  }, [selectedLocation, selectedPrice, selectedType]);
+  }, [selectedLocation,  selectedType]);
     const [pageNumber, setPageNumber] = useState(0)
 
   const usersPerPage = 50
@@ -207,7 +187,7 @@ export default function Guides() {
             <Star size={16} fill="currentColor" className="text-retreat-forest" />
           </div>
         </div>
-        <p className="text-md mb-2">{guide.guideSpecialty}.slice(0,290)</p>
+        <p className="text-md mb-2">{Object.values(guide.guideSpecialty).join(", ")}</p>
 
                                       <span className="text-md">{guide.guideCity}, {guide.guideLocation}</span>
 
@@ -217,9 +197,7 @@ export default function Guides() {
         </div>
         <div className="mt-3 font-medium">
 
-          <span className="text-lg">${guide.price}</span>
 
-          <span className="text-sm text-muted-foreground"> / person</span>
           
               <Link to={`/guides/${guide.guideId}`} ><br/><br/>
               <Button  size="sm" className="text-sm bg-lime-700 hover:bg-white hover:text-lime-700 text-white">Find Out More</Button></Link>
@@ -476,17 +454,7 @@ const changePage= ({selected}) => {
 
     </select>
     </div>
-    <div>
-    <select className="bg-white p-2 rounded-md" onChange={searchPrice} value={selectedPrice}>
-    <option value="0">Select Price</option>
-    <option value="1000">Less than $1000</option>
-    <option value="2000">Less than $2000</option>
-    <option value="5000">Less than $5000</option>
-    <option value="10000">Less than $10000</option>
-    <option value="Unlimited">Unlimited</option>
    
-    </select>
-    </div>
      
           <div>
    {/** 

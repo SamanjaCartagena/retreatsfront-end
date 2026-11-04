@@ -50,14 +50,18 @@ const Contact = () => {
   };
   return (
     <div className="container mx-auto p-6 border rounded-lg shadow-md bg-white text-black m-4">
-      <h1 className="text-2xl font-bold mb-4">Contact Me For Consultation</h1>
-      <p>Hi My name is Samanja. I am the founder of Retreats Around The World! A company dedicated to providing unique retreat experiences and transformative event management around the globe.</p>
+      <h1 className="text-md font-bold mb-4">Contact Me For Consultation</h1>
+      <div className=" container text-md font-medium mb-4">
+      <p>My name is Samanja. I am the founder of Retreats Around The World and a transformational consultant! I can bring experts all around the globe to help you start a new life anywhere in the world. 
+        I can arrange transformational retreats, workshops, and events that will help you find your true self and live a life of purpose and fulfillment.
+      </p>
       <p>For consultations and business inquiries fill out the form:</p>
     
+    </div>
 <form className="contact-form grid grid-cols-1 gap-4 "  method="POST" onSubmit={handleSubmit} ref={form}>
-    <input type="text" placeholder="Name" value={formData.user_name} onChange={handleInputChange} className="border rounded-lg p-2 mt-4" name="user_name" required />
-    <input type="email" placeholder="Email" value={formData.user_email} onChange={handleInputChange} className="border rounded-lg p-2 m-2" name="user_email" required />
-    <textarea placeholder="Message" value={formData.user_message} onChange={handleInputChange} className="border rounded-lg p-2 m-2" name="user_message" required></textarea>
+    <input type="text" placeholder="Your Name" value={formData.user_name} onChange={handleInputChange} className="border rounded-lg p-2 m-2" name="user_name" required />
+    <input type="email" placeholder="Your Email" value={formData.user_email} onChange={handleInputChange} className="border rounded-lg p-2 m-2" name="user_email" required />
+    <textarea placeholder="How do you want to transform your life?" value={formData.user_message} onChange={handleInputChange} className="border rounded-lg p-2 m-2" name="user_message" required></textarea>
     <Button className="bg-lime-700 hover:bg-lime-900 w-40 text-white font-bold py-2 px-4 rounded" type="submit">Send</Button>
 
 </form>

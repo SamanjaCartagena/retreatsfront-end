@@ -1527,7 +1527,10 @@ const endAtDate=(e)=>{
              
       </select>
     </div>
-                  <p>You can add the entire year here  we will add open to discussion</p><br/>
+
+   <div>
+    
+   </div>
 
     <div className="mb-4 flex gap-4">
 

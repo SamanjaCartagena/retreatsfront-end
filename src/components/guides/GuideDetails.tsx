@@ -39,7 +39,7 @@ function GuideDetails() {
         const [guideLastName, setGuideLastName] = useState("")
         const [documentId, setDocumentId] = useState("")
         const [avatarUrl, setAvatarUrl] = useState("https://firebasestorage.googleapis.com/v0/b/retreats-fda52.firebasestorage.app/o/avatar.jpg?alt=media&token=6a6c61e3-dcde-4170-bb9f-b1ecb1c69d40");
-        const [imageList, setImageList]=useState([])
+        const [imageListGuide, setImageListGuide]=useState([])
         const [imageIndex, setImageIndex] = useState(0)
         const [openSomething, setOpenSomething] = useState(false)
         const [guideType, setGuideType] = useState("")
@@ -49,7 +49,7 @@ function GuideDetails() {
         const [guide2, setGuide2] = useState("")
         const [guide3, setGuide3] = useState("")
         const [alsoHost, setAlsoHost] = useState(false)
-        const imageListRef = ref(storage, `/guideImages/${userId}/`);
+        const imageListRef = ref(storage, `/guideImages/${guideId}/`);
         
         const [inquiryModal, setInquiryModal] = useState(false)
         const listEvent=()=>{
@@ -111,7 +111,7 @@ function GuideDetails() {
           setImageIndex(i)
           setOpenSomething(true)
         }
-       
+      
         useEffect(()=>{
           window.scrollTo(0,0)
       const loadData = async () => {
@@ -135,16 +135,13 @@ function GuideDetails() {
               setGuideSpecialty(doc.data().guideSpecialty)
               setGuideIntroduction(doc.data().guideIntroduction);
               setGuidePhone(doc.data().guidePhone);
+
               
             });
           
         }
         loadData();
           
-              console.log("Guide Specialty "+guideSpecialty)
-            
-              console.log("User Id"+userId)
-              console.log("Guide Id"+guideId)
           const auth=getAuth()
                   onAuthStateChanged(auth, (user) => {
           if (user) {
@@ -200,10 +197,10 @@ function GuideDetails() {
 
                   );
                        
-                        listAll(imageListRef).then((res)=>{
+                listAll(imageListRef).then((res)=>{
                           res.items.forEach((item)=>{
                             getDownloadURL(item).then((url)=>{
-                              setImageList((prev)=>[...prev, url]);
+                              setImageListGuide((prev)=>[...prev, url]);
                     
                             });
                           });
@@ -237,26 +234,26 @@ function GuideDetails() {
                   if(imageUpload == null) return;
                   
                   
-                  const imageRef = ref(storage, `/guideImages/${userId}/${imageUpload.name+v4()}`);
+                  const imageRef = ref(storage, `/guideImages/${guideId}/${imageUpload.name+v4()}`);
                   uploadBytes(imageRef, imageUpload).then((snapshot)=>{
                     getDownloadURL(snapshot.ref).then((url)=>{
-                      setImageList((prev)=>[...prev, url]);
+                      setImageListGuide((prev)=>[...prev, url]);
                     }
                     );
                   });
-                  console.log("imageList", imageList);
               
                 }
+              
                  const deleteImage=(url)=>{
-                       alert("Are you sure you want to delete this image?"+url);
+                  event.preventDefault()
                         const imageRef = ref(storage, url);
                         deleteObject(imageRef).then(() => {
-                          setImageList((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+                          setImageListGuide((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
                         }).catch((error) => {
                           console.error("Error deleting image: ", error);
                         });
                      }
-              
+               
               
   return (
                              <div className="container relative  h-auto min-h-auto w-full overflow-hidden lg:grid sm-grid w-full md:grid justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
@@ -415,14 +412,14 @@ function GuideDetails() {
             </Modal>                   <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-1  gap-2 w-full m-4 mt-6 justify-center align-center items-center justify-items-center" >
                                      <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Contact&nbsp;{guideFirstName}</Button>
                                
-                                         <h1 className='text-lg h-auto m-2'>{guideFirstName}&nbsp;{guideLastName}</h1>
+                                         <h1 className='text-xl h-auto m-2 font-semibold'>{guideFirstName}&nbsp;{guideLastName}</h1>
                               
                                           <h1 className='text-lg h-auto m-2'>{guideCity},&nbsp;{guideLocation}</h1>
                                           <h1 className='text-lg h-auto m-2'>Username:&nbsp;{guideUsername}</h1>
 
 
-                                                          <h1 className='text-lg h-auto m-2'>Profession:&nbsp;{guideProfession}</h1>
-                                                          <h1 className='text-lg h-auto m-2'>{guideSpecialty[0]+' '},&nbsp;{guideSpecialty[1]+' '},&nbsp;{guideSpecialty[2]+' '},&nbsp;{guideSpecialty[3]+' '}, &nbsp;{guideSpecialty[4]}</h1>
+                                                          <h1 className='text-lg h-auto m-2'>Specialty:&nbsp;{guideProfession}</h1>
+                                                          <h1 className='text-lg h-auto m-2'>{guideSpecialty[0]},&nbsp;{guideSpecialty[1]},&nbsp;{guideSpecialty[2]},&nbsp;{guideSpecialty[3]}</h1>
 
                                                           
                                                           
@@ -440,9 +437,10 @@ function GuideDetails() {
                                     <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
                                   </div>
                                    }
+                                  
                                    
                              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
-                                {imageList.length > 0 &&  imageList.slice(0, 3).map((imageUrl, index) => (
+                                {imageListGuide.length > 0 &&  imageListGuide.map((imageUrl, index) => (
                                     <div>
                                  <img className="w-60 cursor-pointer md:w-50 lg:w-full items-center  h-70"  src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl(index)}/>
                                  
@@ -458,10 +456,16 @@ function GuideDetails() {
                                   </div>
                                    <ImageModal isOpen={openSomething}  >
                                                   <div className="w-90% h-full justify-center items-center bg-transparent">
-                                                                           <ImageSlider slides={imageList} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
+                                                                           <ImageSlider slides={imageListGuide} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>
                                   
                                                     </div>
                                                     </ImageModal>
+                          
+                                  
+                                   
+                           
+                                 
+                                   
                               </div>
 
   )

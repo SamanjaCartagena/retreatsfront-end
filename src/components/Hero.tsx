@@ -24,7 +24,7 @@ export function Hero() {
     setIsAIOpen(true);
   }
   const homes =()=>{
-    navigate('/retreatcenters')
+    navigate('/sanctuaries')
   }
  const closeAI =() => {
     setIsAIOpen(false);
@@ -91,14 +91,16 @@ const submitAI =() => {
                   font-medium text-base px-8 py-6" onClick={homes}>
                 Sanctuaries
                 </Button>
-                <Button className=" bg-transparent text-white w-60 justify-center border-white border-2 border-radius hover:bg-white hover:text-lime-700
-                   font-medium text-base px-8 py-6" onClick={shop}>
-                  Shop
-                </Button>
+                <a href="https://zv3wng-ei.myshopify.com/" target="_blank" rel="noopener noreferrer">
+                  <Button className=" bg-transparent text-white w-60 justify-center border-white border-2 border-radius hover:bg-white hover:text-lime-700
+                     font-medium text-base px-8 py-6" >
+                    Shop
+                  </Button>
+                </a>
                 
                 <Button  className="bg-transparent text-white w-60 justify-center border-white border-2 border-radius
                   hover:bg-white hover:text-lime-700  font-medium text-base px-8 py-6" onClick={mentor}>
-                 Mentors
+                 Courses
                 </Button>
                
               </div>

@@ -127,9 +127,9 @@ export default function Hosts() {
           return(
                   <div key={guide.id} >
 
-                           <h2 className="text-xl font-bold mb-2">{guide.name}</h2>
+                           <h2 className="text-lg font-bold mb-2 underline cursor-pointer">{guide.hostFirstName}&nbsp;{guide.hostLastName}</h2>
                             <Link to={`${guide.hostId}`}>
-                            <Card className="rounded-xl overflow-hidden border-none shadow-lg hover:shadow-md transition-all retreat-card cursor-pointer " >
+                            <Card className="rounded-xl overflow-hidden border-none shadow-lg h-100 hover:shadow-md transition-all retreat-card cursor-pointer " >
                      <div className="aspect-[5/3] overflow-hidden">
                        <img
                          src={guide.hostProfilePicUrl}

@@ -29,6 +29,7 @@ function GuideSignUp() {
     const [lastName, setLastName]= useState('');
     const [profession, setProfession]= useState('');
     const [imageUpload, setImageUpload] = useState(null)
+    const [videoUpload, setVideoUpload] = useState(null)
     const [guideEmail, setGuideEmail]= useState('');
     const [guideId, setGuideId] = useState('');
     const [imageList, setImageList] = useState([])
