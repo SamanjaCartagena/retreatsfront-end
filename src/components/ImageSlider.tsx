@@ -35,7 +35,7 @@ function ImageSlider({ slides, index, closeSlider }: ImageSliderProps) {
     };
   return <div style={{width:'100%', height:'100%', position:'relative'}}>
         
-        <img src={slides[imageIndex]} alt="slider" className="img-slider-img"/>
+        <img src={slides[imageIndex]} alt="slider" className="img-slider-img" onContextMenu={(e)=>e.preventDefault()}/>
         <button className="img-close-btn" onClick={closeSlider} style={{right:'4rem', top:0}}><X/></button>
         <button
         onClick={showPrevImage}

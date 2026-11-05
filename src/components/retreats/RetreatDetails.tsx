@@ -45,6 +45,10 @@ function RetreatDetails() {
     const [host4Exists, setHost4Exists] = useState(false)
     const [host4FirstName, setHost4FirstName] = useState("")
     const [host4LastName, setHost4LastName] = useState("")
+    const [host5Exists, setHost5Exists] = useState(false)
+    const [host5FirstName, setHost5FirstName] = useState("")
+    const [host5LastName, setHost5LastName] = useState("")
+    const [aboutHost5, setAboutHost5] = useState("")
     const [chefExists, setChefExists] = useState(false)
     const [chefFirstName, setChefFirstName] = useState("")
     const [chefLastName, setChefLastName] = useState("")
@@ -95,6 +99,9 @@ function RetreatDetails() {
      const [type2, setType2] = useState("")
      const [type3, setType3] = useState("")
      const [extraType, setExtraType] = useState("")
+
+  /**Welcome Message */
+  const [welcomeMessage, setWelcomeMessage] = useState("")
      
     
     const [hostPic, setHostPic] = useState(""); 
@@ -108,6 +115,7 @@ function RetreatDetails() {
     const [allRetreats, setAllRetreats] = useState([]);
     const [imageListHost3, setImageListHost3]= useState([])
     const [imageListHost4, setImageListHost4] = useState([])
+    const [imageListHost5, setImageListHost5] = useState([])
     const [documentId, setDocumentId] = useState("");
     const [retreatType, setRetreatType] = useState(""); 
     const [hostEmail, setHostEmail] = useState("");
@@ -137,7 +145,11 @@ function RetreatDetails() {
 
 
 
-
+ const [pricePerNightRoom1, setPricePerNightRoom1] = useState(false)
+  const [pricePerNightRoom2, setPricePerNightRoom2] = useState(false)
+  const [pricePerNightRoom3, setPricePerNightRoom3] = useState(false)
+  const [pricePerNightRoom4, setPricePerNightRoom4] = useState(false)
+  const [pricePerNightRoom5, setPricePerNightRoom5] = useState(false)
 
    
   /**Room 3 */
@@ -179,7 +191,7 @@ function RetreatDetails() {
     const [includesWifiRoom5, setIncludesWifiRoom5] = useState(false)
 
 
-
+   const [openSomething5, setOpenSomething5] = useState(false)
 
     const [read, setRead] = useState(false)
     const [imageIndex, setImageIndex] = useState(0)
@@ -361,6 +373,7 @@ const doesChefExist =(e) =>{
    const airport=(event) =>{
     setNearestAirport(event.target.value)
    }
+ 
     const form = useRef();
     const [loggedIn, setLoggedIn] = useState(false)
       const [retreatId, setRetreatId] = useState(0);
@@ -497,6 +510,22 @@ const uploadImage=(e)=>{
                  });
              
                }
+               const uploadImageRoom5=(e)=>{
+                  e.preventDefault();
+                 // Create a root reference
+                 console.log("Upload Image");
+                 if(imageUpload == null) return;
+                 
+                 
+                 const imageRef5 = ref(storage, `/retreatimages/room5/${retreatId}/${imageUpload.name+v4()}`);
+                 uploadBytes(imageRef5, imageUpload).then((snapshot)=>{
+                   getDownloadURL(snapshot.ref).then((url)=>{
+                     setImageListRoom5((prev)=>[...prev, url]);
+                   }
+                   );
+                 });
+             
+               }
                    
                    
                      const uploadImageChef=(e)=>{
@@ -550,6 +579,10 @@ const passImageUrl3=(i)=>{
 const passImageUrl4=(i)=>{
   setImageIndex(i)
   setOpenSomething4(true)
+}
+const passImageUrl5=(i)=>{
+  setImageIndex(i)
+  setOpenSomething5(true)
 }
 const readMore =()=>{
   setRead(!setRead)
@@ -815,6 +848,7 @@ useEffect(()=>{
             setTotalPriceRoom2(doc.data().totalPriceRoom2)
             setTotalPriceRoom3(doc.data().totalPriceRoom3)
             setTotalPriceRoom4(doc.data().totalPriceRoom4)
+            setTotalPriceRoom5(doc.data().totalPriceRoom5)
             setCountry(doc.data().location);
             setStartAt(doc.data().startAt);
             setEndAt(doc.data().endAt);
@@ -838,6 +872,24 @@ useEffect(()=>{
             setAccommodation4(doc.data().accommodation4)
             setPriceRoom3(doc.data().priceRoom3)
             setPriceRoom4(doc.data().priceRoom4)
+            setRoom5Exists(doc.data().room5Exists)
+            setAccommodation5(doc.data().accommodation5)
+            setPriceRoom5(doc.data().priceRoom5)
+            setHost4Exists(doc.data().host4Exists)
+            setHost4FirstName(doc.data().host4FirstName)
+            setHost4LastName(doc.data().host4LastName)
+            setAboutHost4(doc.data().aboutHost4)
+            setHost5Exists(doc.data().host5Exists)
+            setHost5FirstName(doc.data().host5FirstName)
+            setHost5LastName(doc.data().host5LastName)
+            setAboutHost5(doc.data().aboutHost5)
+            setPricePerNightRoom1(doc.data().pricePerNightRoom1)
+            setPricePerNightRoom2(doc.data().pricePerNightRoom2)
+            setPricePerNightRoom3(doc.data().pricePerNightRoom3)
+            setPricePerNightRoom4(doc.data().pricePerNightRoom4)
+            setPricePerNightRoom5(doc.data().pricePerNightRoom5)
+            setWelcomeMessage(doc.data().welcomeMessage)
+
 
 
             setBookRetreat({
@@ -876,6 +928,8 @@ useEffect(()=>{
             const imageListRefHost2 = ref(storage, `/retreatimages/host2/${retreatId}`)
             const imageListRefHost3 = ref(storage, `/retreatimages/host3/${retreatId}`)
             const imageListRefHost4 = ref(storage, `/retreatimages/host4/${retreatId}`)
+            const imageListRefHost5 = ref(storage, `/retreatimages/host5/${retreatId}`)
+            const imageListRefRoom5 = ref(storage, `/retreatimages/room5/${retreatId}`)
             const imageListRefChef = ref(storage, `/retreatimages/chef/${retreatId}`)
 
 
@@ -919,6 +973,14 @@ useEffect(()=>{
                               });
                             });
                           });
+                           listAll(imageListRefRoom5).then((res)=>{
+                            res.items.forEach((item)=>{
+                              getDownloadURL(item).then((url)=>{
+                                setImageListRoom5((prev)=>[...prev, url]);
+                                
+                              });
+                            });
+                          });
                             listAll(imageListRefHost2).then((res)=>{
                             res.items.forEach((item)=>{
                               getDownloadURL(item).then((url)=>{
@@ -943,6 +1005,14 @@ useEffect(()=>{
                               });
                             });
                           });
+                          listAll(imageListRefHost5).then((res)=>{
+                            res.items.forEach((item)=>{
+                              getDownloadURL(item).then((url)=>{
+                                setImageListHost5((prev)=>[...prev, url]);
+                                
+                              });
+                            });
+                          });
                           listAll(imageListRefChef).then((res)=>{
                             res.items.forEach((item)=>{
                               getDownloadURL(item).then((url)=>{
@@ -953,7 +1023,7 @@ useEffect(()=>{
                           });
                         },[hostId])
   return (
-       <div className="relative h-auto min-h-auto w-full overflow-hidden lg:flex sm-grid w-full md:grid-cols-1 justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
+       <div className="relative h-auto min-h-700px w-full overflow-hidden lg:flex md:grid-cols-1 justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
       <Modal isOpen={inquiryModal} onClose={()=>setInquiryModal(false)} >
             <form className="bg-white p-6 rounded shadow-md w-96 mt-20" onSubmit={handleSubmit} ref={form}>
               <h2 className="text-lg font-bold mb-4">Contact {hostFirstName}</h2>
@@ -975,24 +1045,25 @@ useEffect(()=>{
       
      </ImageModal>
      
-        <div className="max-w-full mx-auto text-center">
+        <div className="container  mx-auto text-center">
          <h1 className='text-4xl bold mt-20'>{retreatName}</h1>
          <br/>
          
 <center>
-<div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
+      <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
   
-  {imageList.length > 0 &&  imageList.slice(0, 4).map((imageUrl, index) => (
-             
-      <center><img className="w-80  md:w-50 h-70 lg:w-90 sm:w-full items-center justify-center cursor-pointer" src={imageUrl} onClick={()=>viewAllPhotos(index)} key={index} alt="Retreats Around The World" /></center>
-      
+  {imageList.length > 0 &&  imageList.slice(0, 6).map((imageUrl, index) => (
+             <div className="flex justify-center items-center lg:grid-cols-3 h-75  sm:w-full border-2 border-gray-300 rounded" key={index}>
+
+      <img className="w-full rounded  h-full  sm:w-full items-center cursor-pointer" src={imageUrl} onClick={()=>viewAllPhotos(index)} key={index} alt="Retreats Around The World" onContextMenu={(e)=>e.preventDefault()}/>
+      </div>
     
 ))}
 
  
 </div>
 </center>
-<div className="flex flex-col justify-center mt-6 sm:flex-row gap-4">
+<div className="container w-full h-full flex lg:flex items-center md:justify-center sm:items-center sm:grid-cols-1  bg-transparent">
  <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2"  onClick={()=>viewAllPhotos(0)}>
     View all photos
   </Button>
@@ -1151,7 +1222,7 @@ useEffect(()=>{
 
             {imageListHost2.length > 0 &&  imageListHost2.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index}  /></center>
+      <center><img className="w-60 h-60 mt-5 rounded justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()} /></center>
                                     <Button onClick={()=> deleteImageHost2(imageUrl)} className='bg-lime-700  text-white font-bold py-2 px-2 m-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
               
               
@@ -1192,7 +1263,7 @@ useEffect(()=>{
 
             {imageListHost3.length > 0 &&  imageListHost3.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index}  /></center>
+      <center><img className="w-60 h-60 mt-5 rounded justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()} /></center>
                                     <Button onClick={()=> deleteImageHost3(imageUrl)} className='bg-lime-700  text-white font-bold py-2 px-2 m-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
               
               
@@ -1233,7 +1304,7 @@ useEffect(()=>{
 
             {imageListHost4.length > 0 &&  imageListHost4.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index}  /></center>
+      <center><img className="w-60 h-60 mt-5 rounded justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()} /></center>
                                     <Button onClick={()=> deleteImageHost4(imageUrl)} className='bg-lime-700  text-white font-bold py-2 px-2 m-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
               
               
@@ -1274,7 +1345,7 @@ useEffect(()=>{
 
             {imageListChef.length > 0 &&  imageListChef.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index}  /></center>
+      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()} /></center>
                                     <Button onClick={()=> deleteImageChef(imageUrl)} className='bg-lime-700  text-white font-bold py-2 px-2 m-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
               
               
@@ -1375,7 +1446,7 @@ useEffect(()=>{
               {imageListRoom1.length > 0 &&  imageListRoom1.map((imageUrl, index) => (
              
              <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" onContextMenu={(e)=>e.preventDefault()}/>
       <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>delImgEditRoom1(imageUrl)}>Delete</Button>
       
     </Card>)
@@ -1412,7 +1483,7 @@ useEffect(()=>{
               {imageListRoom2.length > 0 &&  imageListRoom2.map((imageUrl, index) => (
              
              <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" onContextMenu={(e)=>e.preventDefault()}/>
       <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>delImgEditRoom2(imageUrl)}>Delete</Button>
       
     </Card>)
@@ -1449,7 +1520,7 @@ useEffect(()=>{
               {imageListRoom3.length > 0 &&  imageListRoom3.map((imageUrl, index) => (
              
              <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" onContextMenu={(e)=>e.preventDefault()}/>
       <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>delImgEditRoom3(imageUrl)}>Delete</Button>
       
     </Card>)
@@ -1485,7 +1556,7 @@ useEffect(()=>{
               {imageListRoom4.length > 0 &&  imageListRoom4.map((imageUrl, index) => (
              
              <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" onContextMenu={(e)=>e.preventDefault()}/>
       <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>delImgEditRoom4(imageUrl)}>Delete</Button>
       
     </Card>)
@@ -1505,7 +1576,7 @@ useEffect(()=>{
               {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
              
              <Card className="rounded-xl w-60 overflow-hidden border-solid border-2 shadow-sm hover:shadow-md transition-all retreat-card cursor-pointer justify-center items-center m-2" key={index}>
-      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" />
+      <img className="w-85 md:w-50 lg:w-full items-center rounded-lg" src={imageUrl} alt="Retreats Around The World" onContextMenu={(e)=>e.preventDefault()}/>
       <Button className='bg-lime-700 hover:bg-lime-800 m-4' onClick={(e)=>delImgEdit(imageUrl)}>Delete</Button>
       
     </Card>
@@ -1551,9 +1622,13 @@ useEffect(()=>{
            </Modal>
          <br/>
        
-          <h1 className='text-lg font-bold p-4'>Retreat Center Name/Hotel/Airbnb: {centerName}</h1>
-          <h1 className='text-lg font-bold p-4'>Retreat Address: {retreatAddress}</h1>
-          <h1 className='text-lg font-bold p-4'>Country: {country}</h1>
+          <h1 className='text-lg font-semibold'>Retreat Center Name/Hotel/Airbnb: {centerName}</h1>
+          <h1 className='text-lg font-semibold '>Retreat Address: {retreatAddress}</h1>
+          <h1 className='text-lg font-semibold '>Country: {country}</h1>
+          <div className='container text-center w-full h-auto p-4 rounded-lg  bg-white'>
+            <h1 className='text-lg font-semibold font-italic font-family: Papyrus, fantasy; m-2 '>{welcomeMessage}</h1>
+          
+          </div>
         
                     <h1 className='font-semibold text-lg m-2 p-4'>Type of Retreat: {Object.values(retreatType).join(", ")}</h1>
                         
@@ -1570,16 +1645,39 @@ useEffect(()=>{
           <br/>
           <br/>
                    <center>
-          <div className="text-center w-3/4  lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
+          <div className="text-center w-full  lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
 
             <div className=" lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 w-full h-full justify-center items-center text-center">
 
             <h1 className='font-semibold text-lg m-2'>Name of Host:&nbsp;{hostFirstName}&nbsp;{hostLastName}</h1>
-            <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={()=>navigate(`/host/${hostId}`)}>
+          
+               <div>
+                        <h1 className='font-semibold text-lg m-2'>About the Host</h1>
+
+        <center><img src={hostPic} alt="Retreats Around The World"  className="w-60 h-60 justify-center object-cover" onContextMenu={(e)=>e.preventDefault()}/></center>
+            <br/>
+            <br/>
+                                    
+
+            <div className=" grid justify-center items-center">
+                       
+                        <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={() => window.open(`/host/${hostId}`, '_blank', 'noreferrer')} >
                           Check out {hostFirstName}
                           </Button>
+                         
+                          
+
+            <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 w-60 text-white" onClick={()=>setInquiryModal(true)}>Inquire </Button><br/>
+            </div>
             <br/>
-            <br/>
+            
+              <section>
+  
+   
+  </section>
+           
+              
+            </div>
             {host2Exists &&
             <div className='container'>
             <h1 className='font-semibold text-lg m-2'>Name of Host:&nbsp;{host2FirstName}&nbsp;{host2LastName}</h1>
@@ -1588,7 +1686,7 @@ useEffect(()=>{
 
             {imageListHost2.length > 0 &&  imageListHost2.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index}  /></center>
+      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
               
               
                   </div>
@@ -1607,7 +1705,7 @@ useEffect(()=>{
 
             {imageListHost3.length > 0 &&  imageListHost3.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index}  /></center>
+      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
               
               
                   </div>
@@ -1626,7 +1724,26 @@ useEffect(()=>{
 
             {imageListHost4.length > 0 &&  imageListHost4.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index}  /></center>
+      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
+              
+              
+                  </div>
+  
+          ))}
+          </div>
+
+                        </div>
+
+            }
+              {host5Exists &&
+            <div className='container'>
+            <h1 className='font-semibold text-lg m-2'>Name of Host:&nbsp;{host5FirstName}&nbsp;{host5LastName}</h1>
+                            <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  gap-4 p-4 h-auto">
+                        <h1 className='font-semibold text-lg m-2'>About the Host: &nbsp;{aboutHost5}</h1>
+
+            {imageListHost5.length > 0 &&  imageListHost5.slice(0,1).map((imageUrl, index) => (
+              <div>
+      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
               
               
                   </div>
@@ -1666,7 +1783,7 @@ useEffect(()=>{
 
             <h1 className='text-lg h-auto'>{kind}</h1><br/>
             <h1 className='text-lg font-semibold'>{nameOfCity}</h1>
-            <center><img src={cityPic} alt="Retreats Around The World"  className="w-150 h-150 mt-5  justify-center object-cover" /></center>
+            <center><img src={cityPic} alt="Retreats Around The World"  className="w-100 h-100 mt-5  justify-center object-cover" onContextMenu={(e)=>e.preventDefault()}/></center>
             </div>
             <br/>
             <h1 className='font-semibold text-lg m-2'>About the city /region / village / town</h1>
@@ -1675,7 +1792,7 @@ useEffect(()=>{
             <h1 className='font-semibold text-lg m-2'>Food That will be Provided</h1>
 
              <h1 className='text-lg h-auto p-4 border-2 rounded'>{aboutFood} </h1>
-                        <center><img src={foodPic} alt="Retreats Around The World"  className="w-150 h-150 mt-5  justify-center object-cover" /></center>
+                        <center><img src={foodPic} alt="Retreats Around The World"  className="w-100 h-100 mt-5  justify-center object-cover" onContextMenu={(e)=>e.preventDefault()}/></center>
 
                         <h1 className='font-semibold text-lg m-2'>Airport Information</h1>
 
@@ -1698,7 +1815,7 @@ useEffect(()=>{
 
             {imageListRoom1.length > 0 &&  imageListRoom1.slice(0,2).map((imageUrl, index) => (
               <div>
-      <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl1(index)} />
+      <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl1(index)} onContextMenu={(e)=>e.preventDefault()}/>
                 
               
               
@@ -1714,7 +1831,7 @@ useEffect(()=>{
 
                                       <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto'>
 
-                        <h1 className='text-lg h-auto'>${priceRoom1}{currency}&nbsp;/night</h1>
+                       {pricePerNightRoom1 && <h1 className='text-lg h-auto'>${priceRoom1}{currency}&nbsp;/night</h1>}
                                                 <h1 className='text-lg h-auto'>Total price you pay if you select Room 1: ${totalPriceRoom1}&nbsp;{currency}</h1>
                                                 
                                                   <StripeCheckout 
@@ -1750,7 +1867,7 @@ useEffect(()=>{
 
             {imageListRoom2.length > 0 &&  imageListRoom2.slice(0,2).map((imageUrl, index) => (
               <div>
-                <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer" src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl2(index)}/>
+                <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer" src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl2(index)} onContextMenu={(e)=>e.preventDefault()}/>
                 
      
               
@@ -1766,8 +1883,7 @@ useEffect(()=>{
                     </div>
 
                                       <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto'>
-
-                                                                       <h1 className='text-lg h-auto'>${priceRoom2}&nbsp;{currency}/night</h1>
+                                                                       {pricePerNightRoom2 && <h1 className='text-lg h-auto'>${priceRoom2}&nbsp;{currency}/night</h1>}
                                                                     <h1 className='text-lg h-auto'>Total price of Retreat you pay if you select Room 2: ${totalPriceRoom2}&nbsp;{currency}</h1>
  <StripeCheckout 
          stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
@@ -1797,7 +1913,7 @@ useEffect(()=>{
 
             {imageListRoom3.length > 0 &&  imageListRoom3.slice(0,2).map((imageUrl, index) => (
               <div>
-                <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer" src={imageUrl} key={index} onClick={()=>passImageUrl3(index)} alt="Retreats Around The World" />
+                <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer" src={imageUrl} key={index} onClick={()=>passImageUrl3(index)} alt="Retreats Around The World" onContextMenu={(e)=>e.preventDefault()}/>
                 
               
               
@@ -1813,7 +1929,7 @@ useEffect(()=>{
                     </div>
                                       <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto'>
 
-                        <h1 className='text-lg h-auto'>${priceRoom3}/night&nbsp;{currency}</h1>
+                       {pricePerNightRoom3 && <h1 className='text-lg h-auto'>${priceRoom3}/night&nbsp;{currency}</h1>}
                                                 <h1 className='text-lg h-auto'>Total Price of Retreat you pay if you select Room 3: ${totalPriceRoom3}&nbsp;{currency}</h1>
 
                           <StripeCheckout 
@@ -1844,7 +1960,7 @@ useEffect(()=>{
 
             {imageListRoom4.length > 0 &&  imageListRoom4.slice(0,2).map((imageUrl, index) => (
               <div>
-                <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer" src={imageUrl} key={index} onClick={()=>passImageUrl4(index)} alt="Retreats Around The World" />
+                <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer" src={imageUrl} key={index} onClick={()=>passImageUrl4(index)} alt="Retreats Around The World" onContextMenu={(e)=>e.preventDefault()}/>
                 
               
               
@@ -1860,7 +1976,7 @@ useEffect(()=>{
                     </div>
                                       <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto'>
 
-                        <h1 className='text-lg h-auto'>${priceRoom4}/night&nbsp;{currency}</h1>
+                        {pricePerNightRoom4 && <h1 className='text-lg h-auto'>${priceRoom4}/night&nbsp;{currency}</h1>}
                                                 <h1 className='text-lg h-auto'>Total Price of Retreat you pay if you select Room 3: ${totalPriceRoom4}&nbsp;{currency}</h1>
 
                           <StripeCheckout 
@@ -1882,48 +1998,69 @@ useEffect(()=>{
                      </div>
                     </div>
                     </div>}
-            </div>
-            
-            <div>
-                        <h1 className='font-semibold text-lg m-2'>About the Host</h1>
+                     {room5Exists &&
+                    <div>
+                      <h1 className='font-semibold text-lg m-2'>Accommodation Type 5/Package 5</h1>
 
-            <img src={hostPic} alt="Retreats Around The World"  className="w-60 h-60  rounded-full object-cover" />
-            <br/>
-            <br/>
-                                    
+                                    <div className='border-2 lg:flex sm:grid  rounded w-full'>
+                       <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-4 p-4 h-auto">
 
-            <div className=" grid justify-center items-center">
-                       
-                        <Button  className="text-sm bg-lime-700  w-60 hover:bg-white hover:text-lime-700 text-white mb-2" onClick={()=>navigate(`/host/${hostId}`)}>
-                          Check out {hostFirstName}
-                          </Button>
-                         
-                          
-
-            <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 w-60 text-white" onClick={()=>setInquiryModal(true)}>Inquire </Button><br/>
-            </div>
-            <br/>
-            
-              <section>
-  
-   
-  </section>
-            {!loggedIn && (
-              <p>Please log in to book this retreat</p>
-            )}
+            {imageListRoom5.length > 0 &&  imageListRoom5.slice(0,2).map((imageUrl, index) => (
+              <div>
+                <img className="w-200 h-200 mt-5  justify-center object-cover cursor-pointer" src={imageUrl} key={index} onClick={()=>passImageUrl5(index)} alt="Retreats Around The World" onContextMenu={(e)=>e.preventDefault()}/>
+                
               
+              
+                  </div>
+              
+          ))}
+                <ImageModal isOpen={openSomething5}  >
+              <ImageSlider slides={imageListRoom5} index={imageIndex} closeSlider={()=>setOpenSomething5(false)}/>
+
+                  </ImageModal>
+
+
+                    </div>
+                                      <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto'>
+
+                        {pricePerNightRoom5 && <h1 className='text-lg h-auto'>${priceRoom5}/night&nbsp;{currency}</h1>}
+                                                <h1 className='text-lg h-auto'>Total Price of Retreat you pay if you select Room 5: ${totalPriceRoom5}&nbsp;{currency}</h1>
+
+                          <StripeCheckout 
+         stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
+         token={makePayment}
+         name='Retreats Around The World'
+         amount={totalPriceRoom5*100}
+        >
+        <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">
+         Book this Package
+        </Button>
+
+          </StripeCheckout>
+                        <h1 className='text-lg h-auto'>{accommodation5}</h1>
+                      
+                      
+                        <h1 className='text-lg h-auto'>Include breakfast: {includesRoom5Breakfast}</h1>
+
+                     </div>
+                    </div>
+                    </div>}
             </div>
+            
+            
             {hostIsUser &&
             <h1>{allRetreats}</h1>
             }
                         
           </div>
           </center>
-            <center>      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
+            <center>            <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
+
           
             {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
-              <div>
-                <img className="w-60 cursor-pointer md:w-50 lg:w-full items-center  h-70" src={imageUrl} key={index} onClick={()=>passImageUrl(index)} alt="Retreats Around The World" />
+                           <div className="flex justify-center items-center lg:grid-cols-3 h-75  sm:w-full border-2 border-gray-300 rounded" key={index}>
+
+                <img className="w-full rounded  h-full  sm:w-full items-center cursor-pointer" src={imageUrl} key={index} onClick={()=>passImageUrl(index)} alt="Retreats Around The World" onContextMenu={(e)=>e.preventDefault()}/>
                 
               
               

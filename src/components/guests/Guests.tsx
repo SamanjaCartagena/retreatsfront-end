@@ -4,6 +4,8 @@ import { Button } from '../ui/button'
 import { Textarea } from '@headlessui/react'
 import {auth, googleProvider, db} from '../../firebase.js';
 import { useNavigate } from 'react-router-dom';
+import Modal from "../../components/Modal.js";
+
 
 import { onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import { collection, query, getDocs, orderBy, limit, startAfter,  where, and, addDoc, or, endBefore, limitToLast} from 'firebase/firestore';
@@ -18,6 +20,9 @@ export default function Guests() {
   const [message, setMessage] = useState(true)
   const [allergies, setAllergies] = useState("")
   const [medicalConditions, setMedicalConditions] = useState("")
+  const [beforeTransformation, setBeforeTransformation] = useState("")
+  const [transformation, setTransformation] = useState("")
+  
   const navigate= useNavigate()
   const createProfile= async(e)=>{
                  e.preventDefault()
@@ -36,7 +41,9 @@ export default function Guests() {
               kind:kind,
               country:country, 
               medicalConditions:medicalConditions,
-              allergies:allergies
+              allergies:allergies,
+              beforeTransformation:beforeTransformation,
+              transformation:transformation
 
 
             })
@@ -49,13 +56,15 @@ export default function Guests() {
                  
       
   }
+
+
+ 
   useEffect(()=>{
-    window.scrollTo(0,0)
     onAuthStateChanged(auth, async (user) => {
       if  (user) {
         setGuestId(user.uid)
         setGuestEmail(user.email)
-        setMessage(false)
+        
         console.log("User id is"+guestId)
 
       }
@@ -91,6 +100,8 @@ export default function Guests() {
             {message &&<p className='text-red-500 italic'>Please sign in to create a guest account!</p>}
 
     <h2 className='font-bold text-xl m-5'>Welcome to Retreats Around The World</h2>
+   
+   
     <form>
           <label className="text-align-left m-2 text-sm">First Name</label>
                 <Input type="text" placeholder="First Name" onChange={(e)=> setFirstName(e.target.value)}/><br/>
@@ -301,9 +312,15 @@ export default function Guests() {
                 <Textarea className="border-2 border-solid border-gray w-full mb-5"  placeholder="Tell us your thoughts" onChange={(e)=>setMedicalConditions(e.target.value)}></Textarea>
                   <label className="text-align-left text-sm" >Food Allergies if any</label>
                 <Textarea className="border-2 border-solid border-gray w-full mb-5"  placeholder="Tell us your thoughts" onChange={(e)=>setAllergies(e.target.value)}></Textarea>
+                <label className="text-align-left text-sm" >How do you want to be transformed?</label>
+                <Textarea className="border-2 border-solid border-gray w-full mb-5"  placeholder="How do you want to be transformed?" onChange={(e)=>setTransformation(e.target.value)}></Textarea>
+                <label className="text-align-left text-sm" >Before The Retreat</label>
+                <Textarea className="border-2 border-solid border-gray w-full mb-5"  placeholder="Tell us your about yourself before the retreat and transformation" onChange={(e)=>setBeforeTransformation(e.target.value)}></Textarea>
+          
 
                 <br/>
                 <Button className="w-40 bg-lime-700 hover:bg-lime-800 m-2" onClick={createProfile}>Create</Button>
+
 
     </form>
     </div>

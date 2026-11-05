@@ -439,10 +439,11 @@ function GuideDetails() {
                                    }
                                   
                                    
-                             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 h-auto">
+                     <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
                                 {imageListGuide.length > 0 &&  imageListGuide.map((imageUrl, index) => (
-                                    <div>
-                                 <img className="w-60 cursor-pointer md:w-50 lg:w-full items-center  h-70"  src={imageUrl} alt="Retreats Around The World" key={index} onClick={()=>passImageUrl(index)}/>
+                                                 <div className="flex justify-center items-center lg:grid-cols-3 h-75  sm:w-full border-2 border-gray-300 rounded" key={index}>
+
+                                 <img className="w-full rounded  h-full  sm:w-full items-center cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()} onClick={()=>passImageUrl(index)} />
                                  
                                  {currentUser &&
                                  <Button onClick={()=>deleteImage(imageUrl)} className='bg-red-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Delete Image</Button>

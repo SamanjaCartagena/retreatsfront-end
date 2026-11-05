@@ -66,6 +66,11 @@ function ListARetreat() {
    const [host4FirstName, setHost4FirstName] = useState("")
    const [host4LastName, setHost4LastName]  = useState("")
    const [aboutHost4, setAboutHost4] = useState("")
+   const [host5Exists, setHost5Exists] = useState(false)
+   const [host5FirstName, setHost5FirstName] = useState("")
+   const [host5LastName, setHost5LastName] = useState("")
+   const [aboutHost5, setAboutHost5] = useState("")
+
    const [chefExists, setChefExists] = useState(false)
    const [chefFirstName, setChefFirstName] = useState("")
    const [chefLastName, setChefLastName] = useState("")
@@ -97,7 +102,7 @@ function ListARetreat() {
       const [imageListHost2, setImageListHost2] = useState([])
       const [imageListHost3, setImageListHost3] = useState([])
       const [imageListHost4, setImageListHost4] = useState([])
-    
+      const [imageListHost5, setImageListHost5] = useState([])
 
 
       const [welcomeMessage, setWelcomeMessage] = useState("")
@@ -177,6 +182,15 @@ function ListARetreat() {
         const imageRef2 = ref(storage, url);
         deleteObject(imageRef2).then(() => {
           setImageListHost4((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+        }).catch((error) => {
+          console.error("Error deleting image: ", error);
+        });
+     }
+       const deleteImageHost5=(url)=>{
+        event.preventDefault()
+        const imageRef2 = ref(storage, url);
+        deleteObject(imageRef2).then(() => {
+          setImageListHost5((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
         }).catch((error) => {
           console.error("Error deleting image: ", error);
         });
@@ -338,6 +352,22 @@ function ListARetreat() {
    
      }  
     }
+    const uploadHost5Image=(e)=>{
+        e.preventDefault();
+       // Create a root reference
+       if(imageUpload == null){ return;}
+       else{
+       
+       const imageHost5Ref = ref(storage, `/retreatimages/host5/${retreatKindId}/${imageUpload.name+v4()}`);
+       uploadBytes(imageHost5Ref, imageUpload).then((snapshot)=>{
+         getDownloadURL(snapshot.ref).then((url)=>{
+           setImageListHost5((prev)=>[...prev, url]);
+         }
+         );
+       });
+   
+     }  
+    }
     const uploadImage=(e)=>{
         e.preventDefault();
        // Create a root reference
@@ -484,6 +514,17 @@ function ListARetreat() {
   }
   else{
     setHost4Exists(false)
+  }
+}
+ const doesHost5Exist=(e)=>{
+    if(e.target.value=="Yes"){
+    setHost5Exists(true)
+  }
+  else if(e.target.value =="No"){
+    setHost5Exists(false)
+  }
+  else{
+    setHost5Exists(false)
   }
 }
 const doesChefExist=(e)=>{
@@ -704,6 +745,10 @@ const endAtDate=(e)=>{
                                          host4LastName:host4LastName,
                                          aboutHost4:aboutHost4,
                                          host4Exists:host4Exists,
+                                         host5Exists:host5Exists,
+                                          host5FirstName:host5FirstName,
+                                          host5LastName:host5LastName,
+                                          aboutHost5:aboutHost5,
                                          chefExists:chefExists,
                                          chefFirstName:chefFirstName,
                                          chefLastName:chefLastName,
@@ -916,13 +961,13 @@ const endAtDate=(e)=>{
       <form className="bg-white max-w-full min-w-xs shadow-md rounded px-8 pt-6 pb-8  mt-4" >
           <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       First Name of Host1
+       First Name of Host1(main host)
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text"  value={hostFirstName} onChange={(e)=>setHostFirstName(e.target.value)}/>
     </div>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" >
-       Last Name of Host1
+       Last Name of Host1(main host)
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text"  value={hostLastName} onChange={(e)=>setHostLastName(e.target.value)}/>
     </div>
@@ -962,7 +1007,7 @@ const endAtDate=(e)=>{
 
               <br/><br/>
                 {imageListHost2.map((url)=>{
-      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}} onContextMenu={(e)=>e.preventDefault()}/><br/>
                       <Button onClick={()=> deleteImageHost2(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
 
 
@@ -1071,6 +1116,55 @@ const endAtDate=(e)=>{
               </div>
   </div>
   }
+  <div className='m-4 border-2'>
+    <h2 className='text-lg font-bold justify-center m-4'>Is there any other host?</h2>
+  <label className='text-lg font-bold justify-center m-4'>Add Another Host? Host 5</label>&nbsp; &nbsp;
+  <select onChange={doesHost5Exist}>
+    <option className='border-2' value="No">No</option>
+    <option className='border-2' value="Yes">Yes</option>
+  </select>
+  </div>
+ {host5Exists &&
+  <div className='border-2 p-4'>
+   <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       First Name of Host5
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="First Name of Host 5" onChange={(e)=>setHost5FirstName(e.target.value)}/>
+    </div>
+     <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Last Name of Host5
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Last Name of Host 5" onChange={(e)=>setHost5LastName(e.target.value)}/>
+    </div>
+      <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       About Host5
+      </label>
+        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"  type="text" placeholder="Highlights of Retreat" onChange={(e)=>setAboutHost5(e.target.value)}></textarea>
+          
+    </div>
+     <div>
+            <label>Upload at least one pic of your host (required)</label>
+
+              <input type="file" id="profile-pic" className='bg-lime-700 w-60 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
+                    <Button onClick={uploadHost5Image} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2'>Upload Host Image</Button>
+
+              <br/><br/>
+                {imageListHost5.map((url)=>{
+      return <div className='border-2 rounded border-solid border-lime-700  p-4'><img src={url} alt="Uploaded Image" key={url} style={{width:'250px',height:'350px;'}}/><br/>
+                      <Button onClick={()=> deleteImageHost5(url)} className='bg-lime-700  text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline  text-center'>Delete Image</Button>
+
+
+
+      </div>
+      
+     })}
+              </div>
+  </div>
+  }
+  
    <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Is there a chef?</h2>
   <label className='text-lg font-bold justify-center m-4'>Add a Chef</label>&nbsp; &nbsp;

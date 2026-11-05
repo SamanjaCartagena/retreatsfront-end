@@ -12,7 +12,7 @@ export function FeaturedGuides() {
       <div className="flex container justify-between items-center ">
         <center>
         <h2 className="text-xl mb-6 text-lime-900 justify-center align-center font-serif font-semibold">
-          Lightworkers and Guides Around The World
+          Guides/Mentors/Healers for your Retreats
                   </h2></center>
         <a href="#" className="text-retreat-ocean  hover:text-retreat-forest transition-colors font-medium" onClick={() => window.open("https://retreatsaroundtheworld.net/retreatcenters", "_blank")}>
           View all

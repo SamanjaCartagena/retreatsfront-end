@@ -28,7 +28,7 @@ function Sanctuaries() {
                <div className="flex flex-col justify-center mt-6 sm:flex-row items-center gap-4">
                 <Button className=" bg-transparent text-white w-60  justify-center border-white border-2 border-radius hover:bg-white hover:text-lime-700
                   font-medium text-base px-8 py-6" onClick={center}>
-                Retreat Centers 
+                Book a Retreat Center 
                 </Button>
                 </div>
                

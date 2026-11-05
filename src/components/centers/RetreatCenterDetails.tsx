@@ -20,6 +20,7 @@ function RetreatCenterDetails() {
     const [location, setLocation] = useState('')
     const [address, setAddress] = useState('')
     const [kind, setKind] = useState('')
+    const [welcomeMessage, setWelcomeMessage] = useState('')
     const [airport, setAirport] = useState('')
     const [readMore1, setReadMore1] = useState(false)
         const [readMore3, setReadMore3] = useState(false)
@@ -247,6 +248,7 @@ const passImageUrl5=(i)=>{
                 setPricePackage4(doc.data().pricePackage4)
                 setPricePackage5(doc.data().pricePackage5)
                 setDailySchedule(doc.data().dailySchedule)
+                setWelcomeMessage(doc.data().welcomeMessage)
 
 
               
@@ -353,9 +355,9 @@ const passImageUrl5=(i)=>{
       <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
   
   {imageList.length > 0 &&  imageList.slice(0,6).map((imageUrl, index) => (
-             
-       <img className="w-60 rounded  md:w-50 h-75 lg:w-80 sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
-      
+             <div className="flex justify-center items-center lg:grid-cols-3 h-75  sm:w-full border-2 border-gray-300 rounded" key={index}>
+       <img className="w-full rounded  h-full  sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
+      </div>
 ))}
  <ImageModal isOpen={openList}  >
                 <ImageSlider slides={imageList} index={photoIndex} closeSlider={()=>setOpenList(false)}/>
@@ -399,6 +401,7 @@ const passImageUrl5=(i)=>{
           <h1 className='text-lg font-bold'>{nameOfCenter}</h1>
           <h1 className='text-lg h-auto'>{address}</h1>
                     <h1 className='text-lg h-auto'>{location}</h1>
+                    <h1 className='text-lg h-auto'>{welcomeMessage}</h1>
 
                
                    <center>
