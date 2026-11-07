@@ -54,6 +54,7 @@ function RetreatDetails() {
     const [chefLastName, setChefLastName] = useState("")
     const [aboutChef, setAboutChef] = useState("")
     const [aboutHost4, setAboutHost4] = useState("")
+    const [readMoreChef, setReadMoreChef] = useState(false)
     const [retreatName, setRetreatName] = useState("");
     const [messageToHost, setMessageToHost] = useState("");
     const [imageFirst, setFirstImage] = useState("")
@@ -79,8 +80,10 @@ function RetreatDetails() {
     const [host2LastName, setHost2LastName] = useState("")
     const [host3FirstName, setHost3FirstName] = useState("")
     const [host3LastName, setHost3LastName] = useState("")
+    const [readMoreKind, setReadMoreKind] = useState(false)
     
     const [aboutHost2, setAboutHost2] = useState("")
+    const [readMoreHost2, setReadMoreHost2] = useState(false)
     const [aboutHost3, setAboutHost3] = useState("")
     const [nameOfCity, setNameOfCity] = useState("");
     const [imageListHost2, setImageListHost2] = useState([])
@@ -90,7 +93,7 @@ function RetreatDetails() {
     const [aboutFood, setAboutFood] = useState("")
     const [foodPic, setFoodPic] = useState("")
     const [year,setYear] = useState("")
-
+    const [readMoreFood, setReadMoreFood] = useState(false)
     const [city, setCity] = useState("");
   const [value, setValue] = React.useState<Dayjs | null>();
 
@@ -99,6 +102,7 @@ function RetreatDetails() {
      const [type2, setType2] = useState("")
      const [type3, setType3] = useState("")
      const [extraType, setExtraType] = useState("")
+     const [readMoreCity, setReadMoreCity] = useState(false)
 
   /**Welcome Message */
   const [welcomeMessage, setWelcomeMessage] = useState("")
@@ -122,6 +126,7 @@ function RetreatDetails() {
     const [cityPic, setCityPic] = useState("");
     const [imageListChef, setImageListChef] = useState([])
     const [currentIndex, setCurrentIndex] = useState(0)
+  
                  /**Accomodations */
 
                  /**Room 1 */
@@ -195,6 +200,13 @@ function RetreatDetails() {
 
     const [read, setRead] = useState(false)
     const [imageIndex, setImageIndex] = useState(0)
+   
+    const handleReadMoreClick = () => {
+    setReadMoreFood(!readMoreFood);
+    }
+   const handleReadMoreChefClick = () => {
+    setReadMoreChef(!readMoreChef);
+  }
    const Message = ({ message }) => (
   <section>
     <p>{message}</p>
@@ -297,6 +309,9 @@ const doesChefExist =(e) =>{
     setChefExists(false)
   }
 }
+const handleReadMoreKindClick = () => {
+    setReadMoreKind(!readMoreKind);
+  }
  const deleteImageHost2=(url)=>{
          event.preventDefault()
          const imageRef2 = ref(storage, url);
@@ -661,7 +676,9 @@ const closeNotLogged=()=>{
   setNotLogged(false)
 }
 
-
+const handleReadMoreHost2Click =()=>{
+  setReadMoreHost2(!readMoreHost2)
+}
 
     const { toast } = useToast();
 const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -669,6 +686,9 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
     setFormData(prev => ({ ...prev, [name]: value }));
   };
  
+  const handleReadMoreCityClick = () => {
+    setReadMoreCity(!readMoreCity);
+  }
 
 
 const delImgEdit=(url)=>{
@@ -844,6 +864,12 @@ useEffect(()=>{
             setIncludesRoom2Breakfast(doc.data().includesRoom2Breakfast)
             setIncludesRoom3Breakfast(doc.data().includesRoom3Breakfast)
             setIncludesRoom4Breakfast(doc.data().includesRoom4Breakfast)
+            setIncludesRoom5Breakfast(doc.data().includesRoom5Breakfast)
+            setIncludesWifiRoom1(doc.data().includesWifiRoom1)
+            setIncludesWifiRoom2(doc.data().includesWifiRoom2)
+            setIncludesWifiRoom3(doc.data().includesWifiRoom3)
+            setIncludesWifiRoom4(doc.data().includesWifiRoom4)
+            setIncludesWifiRoom5(doc.data().includesWifiRoom5)
             setTotalPriceRoom1(doc.data().totalPriceRoom1)
             setTotalPriceRoom2(doc.data().totalPriceRoom2)
             setTotalPriceRoom3(doc.data().totalPriceRoom3)
@@ -1063,24 +1089,24 @@ useEffect(()=>{
  
 </div>
 </center>
-<div className="container w-full h-full flex lg:flex items-center md:justify-center sm:items-center sm:grid-cols-1  bg-transparent">
- <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2"  onClick={()=>viewAllPhotos(0)}>
+<div className="container h-full grid lg:flex items-center md:grid-cols-2 md:justify-center sm:items-center sm:grid  bg-transparent">
+ <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-full  text-white  m-2"  onClick={()=>viewAllPhotos(0)}>
     View all photos
   </Button>
-      <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 md:w-40 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
+      <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 md:w-1/3 text-center text-white m-2 justify-items: right" onClick={()=>setInquiryModal(true)}>Inquire</Button>
  <StripeCheckout 
          stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
          token={makePayment}
          name='Cheapest Package'
          amount={price*100}
         >
-        <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-40  text-white  m-2">
-        Starts At ${price}
+        <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-full text-white  m-2">
+        Starts At ${price} book now
         </Button>
 
           </StripeCheckout>
        {hostIsUser &&
-             <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center md:w-40 sm:w-full text-white m-2 justify-items: right" onClick={()=>setEditModal(true)}>Edit Info</Button>
+             <Button className="bg-lime-700 hover:bg-white hover:text-lime-700 lg:w-60 text-center md:w-1/3 sm:w-full text-white m-2 justify-items: right" onClick={()=>setEditModal(true)}>Edit Info</Button>
        }
 
            </div>
@@ -1625,8 +1651,8 @@ useEffect(()=>{
           <h1 className='text-lg font-semibold'>Retreat Center Name/Hotel/Airbnb: {centerName}</h1>
           <h1 className='text-lg font-semibold '>Retreat Address: {retreatAddress}</h1>
           <h1 className='text-lg font-semibold '>Country: {country}</h1>
-          <div className='container text-center w-full h-auto p-4 rounded-lg  bg-white'>
-            <h1 className='text-lg font-semibold font-italic font-family: Papyrus, fantasy; m-2 '>{welcomeMessage}</h1>
+          <div className='container text-center w-full h-auto p-2 rounded-lg  bg-white m-4'>
+            <h1 className='text-lg font-semibold font-italic font-family: Papyrus, fantasy; '>{welcomeMessage}</h1>
           
           </div>
         
@@ -1637,15 +1663,15 @@ useEffect(()=>{
 
                                <div className='container text-center w-full h-auto p-4 rounded-lg  bg-white'>
                                    <h1 className='text-lg font-bold'>Highlights</h1>
-                               <h1 className='container text-lg font-bold'>{message1}</h1>
+                               <h1 className='container text-md '>{message1}</h1>
                                       <h1 className=' container text-lg font-bold '>{message2}</h1>
                                       <h1 className='container text-lg font-bold '>{message3}</h1>
                                       </div>
 
           <br/>
           <br/>
-                   <center>
-          <div className="text-center w-full  lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
+                   
+          <div className="container text-center w-full  lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
 
             <div className=" lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 w-full h-full justify-center items-center text-center">
 
@@ -1654,7 +1680,7 @@ useEffect(()=>{
                <div>
                         <h1 className='font-semibold text-lg m-2'>About the Host</h1>
 
-        <center><img src={hostPic} alt="Retreats Around The World"  className="w-60 h-60 justify-center object-cover" onContextMenu={(e)=>e.preventDefault()}/></center>
+        <center><img src={hostPic} alt="Retreats Around The World"  className="w-60 h-60 rounded justify-center object-cover" onContextMenu={(e)=>e.preventDefault()}/></center>
             <br/>
             <br/>
                                     
@@ -1681,12 +1707,16 @@ useEffect(()=>{
             {host2Exists &&
             <div className='container'>
             <h1 className='font-semibold text-lg m-2'>Name of Host:&nbsp;{host2FirstName}&nbsp;{host2LastName}</h1>
-                            <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  gap-4 p-4 h-auto">
-                        <h1 className='font-semibold text-lg m-2'>About the Host: &nbsp;{aboutHost2}</h1>
+                            <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  h-auto">
+                              <div className='grid'>
+                        {!readMoreChef && <h1 className='text-md m-2'>{Object.values(aboutHost2).slice(0,550)}...</h1>}
+                                {readMoreHost2 && <h1>{aboutHost2}</h1>}
+                        <p className='text-blue-500 underline cursor-pointer' onClick={handleReadMoreHost2Click}>Read More</p>
+                       </div>
 
             {imageListHost2.length > 0 &&  imageListHost2.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
+      <center><img className="w-60 h-60 mt-5 rounded justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
               
               
                   </div>
@@ -1701,11 +1731,11 @@ useEffect(()=>{
             <div className='container'>
             <h1 className='font-semibold text-lg m-2'>Name of Host:&nbsp;{host3FirstName}&nbsp;{host3LastName}</h1>
                             <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  gap-4 p-4 h-auto">
-                        <h1 className='font-semibold text-lg m-2'>About the Host: &nbsp;{aboutHost3}</h1>
+                        <h1 className='text-md m-2'>{aboutHost3}</h1>
 
             {imageListHost3.length > 0 &&  imageListHost3.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
+      <center><img className="w-60 h-60 mt-5 rounded justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
               
               
                   </div>
@@ -1720,11 +1750,11 @@ useEffect(()=>{
             <div className='container'>
             <h1 className='font-semibold text-lg m-2'>Name of Host:&nbsp;{host4FirstName}&nbsp;{host4LastName}</h1>
                             <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  gap-4 p-4 h-auto">
-                        <h1 className='font-semibold text-lg m-2'>About the Host: &nbsp;{aboutHost4}</h1>
+                        <h1 className='text-md m-2'>{aboutHost4}</h1>
 
             {imageListHost4.length > 0 &&  imageListHost4.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
+      <center><img className="w-60 h-60 mt-5 rounded justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
               
               
                   </div>
@@ -1739,11 +1769,11 @@ useEffect(()=>{
             <div className='container'>
             <h1 className='font-semibold text-lg m-2'>Name of Host:&nbsp;{host5FirstName}&nbsp;{host5LastName}</h1>
                             <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  gap-4 p-4 h-auto">
-                        <h1 className='font-semibold text-lg m-2'>About the Host: &nbsp;{aboutHost5}</h1>
+                        <h1 className='text-md m-2'>{aboutHost5}</h1>
 
             {imageListHost5.length > 0 &&  imageListHost5.slice(0,1).map((imageUrl, index) => (
               <div>
-      <center><img className="w-60 h-60 mt-5  justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
+      <center><img className="w-60 h-60 mt-5 rounded justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
               
               
                   </div>
@@ -1753,6 +1783,26 @@ useEffect(()=>{
 
                         </div>
 
+            }
+            {chefExists &&
+            <div className='container'>
+                       <h1 className='font-semibold lg:text-lg sm:w-full sm:text-md m-2'>Name of Chef:&nbsp;{chefFirstName}&nbsp;{chefLastName}</h1>
+                            <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 sm:w-full h-auto">
+                              <div className='grid'>
+                        {!readMoreChef && <h1 className='text-md m-2'>{Object.values(aboutChef).slice(0,550)}...</h1>}
+                        {readMoreChef && <h1 className='text-md m-2'>{aboutChef}</h1>}
+                        <p className='text-blue-500 underline cursor-pointer' onClick={handleReadMoreChefClick}>Read More</p>
+                        </div>
+
+                        {imageListChef.length > 0 &&  imageListChef.slice(0,1).map((imageUrl, index) => (
+              <div>
+      <center><img className="w-60 h-60 mt-5 rounded justify-center object-cover cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()}/></center>
+              
+              
+                  </div>  
+          ))}
+          </div>
+                        </div>
             }
                           <h1 className='font-semibold text-lg m-2'>Date</h1>
 
@@ -1773,6 +1823,9 @@ useEffect(()=>{
                    {room1Exists &&<h1>Total price of Retreat if you select Room 1 or Package1 - <strong>${totalPriceRoom1}</strong></h1>}
                                {room2Exists &&  <h1>Total price of Retreat if you select Room 2 or Package2 - <strong>${totalPriceRoom2}</strong></h1>}
                                 {room3Exists && <h1>Total price of Retreat if you select Room 3 or Package3 - <strong>${totalPriceRoom3}</strong></h1>}
+                                {room4Exists && <h1>Total price of Retreat if you select Room 4 or Package4 - <strong>${totalPriceRoom4}</strong></h1>}
+                                {room5Exists && <h1>Total price of Retreat if you select Room 5 or Package5 - <strong>${totalPriceRoom5}</strong></h1>}
+                                {flightIncluded === "Yes" && <h1>Flight expenses included in the price</h1>}
 
 
                  </div>
@@ -1780,28 +1833,43 @@ useEffect(()=>{
                    <br/>
                                             <h1 className='font-semibold text-lg m-2'>Kind of Retreat</h1>
                              <div className='p-4 border-2 rounded  h-auto justify-center'>
+           {!readMoreKind && <h1 className='text-md h-auto p-4 rounded'>{Object.values(kind).slice(0,550)}...</h1>}
+           {readMoreKind && <h1 className='text-md h-auto p-4 rounded'>{kind}</h1>}
+                       <p className='text-blue-500 underline cursor-pointer' onClick={handleReadMoreKindClick}>Read More</p>
 
-            <h1 className='text-lg h-auto'>{kind}</h1><br/>
+           </div>
+            <div className='grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1  gap-4 p-4 h-auto border-2 rounded'>
             <h1 className='text-lg font-semibold'>{nameOfCity}</h1>
             <center><img src={cityPic} alt="Retreats Around The World"  className="w-100 h-100 mt-5  justify-center object-cover" onContextMenu={(e)=>e.preventDefault()}/></center>
-            </div>
+            
             <br/>
             <h1 className='font-semibold text-lg m-2'>About the city /region / village / town</h1>
-            <h1 className='text-lg h-auto p-4 border-2 rounded'>{city}</h1>
+            {!readMoreCity && <h1 className='text-md h-auto p-4  rounded'>{Object.values(city).slice(0,550)}...</h1>}
+            {readMoreCity && <h1 className='text-md h-auto p-4  rounded'>{city}</h1>}
+            <p className='text-blue-500 underline cursor-pointer' onClick={handleReadMoreCityClick}>Read More</p>
+            </div>
+            
             <br/>
-            <h1 className='font-semibold text-lg m-2'>Food That will be Provided</h1>
+               <div className='p-4 border-2 rounded  h-auto justify-center'>
+                            <h1 className='font-semibold text-lg m-2'>Food That will be Served</h1>
+                                                    <center><img src={foodPic} alt="Retreats Around The World"  className="w-100 h-100 mt-5  justify-center object-cover rounded" onContextMenu={(e)=>e.preventDefault()}/></center>
 
-             <h1 className='text-lg h-auto p-4 border-2 rounded'>{aboutFood} </h1>
-                        <center><img src={foodPic} alt="Retreats Around The World"  className="w-100 h-100 mt-5  justify-center object-cover" onContextMenu={(e)=>e.preventDefault()}/></center>
 
+             {!readMoreFood && <h1 className='text-md h-auto p-4 rounded'>{Object.values(aboutFood).slice(0,550)}...</h1>}
+                          {readMoreFood && <h1 className='text-md h-auto p-4 rounded'>{aboutFood}</h1>}
+
+                                     <p className='text-blue-500 underline cursor-pointer' onClick={handleReadMoreClick}>Read More</p>
+
+
+                      </div>
                         <h1 className='font-semibold text-lg m-2'>Airport Information</h1>
 
             <div className='border-2 rounded p-4'>
-                                    <h1 className='text-lg mb-4'>Nearest Airport:&nbsp;{nearestAirport}</h1>
+                                    <h1 className='text-lg mb-4'><strong>Nearest Airport:</strong>&nbsp;{nearestAirport}</h1>
 
-                                    <h1 className='text-lg mb-4'>Flight expenses included:&nbsp;{flightIncluded}</h1>
+                                    <h1 className='text-lg mb-4'><strong>Flight expenses included:</strong>&nbsp;{flightIncluded}</h1>
 
-                                    <h1 className='text-lg mb-4'>Airport Pick up services provided:&nbsp;{airportPickup}</h1>
+                                    <h1 className='text-lg mb-4'><strong>Airport Pick up services provided:</strong>&nbsp;{airportPickup}</h1>
                                   
 
                                     </div>
@@ -1849,6 +1917,7 @@ useEffect(()=>{
 
                                                                        <h1 className='text-lg h-auto'>{accommodation1}</h1>
                                                                        <h1 className='text-lg h-auto'>Include breakfast: {includesRoom1Breakfast}</h1>
+                                                                       <h1 className='text-lg h-auto'>Include Wi-Fi: {includesWifiRoom1}</h1>
                                                                       
                           </div>
                   
@@ -1899,6 +1968,8 @@ useEffect(()=>{
           
                                                                      <h1 className='text-lg h-auto'>{accommodation2}</h1>
                                                                       <h1 className='text-lg h-auto'>Include breakfast: {includesRoom2Breakfast}</h1>
+                                                                      <h1 className='text-lg h-auto'>Include Wi-Fi: {includesWifiRoom2}</h1>
+                                                                      
                                                                       </div>
 
          
@@ -1947,6 +2018,7 @@ useEffect(()=>{
                       
                       
                         <h1 className='text-lg h-auto'>Include breakfast: {includesRoom3Breakfast}</h1>
+                        <h1 className='text-lg h-auto'>Include Wi-Fi: {includesWifiRoom3}</h1>
 
                      </div>
                     </div>
@@ -1994,7 +2066,7 @@ useEffect(()=>{
                       
                       
                         <h1 className='text-lg h-auto'>Include breakfast: {includesRoom4Breakfast}</h1>
-
+                        <h1 className='text-lg h-auto'>Include Wi-Fi: {includesWifiRoom4}</h1>
                      </div>
                     </div>
                     </div>}
@@ -2041,7 +2113,7 @@ useEffect(()=>{
                       
                       
                         <h1 className='text-lg h-auto'>Include breakfast: {includesRoom5Breakfast}</h1>
-
+                        <h1 className='text-lg h-auto'>Include Wi-Fi: {includesWifiRoom5}</h1>
                      </div>
                     </div>
                     </div>}
@@ -2053,7 +2125,7 @@ useEffect(()=>{
             }
                         
           </div>
-          </center>
+          
             <center>            <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
 
           

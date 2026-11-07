@@ -9,6 +9,7 @@ import { FeaturedCenters} from "@/components/centers/CenterDisplay";
 import { FeaturedGuides } from "@/components/guides/FeaturedGuides";
 import { Separator } from "@/components/ui/separator";
 import Contact from "@/components/contact/Contact";
+import { FeaturedEvents } from "@/components/guides/FeaturedEvents";
 const Index = () => {
  
 
@@ -23,6 +24,7 @@ const Index = () => {
         <RetreatCard />
        <FeaturedCenters/>
        <FeaturedGuides/>
+       <FeaturedEvents/>
         <FeaturedDestinations />
         <Contact/>
       </main>

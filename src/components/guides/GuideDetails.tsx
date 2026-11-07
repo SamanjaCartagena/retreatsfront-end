@@ -48,6 +48,7 @@ function GuideDetails() {
         const [guide1, setGuide1] = useState(guideSpecialty[0])
         const [guide2, setGuide2] = useState("")
         const [guide3, setGuide3] = useState("")
+        const [specialty,setSpecialty] = useState("")
         const [alsoHost, setAlsoHost] = useState(false)
         const imageListRef = ref(storage, `/guideImages/${guideId}/`);
         
@@ -135,6 +136,7 @@ function GuideDetails() {
               setGuideSpecialty(doc.data().guideSpecialty)
               setGuideIntroduction(doc.data().guideIntroduction);
               setGuidePhone(doc.data().guidePhone);
+              setSpecialty(doc.data().specialty)
 
               
             });
@@ -296,6 +298,8 @@ function GuideDetails() {
               <h1 className="text-xl font-bold mb-2">Specialty</h1>
                  <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide1(e.target.value)} value={guideSpecialty[0]} >
               <option value={guideSpecialty[0]}>{guideSpecialty[0]}</option>
+                            <option value="">None</option>
+
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
     <option value="Ayurveda">Ayurveda</option>
@@ -326,6 +330,8 @@ function GuideDetails() {
               <br/>
                   <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide2(e.target.value)} >
               <option value={guideSpecialty[1]}>{guideSpecialty[1]}</option>
+                            <option value="">None</option>
+
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
     <option value="Ayurveda">Ayurveda</option>
@@ -356,6 +362,7 @@ function GuideDetails() {
               <br/>
                   <select className="bg-white p-2 rounded-md" onChange={(e)=>setGuide3(e.target.value)} value={guideSpecialty[2]}>
               <option value={guideSpecialty[2]}>{guideSpecialty[2]}</option>
+              <option value="">None</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
     <option value="Ayurveda">Ayurveda</option>
@@ -418,10 +425,7 @@ function GuideDetails() {
                                           <h1 className='text-lg h-auto m-2'>Username:&nbsp;{guideUsername}</h1>
 
 
-                                                          <h1 className='text-lg h-auto m-2'>Specialty:&nbsp;{guideProfession}</h1>
-                                                          <h1 className='text-lg h-auto m-2'>{guideSpecialty[0]},&nbsp;{guideSpecialty[1]},&nbsp;{guideSpecialty[2]},&nbsp;{guideSpecialty[3]}</h1>
-
-                                                          
+                                                          <h1 className='text-lg h-auto m-2'>Specialty:&nbsp;{specialty}</h1>
                                                           
 
                                                             <h1 className='text-lg h-auto m-2'>{guideIntroduction}</h1>
@@ -438,16 +442,16 @@ function GuideDetails() {
                                   </div>
                                    }
                                   
-                                   
-                     <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
+                                   <center>
+                           <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
                                 {imageListGuide.length > 0 &&  imageListGuide.map((imageUrl, index) => (
-                                                 <div className="flex justify-center items-center lg:grid-cols-3 h-75  sm:w-full border-2 border-gray-300 rounded" key={index}>
-
-                                 <img className="w-full rounded  h-full  sm:w-full items-center cursor-pointer"  src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()} onClick={()=>passImageUrl(index)} />
-                                 
+                           <div className="justify-center m-8 items-center lg:grid-cols-3 h-75  sm:w-full border-2 border-gray-300 rounded" key={index}>
+                            
+                                <img className="w-full rounded  h-full  sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()} onClick={()=>passImageUrl(index)} />
                                  {currentUser &&
-                                 <Button onClick={()=>deleteImage(imageUrl)} className='bg-red-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Delete Image</Button>
+                                 <Button onClick={()=>deleteImage(imageUrl)} className='bg-red-700 w-60  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Delete Image</Button>
                                         } 
+                                        
                                  </div>
     
                                 ))}
@@ -455,6 +459,7 @@ function GuideDetails() {
 
                                   
                                   </div>
+                                  </center>
                                    <ImageModal isOpen={openSomething}  >
                                                   <div className="w-90% h-full justify-center items-center bg-transparent">
                                                                            <ImageSlider slides={imageListGuide} index={imageIndex} closeSlider={()=>setOpenSomething(false)}/>

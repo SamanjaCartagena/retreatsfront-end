@@ -38,6 +38,7 @@ function GuideSignUp() {
     const [guideLocation, setGuideLocation] = useState('')
     const [guideCity, setGuideCity] = useState('')
     const [password, setPassword]= useState('');
+    const [specialty, setSpecialty] = useState('')
     const [type1, setType1] = useState('')
     const [type2, setType2] = useState('')
     const [type3, setType3] = useState('')
@@ -80,6 +81,7 @@ onAuthStateChanged(auth, async (user) => {
                                        guideCity:guideCity,
                                        guideEmail:guideEmail,
                                        guideIntroduction:guideIntroduction,
+                                       specialty:specialty,
                                        type1:type1,
                                        type2:type2,
                                        type3:type3,
@@ -320,6 +322,12 @@ Guest Relations: Acting as a "concierge" for participants, handling individual r
         Profession
       </label>
                   <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="profession" type="text" placeholder="Profession" onChange={(e) => setProfession(e.target.value)} />
+      <br/><br/>
+       <br/><br/>
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+        Guide Specialty
+      </label>
+                  <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="profession" type="text" placeholder="Specialty" onChange={(e) => setSpecialty(e.target.value)} />
       <br/><br/>
  <label className="block text-gray-700 text-sm font-bold mb-2" >
         Phone
