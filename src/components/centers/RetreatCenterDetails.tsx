@@ -332,7 +332,8 @@ const passImageUrl5=(i)=>{
     
    
   return (          
-       <div className="relative h-auto min-h-auto w-full overflow-hidden lg:flex md:grid-cols-1 justify-center items-center justify-items-center"  style={{ backgroundColor:'lightGray', color:'black'}}>
+    <div className="container h-full lg:flex items-center md:grid-cols-2 md:justify-center sm:items-center sm:grid-cols-1  bg-transparent" style={{ backgroundColor:'lightGray', color:'black'}}>
+
          <Modal isOpen={inquiryModal} onClose={()=>setInquiryModal(false)} >
             <form className="bg-white p-6 rounded shadow-md w-96 mt-20" onSubmit={handleSubmit} ref={form}>
               <label className="block text-gray-700 text-sm font-bold mb-2" >
@@ -405,27 +406,27 @@ const passImageUrl5=(i)=>{
 
                
                    <center>
-          <div className="text-center w-3/4  lg:grid md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
-                                                <p className='w-60 md:w-full sm:w-full p-10'>{kind}</p>
+          <div className="text-center w-full  lg:grid md:grid-cols-1 sm:grid-cols-1 justify-center align-center p-10 rounded-lg lg:flex sm:grid-cols-1 m-4 gap-4 items-center justify-items-center bg-white">
+                                                <p className='w-60 md:w-full sm:w-full p-2'>{kind}</p>
 
                                     <h1 className='text-lg m-2'><strong>Inquire for Pricing and Availability</strong></h1>
 
             <div>
-                        <div className='border-2 rounded w-full m-4'>   
+                        <div className='border-2 rounded w-full m-2 p-2'>   
                           <h1 className='text-lg h-auto font-semibold p-4'>Facilities Provided</h1>
-                          <h1 className='text-lg h-auto p-4'>{facilites}</h1>
+                          <h1 className='text-lg h-auto '>{facilites}</h1>
 
                       </div>
-                      <div className='border-2 rounded w-full m-4 p-4'>   
-                          <h1 className='text-lg h-auto font-semibold'>Group Rate</h1>
+                      <div className='border-2 rounded w-full m-2 p-2'>   
+                          <h1 className='text-lg h-auto font-semibold sm:text-md'>Group Rate</h1>
                           <h1 className='text-lg h-auto'>{groupRateRoom}</h1>
 
                       </div>
-                      <div className='border-2 rounded w-full m-4 p-4'>   
+                      <div className='border-2 rounded w-full m-2 p-2'>   
                           <h1 className='text-lg h-auto font-semibold'>Programs</h1>
                           <h1 className='text-lg h-auto'>{dailySchedule}</h1>
                       </div>
-                      <div className='border-2 rounded w-full m-4 p-4'>   
+                      <div className='border-2 rounded w-full m-2 p-2'>   
                           <h1 className='text-lg h-auto font-semibold'>Food Information</h1>
                           <h1 className='text-lg h-auto'>{foodInformation}</h1>
 
@@ -449,7 +450,7 @@ const passImageUrl5=(i)=>{
                   <br/>
                   
                   </div>
-            <div className='border-2 rounded w-full p-4'>
+            <div className='border-2 rounded w-full m-2'>
             <h1 className='text-lg font-bold mb-4'>How do you get there?</h1>
                                     <h1 className='text-lg m-2'><strong>Nearest Airport:</strong> {airport}</h1>                            
                                                                         <h1 className='text-lg m-2'><strong>Airport Pickup Service:</strong> {airportPickup}</h1>
@@ -462,7 +463,7 @@ const passImageUrl5=(i)=>{
             <div>
                                                      <h1 className='text-lg h-auto font-semibold'>Room 1/Package 1</h1>
 
-                              <div className='border-2 p-4 lg:flex sm:grid-cols-1 md:grid-cols-2'>
+                              <div className='border-2 p-2 lg:flex sm:grid-cols-1 md:grid-cols-2'>
 
                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 gap-4 h-auto w-100% justify-center items-center justify-items-center align-center m-4">
 
@@ -698,12 +699,13 @@ const passImageUrl5=(i)=>{
 }
             
              
-               <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
+      <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
   
   {imageList.length > 0 &&  imageList.map((imageUrl, index) => (
-             
-       <img className="w-60 rounded  md:w-50 h-70 lg:w-80 sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
-      
+                          <div className="flex justify-center items-center lg:grid-cols-3 h-75  sm:w-full border-2 border-gray-300 rounded" key={index}>
+
+       <img className="w-full rounded  h-full  sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World"  onClick={()=>viewAllPhotos(index)} key={index}/>
+      </div>
 ))}
  <ImageModal isOpen={openList}  >
                 <ImageSlider slides={imageList} index={photoIndex} closeSlider={()=>setOpenList(false)}/>

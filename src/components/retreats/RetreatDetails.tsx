@@ -1656,7 +1656,7 @@ useEffect(()=>{
           
           </div>
         
-                    <h1 className='font-semibold text-lg m-2 p-4'>Type of Retreat: {Object.values(retreatType).join(", ")}</h1>
+                    <h1 className='font-semibold text-lg m-2 p-4'>Type of Retreat: {retreatType}</h1>
                         
 
                                <br/>
@@ -1709,8 +1709,7 @@ useEffect(()=>{
             <h1 className='font-semibold text-lg m-2'>Name of Host:&nbsp;{host2FirstName}&nbsp;{host2LastName}</h1>
                             <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1  h-auto">
                               <div className='grid'>
-                        {!readMoreChef && <h1 className='text-md m-2'>{Object.values(aboutHost2).slice(0,550)}...</h1>}
-                                {readMoreHost2 && <h1>{aboutHost2}</h1>}
+                            <h1>{aboutHost2}</h1>
                         <p className='text-blue-500 underline cursor-pointer' onClick={handleReadMoreHost2Click}>Read More</p>
                        </div>
 
@@ -1789,8 +1788,7 @@ useEffect(()=>{
                        <h1 className='font-semibold lg:text-lg sm:w-full sm:text-md m-2'>Name of Chef:&nbsp;{chefFirstName}&nbsp;{chefLastName}</h1>
                             <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 sm:w-full h-auto">
                               <div className='grid'>
-                        {!readMoreChef && <h1 className='text-md m-2'>{Object.values(aboutChef).slice(0,550)}...</h1>}
-                        {readMoreChef && <h1 className='text-md m-2'>{aboutChef}</h1>}
+                     <h1 className='text-md m-2'>{aboutChef}</h1>
                         <p className='text-blue-500 underline cursor-pointer' onClick={handleReadMoreChefClick}>Read More</p>
                         </div>
 
@@ -1833,8 +1831,7 @@ useEffect(()=>{
                    <br/>
                                             <h1 className='font-semibold text-lg m-2'>Kind of Retreat</h1>
                              <div className='p-4 border-2 rounded  h-auto justify-center'>
-           {!readMoreKind && <h1 className='text-md h-auto p-4 rounded'>{Object.values(kind).slice(0,550)}...</h1>}
-           {readMoreKind && <h1 className='text-md h-auto p-4 rounded'>{kind}</h1>}
+                         <h1 className='text-md h-auto p-4 rounded'>{kind}</h1>
                        <p className='text-blue-500 underline cursor-pointer' onClick={handleReadMoreKindClick}>Read More</p>
 
            </div>
@@ -1844,8 +1841,7 @@ useEffect(()=>{
             
             <br/>
             <h1 className='font-semibold text-lg m-2'>About the city /region / village / town</h1>
-            {!readMoreCity && <h1 className='text-md h-auto p-4  rounded'>{Object.values(city).slice(0,550)}...</h1>}
-            {readMoreCity && <h1 className='text-md h-auto p-4  rounded'>{city}</h1>}
+            <h1 className='text-md h-auto p-4  rounded'>{city}</h1>
             <p className='text-blue-500 underline cursor-pointer' onClick={handleReadMoreCityClick}>Read More</p>
             </div>
             
@@ -1855,8 +1851,7 @@ useEffect(()=>{
                                                     <center><img src={foodPic} alt="Retreats Around The World"  className="w-100 h-100 mt-5  justify-center object-cover rounded" onContextMenu={(e)=>e.preventDefault()}/></center>
 
 
-             {!readMoreFood && <h1 className='text-md h-auto p-4 rounded'>{Object.values(aboutFood).slice(0,550)}...</h1>}
-                          {readMoreFood && <h1 className='text-md h-auto p-4 rounded'>{aboutFood}</h1>}
+                         <h1 className='text-md h-auto p-4 rounded'>{aboutFood}</h1>
 
                                      <p className='text-blue-500 underline cursor-pointer' onClick={handleReadMoreClick}>Read More</p>
 
