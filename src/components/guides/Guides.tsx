@@ -9,6 +9,8 @@ import { Card, CardContent } from '../ui/card.js';
 import { Star } from 'lucide-react';
 import { Button } from '../ui/button.js';
 import { Separator } from '../ui/separator.js';
+import ReactPaginate from 'react-paginate';
+
 export default function Guides() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -209,12 +211,11 @@ export default function Guides() {
     </div>
       
 )})
-  const pageCount = Math.ceil(listOfRetreats.length/usersPerPage)
+ const pageCount = Math.ceil(listOfRetreats.length/usersPerPage)
 const changePage= ({selected}) => {
   setPageNumber(selected)
 
 }
-
   return (
      <div>
         <div className="relative h-[60vh] min-h-[600px] w-full overflow-hidden">
@@ -474,6 +475,20 @@ const changePage= ({selected}) => {
        {displayRetreats}
        
     </div>  
+    <div className="flex justify-center items-center gap-4 pt-8 mb-8">
+                                                    <ReactPaginate
+                                                         
+                                                          previousLabel={"Previous"}
+                                                          
+                                                           nextLabel={"Next"}
+                                                          pageCount={pageCount}
+                                                          onPageChange={changePage}
+                                                          containerClassName={"paginationBttns"}
+                                                       previousLinkClassName={"previousBttn"}
+                                                     
+
+                                                          />
+                                                         </div>
           </div>
      </div>
   )

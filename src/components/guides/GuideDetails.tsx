@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs, addDoc, updateDoc, arrayUnion, deleteDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, listAll, uploadBytes, deleteObject} from "firebase/storage";
 import { db, auth,storage} from "../../firebase.js";
 import {v4} from 'uuid';
@@ -45,6 +45,7 @@ function GuideDetails() {
         const [guideType, setGuideType] = useState("")
         const [openEditor, setOpenEditor] = useState(false)
         const [guideSpecialty, setGuideSpecialty] = useState("")
+        const [descript, setDescript] = useState("")
         const [guide1, setGuide1] = useState(guideSpecialty[0])
         const [guide2, setGuide2] = useState("")
         const [guide3, setGuide3] = useState("")
@@ -136,7 +137,8 @@ function GuideDetails() {
               setGuideSpecialty(doc.data().guideSpecialty)
               setGuideIntroduction(doc.data().guideIntroduction);
               setGuidePhone(doc.data().guidePhone);
-              setSpecialty(doc.data().specialty)
+              setSpecialty(doc.data().specialty);
+              setDescript(doc.data().photo)
 
               
             });
@@ -232,15 +234,18 @@ function GuideDetails() {
             const uploadImage=(e)=>{
                    e.preventDefault();
                   // Create a root reference
+
                   console.log("Upload Image");
                   if(imageUpload == null) return;
-                  
+
                   
                   const imageRef = ref(storage, `/guideImages/${guideId}/${imageUpload.name+v4()}`);
+
                   uploadBytes(imageRef, imageUpload).then((snapshot)=>{
                     getDownloadURL(snapshot.ref).then((url)=>{
                       setImageListGuide((prev)=>[...prev, url]);
-                    }
+                     
+                          }
                     );
                   });
               
@@ -248,12 +253,16 @@ function GuideDetails() {
               
                  const deleteImage=(url)=>{
                   event.preventDefault()
+                                      const docRef = doc(db, "guides", documentId);
+
                         const imageRef = ref(storage, url);
                         deleteObject(imageRef).then(() => {
+
                           setImageListGuide((prev)=>prev.filter((imageUrl)=>imageUrl!==url));
+                        
                         }).catch((error) => {
                           console.error("Error deleting image: ", error);
-                        });
+                        })
                      }
                
               
@@ -439,13 +448,15 @@ function GuideDetails() {
                                       <input type="file" id="profile-pic" className='bg-lime-700 cursor-pointer m-4  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onChange={(event)=>{setImageUpload(event.target.files[0])}}/>
                                   
                                     <Button onClick={uploadImage} className='bg-lime-700  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Upload Image</Button>
+                                    
+
                                   </div>
                                    }
                                   
                                    <center>
-                           <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-4 mt-6 justify-center align-center items-center justify-items-center" >
+                           <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3  gap-2   m-2 justify-center align-center items-center justify-items-center" >
                                 {imageListGuide.length > 0 &&  imageListGuide.map((imageUrl, index) => (
-                           <div className="justify-center m-8 items-center lg:grid-cols-3 h-75  sm:w-full border-2 border-gray-300 rounded" key={index}>
+                           <div className="justify-center m-8 items-center lg:grid-cols-3 h-auto  sm:w-full border-2 border-gray-300 rounded" key={index}>
                             
                                 <img className="w-full rounded  h-full  sm:w-full items-center cursor-pointer" src={imageUrl} alt="Retreats Around The World" key={index} onContextMenu={(e)=>e.preventDefault()} onClick={()=>passImageUrl(index)} />
                                  {currentUser &&
