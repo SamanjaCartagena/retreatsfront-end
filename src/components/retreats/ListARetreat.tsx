@@ -36,6 +36,10 @@ function ListARetreat() {
    const [year, setYear] = useState("")
    const [month, setMonth] = useState("")
    const [highlights, setHighlights] = useState("")
+   /**Cancellation Policy */
+       const [deposit, setDeposit] = useState(0.0)
+       const [policies, setPolicies] = useState("")
+
    /***Schedule */
    const [aboutFood, setAboutFood] = useState("")
   
@@ -653,6 +657,11 @@ const doesRoom5Exist=(e)=>{
     setPrice(doubleValueFloat)
 
    }
+     const depositing =(event)=>{
+    const doubleValueFloat = parseFloat(event.target.value);
+    setDeposit(doubleValueFloat)
+
+   }
   
    const pricing1 =(event)=>{
     const doubleValueFloat = parseFloat(event.target.value);
@@ -809,6 +818,8 @@ const endAtDate=(e)=>{
                                          pic1: imageList[0],
                                          cityPic: imageListCity[0],
                                          welcomeMessage: welcomeMessage,
+                                         deposit:deposit,
+                                         policies:policies
 
 
                                         
@@ -2193,7 +2204,23 @@ const endAtDate=(e)=>{
 
     
   </div>
+  
+   <div className='mb-4'>
+      <label>
+        Cancellation Policies
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="What are your cancellation policies..." onChange={(e)=>setPolicies(e.target.value)}></textarea>
 
+    
+  </div>
+   <div className='mb-4'>
+      <label>
+        How much is the minimum deposit? Leave empty if you do not require a deposit.
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="0.0" onChange={depositing}/>
+
+    
+  </div>
     <div className="mb-4">
 
 <label for="profile-pic">Upload at least one image of your retreat center</label><br/>

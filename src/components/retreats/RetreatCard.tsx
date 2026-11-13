@@ -235,9 +235,8 @@ const changePage= ({selected}) => {
       
           <div 
         className="bg-white text-black  bg-center py-12 opacity-90" 
-       
-       
-      >
+       >
+
         <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 " id="extraButtons">
                 <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md " onClick={()=>setSelectedType("Mens Retreat")}>
                  Men's retreats
@@ -293,7 +292,7 @@ const changePage= ({selected}) => {
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto ">
            
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto ">
-             <select className="bg-white p-4 text-black rounded border-2" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
+             <select className="bg-white text-center text-black rounded border-2 w-60" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
     <option value="">Select Type</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
@@ -325,7 +324,7 @@ const changePage= ({selected}) => {
     </select>
            </div>
            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto ">
-  <select className="bg-white p-4 rounded border-2 text-black" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
+  <select className="bg-white text-center rounded border-2 text-black w-60" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
         <option value="">Select Location</option>
     <option value="Afghanistan">Afghanistan</option>
     <option value="Albania">Albania</option>
@@ -524,8 +523,8 @@ const changePage= ({selected}) => {
 
     </select>
     </div>
-    <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto ">
-    <select className="bg-white p-4 rounded border-2 text-black" onChange={searchPrice} value={selectedPrice}>
+    <div className="lg:grid-cols-3 flex-col sm:flex-row gap-3 max-w-md lg:flex-row ">
+    <select className="bg-white text-center rounded border-2 text-black w-60" onChange={searchPrice} value={selectedPrice}>
     <option value="0">Select Price</option>
     <option value="1000">Less than $1000</option>
     <option value="2000">Less than $2000</option>

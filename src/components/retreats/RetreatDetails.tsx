@@ -126,6 +126,9 @@ function RetreatDetails() {
     const [cityPic, setCityPic] = useState("");
     const [imageListChef, setImageListChef] = useState([])
     const [currentIndex, setCurrentIndex] = useState(0)
+
+    const [deposit,setDeposit] = useState(0.0)
+    const [policies, setPolicies] = useState("")
   
                  /**Accomodations */
 
@@ -915,6 +918,8 @@ useEffect(()=>{
             setPricePerNightRoom4(doc.data().pricePerNightRoom4)
             setPricePerNightRoom5(doc.data().pricePerNightRoom5)
             setWelcomeMessage(doc.data().welcomeMessage)
+            setPolicies(doc.data().policies)
+            setDeposit(doc.data().deposit)
 
 
 
@@ -2112,6 +2117,12 @@ useEffect(()=>{
                      </div>
                     </div>
                     </div>}
+                    <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto border-2'>
+                      <h1>Cancellation Policies</h1>
+            <h3>{policies}</h3>
+            <h3 className='text-md'>Deposit required</h3>
+            
+           </div>
             </div>
             
             
