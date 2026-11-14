@@ -17,7 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { list } from "firebase/storage";
-import { setMonth } from "date-fns";
+import { isToday, setMonth } from "date-fns";
 import { get } from "react-hook-form";
 export function RetreatCard() {
     const [listOfRetreats, setListOfRetreats] = useState([]);
@@ -48,7 +48,7 @@ export function RetreatCard() {
         const retreats = [];
         // Reference the collection
         if (selectedLocation === ""  && selectedPrice === 0.0 && selectedType === "" ) {
-          const q = query(collection(db, "retreats"), where("isDisplayed", "==", true));
+          const q = query(collection(db, "retreats"),orderBy("startAt", "desc"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           retreats.push({ ...doc.data() });
@@ -182,6 +182,9 @@ export function RetreatCard() {
           alt={retreat.name}
           className="w-full h-70 object-cover transition-transform duration-500"
         />
+        {retreat.startAt?.toDate()?.toLocaleDateString('en-US') < isToday &&
+        <h2>Done</h2>
+        }
       </div>
       <CardContent className=" text-black ">
         <div className="flex justify-between items-start text-black">
@@ -237,7 +240,7 @@ const changePage= ({selected}) => {
         className="bg-white text-black  bg-center py-12 opacity-90" 
        >
 
-        <div className="container flex sm:grid-cols-2 md:grid-cols-3 justify-left items-left gap-4 mb-8 " id="extraButtons">
+        <div className="container flex sm:grid-cols-1 md:grid-cols-3 justify-left items-left gap-4 mb-8 " id="extraButtons">
                 <Button className="bg-transparent w-60 text-lime-800 hover:bg-lime-800 hover:text-white  border border-lime-800 border-2 rounded-md " onClick={()=>setSelectedType("Mens Retreat")}>
                  Men's retreats
                 </Button>

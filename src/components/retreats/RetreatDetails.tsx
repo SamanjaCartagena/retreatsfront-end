@@ -1103,10 +1103,10 @@ useEffect(()=>{
          stripeKey='pk_live_51UKjoV7aU9DNgnpHlTFTW847Ns2CVVSrOZ8XXVx5sgXrkZyaMIZdSw9jp3NmCDMWbNK9RMRogwH7lRLAKmHbSgaB009220tPJm'
          token={makePayment}
          name='Cheapest Package'
-         amount={price*100}
+         amount={deposit*100}
         >
         <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-full text-white  m-2">
-        Starts At ${price} book now
+        Deposit required ${deposit} 
         </Button>
 
           </StripeCheckout>
@@ -2120,7 +2120,8 @@ useEffect(()=>{
                     <div className='lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 w-full p-4 text-center h-auto border-2'>
                       <h1>Cancellation Policies</h1>
             <h3>{policies}</h3>
-            <h3 className='text-md'>Deposit required</h3>
+            <h3 className='text-md'>Deposit required: ${deposit}</h3>
+
             
            </div>
             </div>
