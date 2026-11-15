@@ -238,16 +238,25 @@ const changePage= ({selected}) => {
             Search for the perfect Retreat Center!
           </h2>
          
-          <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
-             <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto ">
+             <select className="bg-white p-2 w-60 rounded-md" onChange={(e)=>setSelectedType(e.target.value)} value={selectedType}>
     <option value="">Select Type</option>
-    <option value="meditation">Meditation</option>
-    <option value="muay thai">Muay Thai</option>
-    <option value="vegan">Vegan</option>
+    <option value="Meditation Center">Meditation Center</option>
+    <option value="muay thai">Muay Thai Dojo</option>
+    <option value="vegan">Vegan Retreat Center</option>
+        <option value="spa">Spa</option>
+        <option value="kongfu">Kong Fu</option>
+        <option value="ancestral">Ancestral Healing</option>
+        <option value="yoga">Yoga</option>
+        <option value="pilates">Pilates</option>
+        <option value="coldplunge">Cold Plunge</option>
+        <option value="lodge">Hunting Lodge</option>
+        <option value="safari">Safari</option>
+
    
     </select>
            
-    <select className="bg-white p-2 rounded-md" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
+    <select className="bg-white p-2 rounded-md w-60" onChange={(e)=>setSelectedLocation(e.target.value)} value={selectedLocation}>
         <option value="">Select Location</option>
     <option value="Afghanistan">Afghanistan</option>
     <option value="Albania">Albania</option>
@@ -445,7 +454,7 @@ const changePage= ({selected}) => {
     <option value="Zimbabwe">Zimbabwe</option>
 
     </select>
-    <select className="bg-white p-2 rounded-md" onChange={searchPrice} value={selectedPrice}>
+    <select className="bg-white p-2 w-60 rounded-md" onChange={searchPrice} value={selectedPrice}>
     <option value="0">Free</option>
     <option value="100">Less than $100 /night</option>
     <option value="200">Less than $200 /night</option>

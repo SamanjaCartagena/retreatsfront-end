@@ -39,6 +39,8 @@ function ListARetreat() {
    /**Cancellation Policy */
        const [deposit, setDeposit] = useState(0.0)
        const [policies, setPolicies] = useState("")
+       const [refundable, setRefundable] = useState(false)
+       
 
    /***Schedule */
    const [aboutFood, setAboutFood] = useState("")
