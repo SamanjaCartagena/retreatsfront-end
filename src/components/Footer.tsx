@@ -7,7 +7,10 @@ import Modal from './Modal';
 import { GoogleGenAI } from "@google/genai";
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-
+import visa from '../assets/VISA-logo.png'
+import mastercard from '../assets/mastercard.png'
+import discover from '../assets/discover.png'
+import amex from '../assets/amex.png'
 
 export function Footer() {
   const [openCancellationModal, setOpenCancellationModal] = useState(false);
@@ -76,7 +79,22 @@ setSafetyInfo(response.text);
       <Newsletter/>
     <footer className="bg-white text-black border-t">
       <div className="container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+         <center>
+                   <div className='container text-muted-foreground lg:flex text-md sm:grid-cols-1 items-center justify-center text-center relative w-full'>
+                    <p className='mt-5'>We accept all major credit cards</p>
+                    <center><img src={visa} className='m-2 h-10' /></center>
+                               <center> <img src={amex} className='m-2 h-10' /></center>
+                                                      <center><img src={mastercard} className='m-2 h-10'/></center>
+                                                      <center> <img src={discover} className='m-2 h-10'/></center>
+        
+        
+                   
+                   </div>
+                   <span className='text-muted-foreground text-md'>Powered by Stripe &copy;</span>
+                   </center>
+                   <br/>
+                   <hr/>
+        <div className="grid grid-cols-1 md:grid-cols-4 m-4 gap-8">
           
           
           

@@ -199,9 +199,7 @@ export function RetreatCard() {
           alt={retreat.name}
           className="w-full h-70 object-cover transition-transform duration-500"
         />
-        {retreat.startAt?.toDate()?.toLocaleDateString('en-US') < isToday &&
-        <h2>Done</h2>
-        }
+        
       </div>
       <CardContent className=" text-black ">
         <div className="flex justify-between items-start text-black">
