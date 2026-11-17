@@ -317,6 +317,12 @@ onAuthStateChanged(auth, async (user) => {
 
         </Link>
         )}
+           {onlyUser && (
+       <Link to={`/adminpage/${userId}/listacourse`}className="mb-2 mt-2" >
+          <Button className='bg-lime-700 text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Course</Button>
+
+        </Link>
+        )}
         {onlyUser && (
         <Link to={`/adminpage/${userId}/listacenter`} className="mb-2 mt-2" >
           <Button className='bg-lime-700  text-white mt-2 font-bold py-2 w-60 px-4 rounded focus:outline-none focus:shadow-outline'>List A Retreat Center</Button>

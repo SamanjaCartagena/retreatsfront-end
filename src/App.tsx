@@ -31,6 +31,7 @@ import Hosts from "./components/hosts/Hosts";
 import Events from "./components/events/Events";
 import Sanctuaries from "./components/sanctuaries/Sanctuaries";
 import Mentor  from "./components/courses/Courses";
+import ListACourse from "./components/courses/ListACourse";
 
 const queryClient = new QueryClient();
 const App = () => (
@@ -68,15 +69,17 @@ const App = () => (
           <Route path="/adminpage/:userId/signupashost" element={<SignUpAsHost/>}/>
           <Route path="/adminpage/:userId/guests" element={<Guests/>}/>
           <Route path="/adminpage/:userId/retreatcenters" element={<RetreatCenters/>}/>
+          <Route path="/adminpage/:userId/listacourse" element={<ListACourse/>}/>
                           {/**List a Retreat Center */}
           <Route path="/adminpage/:userId/listacenter" element={<ListARetreatCenter/>}/>
           <Route path="/adminpage/:userId/listaretreat" element={<ListARetreat/>}/>
+
 
           <Route path="/sanctuaries" element={<Sanctuaries/>}/>
           
 
           <Route path="/success" element={<Success/>}/>
-
+          
           <Route path="/guides/:id" element={<GuideDetails/>}/>
           <Route path="/adminpage/:userId/guidesignup" element={<GuideSignUp/>}/>
           <Route path="/retreatdetails/:id" element={<RetreatDetails/>}/>

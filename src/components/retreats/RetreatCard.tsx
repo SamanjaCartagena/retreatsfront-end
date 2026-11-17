@@ -32,6 +32,7 @@ export function RetreatCard() {
   const[isApproved, setIsApproved] = useState(false)
   const [flightIncluded, setFlightIncluded]= useState("")
   const [currency, setCurrency]= useState("")
+  const [nameOfRetreat, setNameOfRetreat] = useState("")
   const valueSelected=(e)=>{
   const m=e.format('MMMM')
   setSelectedMonth(m)
@@ -41,7 +42,6 @@ export function RetreatCard() {
 }
   
   useEffect(() => {
-    window.scrollTo(0, 0);
       const fetchData = async () => {
         
       try {
@@ -141,8 +141,8 @@ export function RetreatCard() {
         setListOfRetreats(retreats2);
       });
     }
- 
-      }
+   
+    }
       catch (err) {
         console.error("Error fetching data: ", err);
       } 
@@ -151,8 +151,25 @@ export function RetreatCard() {
     fetchData();
     
   
-  }, [selectedLocation, selectedPrice, selectedType]);
- 
+  }, [ selectedLocation, selectedPrice, selectedType]);
+ /** 
+  const searchByName=(v)=>{
+    setNameOfRetreat(v)
+    alert(v)
+    const retreats1=[]
+
+  const q12 = query(collection(db, "retreats"), where("name", "in", nameOfRetreat))
+  getDocs(q12).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data().name);
+          retreats1.push({ ...doc.data() });
+    }
+    );
+    setListOfRetreats(retreats1);
+  });
+
+  }
+  **/
 
   const searchPrice =(v)=>{
     if(v==""){
@@ -290,8 +307,8 @@ const changePage= ({selected}) => {
           <h2 className="text-2xl md:text-3xl position-relative font-serif font-semibold mb-4 text-center  text-black font-serif tracking-widest">
             <center>Search for your perfect retreat!</center>
           </h2>
-
-             
+               {/** 
+             <center><input type="text" placeholder="Search by Name" className="p-2 m-2 w-60 border-2 text-center rounded" onChange={(e)=>searchByName(e.target.value)}/></center> **/}
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto ">
            
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto ">
@@ -578,3 +595,11 @@ const changePage= ({selected}) => {
   );
 
 }
+function execute(arg0: any) {
+  throw new Error("Function not implemented.");
+}
+
+function documentMatches(arg0: string) {
+  throw new Error("Function not implemented.");
+}
+

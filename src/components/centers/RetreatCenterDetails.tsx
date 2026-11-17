@@ -259,7 +259,7 @@ const passImageUrl5=(i)=>{
                   setFormData({
            user_name: "",
     user_email: "",
-    user_message: `Hello, I am interested in attending your retreat called ${nameOfCenter} in ${location}. Please let me know if there is availability and any additional information I should know. Thank you!`,
+    user_message: `Hello, I am interested in attending your retreat center called ${nameOfCenter} in ${address},${location}. Please let me know if there is availability and any additional information I should know. Thank you!`,
         })
               const imageListRef = ref(storage, `/centerImages/${centerId}/`);
               listAll(imageListRef).then((res)=>{

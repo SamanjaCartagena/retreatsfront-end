@@ -21,6 +21,11 @@ import stripe from 'stripe';
 import StripeCheckout from 'react-stripe-checkout';
 import { Link } from 'lucide-react';
 import { Input } from '../ui/input.js';
+import cards from '../../assets/cards.png'
+import visa from '../../assets/VISA-logo.png'
+import amex from '../../assets/amex.png'
+import mastercard from '../../assets/mastercard.png'
+import discover from '../../assets/discover.png'
 
 function RetreatDetails() {
      const params = useParams()
@@ -1094,7 +1099,7 @@ useEffect(()=>{
  
 </div>
 </center>
-<div className="container h-full grid lg:flex items-center md:grid-cols-2 md:justify-center sm:items-center sm:grid  bg-transparent">
+<div className="container h-full grid lg:flex items-center md:grid-cols-2 justify-center sm:items-center sm:grid  bg-transparent">
  <Button className="bg-lime-700 hover:bg-white text-center sm:w-full sm:justify-center lg:w-60 hover:text-lime-700 md:w-full  text-white  m-2"  onClick={()=>viewAllPhotos(0)}>
     View all photos
   </Button>
@@ -1115,6 +1120,19 @@ useEffect(()=>{
        }
 
            </div>
+           <center>
+           <div className='container lg:flex sm:grid-cols-1 items-center justify-center text-center relative w-full'>
+            <p className='mt-5'>We accept all major credit cards</p>
+            <center><img src={visa} className='m-2 h-10' /></center>
+                       <center> <img src={amex} className='m-2 h-10' /></center>
+                                              <center><img src={mastercard} className='m-2 h-10'/></center>
+                                              <center> <img src={discover} className='m-2 h-10'/></center>
+
+
+           
+           </div>
+           <span>Powered by Stripe &copy;</span>
+           </center>
            <Modal isOpen={editModal} onClose={()=>setEditModal(false)}>
             <div className='mt-30 w-full h-200 justify-center  items-center bg-white p-4 rounded-lg overflow-y-scroll overflow-x-hidden'>
              <form className='mt-20'>
@@ -1653,10 +1671,11 @@ useEffect(()=>{
            </Modal>
          <br/>
        
-          <h1 className='text-lg font-semibold'>Retreat Center Name/Hotel/Airbnb: {centerName}</h1>
-          <h1 className='text-lg font-semibold '>Retreat Address: {retreatAddress}</h1>
-          <h1 className='text-lg font-semibold '>Country: {country}</h1>
-          <div className='container text-center w-full h-auto p-2 rounded-lg  bg-white m-4'>
+          <div className='container lg:flex sm:grid-cols-1 justify-center'><h1 className='text-lg font-semibold'>Retreat Center Name/Hotel/Airbnb:&nbsp;&nbsp;</h1><h1 className='text-lg'>{centerName}</h1></div>
+                    <div className='container lg:flex sm:grid-cols-1 justify-center'><h1 className='text-lg font-semibold'>Retreat Address:&nbsp;&nbsp;</h1><h1 className='text-lg'>{retreatAddress}</h1></div>
+                             <div className='container lg:flex sm:grid-cols-1 justify-center'><h1 className='text-lg font-semibold'>Country:&nbsp;&nbsp;</h1><h1 className='text-lg'>{country}</h1></div>
+                  <br/>
+          <div className='text-center w-full h-auto p-2 rounded-lg  bg-white'>
             <h1 className='text-lg font-semibold font-italic font-family: Papyrus, fantasy; '>{welcomeMessage}</h1>
           
           </div>
