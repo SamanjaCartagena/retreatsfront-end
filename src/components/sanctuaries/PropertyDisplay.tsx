@@ -1,12 +1,14 @@
 import { featuredProperties } from "../../data/properties";
 import { Card, CardContent } from "@/components/ui/card";
 import {Button} from '../ui/button'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 export function FeaturedProperties() {
   const navigate=useNavigate()
   const admin =()=>{
     navigate('/adminpage')
   }
+  
   
   return (
     <div className=" py-12">
@@ -19,8 +21,9 @@ export function FeaturedProperties() {
       </div>
       <div className="w-full sm:grid-cols-1 lg:flex justify-center ">
         {featuredProperties.map((destination, index) => (
+          <Link to={`${destination.url_name}`}>
           <div>
-          <Card key={index} className="rounded-xl m-2 overflow-hidden border-none shadow-sm hover:shadow-md transition-all cursor-pointer" >
+        <Card key={index} className="rounded-xl m-2 overflow-hidden border-none shadow-sm hover:shadow-md transition-all cursor-pointer" >
             <div className="relative h-60">
               <h2 className="text-lg font-bold p-2">{destination.name}</h2>
               <video src={destination.image} controls width="350" height="450" className="h-md w-full max-w-md mx-auto rounded-lg  mx-auto" autoPlay muted loop>
@@ -33,8 +36,9 @@ export function FeaturedProperties() {
             
 
           </Card>
-          
+         
           </div>
+          </Link>
         ))}
       </div>
             <div className="container justify-center w-full">

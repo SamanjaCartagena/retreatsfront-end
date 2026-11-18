@@ -40,6 +40,7 @@ function ListARetreat() {
        const [deposit, setDeposit] = useState(0.0)
        const [policies, setPolicies] = useState("")
        const [refundable, setRefundable] = useState(false)
+       const [itinerary, setItinerary] =useState("")
        
 
    /***Schedule */
@@ -821,7 +822,8 @@ const endAtDate=(e)=>{
                                          cityPic: imageListCity[0],
                                          welcomeMessage: welcomeMessage,
                                          deposit:deposit,
-                                         policies:policies
+                                         policies:policies, 
+                                         itinerary:itinerary
 
 
                                         
@@ -988,7 +990,7 @@ const endAtDate=(e)=>{
       <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Is there any other host?</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Another Host? Host 2</label>&nbsp; &nbsp;
-  <select onChange={doesHost2Exist}>
+  <select className="w-60" onChange={doesHost2Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -1037,7 +1039,7 @@ const endAtDate=(e)=>{
      <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Is there any other host?</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Another Host? Host 3</label>&nbsp; &nbsp;
-  <select onChange={doesHost3Exist}>
+  <select className='w-60' onChange={doesHost3Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -1085,7 +1087,7 @@ const endAtDate=(e)=>{
   <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Is there any other host?</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Another Host? Host 4</label>&nbsp; &nbsp;
-  <select onChange={doesHost4Exist}>
+  <select className='w-60' onChange={doesHost4Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -1133,7 +1135,7 @@ const endAtDate=(e)=>{
   <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Is there any other host?</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Another Host? Host 5</label>&nbsp; &nbsp;
-  <select onChange={doesHost5Exist}>
+  <select className='w-60' onChange={doesHost5Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -1182,7 +1184,7 @@ const endAtDate=(e)=>{
    <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Is there a chef?</h2>
   <label className='text-lg font-bold justify-center m-4'>Add a Chef</label>&nbsp; &nbsp;
-  <select onChange={doesChefExist}>
+  <select className='w-60' onChange={doesChefExist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -1243,7 +1245,7 @@ const endAtDate=(e)=>{
       <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type1 of Retreat
       </label>
-            <select className="bg-white p-2 rounded-md" onChange={(e)=>setType1(e.target.value)} value={type1}>
+            <select className="bg-white p-2 rounded-md w-60" onChange={(e)=>setType1(e.target.value)} value={type1}>
               <option value="">Select Type</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
@@ -1277,7 +1279,7 @@ const endAtDate=(e)=>{
  <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type2 of Retreat
       </label>
-            <select className="bg-white p-2 rounded-md" onChange={(e)=>setType2(e.target.value)} value={type2}>
+            <select className="bg-white p-2 rounded-md w-60" onChange={(e)=>setType2(e.target.value)} value={type2}>
               <option value="">Select Type</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
@@ -1311,7 +1313,7 @@ const endAtDate=(e)=>{
                <label className="block text-gray-700 text-sm font-bold mb-2" >
         Type3 of Retreat
       </label>
-            <select className="bg-white p-2 rounded-md" onChange={(e)=>setType3(e.target.value)} value={type3}>
+            <select className="bg-white p-2 rounded-md w-60" onChange={(e)=>setType3(e.target.value)} value={type3}>
               <option value="">Select Type</option>
     <option value="Adventure">Adventure</option>
     <option value="Art">Art</option>
@@ -1357,7 +1359,7 @@ const endAtDate=(e)=>{
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Country
       </label>
-      <select className="bg-white p-2 rounded-md" onChange={(e)=>setCountry(e.target.value)} value={country}>
+      <select className="bg-white p-2 rounded-md w-60" onChange={(e)=>setCountry(e.target.value)} value={country}>
         <option value="">Select Location</option>
     <option value="Afghanistan">Afghanistan</option>
     <option value="Albania">Albania</option>
@@ -1670,6 +1672,13 @@ const endAtDate=(e)=>{
            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." onChange={(e)=>setKind(e.target.value)}></textarea>
    
     </div>
+     <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" >
+       Itinerary
+      </label>
+           <textarea id="message" rows="4" class="block p-2.5 w-full h-120 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write everyday plans here..." onChange={(e)=>setItinerary(e.target.value)}></textarea>
+   
+    </div>
        <div className='border-2 rounded border-solid border-lime-700 p-4'>
       <label className="block text-gray-700 text-lg font-bold mb-2">
         City/Region/Village Information
@@ -1729,7 +1738,7 @@ const endAtDate=(e)=>{
         <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Room 1</label>&nbsp; &nbsp;
-  <select onChange={doesRoom1Exist}>
+  <select className='w-60' onChange={doesRoom1Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -1764,7 +1773,7 @@ const endAtDate=(e)=>{
                     <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
                       Do you charge per night? Do you have price per night?
        </label>
-       <select onChange={doesPricePerNightExist}>
+       <select className='w-60' onChange={doesPricePerNightExist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -1818,7 +1827,7 @@ const endAtDate=(e)=>{
 <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Room 2</label>&nbsp; &nbsp;
-  <select onChange={doesRoom2Exist}>
+  <select className='w-60' onChange={doesRoom2Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -1852,7 +1861,7 @@ const endAtDate=(e)=>{
                     <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
                       Do you charge per night? Do you have price per night?
        </label>
-       <select onChange={doesPricePerNightRoom2Exist}>
+       <select className='w-60' onChange={doesPricePerNightRoom2Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -1905,7 +1914,7 @@ const endAtDate=(e)=>{
 <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Room 3</label>&nbsp; &nbsp;
-  <select onChange={doesRoom3Exist}>
+  <select className='w-60' onChange={doesRoom3Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -1938,7 +1947,7 @@ const endAtDate=(e)=>{
           <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
                       Do you charge per night? Do you have price per night?
        </label>
-       <select onChange={doesPricePerNightRoom3Exist}>
+       <select className='w-60' onChange={doesPricePerNightRoom3Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
     </select>
@@ -1997,7 +2006,7 @@ const endAtDate=(e)=>{
 <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Room 4</label>&nbsp; &nbsp;
-  <select onChange={doesRoom4Exist}>
+  <select className='w-60' onChange={doesRoom4Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -2030,7 +2039,7 @@ const endAtDate=(e)=>{
              <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
                       Do you charge per night? Do you have price per night?
        </label>
-       <select onChange={doesPricePerNightRoom4Exist}>
+       <select className='w-60' onChange={doesPricePerNightRoom4Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
     </select>
@@ -2084,7 +2093,7 @@ const endAtDate=(e)=>{
 <div className='m-4 border-2'>
     <h2 className='text-lg font-bold justify-center m-4'>Add Rooms</h2>
   <label className='text-lg font-bold justify-center m-4'>Add Room 5</label>&nbsp; &nbsp;
-  <select onChange={doesRoom5Exist}>
+  <select className='w-60' onChange={doesRoom5Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
   </select>
@@ -2117,7 +2126,7 @@ const endAtDate=(e)=>{
              <label className="block text-gray-700 h-auto text-sm font-bold mb-2" >
                       Do you charge per night? Do you have price per night?
        </label>
-       <select onChange={doesPricePerNightRoom5Exist}>
+       <select className='w-60' onChange={doesPricePerNightRoom5Exist}>
     <option className='border-2' value="No">No</option>
     <option className='border-2' value="Yes">Yes</option>
     </select>
@@ -2192,7 +2201,9 @@ const endAtDate=(e)=>{
       <label className="block text-gray-700 text-sm font-bold mb-2" >
        Provide Airport Pickup Services:
       </label>
-      <select className="bg-white p-2 rounded-md" onChange={(e)=>setPickupService(e.target.value)}>
+      <select className="bg-white p-2 rounded-md w-60" onChange={(e)=>setPickupService(e.target.value)}>
+                <option value=""></option>
+
         <option value="Yes">Yes</option>
         <option value="No">No</option>
       </select>

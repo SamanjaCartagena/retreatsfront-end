@@ -32,7 +32,7 @@ import Events from "./components/events/Events";
 import Sanctuaries from "./components/sanctuaries/Sanctuaries";
 import Mentor  from "./components/courses/Courses";
 import ListACourse from "./components/courses/ListACourse";
-
+import RetreatCentersForSale from "./components/sanctuaries/RetreatCentersForSale";
 const queryClient = new QueryClient();
 const App = () => (
   // ... inside your component
@@ -50,6 +50,7 @@ const App = () => (
           {/***Host Account */}
           <Route path="/host" element={<Host/>}/>
           <Route path="/hosts" element={<Hosts/>}/>
+          <Route path="/sanctuaries/retreatcentersforsale" element={<RetreatCentersForSale/>}/>
           <Route path="/host/:id" element={<ProfileDetails/>}/>
 
           {/**Guide Account */}
